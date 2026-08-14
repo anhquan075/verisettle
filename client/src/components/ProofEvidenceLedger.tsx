@@ -33,7 +33,7 @@ export function ProofEvidenceLedger() {
     <section id="evidence" className="veri-evidence-panel scroll-mt-8" aria-labelledby="evidence-heading">
       <div className="flex items-start justify-between gap-5 border-b border-white/10 pb-5">
         <div>
-          <p className="veri-kicker">Public testnet record</p>
+          <p className="veri-kicker">Receipt index / public testnet</p>
           <h2 id="evidence-heading" className="mt-2 font-display text-2xl font-semibold tracking-[-0.045em] text-white">Evidence, not a mock flow.</h2>
         </div>
         <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-teal-200/15 bg-teal-300/[0.08] px-3 py-1.5 text-xs font-semibold text-teal-100">
@@ -42,14 +42,15 @@ export function ProofEvidenceLedger() {
       </div>
 
       <div className="divide-y divide-white/8">
-        {evidence.map((item) => (
+        {evidence.map((item, index) => (
           <a
             key={item.label}
             href={item.href}
             target="_blank"
             rel="noreferrer"
-            className="group grid grid-cols-[1fr_auto] gap-x-4 py-4 transition-colors hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+            className="veri-ledger-row group grid grid-cols-[auto_1fr_auto] gap-x-3 py-4 transition-colors hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
           >
+            <span className="pt-0.5 font-mono text-[10px] font-semibold text-slate-500">R0{index + 1}</span>
             <span>
               <span className="block text-sm font-semibold text-white">{item.label}</span>
               <span className="mt-1 block text-xs text-slate-400">{item.network}</span>
@@ -63,7 +64,7 @@ export function ProofEvidenceLedger() {
 
       <div className="mt-5 flex gap-3 rounded-2xl border border-cyan-200/10 bg-[#071216]/80 p-4 text-sm leading-6 text-slate-300">
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-teal-200" />
-        <p>VeriSettle checks receipt success, expected event semantics, terms binding, and one-time proof use before release.</p>
+        <p><span className="font-semibold text-cyan-100">Policy:</span> receipt success, expected event semantics, terms binding, and one-time proof use are checked before release.</p>
       </div>
 
       <a href="#execution" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-100 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">

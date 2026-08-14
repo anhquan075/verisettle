@@ -115,21 +115,20 @@ export default function DealDashboard() {
     <div className="mx-auto w-full max-w-7xl space-y-8 pb-12">
       <section className="relative overflow-hidden rounded-[1.9rem] border border-cyan-100/10 bg-[#0a1b21] px-5 py-7 shadow-[0_24px_70px_rgba(0,0,0,0.25)] sm:px-8 sm:py-9">
         <div className="pointer-events-none absolute -right-12 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="pointer-events-none absolute right-20 top-0 h-full w-px bg-gradient-to-b from-transparent via-teal-300/25 to-transparent" />
+        <div className="pointer-events-none absolute right-20 top-0 h-full w-px bg-teal-300/20" />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <div className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/75">
-              <ShieldCheck className="h-4 w-4" />
-              Authenticated settlement workspace
+            <div className="mb-4 flex items-center gap-3 border-y border-cyan-200/12 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/75">
+              <ShieldCheck className="h-4 w-4" /> Workspace index / 01
             </div>
-            <h1 className="font-display text-3xl font-semibold tracking-[-0.05em] text-white sm:text-4xl">Your settlement command center.</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-[-0.05em] text-white sm:text-4xl">A register for receipt-governed settlement.</h1>
             <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300 sm:text-base">
               Create a testnet order, fund escrow on Creditcoin, then use a verified Ethereum Sepolia event to govern its settlement path.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3"><Button size="lg" onClick={connectWallet} disabled={walletBusy} variant="outline" className="veri-action border-cyan-100/20 bg-white/[0.035] font-semibold text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : walletAddress ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}` : "Connect wallet"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} className="veri-action group bg-gradient-to-r from-teal-300 to-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:from-teal-200 hover:to-cyan-200"><Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90" />{showCreateForm ? "Close form" : "Create purchase order"}</Button></div>
+          <div className="flex flex-wrap gap-3"><Button size="lg" onClick={connectWallet} disabled={walletBusy} variant="outline" className="veri-action border-cyan-100/20 bg-white/[0.035] font-semibold text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : walletAddress ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}` : "Connect wallet"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} className="veri-action group bg-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:bg-cyan-200"><Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90" />{showCreateForm ? "Close form" : "Create purchase order"}</Button></div>
         </div>
-        <div className="relative mt-8 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Active deals</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.active}</p><p className="mt-1 text-xs text-teal-100">Awaiting proof or settlement</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Released</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.released}</p><p className="mt-1 text-xs text-cyan-100">Receipt-proven settlements</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><div className="flex items-center justify-between"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Proof rail</p><Network className="h-4 w-4 text-cyan-200" /></div><p className="mt-2 font-display text-sm font-semibold text-white">Sepolia → CC3</p><p className="mt-1 truncate font-mono text-[11px] text-slate-500">{VERISETTLE_CONTRACTS.escrowAsc}</p></div></div>
+        <div className="veri-operator-meter relative mt-8"><div><p>Active deals</p><strong>{totals.active}</strong><span>Awaiting proof or settlement</span></div><div><p>Released</p><strong>{totals.released}</strong><span>Receipt-proven settlements</span></div><div><div className="flex items-center justify-between"><p>Proof rail</p><Network className="h-4 w-4 text-cyan-200" /></div><strong className="text-base">Sepolia → CC3</strong><span className="truncate font-mono">{VERISETTLE_CONTRACTS.escrowAsc}</span></div></div>
       </section>
 
       <AnimatePresence initial={false}>
@@ -192,9 +191,10 @@ export default function DealDashboard() {
       )}
       </AnimatePresence>
 
-      <section className="rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7">
+      <section className="veri-register-surface rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
+            <p className="veri-kicker mb-2">Immutable order index</p>
             <h2 className="font-display text-xl font-semibold text-white">Deal register</h2>
             <p className="mt-1 text-sm text-slate-400">Each row is a persisted purchase order; follow its guided detail view for every wallet and proof action.</p>
           </div>

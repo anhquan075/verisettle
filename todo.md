@@ -115,3 +115,8 @@
 - [x] Add an automated UI accessibility-contract test for the wallet evidence and judge replay focus/status/alert wiring.
 - [x] Add rendered component coverage for the judge-mode expected replay success and unexpected failure fallback states.
 - [x] Extract and test judge-mode replay outcome helpers for the expected rejection and unexpected failure branches used by the UI.
+- [x] Apply the 2026 Hallmark evidence-led landing structure: edge-aligned navigation, proof-led hero ledger, uneven execution narrative, and explicit trust-boundary close without fabricated proof.
+- [x] Refine the authenticated workspace shell and deal register around a compact operational index, action/readiness rail, and readable register hierarchy while preserving routes and real-testnet behavior.
+- [x] Restructure deal-detail presentation around next permitted action, grouped immutable evidence, progressive disclosure, and the existing exact replay-protection reason.
+- [x] Add focused rendering/accessibility regression coverage for the Hallmark refinement and validate desktop/mobile layouts with the full test, type-check, and production-build quality gate.
+- [x] Save the Hallmark research and visual-QA record, then checkpoint the verified cross-page design enhancement.

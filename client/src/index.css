@@ -33,9 +33,17 @@
 :root {
   --veri-ink: oklch(0.105 0.018 210);
   --veri-panel: oklch(0.13 0.021 210 / 0.94);
+  --veri-panel-raised: oklch(0.16 0.025 210 / 0.92);
+  --veri-panel-subtle: oklch(0.12 0.02 210 / 0.76);
   --veri-line: oklch(0.84 0.04 190 / 0.16);
   --veri-signal: oklch(0.84 0.125 190);
   --veri-signal-soft: oklch(0.84 0.125 190 / 0.08);
+  --veri-success: oklch(0.8 0.1 178);
+  --veri-space-1: 0.5rem;
+  --veri-space-2: 0.75rem;
+  --veri-space-3: 1rem;
+  --veri-space-4: 1.5rem;
+  --veri-space-5: 2rem;
   --background: oklch(0.105 0.018 210);
   --foreground: oklch(0.96 0.012 195);
   --card: oklch(0.13 0.021 210);
@@ -80,6 +88,44 @@ body {
 .veri-evidence-panel::after { content: ""; position: absolute; z-index: -1; top: 0; right: 0; width: 82px; height: 82px; border-left: 1px solid oklch(0.84 0.125 190 / 0.24); border-bottom: 1px solid oklch(0.84 0.125 190 / 0.24); border-bottom-left-radius: 82px; }
 .veri-evidence-panel > * { position: relative; }
 .veri-kicker { color: var(--veri-signal); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.veri-index-nav { align-items: stretch; border-bottom: 1px solid var(--veri-line); color: oklch(0.78 0.025 205); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.veri-index-nav a { border-bottom: 1px solid transparent; padding: 0.65rem 0.72rem; transition: color 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.veri-index-nav a:hover, .veri-index-nav a:focus-visible { border-bottom-color: var(--veri-signal); color: white; outline: none; }
+.veri-context-rail { display: grid; border-bottom: 1px solid var(--veri-line); border-top: 1px solid var(--veri-line); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.veri-context-rail > div { border-bottom: 1px solid var(--veri-line); min-width: 0; padding: var(--veri-space-2) 0; }
+.veri-context-rail > div:nth-child(odd) { border-right: 1px solid var(--veri-line); padding-right: var(--veri-space-2); }
+.veri-context-rail > div:nth-child(even) { padding-left: var(--veri-space-2); }
+.veri-context-rail > div:nth-last-child(-n + 2) { border-bottom: 0; }
+.veri-context-rail span { color: oklch(0.62 0.028 205); display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+.veri-context-rail strong { color: oklch(0.9 0.02 195); display: block; font-size: 0.78rem; font-weight: 600; margin-top: 0.25rem; overflow-wrap: anywhere; }
+.veri-role-notes { border-top: 1px solid var(--veri-line); display: grid; gap: var(--veri-space-3); padding-top: var(--veri-space-3); }
+.veri-role-notes > div { border-left: 2px solid oklch(0.84 0.125 190 / 0.32); padding-left: var(--veri-space-3); }
+.veri-role-notes > div:last-child { border-left-color: oklch(0.8 0.1 178 / 0.35); }
+.veri-role-notes p:last-child { color: oklch(0.68 0.035 205); font-size: 0.75rem; line-height: 1.25rem; margin-top: 0.5rem; }
+.veri-protocol-sequence { border-top: 1px solid var(--veri-line); }
+.veri-protocol-sequence > li { align-items: start; border-bottom: 1px solid var(--veri-line); display: grid; gap: var(--veri-space-3); grid-template-columns: auto minmax(0, 1fr) auto; padding: var(--veri-space-4) 0; }
+.veri-protocol-index { color: oklch(0.65 0.045 190); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; font-weight: 700; padding-top: 0.25rem; }
+.veri-boundary-statement { background: var(--veri-panel-subtle); box-shadow: inset 0 1px 0 oklch(0.84 0.125 190 / 0.07); }
+.veri-ledger-row { position: relative; }
+.veri-ledger-row::after { background: var(--veri-signal); content: ""; height: 100%; left: -1.25rem; opacity: 0; position: absolute; top: 0; transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1); width: 2px; }
+.veri-ledger-row:hover::after, .veri-ledger-row:focus-visible::after { opacity: 1; }
+.veri-workspace-index { align-items: center; border-bottom: 1px solid var(--veri-line); border-top: 1px solid var(--veri-line); color: oklch(0.68 0.035 205); font-size: 0.68rem; font-weight: 600; justify-content: space-between; letter-spacing: 0.08em; padding: 0.6rem 0; text-transform: uppercase; }
+.veri-operator-meter { border-bottom: 1px solid var(--veri-line); border-top: 1px solid var(--veri-line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.veri-operator-meter > div { min-width: 0; padding: var(--veri-space-3); }
+.veri-operator-meter > div:not(:last-child) { border-right: 1px solid var(--veri-line); }
+.veri-operator-meter p { color: oklch(0.62 0.028 205); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
+.veri-operator-meter strong { color: white; display: block; font-family: var(--font-space); font-size: 1.7rem; font-weight: 600; letter-spacing: -0.06em; margin-top: 0.35rem; min-width: 0; }
+.veri-operator-meter span { color: oklch(0.74 0.075 180); display: block; font-size: 0.7rem; margin-top: 0.35rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.veri-register-surface { box-shadow: inset 0 1px 0 oklch(0.84 0.125 190 / 0.035); }
+.veri-action-rail { box-shadow: inset 3px 0 0 oklch(0.84 0.125 190 / 0.65), inset 0 1px 0 oklch(0.84 0.125 190 / 0.08); }
+.veri-action-rail ol { border-top: 1px solid var(--veri-line); padding-top: var(--veri-space-3); }
+.veri-order-sheet { box-shadow: inset 0 1px 0 oklch(0.84 0.125 190 / 0.06), 0 20px 55px oklch(0.02 0.02 210 / 0.16); }
+.veri-evidence-index > div { position: relative; }
+.veri-evidence-index > div::before { color: oklch(0.62 0.028 205); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; position: absolute; right: 1rem; top: 1rem; }
+.veri-evidence-index > div:nth-child(1)::before { content: "R01"; }
+.veri-evidence-index > div:nth-child(2)::before { content: "R02"; }
+.veri-evidence-index > div:nth-child(3)::before { content: "R03"; }
+.veri-proof-policy { background: var(--veri-panel-subtle); box-shadow: inset 0 1px 0 oklch(0.84 0.125 190 / 0.08); }
 
 .veri-attestation-orbit { pointer-events: none; position: fixed; z-index: 0; width: 34rem; height: 34rem; opacity: 0.72; filter: blur(0.1px); }
 .veri-attestation-orbit--landing { right: -12rem; top: 7rem; }
@@ -93,7 +139,8 @@ body {
 .veri-orbit-signal { position: absolute; inset: 31%; border-radius: 999px; border: 1px solid oklch(0.84 0.125 190 / 0.35); background: radial-gradient(circle, oklch(0.84 0.125 190 / 0.13), transparent 68%); }
 
 @media (min-width: 640px) { .veri-evidence-panel { padding: 1.5rem; } }
-@media (max-width: 639px) { .veri-attestation-orbit { width: 21rem; height: 21rem; right: -11rem; top: 5rem; opacity: 0.46; } }
+@media (min-width: 640px) { .veri-context-rail { grid-template-columns: repeat(4, minmax(0, 1fr)); } .veri-context-rail > div, .veri-context-rail > div:nth-last-child(-n + 2) { border-bottom: 0; padding: 0 var(--veri-space-3); } .veri-context-rail > div:first-child { padding-left: 0; } .veri-context-rail > div:not(:last-child) { border-right: 1px solid var(--veri-line); } .veri-context-rail > div:nth-child(odd), .veri-context-rail > div:nth-child(even) { padding-left: var(--veri-space-3); padding-right: var(--veri-space-3); } .veri-context-rail > div:first-child { padding-left: 0; } .veri-role-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 639px) { .veri-attestation-orbit { width: 21rem; height: 21rem; right: -11rem; top: 5rem; opacity: 0.46; } .veri-operator-meter { grid-template-columns: 1fr; } .veri-operator-meter > div:not(:last-child) { border-bottom: 1px solid var(--veri-line); border-right: 0; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .veri-attestation-orbit { display: none; } }
 
 button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
