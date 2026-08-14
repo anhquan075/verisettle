@@ -1,6 +1,6 @@
 import { AbiCoder, getAddress, keccak256, parseUnits, toUtf8Bytes, ZeroAddress } from "ethers";
 
-export type DealPolicyVersion = "v1_live" | "v2_draft";
+export type DealPolicyVersion = "v1_live" | "v2_draft" | "v2_deployed";
 
 export const V2_POLICY_VERSION = 2;
 export const V2_TERMS_SCHEMA_VERSION = 2;

@@ -36,6 +36,13 @@
       "when": 1786715958962,
       "tag": "0004_mysterious_ink",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786719968560,
+      "tag": "0005_open_jubilee",
+      "breakpoints": true
     }
   ]
 }

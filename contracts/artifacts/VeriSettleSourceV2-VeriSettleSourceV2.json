@@ -1,0 +1,184 @@
+{
+  "contractName": "VeriSettleSourceV2",
+  "sourceName": "contracts/VeriSettleSourceV2.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "policyHash_",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint64",
+          "name": "acceptanceWindowSeconds_",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint64",
+          "name": "acceptanceExpiresAt",
+          "type": "uint64"
+        }
+      ],
+      "name": "InvalidAcceptanceDeadline",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidPolicyHash",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidSeller",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidTermsCommitment",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OrderAlreadyAccepted",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "termsCommitment",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "policyHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "acceptanceExpiresAt",
+          "type": "uint64"
+        }
+      ],
+      "name": "OrderAcceptedV2",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "termsCommitment",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint64",
+          "name": "acceptanceExpiresAt",
+          "type": "uint64"
+        }
+      ],
+      "name": "acceptOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "acceptanceWindowSeconds",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "acceptedOrders",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "policyHash",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60c060405234801561000f575f80fd5b5060405161047738038061047783398101604081905261002e91610092565b8161004c57604051630e0ae03d60e01b815260040160405180910390fd5b806001600160401b03165f0361007b57604051630f39e9d360e11b81525f600482015260240160405180910390fd5b6080919091526001600160401b031660a0526100cc565b5f80604083850312156100a3575f80fd5b825160208401519092506001600160401b03811681146100c1575f80fd5b809150509250929050565b60805160a05161037e6100f95f395f818160d401526101ad01525f81816053015261025e015261037e5ff3fe608060405234801561000f575f80fd5b506004361061004a575f3560e01c8063098fb6241461004e57806341d8bdbe1461008857806363b0c5e71461009d5780638b6e6c7b146100cf575b5f80fd5b6100757f000000000000000000000000000000000000000000000000000000000000000081565b6040519081526020015b60405180910390f35b61009b6100963660046102ae565b61010f565b005b6100bf6100ab36600461030c565b5f6020819052908152604090205460ff1681565b604051901515815260200161007f565b6100f67f000000000000000000000000000000000000000000000000000000000000000081565b60405167ffffffffffffffff909116815260200161007f565b5f8481526020819052604090205460ff16156101465760405163f006ef4f60e01b8152600481018590526024015b60405180910390fd5b6001600160a01b03831661016d5760405163bab7ca3560e01b815260040160405180910390fd5b8161018b576040516327cb014560e21b815260040160405180910390fd5b428167ffffffffffffffff161115806101e057506101d367ffffffffffffffff7f00000000000000000000000000000000000000000000000000000000000000001642610323565b8167ffffffffffffffff16115b1561020a57604051630f39e9d360e11b815267ffffffffffffffff8216600482015260240161013d565b5f8481526020819052604090819020805460ff19166001179055516001600160a01b03841690339086907f1189a453ca96da1cce83000df1d7b5d83b274c6abcd7b79fce558a02e3aa6263906102a09087907f0000000000000000000000000000000000000000000000000000000000000000908890928352602083019190915267ffffffffffffffff16604082015260600190565b60405180910390a450505050565b5f805f80608085870312156102c1575f80fd5b8435935060208501356001600160a01b03811681146102de575f80fd5b925060408501359150606085013567ffffffffffffffff81168114610301575f80fd5b939692955090935050565b5f6020828403121561031c575f80fd5b5035919050565b8082018082111561034257634e487b7160e01b5f52601160045260245ffd5b9291505056fea2646970667358221220e16856cca8734fcd5d26092c23a13a368094fd9c461a34dcc80b853a9ebbb48264736f6c63430008170033",
+  "deployedBytecode": "0x608060405234801561000f575f80fd5b506004361061004a575f3560e01c8063098fb6241461004e57806341d8bdbe1461008857806363b0c5e71461009d5780638b6e6c7b146100cf575b5f80fd5b6100757f000000000000000000000000000000000000000000000000000000000000000081565b6040519081526020015b60405180910390f35b61009b6100963660046102ae565b61010f565b005b6100bf6100ab36600461030c565b5f6020819052908152604090205460ff1681565b604051901515815260200161007f565b6100f67f000000000000000000000000000000000000000000000000000000000000000081565b60405167ffffffffffffffff909116815260200161007f565b5f8481526020819052604090205460ff16156101465760405163f006ef4f60e01b8152600481018590526024015b60405180910390fd5b6001600160a01b03831661016d5760405163bab7ca3560e01b815260040160405180910390fd5b8161018b576040516327cb014560e21b815260040160405180910390fd5b428167ffffffffffffffff161115806101e057506101d367ffffffffffffffff7f00000000000000000000000000000000000000000000000000000000000000001642610323565b8167ffffffffffffffff16115b1561020a57604051630f39e9d360e11b815267ffffffffffffffff8216600482015260240161013d565b5f8481526020819052604090819020805460ff19166001179055516001600160a01b03841690339086907f1189a453ca96da1cce83000df1d7b5d83b274c6abcd7b79fce558a02e3aa6263906102a09087907f0000000000000000000000000000000000000000000000000000000000000000908890928352602083019190915267ffffffffffffffff16604082015260600190565b60405180910390a450505050565b5f805f80608085870312156102c1575f80fd5b8435935060208501356001600160a01b03811681146102de575f80fd5b925060408501359150606085013567ffffffffffffffff81168114610301575f80fd5b939692955090935050565b5f6020828403121561031c575f80fd5b5035919050565b8082018082111561034257634e487b7160e01b5f52601160045260245ffd5b9291505056fea2646970667358221220e16856cca8734fcd5d26092c23a13a368094fd9c461a34dcc80b853a9ebbb48264736f6c63430008170033",
+  "methodIdentifiers": {
+    "acceptOrder(bytes32,address,bytes32,uint64)": "41d8bdbe",
+    "acceptanceWindowSeconds()": "8b6e6c7b",
+    "acceptedOrders(bytes32)": "63b0c5e7",
+    "policyHash()": "098fb624"
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"policyHash_\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"acceptanceWindowSeconds_\",\"type\":\"uint64\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"acceptanceExpiresAt\",\"type\":\"uint64\"}],\"name\":\"InvalidAcceptanceDeadline\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidPolicyHash\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidSeller\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidTermsCommitment\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderAlreadyAccepted\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"buyer\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"termsCommitment\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"policyHash\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"acceptanceExpiresAt\",\"type\":\"uint64\"}],\"name\":\"OrderAcceptedV2\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"termsCommitment\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"acceptanceExpiresAt\",\"type\":\"uint64\"}],\"name\":\"acceptOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"acceptanceWindowSeconds\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"acceptedOrders\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"policyHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"VeriSettleSourceV2\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Policy-pinned Sepolia source of buyer acceptance evidence for a single V2 settlement policy.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/VeriSettleSourceV2.sol\":\"VeriSettleSourceV2\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/VeriSettleSourceV2.sol\":{\"keccak256\":\"0xcddbeda6f9c30e26743277b21cbda8727ed9ce4307b3823742441106b8dd457b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b96f216e86eae1b2e130ab78031d6ab76def68d4102494d5ea5941682b4a7fc1\",\"dweb:/ipfs/QmcMFpJnwUVm2A1sZP23eDGT8XfgHQsYLuo8dyU6EwY2vR\"]}},\"version\":1}"
+}

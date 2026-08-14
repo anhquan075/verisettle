@@ -1,0 +1,27 @@
+{
+  "manifestVersion": 1,
+  "policyHash": "0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976",
+  "verifiedAt": "2026-08-14T15:20:22.787Z",
+  "checks": {
+    "sourceRuntimeCodeHash": true,
+    "escrowRuntimeCodeHash": true,
+    "decoderRuntimeCodeHash": true,
+    "sourcePolicyHash": true,
+    "sourceAcceptanceWindowSeconds": true,
+    "escrowPolicyHash": true,
+    "escrowSource": true,
+    "escrowSourceChainKey": true,
+    "escrowAcceptanceWindowSeconds": true,
+    "escrowRefundWindowSeconds": true
+  },
+  "source": {
+    "address": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+    "runtimeCodeHash": "0x44ece7e3750d1475fc96b4eca7cef95aca02a77afdf70d8a83d2f9fa2f3205cb",
+    "policyHash": "0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976"
+  },
+  "escrowAsc": {
+    "address": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+    "runtimeCodeHash": "0xdce0cdfda55ad89aed199ee74d5d9d6914936ed11c38bad0937d7e9609e88388",
+    "policyHash": "0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976"
+  }
+}

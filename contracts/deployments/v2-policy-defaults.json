@@ -1,0 +1,9 @@
+{
+  "policyVersion": 2,
+  "sourceChainKey": 1,
+  "termsSchemaVersion": 2,
+  "finalityMode": 1,
+  "minimumSourceConfirmations": 12,
+  "acceptanceWindowSeconds": 604800,
+  "refundWindowSeconds": 2592000
+}

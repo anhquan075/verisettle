@@ -182,3 +182,8 @@
 - [x] Persist V2 policy metadata and policy hash for new deals without migrating or changing existing V1 testnet deal semantics.
 - [x] Add policy-aware workspace creation and deal-detail presentation that makes version, expiry, finality, and committed hash inspectable before funding.
 - [x] Add deterministic policy-hash, compatibility, API, and responsive UI regression coverage; run migration, test, type, build, and visual validation before checkpointing.
+- [x] Design and deploy matching V2 policy-pinned source and escrow contracts to Sepolia and Creditcoin CC3 Testnet, with immutable policy-hash binding and separately recorded deployment evidence.
+- [x] Generate, independently verify, and persist a V2 deployment manifest that binds policy hash, contract addresses, bytecode/runtime code hashes, chain IDs, and deployment receipts.
+- [x] Integrate safe V2 contract interaction logic and a frontend deployment-manifest verifier that blocks any V2 submission when policy/chain/address/code integrity does not match.
+- [x] Enhance workspace creation, register, filters, and detail evidence with clear V1 live versus V2 deployed/draft tags and policy-specific action states.
+- [x] Add V2 contract/frontend regression coverage, verify real testnet deployment receipts, and run full quality/visual validation before checkpointing.

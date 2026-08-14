@@ -21,6 +21,7 @@ import {
 } from "../onchain";
 import { type DealStatus, REPLAY_PROTECTION_ERROR } from "../../shared/deals";
 import { buildV2PolicyDraft, toV2TermsCommitmentHash, V2_POLICY_DEFAULTS } from "../../shared/settlementPolicy";
+import { V2_POLICY_MANIFEST } from "../../shared/v2PolicyManifest";
 
 const ethereumAddress = z.string().regex(/^0x[a-fA-F0-9]{40}$/, "Enter a valid EVM address.");
 const transactionHash = z.string().regex(/^0x[a-fA-F0-9]{64}$/, "Enter a valid 32-byte transaction hash.");
@@ -38,7 +39,11 @@ const v2PolicyInput = z
     message: "The refund window must be at least as long as the acceptance window.",
     path: ["refundWindowSeconds"],
   });
-const policyInput = z.discriminatedUnion("kind", [z.object({ kind: z.literal("v1_live") }), v2PolicyInput]);
+const policyInput = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("v1_live") }),
+  z.object({ kind: z.literal("v2_deployed") }),
+  v2PolicyInput,
+]);
 
 function requireStatus(currentStatus: DealStatus, allowedStatuses: DealStatus[]) {
   if (!allowedStatuses.includes(currentStatus)) {
@@ -49,11 +54,11 @@ function requireStatus(currentStatus: DealStatus, allowedStatuses: DealStatus[])
   }
 }
 
-function requireLiveV1Policy(deal: Awaited<ReturnType<typeof getDealByOrderId>>) {
-  if (!deal || deal.policyVersion !== "v1_live") {
+function requireSupportedSettlementPolicy(deal: Awaited<ReturnType<typeof getDealByOrderId>>) {
+  if (!deal || (deal.policyVersion !== "v1_live" && deal.policyVersion !== "v2_deployed")) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "This V2 policy is a draft. Deploy and pin the matching V2 source and ASC before submitting testnet transactions.",
+      message: "This V2 policy is a draft. Select the verified V2 deployment before submitting testnet transactions.",
     });
   }
 }
@@ -100,6 +105,15 @@ export const dealsRouter = router({
             acceptanceWindowSeconds: input.policy.acceptanceWindowSeconds,
             refundWindowSeconds: input.policy.refundWindowSeconds,
           })
+        : input.policy.kind === "v2_deployed"
+          ? {
+              policyHash: V2_POLICY_MANIFEST.policyHash,
+              sourceContract: V2_POLICY_MANIFEST.source.address,
+              termsSchemaVersion: V2_POLICY_MANIFEST.policy.termsSchemaVersion,
+              minimumSourceConfirmations: V2_POLICY_MANIFEST.policy.minimumSourceConfirmations,
+              acceptanceWindowSeconds: V2_POLICY_MANIFEST.policy.acceptanceWindowSeconds,
+              refundWindowSeconds: V2_POLICY_MANIFEST.policy.refundWindowSeconds,
+            }
         : null;
       const acceptanceExpiresAt = v2Policy ? new Date(createdAt.getTime() + v2Policy.acceptanceWindowSeconds * 1000) : null;
       const termsCommitmentHash = v2Policy && acceptanceExpiresAt
@@ -138,7 +152,9 @@ export const dealsRouter = router({
         type: "created",
         title: "Purchase order created",
         detail: v2Policy
-          ? "V2 policy draft is persisted with a deterministic policy hash. On-chain actions remain disabled until the matching V2 source and ASC are deployed and pinned."
+          ? input.policy.kind === "v2_deployed"
+            ? "Manifest-pinned V2 policy is persisted. V2 actions verify public code and immutable policy before submission."
+            : "V2 policy draft is persisted with a deterministic policy hash. On-chain actions remain disabled until the matching V2 source and ASC are deployed and pinned."
           : "Order terms are persisted. Connect a CC3 Testnet wallet to fund the native tCTC escrow.",
       });
       return getDealView(orderId, ctx.user.openId);
@@ -152,7 +168,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ fundingTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       requireStatus(deal.status, ["draft"]);
       try {
         await verifyEscrowFunding(input.fundingTxHash, deal);
@@ -174,7 +190,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ sepoliaSourceTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       requireStatus(deal.status, ["funded"]);
       const existingSourceTxDeal = await getDealBySourceTxHash(input.sepoliaSourceTxHash);
       if (existingSourceTxDeal) {
@@ -203,7 +219,7 @@ export const dealsRouter = router({
 
   prepareProof: protectedProcedure.input(orderIdInput).mutation(async ({ ctx, input }) => {
     const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-    requireLiveV1Policy(deal);
+    requireSupportedSettlementPolicy(deal);
     requireStatus(deal.status, ["proof_pending"]);
     if (!deal.sepoliaSourceTxHash) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "A verified Sepolia acceptance transaction is required." });
@@ -219,7 +235,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ settlementTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       requireStatus(deal.status, ["proof_pending"]);
       try {
         await verifyReleasedSettlement(input.settlementTxHash, deal);
@@ -248,7 +264,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ settlementTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       requireStatus(deal.status, ["funded"]);
       try {
         await verifyEscrowRefund(input.settlementTxHash, deal);
@@ -270,7 +286,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ reason: z.string().trim().min(8).max(500), disputeTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       requireStatus(deal.status, ["funded"]);
       try {
         await verifyEscrowDispute(input.disputeTxHash, deal);
@@ -292,7 +308,7 @@ export const dealsRouter = router({
     .input(orderIdInput.extend({ settlementTxHash: transactionHash.optional() }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
-      requireLiveV1Policy(deal);
+      requireSupportedSettlementPolicy(deal);
       if (!deal.proofVerifiedAt) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "Replay protection is only demonstrated after an accepted proof." });
       }

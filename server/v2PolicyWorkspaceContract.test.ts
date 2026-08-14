@@ -10,14 +10,20 @@ const detail = fs.readFileSync(path.join(root, "client/src/pages/DealDetail.tsx"
 describe("V2 policy workspace contract", () => {
   it("keeps policy drafts distinct from the active V1 settlement flow", () => {
     expect(router).toContain('kind: z.literal("v2_draft")');
-    expect(router).toContain("requireLiveV1Policy(deal)");
-    expect(router).toContain("matching V2 source and ASC");
+    expect(router).toContain('kind: z.literal("v2_deployed")');
+    expect(router).toContain("requireSupportedSettlementPolicy(deal)");
+    expect(router).toContain("V2_POLICY_MANIFEST.policyHash");
   });
 
   it("surfaces V2 policy creation and non-settleable evidence in the workspace", () => {
     expect(dashboard).toContain("V2 policy preview");
+    expect(dashboard).toContain("V2 pinned policy");
+    expect(dashboard).toContain("verifyV2PolicyManifest");
+    expect(dashboard).toContain("V2 policies");
     expect(detail).toContain("Settlement policy commitment");
     expect(detail).toContain("V2 funding is intentionally unavailable");
     expect(detail).toContain("no on-chain actions enabled");
+    expect(detail).toContain("requireVerifiedV2Manifest");
+    expect(detail).toContain("V2 policy-pinned testnet route");
   });
 });

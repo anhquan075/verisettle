@@ -6,7 +6,13 @@ const projectRoot = "/home/ubuntu/verisettle";
 const contractRoot = resolve(projectRoot, "contracts");
 const artifactRoot = resolve(contractRoot, "artifacts");
 
-const sources = ["VerifierInterface.sol", "VeriSettleSource.sol", "VeriSettleEscrowASC.sol"].reduce(
+const sources = [
+  "VerifierInterface.sol",
+  "VeriSettleSource.sol",
+  "VeriSettleEscrowASC.sol",
+  "VeriSettleSourceV2.sol",
+  "VeriSettleEscrowASCV2.sol",
+].reduce(
   (all, filename) => ({ ...all, [`contracts/${filename}`]: { content: readFileSync(resolve(contractRoot, filename), "utf8") } }),
   {}
 );

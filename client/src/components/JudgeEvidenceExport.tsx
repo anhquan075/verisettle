@@ -15,7 +15,7 @@ type EvidenceDeal = {
   fundingTxHash?: string | null;
   settlementTxHash?: string | null;
   proofPolicyNonce: string;
-  policyVersion?: "v1_live" | "v2_draft";
+  policyVersion?: "v1_live" | "v2_draft" | "v2_deployed";
   policyHash?: string | null;
   termsCommitmentHash?: string | null;
   termsSchemaVersion?: number | null;
