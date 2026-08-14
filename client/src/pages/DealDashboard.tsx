@@ -8,7 +8,7 @@ import { trpc } from "@/lib/trpc";
 import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { VERISETTLE_CONTRACTS } from "@shared/contracts";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, ArrowUpRight, CircleAlert, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
+import { Activity, ArrowUpRight, CircleAlert, FileKey2, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 
@@ -18,6 +18,11 @@ const initialForm = {
   amount: "",
   currency: "tCTC" as const,
   description: "",
+  policyKind: "v1_live" as "v1_live" | "v2_draft",
+  policySourceContract: "",
+  policyConfirmations: "12",
+  policyAcceptanceDays: "7",
+  policyRefundDays: "30",
 };
 
 function shortAddress(address: string) {
@@ -53,11 +58,21 @@ export default function DealDashboard() {
   const buyerIsValid = isEvmAddress(form.buyerAddress);
   const sellerIsValid = isEvmAddress(form.sellerAddress) && form.sellerAddress.trim().toLowerCase() !== form.buyerAddress.trim().toLowerCase();
   const amountIsValid = isPositiveAmount(form.amount);
+  const policyConfirmations = Number(form.policyConfirmations);
+  const policyAcceptanceDays = Number(form.policyAcceptanceDays);
+  const policyRefundDays = Number(form.policyRefundDays);
+  const v2PolicyValid = form.policyKind !== "v2_draft" || (
+    Number.isInteger(policyConfirmations) && policyConfirmations >= 1 && policyConfirmations <= 512 &&
+    Number.isInteger(policyAcceptanceDays) && policyAcceptanceDays >= 1 && policyAcceptanceDays <= 30 &&
+    Number.isInteger(policyRefundDays) && policyRefundDays >= policyAcceptanceDays && policyRefundDays <= 90 &&
+    (!form.policySourceContract.trim() || isEvmAddress(form.policySourceContract))
+  );
   const fieldErrors = [
     !buyerIsValid ? "Enter a valid buyer EVM address." : null,
     !sellerIsValid ? "Enter a valid seller address that differs from the buyer." : null,
     !amountIsValid ? "Enter a positive native tCTC amount." : null,
     !descriptionIsValid ? "Add a purchase-order description with at least 8 characters." : null,
+    !v2PolicyValid ? "Review the V2 policy window, confirmation, and optional source address." : null,
   ].filter((error): error is string => Boolean(error));
 
   useEffect(() => {
@@ -79,7 +94,23 @@ export default function DealDashboard() {
       setFormError("Review the highlighted purchase-order fields before creating the draft.");
       return;
     }
-    createDeal.mutate({ ...form, description: form.description.trim() });
+    const policy = form.policyKind === "v1_live"
+      ? { kind: "v1_live" as const }
+      : {
+          kind: "v2_draft" as const,
+          sourceContract: form.policySourceContract.trim(),
+          minimumSourceConfirmations: policyConfirmations,
+          acceptanceWindowSeconds: policyAcceptanceDays * 24 * 60 * 60,
+          refundWindowSeconds: policyRefundDays * 24 * 60 * 60,
+        };
+    createDeal.mutate({
+      buyerAddress: form.buyerAddress,
+      sellerAddress: form.sellerAddress,
+      amount: form.amount,
+      currency: form.currency,
+      description: form.description.trim(),
+      policy,
+    });
   };
 
   const connectWallet = async () => {
@@ -175,6 +206,14 @@ export default function DealDashboard() {
             <div className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.035] px-4 py-3 text-sm leading-6 text-slate-300">
               <span className="font-semibold text-cyan-100">Proof policy:</span> only a receipt-success `OrderAccepted` event for these exact terms can enter the Attestcoin verification path.
             </div>
+            <fieldset className="md:col-span-2 rounded-2xl border border-cyan-200/15 bg-[#061014]/60 p-4">
+              <legend className="px-2 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100">Settlement policy</legend>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v1_live" }))} aria-pressed={form.policyKind === "v1_live"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v1_live" ? "border-teal-200/35 bg-teal-300/[0.08]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-teal-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-teal-100">Live</span> V1 testnet policy</p><p className="mt-2 text-xs leading-5 text-slate-400">Current source and ASC. Funding and proof actions are available.</p></button>
+                <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v2_draft" }))} aria-pressed={form.policyKind === "v2_draft"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v2_draft" ? "border-cyan-200/35 bg-cyan-300/[0.08]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-cyan-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-cyan-100">Draft</span> V2 policy preview</p><p className="mt-2 text-xs leading-5 text-slate-400">Creates an immutable policy commitment. No V1 transaction can use it.</p></button>
+              </div>
+              {form.policyKind === "v2_draft" && <div className="mt-4 space-y-4 rounded-xl border border-cyan-200/15 bg-cyan-300/[0.045] p-4"><div className="flex gap-3 text-sm leading-6 text-cyan-50"><FileKey2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" /><p><span className="font-semibold">Draft only.</span> The workspace will calculate a V2 policy hash and per-order commitment. Funding stays disabled until a future V2 source and ASC pin the same policy.</p></div><div className="grid gap-3 sm:grid-cols-3"><div className="space-y-2"><Label htmlFor="policyConfirmations">Source confirmations</Label><Input id="policyConfirmations" inputMode="numeric" value={form.policyConfirmations} onChange={event => setForm({ ...form, policyConfirmations: event.target.value })} /></div><div className="space-y-2"><Label htmlFor="policyAcceptanceDays">Acceptance window (days)</Label><Input id="policyAcceptanceDays" inputMode="numeric" value={form.policyAcceptanceDays} onChange={event => setForm({ ...form, policyAcceptanceDays: event.target.value })} /></div><div className="space-y-2"><Label htmlFor="policyRefundDays">Refund window (days)</Label><Input id="policyRefundDays" inputMode="numeric" value={form.policyRefundDays} onChange={event => setForm({ ...form, policyRefundDays: event.target.value })} /></div></div><div className="space-y-2"><Label htmlFor="policySourceContract">V2 source contract (optional until deployed)</Label><Input id="policySourceContract" value={form.policySourceContract} onChange={event => setForm({ ...form, policySourceContract: event.target.value })} placeholder="0x… (leave empty while source deployment is pending)" className="font-mono" /></div>{attemptedSubmit && !v2PolicyValid && <p className="flex items-center gap-1.5 text-xs text-rose-100"><CircleAlert className="h-3.5 w-3.5" /> Use 1–512 confirmations, a 1–30 day acceptance window, and a refund window that is not shorter.</p>}</div>}
+            </fieldset>
             <div className="space-y-2 md:col-span-2">
               <div className="flex items-center justify-between gap-3"><Label htmlFor="description">Purchase-order description</Label><span className={`text-xs ${descriptionIsValid ? "text-teal-100" : "text-amber-100"}`}>{descriptionLength}/8 minimum</span></div>
               <Textarea id="description" value={form.description} onChange={event => { setForm({ ...form, description: event.target.value }); if (formError) setFormError(null); }} placeholder="Describe the goods, service, or settlement milestone." className="min-h-28" aria-invalid={attemptedSubmit && !descriptionIsValid} aria-describedby="description-help" required />
@@ -219,7 +258,7 @@ export default function DealDashboard() {
                 <motion.button layout key={deal.orderId} onClick={() => setLocation(`/deals/${deal.orderId}`)} whileHover={{ x: 2 }} whileTap={{ scale: 0.995 }} transition={{ duration: 0.18, ease: "easeOut" }} className="veri-action group grid w-full gap-3 px-4 py-4 text-left hover:bg-cyan-300/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300 sm:px-5 md:grid-cols-[1.1fr_1fr_0.8fr_0.55fr] md:items-center md:gap-5">
                   <span className="min-w-0">
                     <span className="flex items-center gap-2 font-mono text-sm font-semibold text-cyan-100"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />{deal.orderId}</span>
-                    <span className="mt-1 block text-xs text-slate-500">Created {formatDate(deal.createdAt)}</span>
+                    <span className="mt-1 flex items-center gap-2 text-xs text-slate-500">Created {formatDate(deal.createdAt)}{deal.policyVersion === "v2_draft" && <span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-1.5 py-0.5 font-semibold uppercase tracking-[0.1em] text-cyan-100">V2 draft</span>}</span>
                   </span>
                   <span><span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 md:hidden">Seller</span><span className="font-mono text-sm text-slate-300">{shortAddress(deal.sellerAddress)}</span></span>
                   <span><span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 md:hidden">Escrow value</span><span className="text-sm font-semibold text-white">{formatTctcAmount(deal.amount)} <span className="text-slate-400">{deal.currency}</span></span></span>

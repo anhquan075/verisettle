@@ -15,6 +15,14 @@ type EvidenceDeal = {
   fundingTxHash?: string | null;
   settlementTxHash?: string | null;
   proofPolicyNonce: string;
+  policyVersion?: "v1_live" | "v2_draft";
+  policyHash?: string | null;
+  termsCommitmentHash?: string | null;
+  termsSchemaVersion?: number | null;
+  policySourceContract?: string | null;
+  acceptanceExpiresAt?: Date | string | null;
+  minimumSourceConfirmations?: number | null;
+  refundWindowSeconds?: number | null;
   createdAt: Date | string;
 };
 
@@ -75,6 +83,20 @@ This portable record summarizes persisted purchase-order evidence and public tes
 - Created: ${new Date(deal.createdAt).toISOString()}
 - Terms commitment: \`${termsHash}\`
 - Proof policy nonce: \`${deal.proofPolicyNonce}\`
+${deal.policyVersion === "v2_draft" ? `
+## V2 policy draft
+
+- Policy state: **Draft — not on-chain settleable**
+- Policy schema version: ${deal.termsSchemaVersion ?? "Not recorded"}
+- Policy hash: \`${deal.policyHash ?? "Not recorded"}\`
+- Per-order V2 commitment: \`${deal.termsCommitmentHash ?? "Not recorded"}\`
+- Proposed source emitter: \`${deal.policySourceContract ?? "Not assigned"}\`
+- Acceptance expires: ${deal.acceptanceExpiresAt ? new Date(deal.acceptanceExpiresAt).toISOString() : "Not recorded"}
+- Minimum source confirmations: ${deal.minimumSourceConfirmations ?? "Not recorded"}
+- Refund window: ${deal.refundWindowSeconds ? `${deal.refundWindowSeconds} seconds` : "Not recorded"}
+
+This V2 policy is immutable workspace evidence. It cannot authorize V1 source, escrow, proof, refund, dispute, or release calls until a future V2 deployment pins the same policy hash.
+` : ""}
 
 ## Public receipt links
 

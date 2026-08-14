@@ -178,3 +178,7 @@
 - [x] Compare winner implementations with VeriSettle across execution depth, contracts, security, UX, documentation, testnet evidence, and judge-facing clarity; write a cited competitiveness roadmap with explicit unavailable-code boundaries.
 - [x] Define a prioritized proof-to-settlement integrity upgrade plan covering contract invariants, receipt/proof policy, dispute governance, operations, and judge-verifiable acceptance criteria.
 - [x] Produce a prioritized M2 policy-v2 deployment risk and failure-mode checklist covering unauthorized release, fund lock, policy drift, finality, governance, and operational recovery.
+- [x] Design and document a canonical deterministic V2 settlement policy schema with version, source-policy, terms, expiry, and finality commitments while preserving existing V1 deals.
+- [x] Persist V2 policy metadata and policy hash for new deals without migrating or changing existing V1 testnet deal semantics.
+- [x] Add policy-aware workspace creation and deal-detail presentation that makes version, expiry, finality, and committed hash inspectable before funding.
+- [x] Add deterministic policy-hash, compatibility, API, and responsive UI regression coverage; run migration, test, type, build, and visual validation before checkpointing.
