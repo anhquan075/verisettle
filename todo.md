@@ -100,3 +100,18 @@
 - [x] Audit every frontend route and state: landing, signed-in dashboard, detail lifecycle, recovery, loading, unavailable, and mobile navigation.
 - [x] Implement a cohesive UI/UX refinement across all frontend pages using a unified visual hierarchy, interaction model, accessibility treatment, and reduced-motion-safe transitions.
 - [x] Validate the complete refined frontend at desktop and mobile breakpoints with the full test/type/build quality gate.
+- [x] Add an in-app Rabby/SubWallet approval-evidence checklist that captures only non-sensitive public proof after the user completes a real extension action.
+- [x] Add a judge-mode replay walkthrough that explains the replay-threat model, safe no-fund-loss demonstration path, exact expected on-chain rejection, and evidence links.
+- [x] Add a dispute-resolution briefing that distinguishes the replay security demonstration from the separate real on-chain dispute workflow.
+- [x] Validated sandbox-visible and rendered approval-evidence/judge-mode flows at desktop/mobile widths; literal managed-browser keyboard focus remains explicitly external-pending.
+- [x] Run the post-change test, type-check, and production build for wallet-evidence and judge-mode changes, then record the result.
+- [x] Verify wallet-evidence checklist and judge-mode focus/error behavior at desktop and mobile widths, then document the evidence.
+- [x] Re-read `docs/JUDGE_MODE_AND_WALLET_EVIDENCE.md` to confirm the quality result and focus/error validation evidence were saved.
+- [x] Explicitly exercise and document judge-mode expected replay success status plus unexpected replay failure recovery behavior.
+- [x] Documented as externally pending: literal managed-Preview keyboard focus cannot be asserted without a browser-control session; focus-class and rendered accessibility evidence are verified.
+- [x] Capture sandbox desktop/mobile screenshots plus rendered status/alert and focus-class accessibility-contract evidence for wallet approval and judge-mode replay controls.
+- [x] Document that a literal managed-Preview keyboard interaction remains externally unavailable, without claiming it was executed.
+- [x] Re-read `docs/JUDGE_MODE_AND_WALLET_EVIDENCE.md` to confirm the saved sandbox verification and managed-Preview keyboard boundary record.
+- [x] Add an automated UI accessibility-contract test for the wallet evidence and judge replay focus/status/alert wiring.
+- [x] Add rendered component coverage for the judge-mode expected replay success and unexpected failure fallback states.
+- [x] Extract and test judge-mode replay outcome helpers for the expected rejection and unexpected failure branches used by the UI.

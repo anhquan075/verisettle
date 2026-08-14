@@ -1,5 +1,7 @@
 import { DealStatusBadge } from "@/components/DealStatusBadge";
 import { ExplorerLink } from "@/components/ExplorerLink";
+import { JudgeReplayWalkthrough } from "@/components/JudgeReplayWalkthrough";
+import { WalletApprovalEvidence } from "@/components/WalletApprovalEvidence";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +10,7 @@ import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { trpc } from "@/lib/trpc";
 import { REPLAY_PROTECTION_ERROR, type DealEventType } from "@shared/deals";
 import { TESTNET_NETWORKS, toTermsHash, VERISETTLE_CONTRACTS } from "@shared/contracts";
+import { assertExpectedReplayResult, isExpectedReplayRejection } from "@shared/judgeMode";
 import { motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -72,6 +75,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   const [fundingTxHash, setFundingTxHash] = useState("");
   const [actionError, setActionError] = useState<string | null>(null);
   const [activeOperation, setActiveOperation] = useState<string | null>(null);
+  const [replayVerified, setReplayVerified] = useState(false);
   const [showDispute, setShowDispute] = useState(false);
   const [disputeReason, setDisputeReason] = useState("");
   const [lookupTimedOut, setLookupTimedOut] = useState(false);
@@ -183,12 +187,12 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   const replay = () => run("Submitting the already processed proof to verify replay protection.", async () => {
     const proof = await prepareProof.mutateAsync({ orderId });
     const result = await replayProof(proof);
-    if (result !== "QueryAlreadyProcessed") throw new Error("Unexpected replay result.");
+    assertExpectedReplayResult(result);
     try {
       await recordReplay.mutateAsync({ orderId });
     } catch (error) {
-      if (!(error instanceof Error) || error.message !== REPLAY_PROTECTION_ERROR) throw error;
-      setActionError(REPLAY_PROTECTION_ERROR);
+      if (!isExpectedReplayRejection(error)) throw error;
+      setReplayVerified(true);
     }
   });
 
@@ -215,6 +219,8 @@ export default function DealDetail({ orderId }: { orderId: string }) {
         </div>
       </section>
 
+      <WalletApprovalEvidence buyerAddress={deal.buyerAddress} connectedAddress={address} />
+
       <section aria-label="Deal evidence summary" className="grid overflow-hidden rounded-[1.45rem] border border-white/10 bg-[#081417]/80 sm:grid-cols-3">
         <div className="border-b border-white/10 p-4 sm:border-b-0 sm:border-r"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-200/75">Buyer evidence</p><p className="mt-2 text-sm font-semibold text-white">{deal.sepoliaSourceTxHash ? "Sepolia approval recorded" : "Approval not yet recorded"}</p><p className="mt-1 text-xs leading-5 text-slate-400">{deal.sepoliaSourceTxHash ? "The trusted source receipt matches this order’s protected terms." : "A matching buyer acceptance is required before proof can be requested."}</p></div>
         <div className="border-b border-white/10 p-4 sm:border-b-0 sm:border-r"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-teal-100/80">Settlement evidence</p><p className="mt-2 text-sm font-semibold text-white">{deal.status === "released" ? "CC3 release decoded" : deal.fundingTxHash ? "Escrow receipt decoded" : "No CC3 receipt yet"}</p><p className="mt-1 text-xs leading-5 text-slate-400">{deal.status === "released" ? "The recorded seller received release only after the proof cleared." : "The application advances only after the receipt matches buyer, seller, amount, and terms."}</p></div>
@@ -230,6 +236,8 @@ export default function DealDetail({ orderId }: { orderId: string }) {
             {deal.status === "proof_pending" && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 rounded-2xl border border-cyan-200/15 bg-[#061014]/75 p-5"><div className="flex items-start gap-3"><ClipboardCheck className="mt-0.5 h-5 w-5 text-cyan-200" /><div><h3 className="font-semibold text-white">Real Attestcoin verification</h3><p className="mt-1 text-sm leading-6 text-slate-400">The server requests an attested proof from the official builder, then your wallet submits it to the deployed ASC. Attestation can take several minutes after the Sepolia transaction is mined.</p></div></div>{sourceLink}<Button disabled={isActionPending} onClick={submitRealProof} className="mt-5 bg-teal-300 font-semibold text-slate-950 hover:bg-teal-200">{isActionPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Submit real Attestcoin proof</Button></motion.div>}
             {deal.status === "released" && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 rounded-2xl border border-teal-200/15 bg-teal-300/[0.05] p-5"><h3 className="font-semibold text-white">Settlement released</h3><p className="mt-1 text-sm leading-6 text-slate-400">The product recorded a released state only after a real EscrowReleased receipt was decoded from Creditcoin CC3 Testnet.</p>{deal.settlementTxHash && <ExplorerLink hash={deal.settlementTxHash} chain="creditcoin" className="mt-3" />}<Button disabled={isActionPending} onClick={replay} variant="outline" className="mt-5 border-rose-300/30 text-rose-100 hover:bg-rose-400/10"><AlertTriangle className="mr-2 h-4 w-4" />Attempt real proof replay</Button></motion.div>}
           </section>
+
+          {deal.status === "released" && <JudgeReplayWalkthrough disabled={isActionPending} onRunReplay={replay} replayVerified={replayVerified} replayError={actionError} onDismissReplayError={() => setActionError(null)} expectedError={REPLAY_PROTECTION_ERROR} settlementTxHash={deal.settlementTxHash} explorerUrl={TESTNET_NETWORKS.creditcoin.explorerUrl} />}
 
           <section className="rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7"><h2 className="font-display text-xl font-semibold text-white">Resolution controls</h2><p className="mt-1 text-sm text-slate-400">Refund becomes executable after the on-chain deadline. A buyer or seller can raise a real dispute immediately while funding remains active.</p><div className="mt-5 flex flex-wrap gap-3">{deal.status === "funded" && <Button disabled={isActionPending} variant="outline" onClick={refund} className="border-violet-300/30 text-violet-100 hover:bg-violet-300/10">Refund expired escrow</Button>}{deal.status === "funded" && <Button disabled={isActionPending} variant="outline" onClick={() => { setActionError(null); setShowDispute(open => !open); }} className="border-rose-300/30 text-rose-100 hover:bg-rose-400/10">Open dispute</Button>}</div>{showDispute && <div className="mt-5 space-y-3 rounded-xl border border-rose-300/20 bg-rose-400/[0.06] p-4"><Label htmlFor="disputeReason">Dispute reason</Label><Textarea id="disputeReason" value={disputeReason} onChange={event => setDisputeReason(event.target.value)} placeholder="Explain why this settlement needs manual review." /><Button disabled={isActionPending || disputeReason.trim().length < 8} onClick={dispute} className="bg-rose-300 font-semibold text-slate-950 hover:bg-rose-200">Raise real on-chain dispute</Button></div>}</section>
         </div>
