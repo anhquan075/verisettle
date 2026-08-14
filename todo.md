@@ -160,3 +160,5 @@
 - [x] Configure the imported VeriSettle project through the Vercel CLI, using only secure interactive or user-supplied secret entry paths.
 - [x] Repair the invalid Vercel function-runtime declaration, push the deployment fix, and confirm the preview reaches a terminal build state.
 - [x] Set the repository author/committer identity to the user’s GitHub-compatible `anhquan075` identity, rewrite the deployment-fix commit, and force-push the affected remote branches for Vercel attribution.
+- [ ] Test the live Vercel preview’s SIWE browser entry and server challenge/signature verification without fabricating a wallet-extension approval or exposing credentials.
+- [ ] Diagnose and repair the Vercel serverless SIWE endpoint’s `FUNCTION_INVOCATION_FAILED` response, then retest the live challenge request.
