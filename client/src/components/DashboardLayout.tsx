@@ -159,7 +159,7 @@ function DashboardLayoutContent({
           className="border-r border-cyan-100/10 bg-[#061014] text-slate-200 [&_[data-slot=sidebar-inner]]:!bg-[#061014] [&_[data-slot=sidebar-inner]]:!text-slate-200"
           disableTransition={isResizing}
         >
-          <SidebarHeader className="h-20 justify-center border-b border-cyan-100/10">
+          <SidebarHeader className="h-20 justify-start border-b border-cyan-100/10">
             <div className="flex items-center gap-3 px-2 transition-all w-full">
               <button
                 onClick={toggleSidebar}
@@ -239,18 +239,19 @@ function DashboardLayoutContent({
         />
       </div>
 
-      <SidebarInset className="relative overflow-hidden bg-[#040b0e]">
+      <SidebarInset className="relative min-w-0 overflow-hidden bg-[#040b0e]">
         <AttestationOrbit variant="workspace" />
         <header className="veri-workspace-header sticky top-0 z-40 border-b border-cyan-100/10 bg-[#061014]/92 text-slate-100 backdrop-blur-xl supports-[backdrop-filter]:bg-[#061014]/78">
-          <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:px-6">
-            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <div className="flex min-h-14 w-full items-center gap-3 px-3 sm:px-6 lg:px-8">
+            <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
               <span className="sm:hidden"><VeriSettleBrand compact /></span>
-              <span className="hidden sm:inline-flex"><VeriSettleBrand compact /></span>
-              <span className="hidden h-5 w-px bg-white/10 sm:block" />
               <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
-            <div className="flex shrink-0 items-center gap-2"><>{user?.sessionKind === "siwe" && user.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}</><span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden sm:inline">Receipt-bound transitions · </span>Public testnet only</span></div>
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              {user?.sessionKind === "siwe" && user.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}
+              <span className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:gap-2 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden lg:inline">Receipt-bound · </span><span className="sm:hidden">Testnet</span><span className="hidden sm:inline">Public testnet only</span></span>
+            </div>
           </div>
         </header>
         <main id="workspace-content" className="relative z-10 flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">

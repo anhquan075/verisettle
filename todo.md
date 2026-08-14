@@ -166,3 +166,5 @@
 - [x] Add focused regression coverage and desktop/mobile validation for the SIWE alert and recovery experience before checkpointing.
 - [x] Propagate the SIWE wallet-session expiry safely to the authenticated client and display an accessible live countdown with re-authentication guidance.
 - [x] Add regression coverage and desktop/mobile validation for wallet-session expiry formatting, warning behavior, and re-authentication affordances before checkpointing.
+- [x] Correct the workspace header and authenticated layout hierarchy, including responsive spacing and the optional SIWE countdown placement, while leaving the unrelated seed-data notice out of implementation scope.
+- [x] Add regression coverage and desktop/mobile validation for the corrected workspace header and layout before checkpointing.

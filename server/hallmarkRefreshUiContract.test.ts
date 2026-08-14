@@ -36,7 +36,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   it("keeps the authenticated workspace organized around a real next action and register", () => {
     expect(layout).toContain("veri-workspace-header");
     expect(layout).toContain("sticky top-0");
-    expect(layout).toContain("Receipt-bound transitions");
+    expect(layout).toContain("Receipt-bound ·");
     expect(layout).toContain("Public testnet only");
     expect(dashboard).toContain("Settlement desk");
     expect(dashboard).toContain("Terms first.");
