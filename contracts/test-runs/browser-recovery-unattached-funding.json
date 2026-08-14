@@ -1,0 +1,14 @@
+{
+  "type": "external-receipt-recovery-unattached-funding",
+  "orderId": "iwqGQkR0fRxMhD",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "amountTctc": "0.001",
+  "termsHash": "0xe185201641bfda6a7add3afeb6d5afab3ab94e3314aa9aae1290f30cd9bc26f7",
+  "refundAfter": 1786771131,
+  "fundingTxHash": "0x2328b75ba79a77c2158397f40f6128a3d6c643927c40c1cd4103db88acec4463",
+  "blockNumber": 5306529,
+  "persistedStatusBeforeAttachment": "draft",
+  "createdAt": "2026-08-14T05:19:05.731Z",
+  "warning": "The funding receipt is intentionally not recorded yet. Attach it through the verified recovery procedure next."
+}

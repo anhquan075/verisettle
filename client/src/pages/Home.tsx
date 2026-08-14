@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, Github, LockKeyhole, Network, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, Github, LockKeyhole, Network, ShieldCheck, UserCheck, WalletCards } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
@@ -49,6 +49,10 @@ export default function Home() {
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-teal-300" /> Ethereum Sepolia</span>
               <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-teal-300" /> Test assets only</span>
             </div>
+            <div className="mt-7 grid max-w-xl gap-2 sm:grid-cols-2">
+              <div className="rounded-xl border border-cyan-200/12 bg-[#061014]/60 p-3.5"><p className="flex items-center gap-2 text-xs font-semibold text-cyan-100"><UserCheck className="h-3.5 w-3.5" /> Buyer authority</p><p className="mt-2 text-xs leading-5 text-slate-400">Signs the exact Sepolia acceptance after funding the matching CC3 escrow.</p></div>
+              <div className="rounded-xl border border-teal-200/12 bg-[#061014]/60 p-3.5"><p className="flex items-center gap-2 text-xs font-semibold text-teal-100"><WalletCards className="h-3.5 w-3.5" /> Seller entitlement</p><p className="mt-2 text-xs leading-5 text-slate-400">Receives CC3 settlement only after the proof binds both roles and terms.</p></div>
+            </div>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.12 }} className="relative mx-auto w-full max-w-xl">
@@ -66,9 +70,9 @@ export default function Home() {
             </div>
             <ol className="space-y-0">
               {[
-                [Network, "Lock the terms", "The buyer funds native tCTC escrow against an order ID and exact terms hash."],
-                [ShieldCheck, "Prove the acceptance", "The trusted Sepolia emitter records buyer acceptance; Attestcoin verifies receipt status and event semantics on CC3."],
-                [LockKeyhole, "Release exactly once", "The ASC consumes the proof query and releases only the matching escrow; replays are rejected on-chain."],
+                [Network, "Lock the two-party terms", "The buyer funds native tCTC escrow against a seller address, order ID, and exact shared terms hash."],
+                [ShieldCheck, "Prove buyer acceptance", "The trusted Sepolia emitter records the buyer’s exact approval; Attestcoin verifies receipt status and event semantics on CC3."],
+                [LockKeyhole, "Release to the seller exactly once", "The ASC consumes the proof query and releases only the matching seller escrow; replays are rejected on-chain."],
               ].map(([Icon, title, text], index) => {
                 const StepIcon = Icon as typeof Network;
                 return <li key={title as string} className="group grid grid-cols-[auto_1fr] gap-x-5 border-t border-white/10 py-6 first:border-t-0 first:pt-0">

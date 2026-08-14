@@ -26,7 +26,7 @@ import {
   WalletCards,
   XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
 const eventIcon: Record<DealEventType, typeof CheckCircle2> = {
@@ -66,7 +66,7 @@ function DealActionGuide({ status, walletAddress, activeOperation, nextAction }:
 export default function DealDetail({ orderId }: { orderId: string }) {
   const [, setLocation] = useLocation();
   const utils = trpc.useUtils();
-  const detailQuery = trpc.deals.getDeal.useQuery({ orderId });
+  const detailQuery = trpc.deals.getDeal.useQuery({ orderId }, { retry: false });
   const { address, busy: walletBusy, connect, fundEscrow, acceptSourceOrder, submitProof: submitProofOnChain, refundEscrow, raiseDispute, replayProof } = useTestnetWallet();
   const [sourceTxHash, setSourceTxHash] = useState("");
   const [fundingTxHash, setFundingTxHash] = useState("");
@@ -74,6 +74,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   const [activeOperation, setActiveOperation] = useState<string | null>(null);
   const [showDispute, setShowDispute] = useState(false);
   const [disputeReason, setDisputeReason] = useState("");
+  const [lookupTimedOut, setLookupTimedOut] = useState(false);
 
   const recordFunding = trpc.deals.recordFunding.useMutation();
   const submitSource = trpc.deals.submitProof.useMutation();
@@ -86,6 +87,15 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   const refresh = async () => {
     await Promise.all([utils.deals.getDeal.invalidate({ orderId }), utils.deals.listDeals.invalidate()]);
   };
+
+  useEffect(() => {
+    if (!detailQuery.isLoading) {
+      setLookupTimedOut(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setLookupTimedOut(true), 750);
+    return () => window.clearTimeout(timer);
+  }, [detailQuery.isLoading, orderId]);
 
   const run = async (label: string, operation: () => Promise<void>) => {
     setActionError(null);
@@ -100,11 +110,14 @@ export default function DealDetail({ orderId }: { orderId: string }) {
     }
   };
 
-  if (detailQuery.isLoading) {
+  if (detailQuery.isLoading && !lookupTimedOut) {
     return <div className="flex min-h-[60vh] items-center justify-center text-sm text-slate-400"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading deal evidence</div>;
   }
-  if (detailQuery.error || !detailQuery.data) {
-    return <div className="mx-auto max-w-xl rounded-[1.5rem] border border-rose-300/20 bg-rose-400/[0.06] p-7 text-center"><AlertTriangle className="mx-auto h-7 w-7 text-rose-200" /><h1 className="mt-4 font-display text-2xl font-semibold text-white">Deal unavailable</h1><p className="mt-2 text-sm leading-6 text-slate-300">{detailQuery.error?.message ?? "This purchase order could not be retrieved."}</p><Button onClick={() => setLocation("/app")} variant="outline" className="mt-6">Return to register</Button></div>;
+  if (detailQuery.error || !detailQuery.data || lookupTimedOut) {
+    const detailMessage = lookupTimedOut
+      ? "This order lookup did not respond. You can retry safely or return to the deal register."
+      : detailQuery.error?.message ?? "This purchase order could not be retrieved.";
+    return <div className="mx-auto max-w-xl rounded-[1.5rem] border border-rose-300/20 bg-rose-400/[0.06] p-7 text-center"><AlertTriangle className="mx-auto h-7 w-7 text-rose-200" /><h1 className="mt-4 font-display text-2xl font-semibold text-white">Deal unavailable</h1><p className="mt-2 text-sm leading-6 text-slate-300">{detailMessage}</p><div className="mt-6 flex flex-wrap justify-center gap-3"><Button onClick={() => { setLookupTimedOut(false); void detailQuery.refetch(); }} variant="outline">Retry lookup</Button><Button onClick={() => setLocation("/app")} variant="outline">Return to register</Button></div></div>;
   }
 
   const { deal, events } = detailQuery.data;
@@ -197,7 +210,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
       <section className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0a1b21] p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 h-60 w-60 rounded-full bg-teal-300/10 blur-3xl" />
         <div className="relative grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-          <div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100/75">Purchase order</p><h1 className="mt-3 max-w-3xl font-display text-3xl font-semibold tracking-[-0.045em] text-white sm:text-4xl">{deal.description}</h1><div className="mt-6 flex flex-wrap gap-x-8 gap-y-4 text-sm"><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Escrow amount</p><p className="mt-1 text-xl font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Seller</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.sellerAddress.slice(0, 10)}…{deal.sellerAddress.slice(-8)}</p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Buyer</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.buyerAddress.slice(0, 10)}…{deal.buyerAddress.slice(-8)}</p></div></div><div className="mt-6 rounded-xl border border-cyan-200/10 bg-[#061014]/60 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100/75">Terms commitment</p><span className="text-xs text-slate-500">Buyer accepts on Sepolia · seller receives on CC3</span></div><p className="mt-2 break-all font-mono text-xs leading-5 text-cyan-100">{termsHash}</p><p className="mt-2 text-xs leading-5 text-slate-400">This hash binds the order ID, both parties, amount, currency, and description. A source event with different terms cannot release this escrow.</p></div></div>
+          <div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100/75">Purchase order</p><h1 className="mt-3 max-w-3xl font-display text-3xl font-semibold tracking-[-0.045em] text-white sm:text-4xl">{deal.description}</h1><div className="mt-6 flex flex-wrap gap-x-8 gap-y-4 text-sm"><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Escrow amount</p><p className="mt-1 text-xl font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Seller</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.sellerAddress.slice(0, 10)}…{deal.sellerAddress.slice(-8)}</p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Buyer</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.buyerAddress.slice(0, 10)}…{deal.buyerAddress.slice(-8)}</p></div></div><div className="mt-5 grid gap-2 sm:grid-cols-2"><div className="rounded-xl border border-cyan-200/10 bg-cyan-300/[0.035] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100/75">Buyer authority</p><p className="mt-1 text-xs leading-5 text-slate-300">Only the recorded buyer acceptance on Sepolia can unlock this proof path.</p></div><div className="rounded-xl border border-teal-200/10 bg-teal-300/[0.035] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100/75">Seller entitlement</p><p className="mt-1 text-xs leading-5 text-slate-300">The ASC releases native tCTC only to this recorded seller after proof verification.</p></div></div><div className="mt-4 rounded-xl border border-cyan-200/10 bg-[#061014]/60 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100/75">Terms commitment</p><span className="text-xs text-slate-500">Buyer accepts on Sepolia · seller receives on CC3</span></div><p className="mt-2 break-all font-mono text-xs leading-5 text-cyan-100">{termsHash}</p><p className="mt-2 text-xs leading-5 text-slate-400">This hash binds the order ID, both parties, amount, currency, and description. A source event with different terms cannot release this escrow.</p></div></div>
           <div className="rounded-2xl border border-cyan-200/15 bg-[#061014]/70 p-5"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-white">Wallet connection</span><span className="text-xs text-slate-500">Real testnet only</span></div><p className="mt-3 break-all font-mono text-xs text-cyan-100">{address ?? "No wallet connected"}</p><Button disabled={isActionPending} onClick={() => run("Requesting a compatible Creditcoin CC3 testnet wallet.", async () => { await connect(); })} variant="outline" className="mt-4 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : "Connect testnet wallet"}</Button><div aria-live="polite" className="mt-4 rounded-xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">Next required action</p><p className="mt-1 text-xs leading-5 text-slate-300">{activeOperation ?? nextAction}</p></div></div>
         </div>
       </section>

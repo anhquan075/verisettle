@@ -1,0 +1,13 @@
+{
+  "type": "sandbox-buyer-source-acceptance",
+  "orderId": "2w8_iT1aNogY1b",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "sourceEmitter": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+  "termsHash": "0x24716700c9b25a8be6e633920c461cacd6bc42f23b3506d27bf051b2cf4d137a",
+  "txHash": "0x46d774edf8321e68020559751a03929176484749776ca419927277da9736ca7a",
+  "blockNumber": 11484760,
+  "recordedStatus": "proof_pending",
+  "createdAt": "2026-08-14T04:10:06.946Z",
+  "warning": "Sandbox-only testnet signer. No private-key material is stored here."
+}

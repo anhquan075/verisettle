@@ -84,6 +84,19 @@ describe("VeriSettle receipt-backed deal lifecycle", () => {
     expect(result.events.at(-1)).toMatchObject({ type: "funded", title: "Escrow funded on Creditcoin" });
   });
 
+  it("records a buyer-supplied already-mined CC3 receipt through the recovery path", async () => {
+    const created = await makeDeal();
+    const externallySubmittedReceipt = hash("9");
+    const result = await caller().recordFunding({ orderId: created.deal.orderId, fundingTxHash: externallySubmittedReceipt });
+
+    expect(result.deal).toMatchObject({ status: "funded", fundingTxHash: externallySubmittedReceipt });
+    expect(result.events.at(-1)).toMatchObject({ type: "funded", txHash: externallySubmittedReceipt });
+  });
+
+  it("returns a not-found error for an unavailable order instead of producing a deal payload", async () => {
+    await expect(caller().getDeal({ orderId: "not-a-real-order" })).rejects.toMatchObject({ code: "NOT_FOUND", message: "Deal not found." });
+  });
+
   it("records a release only after the real-proof settlement receipt is verified", async () => {
     const created = await proofPendingDeal();
     const released = await caller().recordSettlement({ orderId: created.deal.orderId, settlementTxHash: hash("e") });

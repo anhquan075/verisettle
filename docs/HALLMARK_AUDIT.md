@@ -33,6 +33,10 @@ The redesign does not introduce customer metrics, testimonials, fake wallet chro
 
 Desktop and 375px mobile review confirmed that primary controls remain single-line, the evidence ledger stays legible, and the execution sequence collapses without horizontal overflow.
 
+## Post-Multi-Wallet Refinement
+
+After the real two-party testnet run, the landing and deal page were refined to expose the actual commercial role boundary rather than treating wallet connection as a generic Web3 step. The landing now distinguishes **buyer authority** (the recorded Sepolia acceptance) from **seller entitlement** (the CC3 recipient that receives a proof-authorized release). The deal terms surface mirrors that distinction beside the cryptographic commitment. This change follows the Hallmark principle that the information architecture should make the product’s specific decision model visible, not add another decorative feature tile. [1]
+
 ## Reference
 
 [1]: [Hallmark structure guidance](https://github.com/nutlope/hallmark/blob/main/skills/hallmark/references/structure.md)

@@ -1,0 +1,18 @@
+{
+  "type": "external-receipt-recovery-attached",
+  "orderId": "qSC-w_9OKx5Sga",
+  "fundingTxHash": "0x73eede180c8e667792214ee255ccc5c85aaa7504badf649af625b6202aef176a",
+  "persistedStatusAfterAttachment": "funded",
+  "immutableEvent": {
+    "id": 150001,
+    "dealId": 30001,
+    "sequence": 2,
+    "type": "funded",
+    "title": "Escrow funded on Creditcoin",
+    "detail": "The deployed CC3 Testnet ASC emitted a matching EscrowFunded event for the persisted purchase-order terms.",
+    "txHash": "0x73eede180c8e667792214ee255ccc5c85aaa7504badf649af625b6202aef176a",
+    "createdAt": "2026-08-14T05:14:11.000Z"
+  },
+  "createdAt": "2026-08-14T05:14:11.178Z",
+  "warning": "The transaction was mined before this recovery attachment call; recordFunding independently verified the on-chain EscrowFunded receipt."
+}

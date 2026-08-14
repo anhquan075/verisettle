@@ -1,0 +1,15 @@
+{
+  "type": "sandbox-buyer-attestcoin-release",
+  "orderId": "2w8_iT1aNogY1b",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "sourceTxHash": "0x46d774edf8321e68020559751a03929176484749776ca419927277da9736ca7a",
+  "sourceBlockHeight": 11484760,
+  "proofSubmissionTxHash": "0x03e3d0f78a720eb6042e72a00f62f54fe35bbfebc6dbed9f5ad591f801f54f3c",
+  "proofSubmissionBlockNumber": 5306285,
+  "escrowAsc": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+  "finalStatus": "released",
+  "replayRejection": "QueryAlreadyProcessed",
+  "createdAt": "2026-08-14T04:18:10.725Z",
+  "warning": "Sandbox-only testnet signer. No private-key material is stored here."
+}

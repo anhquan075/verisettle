@@ -13,7 +13,7 @@
 - [x] Apply Inter and Space Grotesk typography, Framer Motion state transitions, accessible focus rings, responsive layouts, loading states, and error states.
 - [x] Write Vitest coverage for core lifecycle transitions, proof validation, replay prevention, and tRPC authorization.
 - [x] Add Vitest coverage for unauthorized and cross-user deal-access rejection paths.
-- [ ] Run database migration, type checks, automated tests, browser verification, and desktop/mobile visual review.
+- [x] Run database migration, type checks, automated tests, browser verification, and desktop/mobile visual review.
 - [ ] Verify detail-page loading, empty, error, desktop, and mobile states in an authenticated browser session.
 - [ ] Verify the interactive browser lifecycle: create, fund, submit, valid proof, invalid proof, release, and exact replay rejection.
 - [ ] Document authenticated browser verification evidence for the full detail workflow before checkpointing.
@@ -29,14 +29,14 @@
 - [ ] Obtain free Ethereum Sepolia ETH and Creditcoin CC3 Testnet tCTC through their official faucets and verify the on-chain balances.
 - [x] Confirm the deployed wallet’s spendable CC3 Testnet EVM balance through an authoritative EVM balance endpoint after the AccountId20 transfer is indexed.
 - [ ] Capture the Creditcoin faucet’s explicit completion evidence alongside the successful on-chain transfer record.
-- [ ] Store the testnet-only deployment key securely for server-side contract deployment and proof-submission use.
+- [x] Store the testnet-only deployment key securely for server-side contract deployment and proof-submission use.
 - [x] Export the dedicated testnet-only wallet as an encrypted keystore with a separate import password and verify the public address without revealing the private key.
 - [x] Refine the authenticated dashboard into a high-end operational command center with clearer deal health, chain readiness, and premium visual hierarchy.
 - [x] Add a guided live-lifecycle experience that explains the exact wallet/network requirement and next real transaction at every deal stage.
 - [x] Upgrade the deal detail evidence presentation with polished testnet provenance, transaction-state feedback, and accessible progressive disclosure.
-- [ ] Visually verify the refined public and authenticated layouts at desktop and mobile breakpoints before the final checkpoint.
+- [x] Visually verify the refined public and authenticated layouts at desktop and mobile breakpoints before the final checkpoint.
 - [x] Capture fresh desktop and mobile visual verification for the public landing page alongside the command-center screenshots.
-- [ ] Record the signed-in command-center desktop and mobile visual-verification evidence before the final checkpoint.
+- [x] Record the signed-in command-center desktop and mobile visual-verification evidence before the final checkpoint.
 - [x] Write a concise end-to-end test script and recording checklist for the real wallet, funding, Sepolia acceptance, Attestcoin proof, settlement, and replay flows.
 - [x] Record an evidence-based real-testnet walkthrough without exposing the keystore password, private key, or other sensitive wallet material.
 - [ ] Capture a browser-wallet approval recording only if a local EIP-1193 wallet session is available to the sandbox; do not fabricate this step.
@@ -60,12 +60,26 @@
 - [x] Verify and document that the seller wallet can receive a real CC3 tCTC transfer before the two-party settlement demonstration.
 - [x] Reconfirm the seller recipient-readiness receipt and balance change in the testnet funding evidence record.
 - [ ] Guide the user through authenticated workspace sign-in and import of the buyer/seller testnet keystores into a non-MetaMask EIP-1193 wallet.
-- [ ] Run and document a real two-party purchase-order lifecycle using distinct buyer and seller testnet addresses.
-- [ ] Apply a final Hallmark-informed pass to the landing and deal flow after the multi-wallet workflow is available.
+- [x] Run and document a real two-party purchase-order lifecycle using distinct buyer and seller testnet addresses.
+- [x] Apply a final Hallmark-informed pass to the landing and deal flow after the multi-wallet workflow is available.
 - [x] Execute the user-approved 0.01 tCTC buyer-to-ASC funding transaction for order `2w8_iT1aNogY1b`, then verify and record the real receipt.
-- [ ] Add a verified existing-funding-receipt attachment path for real CC3 transactions submitted outside the browser wallet flow.
+- [x] Add a verified existing-funding-receipt attachment path for real CC3 transactions submitted outside the browser wallet flow.
 - [ ] Verify the existing-funding-receipt recovery control on a fresh real Draft, then document its Funded state and receipt evidence.
-- [ ] Add automated coverage for the externally submitted CC3 funding-receipt attachment flow.
+- [x] Create a fresh user-owned buyer/seller testnet draft specifically for the approved 0.001 tCTC external-receipt recovery test.
+- [x] Fund the fresh recovery-test draft from the buyer wallet with exactly 0.001 tCTC, without recording the receipt through the initial funding path.
+- [ ] Attach the already-mined CC3 receipt through the recovery control and verify the persisted Funded state and immutable event.
+- [ ] Exercise the browser recovery control on fresh draft `qSC-w_9OKx5Sga` with its mined CC3 receipt and capture desktop/mobile transition evidence.
+- [ ] Re-read the documented recovery evidence after browser-control QA to confirm the order, transaction, and Funded outcome are saved.
+- [x] Create a second fresh browser-recovery draft and fund it with the explicitly approved additional 0.001 tCTC while keeping the valid receipt unattached for user-interface verification.
+- [x] Add automated coverage for the externally submitted CC3 funding-receipt attachment flow.
+- [x] Capture and document an authenticated mobile `/app` command-center view after the completed release.
+- [x] Re-read `docs/UX_QA.md` to confirm the authenticated mobile released-command-center entry is saved.
+- [x] Implement and document a post-multi-wallet Hallmark refinement that clearly differentiates buyer and seller roles in the landing and deal flow.
+- [x] Add and run a Vitest regression that records a real-format externally submitted CC3 funding receipt through the receipt-attachment path.
+- [x] Replace the unavailable-deal loading-only state with an accessible error/recovery panel and cover it in the detail-flow QA.
+- [x] Visually verify `/deals/not-a-real-order` after the timeout-based recovery patch at desktop and mobile widths.
+- [x] Document the unavailable-deal retry and return-to-register recovery evidence in `docs/UX_QA.md`.
+- [x] Re-read `docs/UX_QA.md` to confirm the unavailable-deal desktop and mobile recovery evidence was saved.
 - [x] Add smooth, restrained Motion.dev-compatible motion to the landing and authenticated app, including a reduced-motion-safe background treatment.
 - [x] Verify that the motion enhancements preserve accessibility, desktop/mobile readability, and the real-testnet product boundary.
 - [x] Prevent short purchase-order descriptions from reaching the tRPC mutation by adding visible client-side validation and clear recovery guidance.
