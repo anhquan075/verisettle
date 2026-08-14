@@ -168,3 +168,5 @@
 - [x] Add regression coverage and desktop/mobile validation for wallet-session expiry formatting, warning behavior, and re-authentication affordances before checkpointing.
 - [x] Correct the workspace header and authenticated layout hierarchy, including responsive spacing and the optional SIWE countdown placement, while leaving the unrelated seed-data notice out of implementation scope.
 - [x] Add regression coverage and desktop/mobile validation for the corrected workspace header and layout before checkpointing.
+- [x] Audit and replace the mismatched current logo with the established VeriSettle mark across visible brand lockups, favicon, and social metadata.
+- [x] Validate consistent logo rendering at desktop/mobile widths and checkpoint the brand-asset correction.
