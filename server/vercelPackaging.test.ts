@@ -8,12 +8,12 @@ function source(relativePath: string) {
 describe("Vercel serverless packaging", () => {
   it("bundles the shared Express app into the deployed API artifact instead of relying on a runtime source import", () => {
     const packageJson = source("../package.json");
-    const entry = source("../api/vercel.cts");
+    const entry = source("../server/vercelFunction.cts");
     const config = source("../vercel.json");
 
-    expect(packageJson).toContain("esbuild api/vercel.cts --platform=node --bundle --format=cjs --outfile=api/index.cjs");
-    expect(entry).toContain('import { createApp } from "../server/_core/app"');
+    expect(packageJson).toContain("esbuild server/vercelFunction.cts --platform=node --bundle --format=cjs --outfile='api/[...path].cjs'");
+    expect(entry).toContain('import { createApp } from "./_core/app"');
     expect(entry).toContain("module.exports = createApp()");
-    expect(config).toContain('"destination": "/api/index"');
+    expect(config).toContain('"handle": "filesystem"');
   });
 });
