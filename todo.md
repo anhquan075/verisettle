@@ -172,3 +172,5 @@
 - [x] Validate consistent logo rendering at desktop/mobile widths and checkpoint the brand-asset correction.
 - [x] Create a standards-compatible favicon and device-icon set from the established interlocking VeriSettle mark, including legacy browser and Apple/Android sizes.
 - [x] Wire the full icon manifest into document metadata, validate its asset references, and checkpoint the compatibility enhancement.
+- [x] Create Android adaptive-icon foreground and background assets from the established interlocking VeriSettle mark, then register them in the web manifest.
+- [x] Validate the adaptive Android icon asset references and checkpoint the home-screen compatibility enhancement.
