@@ -174,3 +174,7 @@
 - [x] Wire the full icon manifest into document metadata, validate its asset references, and checkpoint the compatibility enhancement.
 - [x] Create Android adaptive-icon foreground and background assets from the established interlocking VeriSettle mark, then register them in the web manifest.
 - [x] Validate the adaptive Android icon asset references and checkpoint the home-screen compatibility enhancement.
+- [x] Deeply research the prior CTC hackathon winners, identify all publicly accessible repositories and deployed implementations, and inspect the available code rather than relying only on project descriptions.
+- [x] Compare winner implementations with VeriSettle across execution depth, contracts, security, UX, documentation, testnet evidence, and judge-facing clarity; write a cited competitiveness roadmap with explicit unavailable-code boundaries.
+- [x] Define a prioritized proof-to-settlement integrity upgrade plan covering contract invariants, receipt/proof policy, dispute governance, operations, and judge-verifiable acceptance criteria.
+- [x] Produce a prioritized M2 policy-v2 deployment risk and failure-mode checklist covering unauthorized release, fund lock, policy drift, finality, governance, and operational recovery.
