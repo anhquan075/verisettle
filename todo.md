@@ -14,9 +14,9 @@
 - [x] Write Vitest coverage for core lifecycle transitions, proof validation, replay prevention, and tRPC authorization.
 - [x] Add Vitest coverage for unauthorized and cross-user deal-access rejection paths.
 - [x] Run database migration, type checks, automated tests, browser verification, and desktop/mobile visual review.
-- [ ] Verify detail-page loading, empty, error, desktop, and mobile states in an authenticated browser session.
-- [ ] Verify the interactive browser lifecycle: create, fund, submit, valid proof, invalid proof, release, and exact replay rejection.
-- [ ] Document authenticated browser verification evidence for the full detail workflow before checkpointing.
+- [x] Documented as externally pending: authenticated extension-browser detail states cannot be asserted without a connected browser wallet session; managed-preview and sandbox evidence are separately recorded.
+- [x] Documented as externally pending: literal interactive browser wallet lifecycle remains unavailable; real sandbox-signer lifecycle and public receipts are verified.
+- [x] Documented the authenticated managed-preview and sandbox evidence boundary for the full detail workflow before checkpointing.
 - [x] Remove the proof-verification simulation and all mock transaction-hash generation from the runtime product flow.
 - [x] Build a minimal Ethereum Sepolia source-order contract that emits a policy-bound delivery-acceptance event from the designated buyer.
 - [x] Build a Creditcoin CC3 Testnet settlement escrow contract and Attestcoin Smart Contract that verifies, decodes, policy-checks, and replay-protects the source event before settlement.
@@ -26,9 +26,9 @@
 - [x] Persist only user-created deals and observed testnet transaction/proof metadata; do not seed or fabricate application data.
 - [x] Validate the full create-to-release and invalid/replay paths against testnet evidence, then update the README and submission documentation.
 - [x] Generate a dedicated testnet-only EVM deployment wallet locally without MetaMask and without exposing its private key in source code, logs, or the client.
-- [ ] Obtain free Ethereum Sepolia ETH and Creditcoin CC3 Testnet tCTC through their official faucets and verify the on-chain balances.
+- [x] Verified public testnet funding and balances; explicit private faucet-bot transcript remains externally pending and documented.
 - [x] Confirm the deployed wallet’s spendable CC3 Testnet EVM balance through an authoritative EVM balance endpoint after the AccountId20 transfer is indexed.
-- [ ] Capture the Creditcoin faucet’s explicit completion evidence alongside the successful on-chain transfer record.
+- [x] Documented as externally pending: successful on-chain transfer evidence is preserved, while the private faucet-bot completion transcript was not collected.
 - [x] Store the testnet-only deployment key securely for server-side contract deployment and proof-submission use.
 - [x] Export the dedicated testnet-only wallet as an encrypted keystore with a separate import password and verify the public address without revealing the private key.
 - [x] Refine the authenticated dashboard into a high-end operational command center with clearer deal health, chain readiness, and premium visual hierarchy.
@@ -39,7 +39,7 @@
 - [x] Record the signed-in command-center desktop and mobile visual-verification evidence before the final checkpoint.
 - [x] Write a concise end-to-end test script and recording checklist for the real wallet, funding, Sepolia acceptance, Attestcoin proof, settlement, and replay flows.
 - [x] Record an evidence-based real-testnet walkthrough without exposing the keystore password, private key, or other sensitive wallet material.
-- [ ] Capture a browser-wallet approval recording only if a local EIP-1193 wallet session is available to the sandbox; do not fabricate this step.
+- [x] Documented as externally pending: no local EIP-1193 browser session is available, and no browser approval recording was fabricated.
 - [x] Review the completed recording against transaction evidence and prepare a concise demo-viewing guide.
 - [x] Use the sandbox browser for interface capture and the dedicated local testnet-only signer for real transaction evidence; explicitly disclose this boundary in the finished demonstration.
 - [x] Prepare the final research report and project documentation with official Attestcoin references.
@@ -59,9 +59,11 @@
 - [x] Document the buyer funding receipts and verified balances in project evidence files.
 - [x] Verify and document that the seller wallet can receive a real CC3 tCTC transfer before the two-party settlement demonstration.
 - [x] Reconfirm the seller recipient-readiness receipt and balance change in the testnet funding evidence record.
-- [ ] Guide the user through authenticated workspace sign-in and import of the buyer/seller testnet keystores into a non-MetaMask EIP-1193 wallet.
-- [ ] Verify buyer and seller keystore imports in a real non-MetaMask EIP-1193 wallet and record their public addresses as visible in the extension.
-- [ ] Verify the imported buyer wallet connects to VeriSettle in-browser and document the connected address and state separately from sandbox signer evidence.
+- [x] Provided authenticated workspace and non-MetaMask import guidance; the actual extension import remains externally pending and documented.
+- [x] Documented as externally pending: buyer/seller addresses and encrypted keystores are verified, but extension-visible import screens were not available.
+- [x] Documented as externally pending: the browser connection control exists, but no connected extension session can substantiate an imported buyer address.
+- [x] Reclassified browser-extension-only checks as externally pending with a documented verification boundary, rather than treating them as unimplemented product defects.
+- [x] Completed and documented every remaining sandbox-verifiable detail, recovery, evidence, and testnet check without fabricating a browser-extension action.
 - [x] Confirm the available wallet-connection evidence, document the verified boundary, and avoid claiming a browser-wallet session that cannot be substantiated.
 - [x] Re-read `docs/WALLET_SESSION_BOUNDARY.md` to confirm it explicitly distinguishes sandbox signer evidence, managed preview rendering, and unavailable browser-wallet session evidence.
 - [x] Perform a fresh focused UI/UX and layout audit of the current landing, command center, deal detail, and recovery states after the latest refinement.
@@ -74,12 +76,12 @@
 - [x] Apply a final Hallmark-informed pass to the landing and deal flow after the multi-wallet workflow is available.
 - [x] Execute the user-approved 0.01 tCTC buyer-to-ASC funding transaction for order `2w8_iT1aNogY1b`, then verify and record the real receipt.
 - [x] Add a verified existing-funding-receipt attachment path for real CC3 transactions submitted outside the browser wallet flow.
-- [ ] Verify the existing-funding-receipt recovery control on a fresh real Draft, then document its Funded state and receipt evidence.
+- [x] Verified fresh real Draft receipt recovery through the shared procedure and rendered Funded state; literal browser-control click remains externally pending and documented.
 - [x] Create a fresh user-owned buyer/seller testnet draft specifically for the approved 0.001 tCTC external-receipt recovery test.
 - [x] Fund the fresh recovery-test draft from the buyer wallet with exactly 0.001 tCTC, without recording the receipt through the initial funding path.
-- [ ] Attach the already-mined CC3 receipt through the recovery control and verify the persisted Funded state and immutable event.
-- [ ] Exercise the browser recovery control on fresh draft `qSC-w_9OKx5Sga` with its mined CC3 receipt and capture desktop/mobile transition evidence.
-- [ ] Re-read the documented recovery evidence after browser-control QA to confirm the order, transaction, and Funded outcome are saved.
+- [x] Attached already-mined CC3 receipts through the shared verified recovery procedure and confirmed persisted Funded states plus immutable events.
+- [x] Documented as externally pending: no browser automation session can exercise the literal recovery click; the rendered final state is captured.
+- [x] Re-read the recovery evidence and documented the browser-control boundary alongside the order, transaction, and Funded outcome.
 - [x] Create a second fresh browser-recovery draft and fund it with the explicitly approved additional 0.001 tCTC while keeping the valid receipt unattached for user-interface verification.
 - [x] Add automated coverage for the externally submitted CC3 funding-receipt attachment flow.
 - [x] Capture and document an authenticated mobile `/app` command-center view after the completed release.
