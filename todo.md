@@ -43,3 +43,30 @@
 - [x] Review the completed recording against transaction evidence and prepare a concise demo-viewing guide.
 - [x] Use the sandbox browser for interface capture and the dedicated local testnet-only signer for real transaction evidence; explicitly disclose this boundary in the finished demonstration.
 - [x] Prepare the final research report and project documentation with official Attestcoin references.
+- [x] Re-validate the previous BUIDL CTC winners, their technical delivery, and the Fall judging requirements against primary sources.
+- [x] Produce a candid, evidence-based comparison of VeriSettle against prior winner strengths, gaps, and win conditions.
+- [x] Study the Hallmark workflow repository and extract only compatible design-system and UX practices for this existing application.
+- [x] Refine the landing-page narrative, visual storytelling, and conversion path using the selected Hallmark-informed practices.
+- [x] Refine the authenticated deal flow with smoother progressive disclosure, clearer transaction state, and better error recovery without weakening the real-testnet boundary.
+- [x] Run visual and automated quality verification for the competition-focused enhancement pass.
+- [x] Add a deal-flow stage guide that separates wallet connection, on-chain pending, receipt validation, attestation wait, and recoverable retry states.
+- [x] Capture and document authenticated visual QA for the enhanced deal flow at desktop and mobile widths before checkpointing.
+- [x] Reconfirm the documented desktop and mobile managed-preview evidence for `/deals/2w8_iT1aNogY1b` before checkpointing.
+- [x] Add automated tests proving that the order terms commitment is deterministic and changes when any protected commercial term changes.
+- [x] Generate separate buyer and seller EVM wallets for testnet use only, without exposing their private keys in the codebase, browser, or logs.
+- [x] Export each buyer/seller wallet as a separately encrypted keystore and verify that each resolves to its intended public address.
+- [x] Fund and verify the buyer wallet with Sepolia ETH and CC3 tCTC; verify the seller wallet address is ready to receive CC3 settlement.
+- [x] Document the buyer funding receipts and verified balances in project evidence files.
+- [x] Verify and document that the seller wallet can receive a real CC3 tCTC transfer before the two-party settlement demonstration.
+- [x] Reconfirm the seller recipient-readiness receipt and balance change in the testnet funding evidence record.
+- [ ] Guide the user through authenticated workspace sign-in and import of the buyer/seller testnet keystores into a non-MetaMask EIP-1193 wallet.
+- [ ] Run and document a real two-party purchase-order lifecycle using distinct buyer and seller testnet addresses.
+- [ ] Apply a final Hallmark-informed pass to the landing and deal flow after the multi-wallet workflow is available.
+- [x] Execute the user-approved 0.01 tCTC buyer-to-ASC funding transaction for order `2w8_iT1aNogY1b`, then verify and record the real receipt.
+- [ ] Add a verified existing-funding-receipt attachment path for real CC3 transactions submitted outside the browser wallet flow.
+- [ ] Verify the existing-funding-receipt recovery control on a fresh real Draft, then document its Funded state and receipt evidence.
+- [ ] Add automated coverage for the externally submitted CC3 funding-receipt attachment flow.
+- [x] Add smooth, restrained Motion.dev-compatible motion to the landing and authenticated app, including a reduced-motion-safe background treatment.
+- [x] Verify that the motion enhancements preserve accessibility, desktop/mobile readability, and the real-testnet product boundary.
+- [x] Prevent short purchase-order descriptions from reaching the tRPC mutation by adding visible client-side validation and clear recovery guidance.
+- [x] Add automated validation coverage for the minimum eight-character purchase-order description requirement.

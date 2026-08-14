@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { VERISETTLE_CONTRACTS } from "@shared/contracts";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Activity, ArrowUpRight, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useLocation } from "wouter";
@@ -35,18 +35,24 @@ export default function DealDashboard() {
   const [formError, setFormError] = useState<string | null>(null);
   const dealsQuery = trpc.deals.listDeals.useQuery();
   const { address: walletAddress, busy: walletBusy, connect } = useTestnetWallet();
+  const descriptionLength = form.description.trim().length;
+  const descriptionIsValid = descriptionLength >= 8;
   const createDeal = trpc.deals.createDeal.useMutation({
     onSuccess: data => {
       utils.deals.listDeals.invalidate();
       setLocation(`/deals/${data.deal.orderId}`);
     },
-    onError: error => setFormError(error.message),
+    onError: error => setFormError(error.message.includes("description") ? "Add a purchase-order description with at least 8 characters before creating the draft." : error.message),
   });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
-    createDeal.mutate(form);
+    if (!descriptionIsValid) {
+      setFormError("Add a purchase-order description with at least 8 characters before creating the draft.");
+      return;
+    }
+    createDeal.mutate({ ...form, description: form.description.trim() });
   };
 
   const connectWallet = async () => {
@@ -90,10 +96,12 @@ export default function DealDashboard() {
         <div className="relative mt-8 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Active deals</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.active}</p><p className="mt-1 text-xs text-teal-100">Awaiting proof or settlement</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Released</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.released}</p><p className="mt-1 text-xs text-cyan-100">Receipt-proven settlements</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><div className="flex items-center justify-between"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Proof rail</p><Network className="h-4 w-4 text-cyan-200" /></div><p className="mt-2 font-display text-sm font-semibold text-white">Sepolia → CC3</p><p className="mt-1 truncate font-mono text-[11px] text-slate-500">{VERISETTLE_CONTRACTS.escrowAsc}</p></div></div>
       </section>
 
+      <AnimatePresence initial={false}>
       {showCreateForm && (
         <motion.section
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.22 }}
           className="rounded-[1.5rem] border border-white/10 bg-[#0a1519] p-5 sm:p-7"
         >
@@ -127,13 +135,14 @@ export default function DealDashboard() {
               <span className="font-semibold text-cyan-100">Proof policy:</span> only a receipt-success `OrderAccepted` event for these exact terms can enter the Attestcoin verification path.
             </div>
             <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="description">Purchase-order description</Label>
-              <Textarea id="description" value={form.description} onChange={event => setForm({ ...form, description: event.target.value })} placeholder="Describe the goods, service, or settlement milestone." className="min-h-28" required />
+              <div className="flex items-center justify-between gap-3"><Label htmlFor="description">Purchase-order description</Label><span className={`text-xs ${descriptionIsValid ? "text-teal-100" : "text-amber-100"}`}>{descriptionLength}/8 minimum</span></div>
+              <Textarea id="description" value={form.description} onChange={event => { setForm({ ...form, description: event.target.value }); if (formError) setFormError(null); }} placeholder="Describe the goods, service, or settlement milestone." className="min-h-28" aria-invalid={!descriptionIsValid} aria-describedby="description-help" required />
+              <p id="description-help" className={`text-xs leading-5 ${descriptionIsValid ? "text-slate-500" : "text-amber-100/80"}`}>{descriptionIsValid ? "This description is hashed into the order terms commitment." : "Enter at least 8 characters. The exact description is bound into the source-event and escrow terms hash."}</p>
             </div>
             {formError && <p className="md:col-span-2 rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">{formError}</p>}
             <div className="flex flex-col-reverse gap-3 sm:col-span-2 sm:flex-row sm:justify-end">
               <Button type="button" variant="outline" onClick={() => setShowCreateForm(false)}>Cancel</Button>
-              <Button type="submit" disabled={createDeal.isPending} className="bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
+              <Button type="submit" disabled={createDeal.isPending || !descriptionIsValid} className="bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
                 {createDeal.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ReceiptText className="mr-2 h-4 w-4" />}
                 Create Draft
               </Button>
@@ -141,6 +150,7 @@ export default function DealDashboard() {
           </form>
         </motion.section>
       )}
+      </AnimatePresence>
 
       <section className="rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
@@ -161,7 +171,7 @@ export default function DealDashboard() {
             </div>
             <div className="divide-y divide-white/8">
               {dealsQuery.data.map(deal => (
-                <button key={deal.orderId} onClick={() => setLocation(`/deals/${deal.orderId}`)} className="group grid w-full gap-3 px-4 py-4 text-left transition-colors hover:bg-cyan-300/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300 sm:px-5 md:grid-cols-[1.1fr_1fr_0.8fr_0.55fr] md:items-center md:gap-5">
+                <motion.button layout key={deal.orderId} onClick={() => setLocation(`/deals/${deal.orderId}`)} whileHover={{ x: 2 }} whileTap={{ scale: 0.995 }} transition={{ duration: 0.18, ease: "easeOut" }} className="group grid w-full gap-3 px-4 py-4 text-left transition-colors hover:bg-cyan-300/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300 sm:px-5 md:grid-cols-[1.1fr_1fr_0.8fr_0.55fr] md:items-center md:gap-5">
                   <span className="min-w-0">
                     <span className="flex items-center gap-2 font-mono text-sm font-semibold text-cyan-100"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />{deal.orderId}</span>
                     <span className="mt-1 block text-xs text-slate-500">Created {formatDate(deal.createdAt)}</span>
@@ -169,7 +179,7 @@ export default function DealDashboard() {
                   <span className="font-mono text-sm text-slate-300">{shortAddress(deal.sellerAddress)}</span>
                   <span className="text-sm font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></span>
                   <span className="flex items-center justify-between gap-3"><DealStatusBadge status={deal.status} /><ArrowUpRight className="h-4 w-4 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span>
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>

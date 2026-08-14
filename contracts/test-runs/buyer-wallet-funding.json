@@ -1,0 +1,21 @@
+{
+  "type": "buyer-testnet-wallet-funding",
+  "recipient": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "sender": "0xc7774720D1C14B9dA1c656b796a2a092D0b9D1c9",
+  "sepolia": {
+    "amountEth": "0.01",
+    "txHash": "0xa0cb914cfe30239fdabf1563d08bec31a1499f9713d67a0adbd8efd07616ee73",
+    "blockNumber": 11484621
+  },
+  "creditcoinCc3": {
+    "amountTctc": "1.00",
+    "txHash": "0xe7b855ba971dd060d8c3cf7faad2e9af98b07554d8853ae375f20a4dd4c447da",
+    "blockNumber": 5306141
+  },
+  "senderBalanceBefore": {
+    "sepoliaEth": "0.049775114860613149",
+    "cc3Tctc": "9999.9965613055"
+  },
+  "createdAt": "2026-08-14T03:42:03.039Z",
+  "warning": "Public testnet evidence only. No private-key material is stored here."
+}

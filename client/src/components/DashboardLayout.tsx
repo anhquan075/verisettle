@@ -26,6 +26,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
+import { AttestationOrbit } from "./AttestationOrbit";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
@@ -235,9 +236,10 @@ function DashboardLayoutContent({
         />
       </div>
 
-      <SidebarInset className="bg-[#040b0e]">
+      <SidebarInset className="relative overflow-hidden bg-[#040b0e]">
+        <AttestationOrbit variant="workspace" />
         {isMobile && (
-          <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-cyan-100/10 bg-[#061014]/95 px-2 text-slate-100 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
+          <div className="relative sticky top-0 z-40 flex h-14 items-center justify-between border-b border-cyan-100/10 bg-[#061014]/95 px-2 text-slate-100 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="h-9 w-9 rounded-lg bg-white/[0.05] text-cyan-100 hover:bg-cyan-300/10" />
               <div className="flex items-center gap-3">
@@ -250,7 +252,7 @@ function DashboardLayoutContent({
             </div>
           </div>
         )}
-        <main className="flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">{children}</main>
+        <main className="relative z-10 flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">{children}</main>
       </SidebarInset>
     </>
   );

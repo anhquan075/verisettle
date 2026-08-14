@@ -71,6 +71,11 @@ describe("VeriSettle receipt-backed deal lifecycle", () => {
     expect(created.events.map(event => event.type)).toEqual(["created"]);
   });
 
+  it("rejects a purchase-order description shorter than eight characters before creating a draft", async () => {
+    await expect(caller().createDeal({ buyerAddress: address("a"), sellerAddress: address("b"), amount: "2.5", currency: "tCTC", description: "short" })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(deals).toHaveLength(0);
+  });
+
   it("moves from Draft to Funded only after a matching Creditcoin funding receipt is verified", async () => {
     const created = await makeDeal();
     const result = await caller().recordFunding({ orderId: created.deal.orderId, fundingTxHash: hash("c") });

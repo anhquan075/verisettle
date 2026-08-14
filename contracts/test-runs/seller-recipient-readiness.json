@@ -1,0 +1,13 @@
+{
+  "type": "seller-recipient-readiness",
+  "network": "Creditcoin CC3 Testnet",
+  "sender": "0xc7774720D1C14B9dA1c656b796a2a092D0b9D1c9",
+  "recipient": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "amountTctc": "0.001",
+  "txHash": "0xbb7707d82ed8ee1aa03a628fe0f9f037d02c99e02d665c4fddbb4cc5bbde177f",
+  "blockNumber": 5306155,
+  "sellerBalanceBeforeTctc": "0.0",
+  "sellerBalanceAfterTctc": "0.001",
+  "createdAt": "2026-08-14T03:45:34.428Z",
+  "warning": "Public testnet evidence only. No private-key material is stored here."
+}

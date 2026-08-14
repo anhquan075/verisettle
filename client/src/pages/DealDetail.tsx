@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { trpc } from "@/lib/trpc";
 import { REPLAY_PROTECTION_ERROR, type DealEventType } from "@shared/deals";
-import { TESTNET_NETWORKS, VERISETTLE_CONTRACTS } from "@shared/contracts";
+import { TESTNET_NETWORKS, toTermsHash, VERISETTLE_CONTRACTS } from "@shared/contracts";
 import { motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -45,8 +45,22 @@ function formatTimestamp(value: Date | string) {
   return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(value));
 }
 
-function ErrorBox({ message }: { message: string }) {
-  return <div role="alert" className="rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm leading-6 text-rose-100"><span className="font-semibold">Action rejected.</span> {message}</div>;
+function ErrorBox({ message, onDismiss }: { message: string; onDismiss: () => void }) {
+  return <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm leading-6 text-rose-100"><p><span className="font-semibold">Action rejected.</span> {message}</p><button onClick={onDismiss} className="shrink-0 rounded-lg border border-rose-200/25 px-3 py-1.5 text-xs font-semibold text-rose-50 transition-colors hover:bg-rose-100/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200">Review next action</button></div>;
+}
+
+function DealActionGuide({ status, walletAddress, activeOperation, nextAction }: { status: string; walletAddress: string | null; activeOperation: string | null; nextAction: string }) {
+  const stages = [
+    { id: "01", label: "Wallet", detail: walletAddress ? "Connected testnet signer detected." : "Connect the buyer's testnet wallet.", complete: Boolean(walletAddress) },
+    { id: "02", label: "Receipt", detail: status === "draft" ? "Fund the matching CC3 escrow." : "Funding receipt is persisted and term-checked.", complete: status !== "draft" },
+    { id: "03", label: "Attestation", detail: status === "proof_pending" ? "Wait for the Sepolia block to become attestable, then request proof." : status === "released" ? "Proof was accepted by the ASC." : "Record the matching Sepolia acceptance.", complete: status === "released" },
+    { id: "04", label: "Finality", detail: status === "released" ? "Settlement released; a replay is expected to fail." : "Creditcoin settlement remains protected until a valid proof arrives.", complete: status === "released" },
+  ];
+
+  return <section aria-label="Guided deal execution" className="rounded-[1.45rem] border border-cyan-200/12 bg-[#08171c]/75 p-4 sm:p-5">
+    <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-cyan-200/75">Guided execution</p><p className="mt-1 text-sm font-semibold text-white">{activeOperation ?? nextAction}</p></div>{activeOperation ? <span className="inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-300/[0.08] px-3 py-1.5 text-xs font-semibold text-cyan-100"><Loader2 className="h-3.5 w-3.5 animate-spin" /> In progress</span> : <span className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-medium text-slate-400">Follow the active stage</span>}</div>
+    <ol className="mt-5 grid gap-2 sm:grid-cols-2">{stages.map((stage) => <li key={stage.id} className={`rounded-xl border p-3 ${stage.complete ? "border-teal-200/15 bg-teal-300/[0.045]" : "border-white/8 bg-white/[0.02]"}`}><p className="flex items-center gap-2 text-xs font-semibold text-white"><span className={`grid h-5 w-5 place-items-center rounded-full text-[10px] ${stage.complete ? "bg-teal-300/15 text-teal-100" : "bg-white/[0.06] text-slate-400"}`}>{stage.complete ? <CheckCircle2 className="h-3 w-3" /> : stage.id}</span>{stage.label}</p><p className="mt-2 text-xs leading-5 text-slate-400">{stage.detail}</p></li>)}</ol>
+  </section>;
 }
 
 export default function DealDetail({ orderId }: { orderId: string }) {
@@ -55,7 +69,9 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   const detailQuery = trpc.deals.getDeal.useQuery({ orderId });
   const { address, busy: walletBusy, connect, fundEscrow, acceptSourceOrder, submitProof: submitProofOnChain, refundEscrow, raiseDispute, replayProof } = useTestnetWallet();
   const [sourceTxHash, setSourceTxHash] = useState("");
+  const [fundingTxHash, setFundingTxHash] = useState("");
   const [actionError, setActionError] = useState<string | null>(null);
+  const [activeOperation, setActiveOperation] = useState<string | null>(null);
   const [showDispute, setShowDispute] = useState(false);
   const [disputeReason, setDisputeReason] = useState("");
 
@@ -71,13 +87,16 @@ export default function DealDetail({ orderId }: { orderId: string }) {
     await Promise.all([utils.deals.getDeal.invalidate({ orderId }), utils.deals.listDeals.invalidate()]);
   };
 
-  const run = async (operation: () => Promise<void>) => {
+  const run = async (label: string, operation: () => Promise<void>) => {
     setActionError(null);
+    setActiveOperation(label);
     try {
       await operation();
       await refresh();
     } catch (error) {
       setActionError(error instanceof Error ? error.message : "The requested on-chain action could not be completed.");
+    } finally {
+      setActiveOperation(null);
     }
   };
 
@@ -97,6 +116,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
     currency: deal.currency,
     description: deal.description,
   };
+  const termsHash = toTermsHash(terms);
   const isActionPending = walletBusy || recordFunding.isPending || submitSource.isPending || prepareProof.isPending || recordSettlement.isPending || recordRefund.isPending || recordDispute.isPending || recordReplay.isPending;
   const effectiveSourceHash = sourceTxHash || deal.sepoliaSourceTxHash || "";
   const sourceLink = effectiveSourceHash ? <ExplorerLink hash={effectiveSourceHash} chain="sepolia" className="mt-3" /> : null;
@@ -118,33 +138,36 @@ export default function DealDetail({ orderId }: { orderId: string }) {
             ? "Refund completed on Creditcoin CC3 Testnet."
             : "Dispute is active and requires the disclosed resolution process.";
 
-  const fund = () => run(async () => {
+  const fund = () => run("Waiting for the Creditcoin funding receipt to match these stored terms.", async () => {
     const txHash = await fundEscrow(terms);
     await recordFunding.mutateAsync({ orderId, fundingTxHash: txHash });
   });
-  const createSourceAcceptance = () => run(async () => {
+  const attachFundingReceipt = () => run("Checking the supplied CC3 funding receipt against this order.", async () => {
+    await recordFunding.mutateAsync({ orderId, fundingTxHash });
+  });
+  const createSourceAcceptance = () => run("Waiting for the Ethereum Sepolia acceptance receipt.", async () => {
     const txHash = await acceptSourceOrder(terms);
     setSourceTxHash(txHash);
     await submitSource.mutateAsync({ orderId, sepoliaSourceTxHash: txHash });
   });
-  const attachSourceAcceptance = () => run(async () => {
+  const attachSourceAcceptance = () => run("Checking the supplied Sepolia receipt against this order.", async () => {
     await submitSource.mutateAsync({ orderId, sepoliaSourceTxHash: effectiveSourceHash });
   });
-  const submitRealProof = () => run(async () => {
+  const submitRealProof = () => run("Building the live Attestcoin proof and waiting for CC3 settlement.", async () => {
     const proof = await prepareProof.mutateAsync({ orderId });
     const txHash = await submitProofOnChain(proof);
     await recordSettlement.mutateAsync({ orderId, settlementTxHash: txHash });
   });
-  const refund = () => run(async () => {
+  const refund = () => run("Waiting for the on-chain refund receipt.", async () => {
     const txHash = await refundEscrow(terms);
     await recordRefund.mutateAsync({ orderId, settlementTxHash: txHash });
   });
-  const dispute = () => run(async () => {
+  const dispute = () => run("Waiting for the on-chain dispute receipt.", async () => {
     const txHash = await raiseDispute(terms, disputeReason);
     await recordDispute.mutateAsync({ orderId, reason: disputeReason, disputeTxHash: txHash });
     setShowDispute(false);
   });
-  const replay = () => run(async () => {
+  const replay = () => run("Submitting the already processed proof to verify replay protection.", async () => {
     const proof = await prepareProof.mutateAsync({ orderId });
     const result = await replayProof(proof);
     if (result !== "QueryAlreadyProcessed") throw new Error("Unexpected replay result.");
@@ -162,24 +185,26 @@ export default function DealDetail({ orderId }: { orderId: string }) {
         <button onClick={() => setLocation("/app")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 transition-colors hover:text-cyan-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><ArrowLeft className="h-4 w-4" /> Deal register</button>
         <div className="flex items-center gap-2"><span className="font-mono text-xs text-slate-500">{deal.orderId}</span><DealStatusBadge status={deal.status} /></div>
       </div>
-      {actionError && <ErrorBox message={actionError} />}
+      {actionError && <ErrorBox message={actionError} onDismiss={() => setActionError(null)} />}
 
       <section aria-label="Deal lifecycle status" className="overflow-hidden rounded-[1.45rem] border border-white/10 bg-[#071216]/85 shadow-[0_18px_50px_rgba(0,0,0,0.16)]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-cyan-200/75">Live lifecycle</p><p className="mt-1 text-sm font-medium text-white">Every stage is advanced by a persisted receipt or the deployed ASC.</p></div><span className="rounded-full border border-teal-200/15 bg-teal-300/[0.06] px-3 py-1 text-xs font-medium text-teal-100">CC3 × Sepolia</span></div>
         <ol className="grid divide-y divide-white/10 sm:grid-cols-4 sm:divide-x sm:divide-y-0">{lifecycleStages.map((stage, index) => <li key={stage.label} className="flex items-center gap-3 px-5 py-4"><span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-xs font-semibold ${stage.ready ? "border-teal-200/30 bg-teal-300/10 text-teal-100" : "border-white/10 bg-white/[0.03] text-slate-500"}`}>{stage.ready ? <CheckCircle2 className="h-4 w-4" /> : index + 1}</span><span className="min-w-0"><span className={`block text-sm font-semibold ${stage.ready ? "text-white" : "text-slate-400"}`}>{stage.label}</span><span className="block truncate text-xs text-slate-500">{stage.detail}</span></span></li>)}</ol>
       </section>
 
+      <DealActionGuide status={deal.status} walletAddress={address} activeOperation={activeOperation} nextAction={nextAction} />
+
       <section className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0a1b21] p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 h-60 w-60 rounded-full bg-teal-300/10 blur-3xl" />
         <div className="relative grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-          <div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100/75">Purchase order</p><h1 className="mt-3 max-w-3xl font-display text-3xl font-semibold tracking-[-0.045em] text-white sm:text-4xl">{deal.description}</h1><div className="mt-6 flex flex-wrap gap-x-8 gap-y-4 text-sm"><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Escrow amount</p><p className="mt-1 text-xl font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Seller</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.sellerAddress.slice(0, 10)}…{deal.sellerAddress.slice(-8)}</p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Buyer</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.buyerAddress.slice(0, 10)}…{deal.buyerAddress.slice(-8)}</p></div></div></div>
-          <div className="rounded-2xl border border-cyan-200/15 bg-[#061014]/70 p-5"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-white">Wallet connection</span><span className="text-xs text-slate-500">Real testnet only</span></div><p className="mt-3 break-all font-mono text-xs text-cyan-100">{address ?? "No wallet connected"}</p><Button disabled={isActionPending} onClick={() => run(async () => { await connect(); })} variant="outline" className="mt-4 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : "Connect testnet wallet"}</Button><div aria-live="polite" className="mt-4 rounded-xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">Next required action</p><p className="mt-1 text-xs leading-5 text-slate-300">{nextAction}</p></div></div>
+          <div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100/75">Purchase order</p><h1 className="mt-3 max-w-3xl font-display text-3xl font-semibold tracking-[-0.045em] text-white sm:text-4xl">{deal.description}</h1><div className="mt-6 flex flex-wrap gap-x-8 gap-y-4 text-sm"><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Escrow amount</p><p className="mt-1 text-xl font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Seller</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.sellerAddress.slice(0, 10)}…{deal.sellerAddress.slice(-8)}</p></div><div><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Buyer</p><p className="mt-1 font-mono text-sm text-cyan-100">{deal.buyerAddress.slice(0, 10)}…{deal.buyerAddress.slice(-8)}</p></div></div><div className="mt-6 rounded-xl border border-cyan-200/10 bg-[#061014]/60 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100/75">Terms commitment</p><span className="text-xs text-slate-500">Buyer accepts on Sepolia · seller receives on CC3</span></div><p className="mt-2 break-all font-mono text-xs leading-5 text-cyan-100">{termsHash}</p><p className="mt-2 text-xs leading-5 text-slate-400">This hash binds the order ID, both parties, amount, currency, and description. A source event with different terms cannot release this escrow.</p></div></div>
+          <div className="rounded-2xl border border-cyan-200/15 bg-[#061014]/70 p-5"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-white">Wallet connection</span><span className="text-xs text-slate-500">Real testnet only</span></div><p className="mt-3 break-all font-mono text-xs text-cyan-100">{address ?? "No wallet connected"}</p><Button disabled={isActionPending} onClick={() => run("Requesting a compatible Creditcoin CC3 testnet wallet.", async () => { await connect(); })} variant="outline" className="mt-4 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : "Connect testnet wallet"}</Button><div aria-live="polite" className="mt-4 rounded-xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">Next required action</p><p className="mt-1 text-xs leading-5 text-slate-300">{activeOperation ?? nextAction}</p></div></div>
         </div>
       </section>
 
       <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
         <div className="space-y-6">
-          <section className="rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7"><div className="flex items-start gap-3"><div className="rounded-xl bg-teal-300/10 p-2.5 text-teal-100"><LockKeyhole className="h-5 w-5" /></div><div><h2 className="font-display text-xl font-semibold text-white">Escrow funding</h2><p className="mt-1 text-sm text-slate-400">Fund the deployed Creditcoin ASC with native tCTC. The server records only a receipt whose event matches these stored terms.</p></div></div><div className="mt-6 rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="flex items-center justify-between gap-4"><span className="text-sm font-medium text-slate-300">Creditcoin CC3 escrow</span><DealStatusBadge status={deal.status === "draft" ? "draft" : "funded"} /></div>{deal.fundingTxHash ? <ExplorerLink hash={deal.fundingTxHash} chain="creditcoin" className="mt-3" /> : <p className="mt-3 text-sm text-slate-500">No funding receipt has been recorded.</p>}</div>{deal.status === "draft" && <Button disabled={isActionPending} onClick={fund} className="mt-5 bg-teal-300 font-semibold text-slate-950 hover:bg-teal-200">{isActionPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Fund real tCTC escrow</Button>}</section>
+          <section className="rounded-[1.5rem] border border-white/10 bg-[#091216] p-5 sm:p-7"><div className="flex items-start gap-3"><div className="rounded-xl bg-teal-300/10 p-2.5 text-teal-100"><LockKeyhole className="h-5 w-5" /></div><div><h2 className="font-display text-xl font-semibold text-white">Escrow funding</h2><p className="mt-1 text-sm text-slate-400">Fund the deployed Creditcoin ASC with native tCTC. The server records only a receipt whose event matches these stored terms.</p></div></div><div className="mt-6 rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="flex items-center justify-between gap-4"><span className="text-sm font-medium text-slate-300">Creditcoin CC3 escrow</span><DealStatusBadge status={deal.status === "draft" ? "draft" : "funded"} /></div>{deal.fundingTxHash ? <ExplorerLink hash={deal.fundingTxHash} chain="creditcoin" className="mt-3" /> : <p className="mt-3 text-sm text-slate-500">No funding receipt has been recorded.</p>}</div>{deal.status === "draft" && <div className="mt-5 space-y-3"><Button disabled={isActionPending} onClick={fund} className="bg-teal-300 font-semibold text-slate-950 hover:bg-teal-200">{isActionPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Fund real tCTC escrow</Button><div className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Recovery: transaction already submitted?</p><div className="mt-3 flex flex-col gap-3 sm:flex-row"><Input value={fundingTxHash} onChange={event => setFundingTxHash(event.target.value)} placeholder="Paste the CC3 funding transaction hash" className="font-mono" /><Button disabled={isActionPending || !fundingTxHash} onClick={attachFundingReceipt} variant="outline" className="border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10">Verify existing receipt</Button></div><p className="mt-2 text-xs leading-5 text-slate-500">Use this only for a real CC3 `EscrowFunded` transaction for these exact buyer, seller, amount, and terms.</p></div></div>}</section>
 
           <section className="rounded-[1.5rem] border border-cyan-200/15 bg-gradient-to-br from-cyan-300/[0.06] to-transparent p-5 sm:p-7"><div className="flex items-start gap-3"><div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-100"><Sparkles className="h-5 w-5" /></div><div><h2 className="font-display text-xl font-semibold text-white">Attestcoin proof policy</h2><p className="mt-1 text-sm text-slate-400">The ASC releases only a BlockProver-verified Sepolia receipt with the deployed source emitter and exact protected payload.</p></div></div><div className="mt-6 grid gap-3 sm:grid-cols-2"><div className="rounded-xl border border-cyan-100/10 bg-[#071216]/70 p-4"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Source chain</p><p className="mt-2 text-sm font-semibold text-cyan-50">Ethereum Sepolia <span className="font-mono text-cyan-200">chainKey 1</span></p></div><div className="rounded-xl border border-cyan-100/10 bg-[#071216]/70 p-4"><p className="text-xs uppercase tracking-[0.12em] text-slate-500">Policy nonce</p><p className="mt-2 truncate font-mono text-sm text-cyan-100">{deal.proofPolicyNonce}</p></div></div><div className="mt-4 rounded-xl border border-white/10 bg-[#071216]/55 p-4 text-sm leading-6 text-slate-300"><span className="font-semibold text-white">Required checks:</span> inclusion proof, receipt status `0x1`, trusted emitter, matching order/buyer/seller/terms, and a unique query ID.</div>
             {deal.status === "funded" && <div className="mt-6 space-y-3"><Label htmlFor="sepoliaTx">Sepolia acceptance transaction</Label><div className="flex flex-col gap-3 sm:flex-row"><Input id="sepoliaTx" value={effectiveSourceHash} onChange={event => setSourceTxHash(event.target.value)} placeholder="0x…" className="font-mono" /><Button disabled={isActionPending || !effectiveSourceHash} onClick={attachSourceAcceptance} className="bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">Verify receipt</Button></div><Button disabled={isActionPending} onClick={createSourceAcceptance} variant="outline" className="border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10">Emit buyer acceptance on Sepolia</Button><p className="text-xs leading-5 text-slate-500">This is a real source-chain transaction. You may also paste a previously mined `OrderAccepted` transaction for exactly these terms.</p>{sourceLink}</div>}

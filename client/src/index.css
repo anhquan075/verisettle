@@ -31,6 +31,11 @@
 }
 
 :root {
+  --veri-ink: oklch(0.105 0.018 210);
+  --veri-panel: oklch(0.13 0.021 210 / 0.94);
+  --veri-line: oklch(0.84 0.04 190 / 0.16);
+  --veri-signal: oklch(0.84 0.125 190);
+  --veri-signal-soft: oklch(0.84 0.125 190 / 0.08);
   --background: oklch(0.105 0.018 210);
   --foreground: oklch(0.96 0.012 195);
   --card: oklch(0.13 0.021 210);
@@ -56,7 +61,7 @@
 
 * { border-color: var(--border); }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   min-width: 320px;
@@ -65,7 +70,31 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter);
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
+
+.veri-shell { background: var(--veri-ink); }
+.veri-aurora { background: radial-gradient(circle at 82% 16%, oklch(0.84 0.125 190 / 0.13), transparent 26%), radial-gradient(circle at 15% 80%, oklch(0.8 0.1 178 / 0.1), transparent 29%); }
+.veri-evidence-panel { position: relative; isolation: isolate; overflow: hidden; border: 1px solid var(--veri-line); background: var(--veri-panel); border-radius: 2rem; padding: 1.25rem; box-shadow: 0 32px 80px oklch(0.02 0.02 210 / 0.35); backdrop-filter: blur(18px); }
+.veri-evidence-panel::before { content: ""; position: absolute; z-index: -1; inset: 0; opacity: 0.32; background-image: linear-gradient(to right, oklch(0.84 0.125 190 / 0.08) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.84 0.125 190 / 0.06) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
+.veri-evidence-panel::after { content: ""; position: absolute; z-index: -1; top: 0; right: 0; width: 82px; height: 82px; border-left: 1px solid oklch(0.84 0.125 190 / 0.24); border-bottom: 1px solid oklch(0.84 0.125 190 / 0.24); border-bottom-left-radius: 82px; }
+.veri-evidence-panel > * { position: relative; }
+.veri-kicker { color: var(--veri-signal); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+
+.veri-attestation-orbit { pointer-events: none; position: fixed; z-index: 0; width: 34rem; height: 34rem; opacity: 0.72; filter: blur(0.1px); }
+.veri-attestation-orbit--landing { right: -12rem; top: 7rem; }
+.veri-attestation-orbit--workspace { right: -15rem; top: 4rem; width: 28rem; height: 28rem; opacity: 0.48; }
+.veri-orbit-ring { position: absolute; inset: 11%; border: 1px solid oklch(0.84 0.125 190 / 0.19); border-radius: 999px; box-shadow: inset 0 0 5rem oklch(0.84 0.125 190 / 0.035), 0 0 6rem oklch(0.84 0.125 190 / 0.045); }
+.veri-orbit-ring::before { content: ""; position: absolute; inset: 20%; border: 1px dashed oklch(0.8 0.1 178 / 0.2); border-radius: 999px; }
+.veri-orbit-node { position: absolute; width: 0.72rem; height: 0.72rem; border-radius: 999px; border: 2px solid #071216; box-shadow: 0 0 1.25rem currentColor; }
+.veri-orbit-node--source { top: -0.33rem; left: 50%; background: oklch(0.84 0.125 190); color: oklch(0.84 0.125 190); }
+.veri-orbit-node--proof { right: 11%; bottom: 12%; background: oklch(0.8 0.1 178); color: oklch(0.8 0.1 178); }
+.veri-orbit-node--settlement { left: 9%; bottom: 24%; background: oklch(0.92 0.08 196); color: oklch(0.92 0.08 196); }
+.veri-orbit-signal { position: absolute; inset: 31%; border-radius: 999px; border: 1px solid oklch(0.84 0.125 190 / 0.35); background: radial-gradient(circle, oklch(0.84 0.125 190 / 0.13), transparent 68%); }
+
+@media (min-width: 640px) { .veri-evidence-panel { padding: 1.5rem; } }
+@media (max-width: 639px) { .veri-attestation-orbit { width: 21rem; height: 21rem; right: -11rem; top: 5rem; opacity: 0.46; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } .veri-attestation-orbit { display: none; } }
 
 button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
 

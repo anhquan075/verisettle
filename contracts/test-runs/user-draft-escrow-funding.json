@@ -1,0 +1,15 @@
+{
+  "type": "sandbox-buyer-escrow-funding",
+  "orderId": "2w8_iT1aNogY1b",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "amountTctc": "0.01",
+  "escrowAsc": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+  "termsHash": "0x24716700c9b25a8be6e633920c461cacd6bc42f23b3506d27bf051b2cf4d137a",
+  "refundAfter": 1786766012,
+  "txHash": "0xba525e8b9c8e2416189826733a8fa26c457796beb1e10fec0a759e3acb6bf494",
+  "blockNumber": 5306188,
+  "recordedStatus": "funded",
+  "createdAt": "2026-08-14T03:53:51.765Z",
+  "warning": "Sandbox-only testnet signer. No private-key material is stored here."
+}
