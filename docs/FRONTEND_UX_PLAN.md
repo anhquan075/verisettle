@@ -30,6 +30,10 @@ The implementation will retain visible focus rings, semantic labels, `aria-live`
 
 The frontend pass added skip links for public and authenticated workspaces; synchronized dark semantic tokens with the evidence-workbench palette; improved route-aware navigation; added an authenticated context strip; turned the purchase-order creation experience into a staged, validation-led form; improved live action announcements and receipt-recovery guidance; and redesigned global unavailable-route/runtime recovery panels to explain safe exit behavior. The landing, signed-in register, released deal, unavailable detail state, and 375px mobile variants were visually reviewed after the changes.
 
+## Focused Cross-Page Follow-up
+
+The follow-up audit reviewed the landing role narrative, the released deal evidence hierarchy, and the unavailable-route recovery panel. The resulting coordinated refinement makes buyer authority and seller entitlement read as one bounded two-party model on the landing; adds a three-part buyer, settlement, and finality evidence summary directly below a deal’s shared terms; and standardizes recovery actions with the same touch-sized `veri-action` treatment. The released deal and route-recovery surfaces were checked at desktop and 375px mobile widths, with no horizontal overflow observed.
+
 ## References
 
 [1]: [UI/UX Pro Max × Hallmark Audit](UX_PRO_MAX_AUDIT.md)

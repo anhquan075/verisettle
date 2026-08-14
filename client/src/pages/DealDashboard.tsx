@@ -27,6 +27,12 @@ function formatDate(value: Date | string) {
   return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
 }
 
+function formatTctcAmount(value: string) {
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return value;
+  return new Intl.NumberFormat(undefined, { maximumFractionDigits: 6 }).format(amount);
+}
+
 const isEvmAddress = (value: string) => /^0x[a-fA-F0-9]{40}$/.test(value.trim());
 const isPositiveAmount = (value: string) => Number.isFinite(Number(value)) && Number(value) > 0;
 
@@ -37,6 +43,7 @@ export default function DealDashboard() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "released">("all");
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const dealsQuery = trpc.deals.listDeals.useQuery();
   const { address: walletAddress, busy: walletBusy, connect } = useTestnetWallet();
@@ -93,6 +100,16 @@ export default function DealDashboard() {
     },
     { total: 0, active: 0, released: 0 }
   ) ?? { total: 0, active: 0, released: 0 };
+  const visibleDeals = dealsQuery.data?.filter(deal => {
+    if (statusFilter === "active") return ["funded", "proof_pending"].includes(deal.status);
+    if (statusFilter === "released") return deal.status === "released";
+    return true;
+  }) ?? [];
+  const filters = [
+    { id: "all" as const, label: "All", count: totals.total },
+    { id: "active" as const, label: "Active", count: totals.active },
+    { id: "released" as const, label: "Released", count: totals.released },
+  ];
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-8 pb-12">
@@ -110,7 +127,7 @@ export default function DealDashboard() {
               Create a testnet order, fund escrow on Creditcoin, then use a verified Ethereum Sepolia event to govern its settlement path.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3"><Button size="lg" onClick={connectWallet} disabled={walletBusy} variant="outline" className="border-cyan-100/20 bg-white/[0.035] font-semibold text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : walletAddress ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}` : "Connect wallet"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} className="group bg-gradient-to-r from-teal-300 to-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:from-teal-200 hover:to-cyan-200"><Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90" />{showCreateForm ? "Close form" : "Create purchase order"}</Button></div>
+          <div className="flex flex-wrap gap-3"><Button size="lg" onClick={connectWallet} disabled={walletBusy} variant="outline" className="veri-action border-cyan-100/20 bg-white/[0.035] font-semibold text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : walletAddress ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}` : "Connect wallet"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} className="veri-action group bg-gradient-to-r from-teal-300 to-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:from-teal-200 hover:to-cyan-200"><Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90" />{showCreateForm ? "Close form" : "Create purchase order"}</Button></div>
         </div>
         <div className="relative mt-8 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Active deals</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.active}</p><p className="mt-1 text-xs text-teal-100">Awaiting proof or settlement</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Released</p><p className="mt-2 font-display text-3xl font-semibold text-white">{totals.released}</p><p className="mt-1 text-xs text-cyan-100">Receipt-proven settlements</p></div><div className="rounded-2xl border border-white/10 bg-[#061014]/65 p-4"><div className="flex items-center justify-between"><p className="text-xs uppercase tracking-[0.13em] text-slate-500">Proof rail</p><Network className="h-4 w-4 text-cyan-200" /></div><p className="mt-2 font-display text-sm font-semibold text-white">Sepolia → CC3</p><p className="mt-1 truncate font-mono text-[11px] text-slate-500">{VERISETTLE_CONTRACTS.escrowAsc}</p></div></div>
       </section>
@@ -183,35 +200,45 @@ export default function DealDashboard() {
           </div>
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs font-medium text-slate-300"><Activity className="h-3.5 w-3.5 text-teal-200" />{totals.total} total</span>
         </div>
+        <div aria-label="Filter deals by status" className="mb-5 flex flex-wrap gap-2">
+          {filters.map(filter => <button key={filter.id} type="button" onClick={() => setStatusFilter(filter.id)} aria-pressed={statusFilter === filter.id} className={`veri-action inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${statusFilter === filter.id ? "border-cyan-200/25 bg-cyan-300/10 text-cyan-50" : "border-white/10 bg-white/[0.02] text-slate-400 hover:bg-white/[0.06] hover:text-slate-200"}`}><span>{filter.label}</span><span className="rounded-full bg-black/20 px-1.5 py-0.5 font-mono text-[10px]">{filter.count}</span></button>)}
+        </div>
         {dealsQuery.isLoading ? (
           <div className="flex min-h-48 items-center justify-center text-sm text-slate-400"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading your deals</div>
         ) : dealsQuery.error ? (
           <div className="rounded-xl border border-rose-300/25 bg-rose-400/10 p-4 text-sm text-rose-100">{dealsQuery.error.message}</div>
-        ) : dealsQuery.data?.length ? (
+        ) : visibleDeals.length ? (
           <div className="overflow-hidden rounded-xl border border-white/10">
             <div className="hidden grid-cols-[1.1fr_1fr_0.8fr_0.55fr] gap-5 border-b border-white/10 bg-white/[0.025] px-5 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 md:grid">
               <span>Order</span><span>Counterparty</span><span>Value</span><span>Status</span>
             </div>
             <div className="divide-y divide-white/8">
-              {dealsQuery.data.map(deal => (
-                <motion.button layout key={deal.orderId} onClick={() => setLocation(`/deals/${deal.orderId}`)} whileHover={{ x: 2 }} whileTap={{ scale: 0.995 }} transition={{ duration: 0.18, ease: "easeOut" }} className="group grid w-full gap-3 px-4 py-4 text-left transition-colors hover:bg-cyan-300/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300 sm:px-5 md:grid-cols-[1.1fr_1fr_0.8fr_0.55fr] md:items-center md:gap-5">
+              {visibleDeals.map(deal => (
+                <motion.button layout key={deal.orderId} onClick={() => setLocation(`/deals/${deal.orderId}`)} whileHover={{ x: 2 }} whileTap={{ scale: 0.995 }} transition={{ duration: 0.18, ease: "easeOut" }} className="veri-action group grid w-full gap-3 px-4 py-4 text-left hover:bg-cyan-300/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300 sm:px-5 md:grid-cols-[1.1fr_1fr_0.8fr_0.55fr] md:items-center md:gap-5">
                   <span className="min-w-0">
                     <span className="flex items-center gap-2 font-mono text-sm font-semibold text-cyan-100"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />{deal.orderId}</span>
                     <span className="mt-1 block text-xs text-slate-500">Created {formatDate(deal.createdAt)}</span>
                   </span>
-                  <span className="font-mono text-sm text-slate-300">{shortAddress(deal.sellerAddress)}</span>
-                  <span className="text-sm font-semibold text-white">{deal.amount} <span className="text-slate-400">{deal.currency}</span></span>
-                  <span className="flex items-center justify-between gap-3"><DealStatusBadge status={deal.status} /><ArrowUpRight className="h-4 w-4 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span>
+                  <span><span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 md:hidden">Seller</span><span className="font-mono text-sm text-slate-300">{shortAddress(deal.sellerAddress)}</span></span>
+                  <span><span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 md:hidden">Escrow value</span><span className="text-sm font-semibold text-white">{formatTctcAmount(deal.amount)} <span className="text-slate-400">{deal.currency}</span></span></span>
+                  <span className="flex items-center justify-between gap-3"><DealStatusBadge status={deal.status} /><span className="flex items-center gap-1 text-xs font-medium text-slate-400 group-hover:text-cyan-100">Open <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></span></span>
                 </motion.button>
               ))}
             </div>
+          </div>
+        ) : dealsQuery.data?.length ? (
+          <div className="flex min-h-48 flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.015] px-6 text-center">
+            <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><Activity className="h-6 w-6" /></div>
+            <h3 className="mt-4 font-display text-lg font-semibold text-white">No {statusFilter} deals</h3>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Adjust the register filter to review the rest of your persisted purchase orders.</p>
+            <Button onClick={() => setStatusFilter("all")} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Show all deals</Button>
           </div>
         ) : (
           <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.015] px-6 text-center">
             <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><ReceiptText className="h-6 w-6" /></div>
             <h3 className="mt-4 font-display text-lg font-semibold text-white">No purchase orders yet</h3>
             <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Start with a draft order. You will fund it, submit a source transaction, and demonstrate the proof boundary from its detail page.</p>
-            <Button onClick={() => setShowCreateForm(true)} variant="outline" className="mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Create first order</Button>
+            <Button onClick={() => setShowCreateForm(true)} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Create first order</Button>
           </div>
         )}
       </section>

@@ -60,6 +60,16 @@
 - [x] Verify and document that the seller wallet can receive a real CC3 tCTC transfer before the two-party settlement demonstration.
 - [x] Reconfirm the seller recipient-readiness receipt and balance change in the testnet funding evidence record.
 - [ ] Guide the user through authenticated workspace sign-in and import of the buyer/seller testnet keystores into a non-MetaMask EIP-1193 wallet.
+- [ ] Verify buyer and seller keystore imports in a real non-MetaMask EIP-1193 wallet and record their public addresses as visible in the extension.
+- [ ] Verify the imported buyer wallet connects to VeriSettle in-browser and document the connected address and state separately from sandbox signer evidence.
+- [x] Confirm the available wallet-connection evidence, document the verified boundary, and avoid claiming a browser-wallet session that cannot be substantiated.
+- [x] Re-read `docs/WALLET_SESSION_BOUNDARY.md` to confirm it explicitly distinguishes sandbox signer evidence, managed preview rendering, and unavailable browser-wallet session evidence.
+- [x] Perform a fresh focused UI/UX and layout audit of the current landing, command center, deal detail, and recovery states after the latest refinement.
+- [x] Implement one further cohesive frontend layout and interaction enhancement pass based on the focused audit.
+- [x] Validate the new frontend refinement at desktop and mobile breakpoints with the full quality gate.
+- [x] Audit the landing, deal detail, and unavailable/recovery states in this focused refinement cycle and document the findings.
+- [x] Re-read `docs/FRONTEND_UX_PLAN.md` to confirm the focused cross-page audit findings were saved.
+- [x] Apply coordinated post-audit improvements to at least the landing and deal-detail or recovery surfaces, then capture desktop/mobile evidence.
 - [x] Run and document a real two-party purchase-order lifecycle using distinct buyer and seller testnet addresses.
 - [x] Apply a final Hallmark-informed pass to the landing and deal flow after the multi-wallet workflow is available.
 - [x] Execute the user-approved 0.01 tCTC buyer-to-ASC funding transaction for order `2w8_iT1aNogY1b`, then verify and record the real receipt.
