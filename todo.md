@@ -146,3 +146,13 @@
 - [x] Add security and UI regression coverage for SIWE expiry/replay/authentication failure, extension detection, and network-readiness paths, then validate at desktop/mobile widths.
 - [x] Audit the complete VeriSettle source tree and ignore rules for credentials, generated assets, and other content that should not be pushed to a private repository.
 - [x] Create a private GitHub repository, commit the validated project state, push the default branch, and verify the remote contains the expected commit.
+- [x] Prepare a Vercel-compatible live testnet preview configuration for the private GitHub repository, including any required environment-variable mapping and deployment guidance.
+- [x] Discover and use the newly active Vercel account/team scope for the private GitHub repository link and live testnet preview.
+- [x] Record the user-managed Vercel import boundary and required runtime/OAuth configuration without additional deployment verification.
+- [x] Perform a source-based smart-contract audit of VeriSettleSource and VeriSettleEscrowASC, documenting findings, severity, evidence, and recommended remediations without claiming a third-party formal audit.
+- [x] Perform a security audit of the SIWE wallet authentication flow, nonce/session storage, extension detection, and network-readiness gates.
+- [x] Remediate SIWE origin-trust and nonce-alphabet findings with server-derived origin validation and an alphanumeric challenge nonce, then add focused regression coverage.
+- [x] Reduce SIWE-authenticated session lifetime from the generic session default to a bounded wallet-session TTL and cover the cookie/JWT lifetime contract.
+- [x] Harden authenticated session cookies to SameSite=Lax while retaining the dedicated OAuth state cookie’s cross-site callback behavior, then add regression coverage.
+- [x] Create concise user documentation and a tRPC API reference for wallet sign-in, extension detection, testnet readiness, and deal-action requirements.
+- [x] Validate the written deliverables and record the user-managed preview-import boundary before checkpointing the documentation and deployment preparation.

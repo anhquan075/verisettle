@@ -32,6 +32,20 @@ describe("SIWE wallet authentication security", () => {
     expect(__walletAuthTestUtils.walletOpenId("0xAbCdEf0000000000000000000000000000001234")).toBe("wallet:0xabcdef0000000000000000000000000000001234");
   });
 
+  it("bounds wallet-authenticated sessions to one day rather than inheriting the generic session lifetime", () => {
+    const routerSource = source("./routers/walletAuth.ts");
+    expect(__walletAuthTestUtils.SIWE_SESSION_TTL_MS).toBe(24 * 60 * 60 * 1000);
+    expect(routerSource).toContain("expiresInMs: SIWE_SESSION_TTL_MS");
+    expect(routerSource).toContain("maxAge: SIWE_SESSION_TTL_MS");
+  });
+
+  it("uses a stricter authenticated-session cookie without changing the dedicated OAuth state cookie", () => {
+    const cookieOptions = source("./_core/cookies.ts");
+    const loginClient = source("../client/src/const.ts");
+    expect(cookieOptions).toContain('sameSite: "lax"');
+    expect(loginClient).toContain("SameSite=None; Secure");
+  });
+
   it("requires atomic nonce consumption, recovered signer verification, and the existing secure session cookie", () => {
     const routerSource = source("./routers/walletAuth.ts");
     expect(routerSource).toContain("getActiveSiweNonce");
@@ -40,6 +54,16 @@ describe("SIWE wallet authentication security", () => {
     expect(routerSource).toContain("ctx.res.cookie(COOKIE_NAME, token");
     expect(routerSource).toContain("This wallet sign-in challenge was already used.");
     expect(routerSource).toContain("This signature does not authorize a transaction.");
+  });
+
+  it("derives the signed origin on the server and uses an EIP-4361-compatible alphanumeric nonce", () => {
+    const routerSource = source("./routers/walletAuth.ts");
+    const clientSource = source("../client/src/hooks/useWalletAccess.ts");
+    expect(routerSource).toContain("requestOrigin(ctx.req)");
+    expect(routerSource).toContain("VERISETTLE_APP_ORIGIN");
+    expect(routerSource).toContain('randomBytes(24).toString("hex")');
+    expect(routerSource).not.toContain("origin: z.string().url()");
+    expect(clientSource).not.toContain("origin: window.location.origin");
   });
 
   it("keeps extension detection and required CC3/Sepolia gates in front of wallet-backed actions", () => {

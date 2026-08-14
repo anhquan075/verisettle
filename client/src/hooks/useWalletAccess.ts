@@ -130,7 +130,6 @@ export function useWalletAccess() {
       const challenge = await requestNonce.mutateAsync({
         address: connection.address,
         chainId: Number.parseInt(connection.chainId, 16),
-        origin: window.location.origin,
       });
       const signature = (await provider.request({ method: "personal_sign", params: [challenge.message, connection.address] })) as string;
       await verify.mutateAsync({ address: connection.address, nonce: challenge.nonce, signature });
