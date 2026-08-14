@@ -117,6 +117,7 @@ export const walletAuthRouter = router({
       const token = await sdk.createSessionToken(userOpenId, {
         name: user.name || walletName(address),
         expiresInMs: SIWE_SESSION_TTL_MS,
+        sessionKind: "siwe",
       });
       ctx.res.cookie(COOKIE_NAME, token, { ...getSessionCookieOptions(ctx.req), maxAge: SIWE_SESSION_TTL_MS });
       return { user, address, linked: Boolean(ctx.user) };

@@ -29,6 +29,7 @@ import { Button } from "./ui/button";
 import { AttestationOrbit } from "./AttestationOrbit";
 import { VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletReadinessPanel } from "./WalletReadinessPanel";
+import { WalletSessionCountdown } from "./WalletSessionCountdown";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
@@ -197,6 +198,7 @@ function DashboardLayoutContent({
 
           <SidebarFooter className="border-t border-cyan-100/10 p-3">
             {!isCollapsed && <div className="mb-3 rounded-xl border border-teal-200/10 bg-teal-300/[0.045] px-3 py-2.5"><div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Testnet live</div><p className="mt-1 text-xs text-slate-400">Sepolia × CC3 proof path</p></div>}
+            {!isCollapsed && user?.sessionKind === "siwe" && user.sessionExpiresAt && <div className="mb-3 rounded-xl border border-cyan-200/10 bg-cyan-300/[0.035] px-3 py-2.5"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Wallet session</p><div className="mt-1"><WalletSessionCountdown expiresAt={user.sessionExpiresAt} /></div><p className="mt-2 text-xs leading-5 text-slate-400">Sign in with your wallet again when it expires.</p></div>}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -248,7 +250,7 @@ function DashboardLayoutContent({
               <span className="hidden h-5 w-px bg-white/10 sm:block" />
               <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden sm:inline">Receipt-bound transitions · </span>Public testnet only</span>
+            <div className="flex shrink-0 items-center gap-2"><>{user?.sessionKind === "siwe" && user.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}</><span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden sm:inline">Receipt-bound transitions · </span>Public testnet only</span></div>
           </div>
         </header>
         <main id="workspace-content" className="relative z-10 flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">

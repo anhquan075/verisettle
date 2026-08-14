@@ -164,3 +164,5 @@
 - [x] Diagnose and repair the Vercel serverless SIWE endpoint’s `FUNCTION_INVOCATION_FAILED`/405 response, then retest the live challenge request successfully.
 - [x] Add privacy-safe, actionable SIWE login error mapping and inline alert states for extension availability, connection rejection, signature refusal, challenge expiry, origin/network mismatch, and server failures.
 - [x] Add focused regression coverage and desktop/mobile validation for the SIWE alert and recovery experience before checkpointing.
+- [x] Propagate the SIWE wallet-session expiry safely to the authenticated client and display an accessible live countdown with re-authentication guidance.
+- [x] Add regression coverage and desktop/mobile validation for wallet-session expiry formatting, warning behavior, and re-authentication affordances before checkpointing.

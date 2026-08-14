@@ -22,6 +22,7 @@ export type SessionPayload = {
   openId: string;
   appId: string;
   name: string;
+  sessionKind?: "oauth" | "siwe";
 };
 
 const EXCHANGE_TOKEN_PATH = `/webdev.v1.WebDevAuthPublicService/ExchangeToken`;
@@ -165,13 +166,14 @@ class SDKServer {
    */
   async createSessionToken(
     openId: string,
-    options: { expiresInMs?: number; name?: string } = {}
+    options: { expiresInMs?: number; name?: string; sessionKind?: "oauth" | "siwe" } = {}
   ): Promise<string> {
     return this.signSession(
       {
         openId,
         appId: ENV.appId,
         name: options.name || "",
+        sessionKind: options.sessionKind,
       },
       options
     );
@@ -198,7 +200,7 @@ class SDKServer {
 
   async verifySession(
     cookieValue: string | undefined | null
-  ): Promise<{ openId: string; appId: string; name: string } | null> {
+  ): Promise<(SessionPayload & { expiresAt: Date; sessionKind: "oauth" | "siwe" }) | null> {
     if (!cookieValue) {
       console.warn("[Auth] Missing session cookie");
       return null;
@@ -209,12 +211,13 @@ class SDKServer {
       const { payload } = await jwtVerify(cookieValue, secretKey, {
         algorithms: ["HS256"],
       });
-      const { openId, appId, name } = payload as Record<string, unknown>;
+      const { openId, appId, name, exp, sessionKind } = payload as Record<string, unknown>;
 
       if (
         !isNonEmptyString(openId) ||
         !isNonEmptyString(appId) ||
         !isNonEmptyString(name)
+        || typeof exp !== "number"
       ) {
         console.warn("[Auth] Session payload missing required fields");
         return null;
@@ -224,6 +227,8 @@ class SDKServer {
         openId,
         appId,
         name,
+        expiresAt: new Date(exp * 1000),
+        sessionKind: sessionKind === "siwe" ? "siwe" : "oauth",
       };
     } catch (error) {
       console.warn("[Auth] Session verification failed", String(error));
@@ -316,7 +321,10 @@ class SDKServer {
       lastSignedIn: signedInAt,
     });
 
-    return user;
+    return Object.assign(user, {
+      sessionExpiresAt: session.expiresAt,
+      sessionKind: session.sessionKind,
+    });
   }
 }
 
