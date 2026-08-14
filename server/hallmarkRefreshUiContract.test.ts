@@ -81,7 +81,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-live-route");
     expect(styles).toContain(".veri-protocol-route");
     expect(styles).toContain(".veri-action-rail");
-    expect(brand).toContain("verisettle-symbol-clean_9f63061e.png");
+    expect(brand).toContain("<svg viewBox=\"0 0 40 40\"");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");
   });

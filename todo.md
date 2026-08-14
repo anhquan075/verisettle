@@ -130,3 +130,5 @@
 - [x] Keep authenticated workspace context visible with a single responsive sticky header while preserving skip links, mobile navigation, and testnet disclosure.
 - [x] Recompose the Protocol reference testnet route layout for clear source-to-proof-to-settlement reading at desktop and mobile widths.
 - [x] Add regression coverage and run desktop/mobile, test/type/build validation for export, palette, sticky-header, logo, and route refinements.
+- [x] Remove the visible logo-tile/background treatment and restore a clean left-aligned VeriSettle brand lockup across landing and authenticated workspace headers.
+- [x] Verify the corrected brand lockup at desktop and mobile widths, then checkpoint the visual-edit fix.
