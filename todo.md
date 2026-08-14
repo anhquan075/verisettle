@@ -144,3 +144,5 @@
 - [x] Add real Rabby/SubWallet extension detection with clear install, unavailable, connect, and connected states.
 - [x] Add wallet-network readiness checks for Creditcoin CC3 Testnet and Ethereum Sepolia, with safe switch-network guidance before deal actions.
 - [x] Add security and UI regression coverage for SIWE expiry/replay/authentication failure, extension detection, and network-readiness paths, then validate at desktop/mobile widths.
+- [ ] Audit the complete VeriSettle source tree and ignore rules for credentials, generated assets, and other content that should not be pushed to a private repository.
+- [ ] Create a private GitHub repository, commit the validated project state, push the default branch, and verify the remote contains the expected commit.
