@@ -14,25 +14,33 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const layout = source("../client/src/components/DashboardLayout.tsx");
   const app = source("../client/src/App.tsx");
   const protocol = source("../client/src/pages/ProtocolReference.tsx");
+  const palette = source("../client/src/components/DealCommandPalette.tsx");
+  const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
+  const brand = source("../client/src/components/VeriSettleBrand.tsx");
   const styles = source("../client/src/index.css");
 
   it("keeps the landing proof-first, receipt-linked, and explicit about the testnet boundary", () => {
     expect(home).toContain("veri-proof-canvas");
     expect(home).toContain("Settle the deal when");
     expect(home).toContain("public testnet assets");
+    expect(home).toContain("veri-live-route");
+    expect(home).toContain("VeriSettleBrand");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
     expect(ledger).toContain("Policy:");
   });
 
   it("keeps the authenticated workspace organized around a real next action and register", () => {
-    expect(layout).toContain("veri-workspace-index");
-    expect(layout).toContain("Receipt-bound transitions · public testnet only");
+    expect(layout).toContain("veri-workspace-header");
+    expect(layout).toContain("sticky top-0");
+    expect(layout).toContain("Receipt-bound transitions");
+    expect(layout).toContain("Public testnet only");
     expect(dashboard).toContain("Workspace index / 01");
     expect(dashboard).toContain("Start with the agreement");
     expect(dashboard).toContain("veri-workspace-spark");
     expect(dashboard).toContain("veri-operator-meter");
     expect(dashboard).toContain("Create purchase order");
+    expect(dashboard).toContain("DealCommandPalette");
   });
 
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {
@@ -42,6 +50,19 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(protocol).toContain("Contracts you can inspect.");
     expect(protocol).toContain("BlockProver precompile");
     expect(protocol).toContain("CopyValue");
+    expect(protocol).toContain("veri-protocol-route");
+    expect(protocol).toContain("Inspect source emitter");
+  });
+
+  it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {
+    expect(detail).toContain("JudgeEvidenceExport");
+    expect(evidenceExport).toContain("Export judge evidence");
+    expect(evidenceExport).toContain("navigator.canShare");
+    expect(evidenceExport).toContain("private keys, seed phrases, passwords");
+    expect(palette).toContain("event.key.toLowerCase() !== \"k\"");
+    expect(palette).toContain("buyerAddress");
+    expect(palette).toContain("sellerAddress");
+    expect(palette).toContain("onOpenDeal");
   });
 
   it("keeps detail actions ahead of immutable evidence without weakening replay safety", () => {
@@ -56,8 +77,11 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   it("keeps the shared visual system responsive and reduced-motion safe", () => {
     expect(styles).toContain(".veri-proof-canvas");
     expect(styles).toContain(".veri-workspace-spark");
-    expect(styles).toContain(".veri-workspace-index");
+    expect(styles).toContain(".veri-workspace-header");
+    expect(styles).toContain(".veri-live-route");
+    expect(styles).toContain(".veri-protocol-route");
     expect(styles).toContain(".veri-action-rail");
+    expect(brand).toContain("verisettle-symbol-clean_9f63061e.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");
   });

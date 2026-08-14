@@ -27,6 +27,7 @@ import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 import { AttestationOrbit } from "./AttestationOrbit";
+import { VeriSettleBrand } from "./VeriSettleBrand";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
@@ -149,7 +150,7 @@ function DashboardLayoutContent({
 
   return (
     <>
-      <a href="#workspace-content" className="sr-only z-[60] rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to workspace content</a>
+      <a href="#workspace-content" className="sr-only z-[60] rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to workspace content</a>
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
@@ -165,11 +166,7 @@ function DashboardLayoutContent({
               >
                 <PanelLeft className="h-4 w-4 text-muted-foreground" />
               </button>
-              {!isCollapsed ? (
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="min-w-0"><span className="block truncate font-display font-semibold tracking-tight text-white">VeriSettle</span><span className="mt-0.5 block text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-500">CC3 / testnet</span></span>
-                </div>
-              ) : null}
+              {!isCollapsed ? <VeriSettleBrand className="min-w-0" /> : null}
             </div>
           </SidebarHeader>
 
@@ -241,25 +238,18 @@ function DashboardLayoutContent({
 
       <SidebarInset className="relative overflow-hidden bg-[#040b0e]">
         <AttestationOrbit variant="workspace" />
-        {isMobile && (
-          <div className="relative sticky top-0 z-40 flex h-14 items-center justify-between border-b border-cyan-100/10 bg-[#061014]/95 px-2 text-slate-100 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 rounded-lg bg-white/[0.05] text-cyan-100 hover:bg-cyan-300/10" />
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="font-medium tracking-tight text-slate-100">
-                    {activeMenuItem?.label ?? "Settlement workspace"}
-                  </span>
-                </div>
-              </div>
+        <header className="veri-workspace-header sticky top-0 z-40 border-b border-cyan-100/10 bg-[#061014]/92 text-slate-100 backdrop-blur-xl supports-[backdrop-filter]:bg-[#061014]/78">
+          <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:px-6">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+              {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
+              <span className="hidden sm:inline-flex"><VeriSettleBrand compact /></span>
+              <span className="hidden h-5 w-px bg-white/10 sm:block" />
+              <span className="inline-flex min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
+            <span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden sm:inline">Receipt-bound transitions · </span>Public testnet only</span>
           </div>
-        )}
+        </header>
         <main id="workspace-content" className="relative z-10 flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">
-          <div className="veri-workspace-index mx-auto mb-4 hidden max-w-7xl lg:flex">
-            <span className="inline-flex items-center gap-2"><Route className="h-3.5 w-3.5 text-cyan-200" /> Workspace / {activeMenuItem?.label ?? "Settlement"}</span>
-            <span className="inline-flex items-center gap-2"><Radio className="h-3.5 w-3.5 text-teal-200" /> Receipt-bound transitions · public testnet only</span>
-          </div>
           {children}
         </main>
       </SidebarInset>

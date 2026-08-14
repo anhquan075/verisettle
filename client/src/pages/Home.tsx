@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, ArrowRight, ArrowUpRight, Blocks, Github, LockKeyhole, Network, ShieldCheck, Sparkles, UserCheck, WalletCards } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Github, LockKeyhole, Network, ShieldCheck, Sparkles, UserCheck, WalletCards } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
+import { VeriSettleBrand } from "@/components/VeriSettleBrand";
 
 const stages = [
   ["01", Network, "Fund the exact terms", "A buyer locks native tCTC against the order ID, seller, and committed commercial terms."],
@@ -21,9 +22,8 @@ export default function Home() {
       <AttestationOrbit />
 
       <header className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
-        <button onClick={() => setLocation("/")} className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-cyan-300 text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.3)]"><Blocks className="h-5 w-5" /></span>
-          <span><span className="block font-display text-lg font-bold tracking-[-0.05em]">VeriSettle</span><span className="hidden text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70 sm:block">Cross-chain escrow / testnet</span></span>
+        <button onClick={() => setLocation("/")} aria-label="VeriSettle home" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+          <VeriSettleBrand className="max-w-[12rem] sm:max-w-none" />
         </button>
         <nav aria-label="Landing navigation" className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm text-slate-300 md:flex">
           <a href="#execution" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">How it works</a>
@@ -49,7 +49,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.55, delay: 0.1 }} className="relative mx-auto w-full max-w-xl">
             <div className="veri-proof-canvas">
               <div className="veri-proof-canvas__top"><span>Live testnet route</span><span className="inline-flex items-center gap-1.5 text-teal-100"><span className="h-2 w-2 rounded-full bg-teal-300" /> Receipt-bound</span></div>
-              <div className="veri-proof-flow"><div><span>Buyer approval</span><strong>Sepolia</strong></div><ArrowRight className="h-5 w-5 text-cyan-200" /><div><span>Verification</span><strong>Attestcoin</strong></div><ArrowRight className="h-5 w-5 text-cyan-200" /><div className="veri-proof-flow__end"><span>Escrow release</span><strong>CC3</strong></div></div>
+              <ol className="veri-live-route" aria-label="Live testnet source-to-settlement route"><li><span>01 · Source</span><strong>Ethereum Sepolia</strong><p>Buyer OrderAccepted receipt</p></li><li><span>02 · Verify</span><strong>Attestcoin ASC</strong><p>Receipt + terms + one-time proof</p></li><li><span>03 · Settle</span><strong>Creditcoin CC3</strong><p>Native tCTC escrow release</p></li></ol>
               <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">The product does not advance on a promise. It advances only when the deployed protocol can read the underlying on-chain evidence.</p>
             </div>
             <div className="relative -mt-3 ml-auto w-[92%] sm:-mt-5"><ProofEvidenceLedger /></div>

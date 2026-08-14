@@ -72,10 +72,10 @@ export default function ProtocolReference() {
             <div className="mt-7 flex flex-wrap gap-3"><Button onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">Open deal register <ArrowUpRight className="ml-2 h-4 w-4" /></Button><a href="https://docs.creditcoin.org/attestcoin-protocol.md" target="_blank" rel="noreferrer" className="veri-action inline-flex items-center gap-2 rounded-md border border-white/15 px-4 text-sm font-semibold text-white hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Official docs <ArrowUpRight className="h-4 w-4" /></a></div>
           </div>
 
-          <ol className="veri-protocol-map" aria-label="Cross-chain protocol path">
-            <li><span className="veri-map-index">01</span><div><p>Source event</p><strong>Ethereum Sepolia</strong><span>OrderAccepted receipt</span></div><Network className="h-5 w-5" /></li>
-            <li><span className="veri-map-index">02</span><div><p>Proof policy</p><strong>Attestcoin ASC</strong><span>Receipt + terms + one-time query</span></div><ShieldCheck className="h-5 w-5" /></li>
-            <li><span className="veri-map-index">03</span><div><p>Settlement</p><strong>Creditcoin CC3</strong><span>Native tCTC escrow release</span></div><Waypoints className="h-5 w-5" /></li>
+          <ol className="veri-protocol-route" aria-label="Cross-chain protocol path">
+            <li><span className="veri-route-marker"><span>01</span><Network className="h-4 w-4" /></span><div><p>Source / buyer acceptance</p><strong>Ethereum Sepolia</strong><span>OrderAccepted is emitted only for the stored buyer, seller, and terms.</span><a href={`${TESTNET_NETWORKS.sepolia.explorerUrl}/address/${VERISETTLE_CONTRACTS.source}`} target="_blank" rel="noreferrer">Inspect source emitter <ArrowUpRight className="h-3.5 w-3.5" /></a></div></li>
+            <li><span className="veri-route-marker"><span>02</span><ShieldCheck className="h-4 w-4" /></span><div><p>Verification / proof policy</p><strong>Attestcoin ASC</strong><span>The proof checks receipt success, expected payload, terms binding, and one-time use.</span><a href="https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-sdk-usc-sdk.md" target="_blank" rel="noreferrer">Read SDK proof reference <ArrowUpRight className="h-3.5 w-3.5" /></a></div></li>
+            <li><span className="veri-route-marker"><span>03</span><Waypoints className="h-4 w-4" /></span><div><p>Settlement / native escrow</p><strong>Creditcoin CC3</strong><span>The deployed ASC releases tCTC only after the verified proof is accepted.</span><a href={`${TESTNET_NETWORKS.creditcoin.explorerUrl}/address/${VERISETTLE_CONTRACTS.escrowAsc}`} target="_blank" rel="noreferrer">Inspect escrow ASC <ArrowUpRight className="h-3.5 w-3.5" /></a></div></li>
           </ol>
         </div>
       </section>

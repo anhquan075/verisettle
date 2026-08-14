@@ -124,3 +124,9 @@
 - [x] Redesign the authenticated deal register and detail surfaces for stronger visual interest, clearer next actions, and less repetitive card-driven layout while preserving lifecycle behavior.
 - [x] Repair Protocol reference navigation so it reaches a real, usable protocol reference surface from both desktop and mobile app navigation.
 - [x] Add regression coverage and perform desktop/mobile validation for the visual redesign and Protocol reference route.
+- [x] Generate and integrate a production-ready VeriSettle symbol logo with uploaded web assets, favicon metadata, and readable public/authenticated brand lockups.
+- [x] Add a privacy-safe one-click judge evidence export for deal detail with Web Share fallback to a deterministic Markdown download.
+- [x] Add a keyboard-accessible command palette that searches authenticated persisted deals, applies existing status filters, and opens real deal details.
+- [x] Keep authenticated workspace context visible with a single responsive sticky header while preserving skip links, mobile navigation, and testnet disclosure.
+- [x] Recompose the Protocol reference testnet route layout for clear source-to-proof-to-settlement reading at desktop and mobile widths.
+- [x] Add regression coverage and run desktop/mobile, test/type/build validation for export, palette, sticky-header, logo, and route refinements.

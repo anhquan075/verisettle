@@ -1,6 +1,7 @@
 import { DealStatusBadge } from "@/components/DealStatusBadge";
 import { ExplorerLink } from "@/components/ExplorerLink";
 import { JudgeReplayWalkthrough } from "@/components/JudgeReplayWalkthrough";
+import { JudgeEvidenceExport } from "@/components/JudgeEvidenceExport";
 import { WalletApprovalEvidence } from "@/components/WalletApprovalEvidence";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -220,6 +221,8 @@ export default function DealDetail({ orderId }: { orderId: string }) {
       </section>
 
       <WalletApprovalEvidence buyerAddress={deal.buyerAddress} connectedAddress={address} />
+
+      <JudgeEvidenceExport deal={deal} events={events} termsHash={termsHash} replayVerified={replayVerified} />
 
       <section aria-label="Deal evidence summary" className="veri-evidence-index grid overflow-hidden rounded-[1.45rem] border border-white/10 bg-[#081417]/80 sm:grid-cols-3">
         <div className="border-b border-white/10 p-4 sm:border-b-0 sm:border-r"><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-200/75">Buyer evidence</p><p className="mt-2 text-sm font-semibold text-white">{deal.sepoliaSourceTxHash ? "Sepolia approval recorded" : "Approval not yet recorded"}</p><p className="mt-1 text-xs leading-5 text-slate-400">{deal.sepoliaSourceTxHash ? "The trusted source receipt matches this order’s protected terms." : "A matching buyer acceptance is required before proof can be requested."}</p></div>

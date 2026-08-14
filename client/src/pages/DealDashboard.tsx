@@ -1,5 +1,6 @@
 import { DealStatusBadge } from "@/components/DealStatusBadge";
 import { Button } from "@/components/ui/button";
+import { DealCommandPalette } from "@/components/DealCommandPalette";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -199,7 +200,7 @@ export default function DealDashboard() {
             <h2 className="font-display text-xl font-semibold text-white">Deal register</h2>
             <p className="mt-1 text-sm text-slate-400">Each row is a persisted purchase order; follow its guided detail view for every wallet and proof action.</p>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs font-medium text-slate-300"><Activity className="h-3.5 w-3.5 text-teal-200" />{totals.total} total</span>
+          <div className="flex flex-wrap items-center gap-2"><span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs font-medium text-slate-300"><Activity className="h-3.5 w-3.5 text-teal-200" />{totals.total} total</span><DealCommandPalette deals={dealsQuery.data ?? []} statusFilter={statusFilter} onStatusFilter={setStatusFilter} onOpenDeal={(id) => setLocation(`/deals/${id}`)} /></div>
         </div>
         <div aria-label="Filter deals by status" className="mb-5 flex flex-wrap gap-2">
           {filters.map(filter => <button key={filter.id} type="button" onClick={() => setStatusFilter(filter.id)} aria-pressed={statusFilter === filter.id} className={`veri-action inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${statusFilter === filter.id ? "border-cyan-200/25 bg-cyan-300/10 text-cyan-50" : "border-white/10 bg-white/[0.02] text-slate-400 hover:bg-white/[0.06] hover:text-slate-200"}`}><span>{filter.label}</span><span className="rounded-full bg-black/20 px-1.5 py-0.5 font-mono text-[10px]">{filter.count}</span></button>)}
