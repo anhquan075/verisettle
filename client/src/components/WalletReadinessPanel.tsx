@@ -30,6 +30,13 @@ export function WalletReadinessPanel({
     if (signedIn) onSignedIn?.();
   };
 
+  const recoverFromError = () => {
+    if (!wallet.error) return;
+    if (wallet.error.action === "connect") return void wallet.connect();
+    if (wallet.error.action === "switch" && requiredNetwork) return void wallet.switchNetwork(requiredNetwork);
+    return void handleSignIn();
+  };
+
   if (!wallet.hasExtension) {
     return (
       <section aria-label="Wallet extension unavailable" className="rounded-2xl border border-amber-200/20 bg-amber-300/[0.045] p-4">
@@ -47,7 +54,7 @@ export function WalletReadinessPanel({
         {wallet.address && requiredNetwork && !ready && <Button type="button" size="sm" onClick={() => void wallet.switchNetwork(requiredNetwork)} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Switch to {requiredNetwork === "creditcoin" ? "CC3" : "Sepolia"}</Button>}
         {wallet.address && signIn && <Button type="button" size="sm" onClick={() => void handleSignIn()} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Sign in with wallet</Button>}
       </div>
-      {wallet.error && <p role="alert" className="mt-3 flex items-start gap-2 text-xs leading-5 text-amber-100"><CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />{wallet.error}</p>}
+      {wallet.error && <div role="alert" aria-atomic="true" className="mt-3 rounded-xl border border-amber-200/15 bg-amber-300/[0.055] p-3 text-amber-50"><div className="flex items-start gap-2"><CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-200" /><div><p className="text-xs font-semibold">{wallet.error.title}</p><p className="mt-1 text-xs leading-5 text-amber-100/80">{wallet.error.detail}</p></div></div>{wallet.error.kind !== "extension" && <Button type="button" size="sm" variant="outline" onClick={recoverFromError} disabled={wallet.busy} className="veri-action mt-3 border-amber-100/20 text-amber-50 hover:bg-amber-100/10">Try again</Button>}</div>}
     </section>
   );
 }

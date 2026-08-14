@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import { describeWalletError, type WalletErrorNotice } from "@/lib/walletError";
 import { TESTNET_NETWORKS } from "@shared/contracts";
 import { getAddress } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -43,7 +44,7 @@ export function useWalletAccess() {
   const [address, setAddress] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<WalletErrorNotice | null>(null);
   const requestNonce = trpc.auth.wallet.requestNonce.useMutation();
   const verify = trpc.auth.wallet.verify.useMutation();
   const utils = trpc.useUtils();
@@ -74,7 +75,7 @@ export function useWalletAccess() {
 
   const connect = useCallback(async () => {
     if (!provider) {
-      setError("No compatible wallet was found. Install Rabby or SubWallet to continue.");
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet, then return to this testnet workspace.", action: "connect" });
       return null;
     }
     setBusy(true);
@@ -82,8 +83,7 @@ export function useWalletAccess() {
     try {
       return await refresh(provider, true);
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Wallet connection was declined.";
-      setError(message);
+      setError(describeWalletError(cause, "Unlock your wallet and choose a testnet account to continue.", "connect"));
       return null;
     } finally {
       setBusy(false);
@@ -92,7 +92,7 @@ export function useWalletAccess() {
 
   const switchNetwork = useCallback(async (network: WalletNetwork) => {
     if (!provider) {
-      setError("No compatible wallet was found. Install Rabby or SubWallet to continue.");
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet, then return to this testnet workspace.", action: "connect" });
       return false;
     }
     setBusy(true);
@@ -109,8 +109,7 @@ export function useWalletAccess() {
       await refresh(provider);
       return true;
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : `Unable to switch to ${config.chainName}.`;
-      setError(message);
+      setError(describeWalletError(cause, `Switch to ${config.chainName} and try again.`, "switch"));
       return false;
     } finally {
       setBusy(false);
@@ -119,7 +118,7 @@ export function useWalletAccess() {
 
   const signIn = useCallback(async () => {
     if (!provider) {
-      setError("No compatible wallet was found. Install Rabby or SubWallet to sign in.");
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet before requesting a secure wallet sign-in.", action: "connect" });
       return false;
     }
     setBusy(true);
@@ -136,8 +135,7 @@ export function useWalletAccess() {
       await utils.auth.me.invalidate();
       return true;
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Wallet sign-in was declined.";
-      setError(message);
+      setError(describeWalletError(cause, "Request a fresh sign-in message and approve it with the connected wallet.", "retry"));
       return false;
     } finally {
       setBusy(false);

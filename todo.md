@@ -162,3 +162,5 @@
 - [x] Set the repository author/committer identity to the user’s GitHub-compatible `anhquan075` identity, rewrite the deployment-fix commit, and force-push the affected remote branches for Vercel attribution.
 - [x] Test the live Vercel preview’s SIWE browser entry plus challenge and invalid-signature rejection without fabricating a wallet-extension approval or exposing credentials; positive verification remains covered by a real local ECDSA test signature.
 - [x] Diagnose and repair the Vercel serverless SIWE endpoint’s `FUNCTION_INVOCATION_FAILED`/405 response, then retest the live challenge request successfully.
+- [x] Add privacy-safe, actionable SIWE login error mapping and inline alert states for extension availability, connection rejection, signature refusal, challenge expiry, origin/network mismatch, and server failures.
+- [x] Add focused regression coverage and desktop/mobile validation for the SIWE alert and recovery experience before checkpointing.
