@@ -156,6 +156,7 @@
 - [x] Harden authenticated session cookies to SameSite=Lax while retaining the dedicated OAuth state cookie’s cross-site callback behavior, then add regression coverage.
 - [x] Create concise user documentation and a tRPC API reference for wallet sign-in, extension detection, testnet readiness, and deal-action requirements.
 - [x] Validate the written deliverables and record the user-managed preview-import boundary before checkpointing the documentation and deployment preparation.
-- [ ] Guide secure Vercel environment-variable configuration for the imported VeriSettle project without exposing secrets in chat or source control.
-- [ ] Configure the imported VeriSettle project through the Vercel CLI, using only secure interactive or user-supplied secret entry paths.
-- [ ] Repair the invalid Vercel function-runtime declaration, push the deployment fix, and confirm the preview reaches a terminal build state.
+- [x] Guide secure Vercel environment-variable configuration for the imported VeriSettle project without exposing secrets in chat or source control.
+- [x] Configure the imported VeriSettle project through the Vercel CLI, using only secure interactive or user-supplied secret entry paths.
+- [x] Repair the invalid Vercel function-runtime declaration, push the deployment fix, and confirm the preview reaches a terminal build state.
+- [x] Set the repository author/committer identity to the user’s GitHub-compatible `anhquan075` identity, rewrite the deployment-fix commit, and force-push the affected remote branches for Vercel attribution.
