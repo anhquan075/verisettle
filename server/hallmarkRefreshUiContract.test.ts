@@ -17,11 +17,13 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const palette = source("../client/src/components/DealCommandPalette.tsx");
   const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
+  const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
 
   it("keeps the landing proof-first, receipt-linked, and explicit about the testnet boundary", () => {
     expect(home).toContain("veri-proof-canvas");
-    expect(home).toContain("Settle the deal when");
+    expect(home).toContain("Proof first.");
+    expect(home).toContain("Release once.");
     expect(home).toContain("public testnet assets");
     expect(home).toContain("veri-live-route");
     expect(home).toContain("VeriSettleBrand");
@@ -35,8 +37,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain("sticky top-0");
     expect(layout).toContain("Receipt-bound transitions");
     expect(layout).toContain("Public testnet only");
-    expect(dashboard).toContain("Workspace index / 01");
-    expect(dashboard).toContain("Start with the agreement");
+    expect(dashboard).toContain("Settlement desk");
+    expect(dashboard).toContain("Terms first.");
     expect(dashboard).toContain("veri-workspace-spark");
     expect(dashboard).toContain("veri-operator-meter");
     expect(dashboard).toContain("Create purchase order");
@@ -47,11 +49,11 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain('path: "/protocol"');
     expect(app).toContain('path={"/protocol"}');
     expect(protocol).toContain("Live testnet configuration");
-    expect(protocol).toContain("Contracts you can inspect.");
+    expect(protocol).toContain("Inspect the contracts.");
     expect(protocol).toContain("BlockProver precompile");
     expect(protocol).toContain("CopyValue");
     expect(protocol).toContain("veri-protocol-route");
-    expect(protocol).toContain("Inspect source emitter");
+    expect(protocol).toContain("Inspect emitter");
   });
 
   it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {
@@ -63,6 +65,16 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(palette).toContain("buyerAddress");
     expect(palette).toContain("sellerAddress");
     expect(palette).toContain("onOpenDeal");
+  });
+
+  it("keeps the brand selectable for theme surfaces and publishable in compact and social contexts", () => {
+    expect(brand).toContain('tone = "brand"');
+    expect(brand).toContain("monochrome");
+    expect(brand).toContain('surface = "dark"');
+    expect(home).toContain("VeriSettleBrand compact");
+    expect(html).toContain('property="og:image"');
+    expect(html).toContain("verisettle-og-proof-before-release_327a17cd.png");
+    expect(html).toContain("Instrument+Sans");
   });
 
   it("keeps detail actions ahead of immutable evidence without weakening replay safety", () => {

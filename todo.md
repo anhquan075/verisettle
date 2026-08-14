@@ -132,3 +132,8 @@
 - [x] Add regression coverage and run desktop/mobile, test/type/build validation for export, palette, sticky-header, logo, and route refinements.
 - [x] Remove the visible logo-tile/background treatment and restore a clean left-aligned VeriSettle brand lockup across landing and authenticated workspace headers.
 - [x] Verify the corrected brand lockup at desktop and mobile widths, then checkpoint the visual-edit fix.
+- [x] Add selectable monochrome VeriSettle mark variants for dark and light theme contexts, preserving the transparent vector construction.
+- [x] Create and apply an Open Graph social-preview image that uses the transparent VeriSettle mark and succinct real-testnet proof positioning.
+- [x] Add a compact mobile wordmark mode that keeps the identity recognizable without crowding the top navigation.
+- [x] Trim nonessential UI copy and establish a sharper typography hierarchy with a distinctive display treatment across key landing and workspace surfaces.
+- [x] Add regression coverage and validate metadata, theme variants, and desktop/mobile typography before checkpointing the refinement.

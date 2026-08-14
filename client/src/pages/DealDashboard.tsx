@@ -118,17 +118,17 @@ export default function DealDashboard() {
         <div className="veri-workspace-spark relative overflow-hidden rounded-[2rem] p-6 sm:p-9">
           <div className="pointer-events-none absolute -right-12 -top-20 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl" />
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-black/15 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100"><ShieldCheck className="h-3.5 w-3.5" /> Workspace index / 01</div>
-            <h1 className="mt-6 max-w-xl font-display text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-white sm:text-5xl">Start with the agreement. Let the chain decide the release.</h1>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Create a testnet order first. The detail view then guides every allowed wallet, receipt, proof, and settlement action in sequence.</p>
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-black/15 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100"><ShieldCheck className="h-3.5 w-3.5" /> Settlement desk</div>
+            <h1 className="mt-6 max-w-xl font-veri-display text-4xl font-semibold leading-[0.95] tracking-[-0.07em] text-white sm:text-5xl">Terms first.<br />Proof decides.</h1>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Create the order. The chain gates release.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={() => setShowCreateForm(open => !open)} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90" />{showCreateForm ? "Close order form" : "Create purchase order"}</Button><Button size="lg" onClick={connectWallet} disabled={walletBusy} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><WalletCards className="mr-2 h-4 w-4" />{walletBusy ? "Connecting…" : walletAddress ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}` : "Connect wallet"}</Button></div>
-            <div className="veri-workspace-spark__footer"><span><span className="h-2 w-2 rounded-full bg-teal-300" /> Testnet only</span><span>Buyer approval on Sepolia · escrow on CC3</span></div>
+            <div className="veri-workspace-spark__footer"><span><span className="h-2 w-2 rounded-full bg-teal-300" /> Testnet only</span><span>Sepolia approval → CC3 escrow</span></div>
           </div>
         </div>
 
         <aside className="veri-workspace-queue rounded-[2rem] border border-white/10 p-5 sm:p-7">
-          <div className="flex items-start justify-between gap-4"><div><p className="veri-kicker">Live escrow queue</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.05em] text-white">What needs attention.</h2></div><Network className="h-6 w-6 text-cyan-200" /></div>
-          <div className="veri-operator-meter mt-6"><div><p>Active deals</p><strong>{totals.active}</strong><span>Awaiting proof or settlement</span></div><div><p>Released</p><strong>{totals.released}</strong><span>Receipt-proven settlements</span></div></div>
+          <div className="flex items-start justify-between gap-4"><div><p className="veri-kicker">Live queue</p><h2 className="mt-2 font-veri-display text-2xl font-semibold tracking-[-0.055em] text-white">Needs action.</h2></div><Network className="h-6 w-6 text-cyan-200" /></div>
+          <div className="veri-operator-meter mt-6"><div><p>Active</p><strong>{totals.active}</strong><span>Proof or settlement</span></div><div><p>Released</p><strong>{totals.released}</strong><span>Receipt final</span></div></div>
           <div className="mt-5 rounded-2xl border border-white/10 bg-black/15 p-4"><div className="flex items-center justify-between"><p className="text-xs font-semibold uppercase tracking-[0.13em] text-slate-500">Proof rail</p><span className="rounded-full bg-teal-300/10 px-2 py-1 text-[10px] font-semibold text-teal-100">Configured</span></div><p className="mt-3 font-display text-lg font-semibold text-white">Sepolia <span className="text-cyan-200">→</span> CC3</p><p className="mt-2 truncate font-mono text-[11px] text-cyan-100">{VERISETTLE_CONTRACTS.escrowAsc}</p></div>
         </aside>
       </section>
@@ -145,11 +145,11 @@ export default function DealDashboard() {
           <div className="mb-6 flex items-start gap-3">
             <div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-200"><FilePlus2 className="h-5 w-5" /></div>
             <div>
-              <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Step 01 · Terms</span></div>
-              <p className="mt-1 text-sm text-slate-400">Define the commercial terms first. The next screen binds them to funding, buyer acceptance, and one-time proof settlement.</p>
+              <div className="flex flex-wrap items-center gap-2"><h2 className="font-veri-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</span></div>
+              <p className="mt-1 text-sm text-slate-400">Set the terms. The chain binds the rest.</p>
             </div>
           </div>
-          <ol aria-label="Purchase order stages" className="mb-6 grid gap-2 sm:grid-cols-3"><li className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.06] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Draft terms</p><p className="mt-1 text-xs leading-5 text-slate-300">Buyer, seller, value, and description.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">02 · Fund CC3</p><p className="mt-1 text-xs leading-5 text-slate-400">A matching escrow receipt advances the order.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">03 · Prove & settle</p><p className="mt-1 text-xs leading-5 text-slate-400">Attestcoin binds buyer approval to seller release.</p></li></ol>
+          <ol aria-label="Purchase order stages" className="mb-6 grid gap-2 sm:grid-cols-3"><li className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.06] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</p><p className="mt-1 text-xs leading-5 text-slate-300">Parties, value, description.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">02 · Fund</p><p className="mt-1 text-xs leading-5 text-slate-400">CC3 receipt matches.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">03 · Prove</p><p className="mt-1 text-xs leading-5 text-slate-400">Proof releases escrow.</p></li></ol>
           <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="buyerAddress">Buyer address</Label>
@@ -197,8 +197,8 @@ export default function DealDashboard() {
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="veri-kicker mb-2">Immutable order index</p>
-            <h2 className="font-display text-xl font-semibold text-white">Deal register</h2>
-            <p className="mt-1 text-sm text-slate-400">Each row is a persisted purchase order; follow its guided detail view for every wallet and proof action.</p>
+            <h2 className="font-veri-display text-xl font-semibold text-white">Deal register</h2>
+            <p className="mt-1 text-sm text-slate-400">Persisted orders. Open one to act.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2"><span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs font-medium text-slate-300"><Activity className="h-3.5 w-3.5 text-teal-200" />{totals.total} total</span><DealCommandPalette deals={dealsQuery.data ?? []} statusFilter={statusFilter} onStatusFilter={setStatusFilter} onOpenDeal={(id) => setLocation(`/deals/${id}`)} /></div>
         </div>
@@ -232,14 +232,14 @@ export default function DealDashboard() {
           <div className="flex min-h-48 flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.015] px-6 text-center">
             <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><Activity className="h-6 w-6" /></div>
             <h3 className="mt-4 font-display text-lg font-semibold text-white">No {statusFilter} deals</h3>
-            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Adjust the register filter to review the rest of your persisted purchase orders.</p>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Change the filter to review other orders.</p>
             <Button onClick={() => setStatusFilter("all")} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Show all deals</Button>
           </div>
         ) : (
           <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.015] px-6 text-center">
             <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><ReceiptText className="h-6 w-6" /></div>
             <h3 className="mt-4 font-display text-lg font-semibold text-white">No purchase orders yet</h3>
-            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Start with a draft order. You will fund it, submit a source transaction, and demonstrate the proof boundary from its detail page.</p>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-400">Create a draft to begin the receipt path.</p>
             <Button onClick={() => setShowCreateForm(true)} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Create first order</Button>
           </div>
         )}

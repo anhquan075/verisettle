@@ -23,7 +23,8 @@ export default function Home() {
 
       <header className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <button onClick={() => setLocation("/")} aria-label="VeriSettle home" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-          <VeriSettleBrand className="max-w-[12rem] sm:max-w-none" />
+          <span className="sm:hidden"><VeriSettleBrand compact /></span>
+          <span className="hidden sm:inline-flex"><VeriSettleBrand /></span>
         </button>
         <nav aria-label="Landing navigation" className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm text-slate-300 md:flex">
           <a href="#execution" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">How it works</a>
@@ -37,12 +38,12 @@ export default function Home() {
         <section className="grid gap-12 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:gap-16">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200/20 bg-cyan-300/[0.09] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-cyan-100"><Sparkles className="h-3.5 w-3.5" /> Attestcoin-governed escrow</div>
-            <h1 className="mt-6 max-w-3xl font-display text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.075em] text-white sm:text-6xl lg:text-7xl">Settle the deal when <span className="text-cyan-200">the proof</span> says yes.</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">VeriSettle turns a buyer’s Ethereum Sepolia acceptance into a Creditcoin escrow release—only when Attestcoin can verify the exact receipt, parties, and terms.</p>
+            <h1 className="mt-6 max-w-3xl font-veri-display text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.08em] text-white sm:text-6xl lg:text-7xl">Proof first.<br /><span className="text-cyan-200">Release once.</span></h1>
+            <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">Sepolia approval. Attestcoin proof. Creditcoin release.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 px-6 font-semibold text-slate-950 shadow-[0_0_32px_rgba(45,212,191,0.2)] hover:bg-cyan-200">Create a protected order <ArrowUpRight className="ml-2 h-4 w-4" /></Button><Button size="lg" variant="outline" onClick={() => document.getElementById("evidence")?.scrollIntoView({ behavior: "smooth" })} className="veri-action border-white/15 bg-white/[0.025] text-white hover:bg-white/[0.08]">Inspect the proof <ArrowDown className="ml-2 h-4 w-4" /></Button></div>
             <div className="mt-10 grid gap-3 sm:grid-cols-2" aria-label="Settlement roles">
-              <div className="veri-role-card veri-role-card--buyer"><UserCheck className="h-5 w-5" /><div><p>Buyer controls the acceptance</p><span>Funds the matching escrow and authorizes the exact Sepolia event.</span></div></div>
-              <div className="veri-role-card veri-role-card--seller"><WalletCards className="h-5 w-5" /><div><p>Seller receives only after proof</p><span>The recorded address receives native tCTC from the deployed ASC.</span></div></div>
+              <div className="veri-role-card veri-role-card--buyer"><UserCheck className="h-5 w-5" /><div><p>Buyer accepts</p><span>Sepolia receipt authorizes the proof.</span></div></div>
+              <div className="veri-role-card veri-role-card--seller"><WalletCards className="h-5 w-5" /><div><p>Seller receives</p><span>CC3 releases after proof.</span></div></div>
             </div>
           </motion.div>
 
@@ -50,7 +51,7 @@ export default function Home() {
             <div className="veri-proof-canvas">
               <div className="veri-proof-canvas__top"><span>Live testnet route</span><span className="inline-flex items-center gap-1.5 text-teal-100"><span className="h-2 w-2 rounded-full bg-teal-300" /> Receipt-bound</span></div>
               <ol className="veri-live-route" aria-label="Live testnet source-to-settlement route"><li><span>01 · Source</span><strong>Ethereum Sepolia</strong><p>Buyer OrderAccepted receipt</p></li><li><span>02 · Verify</span><strong>Attestcoin ASC</strong><p>Receipt + terms + one-time proof</p></li><li><span>03 · Settle</span><strong>Creditcoin CC3</strong><p>Native tCTC escrow release</p></li></ol>
-              <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">The product does not advance on a promise. It advances only when the deployed protocol can read the underlying on-chain evidence.</p>
+              <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">No promise advances the order. Receipts do.</p>
             </div>
             <div className="relative -mt-3 ml-auto w-[92%] sm:-mt-5"><ProofEvidenceLedger /></div>
           </motion.div>
@@ -58,7 +59,7 @@ export default function Home() {
 
         <section id="execution" className="mt-24 scroll-mt-8">
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-16">
-            <div className="veri-action-poster"><p className="veri-kicker">The controlled release</p><h2 className="mt-4 font-display text-4xl font-semibold leading-[0.96] tracking-[-0.06em] text-white">One purchase order. <span className="text-teal-200">Three receipts.</span> Zero hand-waving.</h2><p className="mt-5 text-sm leading-7 text-slate-300">The workflow is intentionally opinionated: every state change has a public artifact a judge, buyer, or seller can inspect.</p><Button onClick={() => setLocation("/app")} variant="outline" className="veri-action mt-7 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10">Try the settlement workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button></div>
+            <div className="veri-action-poster"><p className="veri-kicker">The controlled release</p><h2 className="mt-4 font-veri-display text-4xl font-semibold leading-[0.96] tracking-[-0.065em] text-white">One order.<br /><span className="text-teal-200">Three receipts.</span></h2><p className="mt-5 text-sm leading-7 text-slate-300">Every state change leaves a public trail.</p><Button onClick={() => setLocation("/app")} variant="outline" className="veri-action mt-7 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button></div>
             <ol className="space-y-3">
               {stages.map(([number, Icon, title, body]) => <li key={number} className="veri-stage-card"><span className="veri-stage-card__number">{number}</span><span className="grid h-11 w-11 place-items-center rounded-2xl bg-white/[0.06] text-cyan-100"><Icon className="h-5 w-5" /></span><div><h3 className="font-display text-xl font-semibold text-white">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{body}</p></div></li>)}
             </ol>

@@ -242,9 +242,10 @@ function DashboardLayoutContent({
           <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:px-6">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
+              <span className="sm:hidden"><VeriSettleBrand compact /></span>
               <span className="hidden sm:inline-flex"><VeriSettleBrand compact /></span>
               <span className="hidden h-5 w-px bg-white/10 sm:block" />
-              <span className="inline-flex min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
+              <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
             <span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden sm:inline">Receipt-bound transitions · </span>Public testnet only</span>
           </div>
