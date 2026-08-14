@@ -7,8 +7,8 @@ import { trpc } from "@/lib/trpc";
 import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { VERISETTLE_CONTRACTS } from "@shared/contracts";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, ArrowUpRight, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { Activity, ArrowUpRight, CircleAlert, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 
 const initialForm = {
@@ -27,16 +27,34 @@ function formatDate(value: Date | string) {
   return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(value));
 }
 
+const isEvmAddress = (value: string) => /^0x[a-fA-F0-9]{40}$/.test(value.trim());
+const isPositiveAmount = (value: string) => Number.isFinite(Number(value)) && Number(value) > 0;
+
 export default function DealDashboard() {
   const [, setLocation] = useLocation();
   const utils = trpc.useUtils();
   const [form, setForm] = useState(initialForm);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
   const dealsQuery = trpc.deals.listDeals.useQuery();
   const { address: walletAddress, busy: walletBusy, connect } = useTestnetWallet();
   const descriptionLength = form.description.trim().length;
   const descriptionIsValid = descriptionLength >= 8;
+  const buyerIsValid = isEvmAddress(form.buyerAddress);
+  const sellerIsValid = isEvmAddress(form.sellerAddress) && form.sellerAddress.trim().toLowerCase() !== form.buyerAddress.trim().toLowerCase();
+  const amountIsValid = isPositiveAmount(form.amount);
+  const fieldErrors = [
+    !buyerIsValid ? "Enter a valid buyer EVM address." : null,
+    !sellerIsValid ? "Enter a valid seller address that differs from the buyer." : null,
+    !amountIsValid ? "Enter a positive native tCTC amount." : null,
+    !descriptionIsValid ? "Add a purchase-order description with at least 8 characters." : null,
+  ].filter((error): error is string => Boolean(error));
+
+  useEffect(() => {
+    if (attemptedSubmit && fieldErrors.length) errorSummaryRef.current?.focus();
+  }, [attemptedSubmit, fieldErrors.length]);
   const createDeal = trpc.deals.createDeal.useMutation({
     onSuccess: data => {
       utils.deals.listDeals.invalidate();
@@ -47,9 +65,10 @@ export default function DealDashboard() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setAttemptedSubmit(true);
     setFormError(null);
-    if (!descriptionIsValid) {
-      setFormError("Add a purchase-order description with at least 8 characters before creating the draft.");
+    if (fieldErrors.length) {
+      setFormError("Review the highlighted purchase-order fields before creating the draft.");
       return;
     }
     createDeal.mutate({ ...form, description: form.description.trim() });
@@ -108,23 +127,27 @@ export default function DealDashboard() {
           <div className="mb-6 flex items-start gap-3">
             <div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-200"><FilePlus2 className="h-5 w-5" /></div>
             <div>
-              <h2 className="font-display text-xl font-semibold text-white">New purchase order</h2>
-              <p className="mt-1 text-sm text-slate-400">Create a signed-ready policy. The next screen guides every real testnet action from funding to proof submission.</p>
+              <div className="flex flex-wrap items-center gap-2"><h2 className="font-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Step 01 · Terms</span></div>
+              <p className="mt-1 text-sm text-slate-400">Define the commercial terms first. The next screen binds them to funding, buyer acceptance, and one-time proof settlement.</p>
             </div>
           </div>
+          <ol aria-label="Purchase order stages" className="mb-6 grid gap-2 sm:grid-cols-3"><li className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.06] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Draft terms</p><p className="mt-1 text-xs leading-5 text-slate-300">Buyer, seller, value, and description.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">02 · Fund CC3</p><p className="mt-1 text-xs leading-5 text-slate-400">A matching escrow receipt advances the order.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">03 · Prove & settle</p><p className="mt-1 text-xs leading-5 text-slate-400">Attestcoin binds buyer approval to seller release.</p></li></ol>
           <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="buyerAddress">Buyer address</Label>
-              <div className="flex gap-2"><Input id="buyerAddress" value={form.buyerAddress} onChange={event => setForm({ ...form, buyerAddress: event.target.value })} placeholder="0x…" required /><Button type="button" onClick={connectWallet} disabled={walletBusy} variant="outline" className="shrink-0 border-cyan-100/20 text-cyan-100 hover:bg-cyan-300/10">Use wallet</Button></div>
+              <div className="flex gap-2"><Input id="buyerAddress" value={form.buyerAddress} onChange={event => setForm({ ...form, buyerAddress: event.target.value })} placeholder="0x…" required aria-invalid={attemptedSubmit && !buyerIsValid} aria-describedby={attemptedSubmit && !buyerIsValid ? "buyer-error" : undefined} className={attemptedSubmit && !buyerIsValid ? "border-rose-300/60" : undefined} /><Button type="button" onClick={connectWallet} disabled={walletBusy} variant="outline" className="min-h-11 shrink-0 border-cyan-100/20 text-cyan-100 hover:bg-cyan-300/10">Use wallet</Button></div>
+              {attemptedSubmit && !buyerIsValid && <p id="buyer-error" className="flex items-center gap-1.5 text-xs text-rose-100"><CircleAlert className="h-3.5 w-3.5" /> Enter a valid buyer EVM address.</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="sellerAddress">Seller address</Label>
-              <Input id="sellerAddress" value={form.sellerAddress} onChange={event => setForm({ ...form, sellerAddress: event.target.value })} placeholder="0x…" required />
+              <Input id="sellerAddress" value={form.sellerAddress} onChange={event => setForm({ ...form, sellerAddress: event.target.value })} placeholder="0x…" required aria-invalid={attemptedSubmit && !sellerIsValid} aria-describedby={attemptedSubmit && !sellerIsValid ? "seller-error" : undefined} className={attemptedSubmit && !sellerIsValid ? "border-rose-300/60" : undefined} />
+              {attemptedSubmit && !sellerIsValid && <p id="seller-error" className="flex items-center gap-1.5 text-xs text-rose-100"><CircleAlert className="h-3.5 w-3.5" /> Use a valid seller address that differs from the buyer.</p>}
             </div>
             <div className="grid grid-cols-[1fr_100px] gap-3">
               <div className="space-y-2">
                 <Label htmlFor="amount">Asset amount</Label>
-                <Input id="amount" inputMode="decimal" value={form.amount} onChange={event => setForm({ ...form, amount: event.target.value })} placeholder="2,500.00" required />
+                <Input id="amount" inputMode="decimal" value={form.amount} onChange={event => setForm({ ...form, amount: event.target.value })} placeholder="0.01" required aria-invalid={attemptedSubmit && !amountIsValid} aria-describedby={attemptedSubmit && !amountIsValid ? "amount-error" : undefined} className={attemptedSubmit && !amountIsValid ? "border-rose-300/60" : undefined} />
+                {attemptedSubmit && !amountIsValid && <p id="amount-error" className="flex items-center gap-1.5 text-xs text-rose-100"><CircleAlert className="h-3.5 w-3.5" /> Enter a positive tCTC amount.</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="currency">Asset</Label>
@@ -136,13 +159,13 @@ export default function DealDashboard() {
             </div>
             <div className="space-y-2 md:col-span-2">
               <div className="flex items-center justify-between gap-3"><Label htmlFor="description">Purchase-order description</Label><span className={`text-xs ${descriptionIsValid ? "text-teal-100" : "text-amber-100"}`}>{descriptionLength}/8 minimum</span></div>
-              <Textarea id="description" value={form.description} onChange={event => { setForm({ ...form, description: event.target.value }); if (formError) setFormError(null); }} placeholder="Describe the goods, service, or settlement milestone." className="min-h-28" aria-invalid={!descriptionIsValid} aria-describedby="description-help" required />
+              <Textarea id="description" value={form.description} onChange={event => { setForm({ ...form, description: event.target.value }); if (formError) setFormError(null); }} placeholder="Describe the goods, service, or settlement milestone." className="min-h-28" aria-invalid={attemptedSubmit && !descriptionIsValid} aria-describedby="description-help" required />
               <p id="description-help" className={`text-xs leading-5 ${descriptionIsValid ? "text-slate-500" : "text-amber-100/80"}`}>{descriptionIsValid ? "This description is hashed into the order terms commitment." : "Enter at least 8 characters. The exact description is bound into the source-event and escrow terms hash."}</p>
             </div>
-            {formError && <p className="md:col-span-2 rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">{formError}</p>}
+            {formError && <div ref={errorSummaryRef} tabIndex={-1} role="alert" className="md:col-span-2 rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200"><p className="flex items-center gap-2 font-semibold"><CircleAlert className="h-4 w-4" /> There is a problem with this draft.</p><p className="mt-1 text-rose-100/85">{formError}</p></div>}
             <div className="flex flex-col-reverse gap-3 sm:col-span-2 sm:flex-row sm:justify-end">
               <Button type="button" variant="outline" onClick={() => setShowCreateForm(false)}>Cancel</Button>
-              <Button type="submit" disabled={createDeal.isPending || !descriptionIsValid} className="bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
+              <Button type="submit" disabled={createDeal.isPending} className="min-h-11 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
                 {createDeal.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ReceiptText className="mr-2 h-4 w-4" />}
                 Create Draft
               </Button>

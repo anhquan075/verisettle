@@ -45,7 +45,7 @@ function App() {
     <ErrorBoundary>
       <MotionConfig reducedMotion="user">
         <ThemeProvider
-          defaultTheme="light"
+          defaultTheme="dark"
           // switchable
         >
           <TooltipProvider>

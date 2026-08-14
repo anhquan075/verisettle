@@ -84,3 +84,7 @@
 - [x] Verify that the motion enhancements preserve accessibility, desktop/mobile readability, and the real-testnet product boundary.
 - [x] Prevent short purchase-order descriptions from reaching the tRPC mutation by adding visible client-side validation and clear recovery guidance.
 - [x] Add automated validation coverage for the minimum eight-character purchase-order description requirement.
+- [x] Study the UI/UX Pro Max skill and combine its applicable guidance with the existing Hallmark audit without copying a template or changing real-testnet claims.
+- [x] Audit every frontend route and state: landing, signed-in dashboard, detail lifecycle, recovery, loading, unavailable, and mobile navigation.
+- [x] Implement a cohesive UI/UX refinement across all frontend pages using a unified visual hierarchy, interaction model, accessibility treatment, and reduced-motion-safe transitions.
+- [x] Validate the complete refined frontend at desktop and mobile breakpoints with the full test/type/build quality gate.
