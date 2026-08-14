@@ -10,6 +10,7 @@ import DealDashboard from "./pages/DealDashboard";
 import DashboardLayout from "./components/DashboardLayout";
 import { useRoute } from "wouter";
 import DealDetail from "./pages/DealDetail";
+import ProtocolReference from "./pages/ProtocolReference";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -21,12 +22,17 @@ function DealDetailRoute() {
   return <DashboardLayout><DealDetail orderId={params.orderId} /></DashboardLayout>;
 }
 
+function ProtocolReferenceRoute() {
+  return <DashboardLayout><ProtocolReference /></DashboardLayout>;
+}
+
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/app"} component={AppDashboard} />
+      <Route path={"/protocol"} component={ProtocolReferenceRoute} />
       <Route path={"/deals/:orderId"} component={DealDetailRoute} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

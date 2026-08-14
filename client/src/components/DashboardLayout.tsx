@@ -30,7 +30,7 @@ import { AttestationOrbit } from "./AttestationOrbit";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
-  { icon: ShieldCheck, label: "Protocol reference", path: "/app#protocol" },
+  { icon: ShieldCheck, label: "Protocol reference", path: "/protocol" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

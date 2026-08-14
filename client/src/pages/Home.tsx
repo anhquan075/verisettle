@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, Blocks, CheckCircle2, Github, LockKeyhole, Network, ShieldCheck, UserCheck, WalletCards } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Blocks, Github, LockKeyhole, Network, ShieldCheck, Sparkles, UserCheck, WalletCards } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const stages = [
+  ["01", Network, "Fund the exact terms", "A buyer locks native tCTC against the order ID, seller, and committed commercial terms."],
+  ["02", ShieldCheck, "Prove the acceptance", "The configured Sepolia event is checked for its receipt, emitter, buyer, seller, and terms binding."],
+  ["03", LockKeyhole, "Release once", "The CC3 ASC releases only after Attestcoin accepts the proof. A replay is rejected on-chain."],
+] as const;
+
 export default function Home() {
   const [, setLocation] = useLocation();
 
@@ -17,85 +19,55 @@ export default function Home() {
       <a href="#landing-content" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to settlement overview</a>
       <div className="veri-aurora pointer-events-none fixed inset-0" />
       <AttestationOrbit />
+
       <header className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <button onClick={() => setLocation("/")} className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-cyan-300 text-slate-950"><Blocks className="h-5 w-5" /></span>
-          <span><span className="block font-display text-lg font-bold tracking-[-0.04em]">VeriSettle</span><span className="hidden text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500 sm:block">Proof ledger / CC3</span></span>
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-cyan-300 text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.3)]"><Blocks className="h-5 w-5" /></span>
+          <span><span className="block font-display text-lg font-bold tracking-[-0.05em]">VeriSettle</span><span className="hidden text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70 sm:block">Cross-chain escrow / testnet</span></span>
         </button>
-        <nav aria-label="Landing navigation" className="veri-index-nav hidden md:flex">
-          <a href="#execution">Path</a>
-          <a href="#evidence">Receipts</a>
-          <a href="#security">Boundary</a>
-          <a href="https://docs.creditcoin.org/attestcoin-protocol.md" target="_blank" rel="noreferrer">Docs</a>
+        <nav aria-label="Landing navigation" className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm text-slate-300 md:flex">
+          <a href="#execution" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">How it works</a>
+          <a href="#evidence" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Proof record</a>
+          <a href="#security" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Boundary</a>
         </nav>
-        <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-slate-950 hover:bg-cyan-50">Launch app <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+        <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-slate-950 hover:bg-cyan-50">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
       </header>
 
-      <main id="landing-content" className="relative mx-auto max-w-7xl px-5 pb-24 pt-12 sm:px-8 sm:pt-20 lg:pt-24">
-        <section className="veri-context-rail mb-10" aria-label="Settlement context">
-          <div><span>Source</span><strong>Ethereum Sepolia</strong></div>
-          <div><span>Proof</span><strong>Attestcoin Protocol</strong></div>
-          <div><span>Settlement</span><strong>Creditcoin CC3 Testnet</strong></div>
-          <div><span>Scope</span><strong>Test assets only</strong></div>
-        </section>
-
-        <section className="grid items-center gap-12 lg:grid-cols-[0.96fr_1.04fr] lg:gap-20">
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <div className="inline-flex items-center gap-2 border-y border-cyan-200/15 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-teal-300" /> Attestcoin-governed escrow
-            </div>
-            <h1 className="mt-6 max-w-3xl font-display text-5xl font-semibold leading-[0.98] tracking-[-0.065em] text-white sm:text-6xl lg:text-7xl">Release escrow only when the chain can explain why.</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
-              A buyer accepts a purchase order on Ethereum Sepolia. Attestcoin proves that exact receipt to Creditcoin. Only then can the matching escrow release.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 px-6 font-semibold text-slate-950 shadow-[0_0_32px_rgba(45,212,191,0.18)] hover:bg-cyan-200">Launch settlement workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
-              <Button size="lg" variant="outline" onClick={() => document.getElementById("evidence")?.scrollIntoView({ behavior: "smooth" })} className="veri-action border-white/15 bg-white/[0.025] text-white hover:bg-white/[0.08]">Review real evidence <ArrowRight className="ml-2 h-4 w-4" /></Button>
-            </div>
-            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs text-slate-400">
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-teal-300" /> Creditcoin CC3 Testnet</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-teal-300" /> Ethereum Sepolia</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-teal-300" /> Test assets only</span>
-            </div>
-            <div aria-label="Settlement roles" className="veri-role-notes mt-7 max-w-xl">
-              <div><p className="flex items-center gap-2 text-xs font-semibold text-cyan-100"><UserCheck className="h-3.5 w-3.5" /> Buyer authority</p><p>Funds the matching CC3 escrow, then signs the exact Sepolia acceptance.</p></div>
-              <div><p className="flex items-center gap-2 text-xs font-semibold text-teal-100"><WalletCards className="h-3.5 w-3.5" /> Seller entitlement</p><p>Receives CC3 settlement only when the proof binds both roles and terms.</p></div>
+      <main id="landing-content" className="relative mx-auto max-w-7xl px-5 pb-24 pt-10 sm:px-8 sm:pt-16 lg:pt-20">
+        <section className="grid gap-12 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:gap-16">
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200/20 bg-cyan-300/[0.09] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-cyan-100"><Sparkles className="h-3.5 w-3.5" /> Attestcoin-governed escrow</div>
+            <h1 className="mt-6 max-w-3xl font-display text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.075em] text-white sm:text-6xl lg:text-7xl">Settle the deal when <span className="text-cyan-200">the proof</span> says yes.</h1>
+            <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">VeriSettle turns a buyer’s Ethereum Sepolia acceptance into a Creditcoin escrow release—only when Attestcoin can verify the exact receipt, parties, and terms.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 px-6 font-semibold text-slate-950 shadow-[0_0_32px_rgba(45,212,191,0.2)] hover:bg-cyan-200">Create a protected order <ArrowUpRight className="ml-2 h-4 w-4" /></Button><Button size="lg" variant="outline" onClick={() => document.getElementById("evidence")?.scrollIntoView({ behavior: "smooth" })} className="veri-action border-white/15 bg-white/[0.025] text-white hover:bg-white/[0.08]">Inspect the proof <ArrowDown className="ml-2 h-4 w-4" /></Button></div>
+            <div className="mt-10 grid gap-3 sm:grid-cols-2" aria-label="Settlement roles">
+              <div className="veri-role-card veri-role-card--buyer"><UserCheck className="h-5 w-5" /><div><p>Buyer controls the acceptance</p><span>Funds the matching escrow and authorizes the exact Sepolia event.</span></div></div>
+              <div className="veri-role-card veri-role-card--seller"><WalletCards className="h-5 w-5" /><div><p>Seller receives only after proof</p><span>The recorded address receives native tCTC from the deployed ASC.</span></div></div>
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.12 }} className="relative mx-auto w-full max-w-xl">
-            <div className="absolute -inset-8 rounded-[2.5rem] bg-cyan-300/[0.06] blur-3xl" />
-            <ProofEvidenceLedger />
+          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.55, delay: 0.1 }} className="relative mx-auto w-full max-w-xl">
+            <div className="veri-proof-canvas">
+              <div className="veri-proof-canvas__top"><span>Live testnet route</span><span className="inline-flex items-center gap-1.5 text-teal-100"><span className="h-2 w-2 rounded-full bg-teal-300" /> Receipt-bound</span></div>
+              <div className="veri-proof-flow"><div><span>Buyer approval</span><strong>Sepolia</strong></div><ArrowRight className="h-5 w-5 text-cyan-200" /><div><span>Verification</span><strong>Attestcoin</strong></div><ArrowRight className="h-5 w-5 text-cyan-200" /><div className="veri-proof-flow__end"><span>Escrow release</span><strong>CC3</strong></div></div>
+              <p className="mt-5 max-w-md text-sm leading-6 text-slate-300">The product does not advance on a promise. It advances only when the deployed protocol can read the underlying on-chain evidence.</p>
+            </div>
+            <div className="relative -mt-3 ml-auto w-[92%] sm:-mt-5"><ProofEvidenceLedger /></div>
           </motion.div>
         </section>
 
-        <section id="execution" className="mt-28 scroll-mt-8 border-y border-white/10 py-12 sm:py-16">
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
-            <div>
-              <p className="veri-kicker">Execution path</p>
-              <h2 className="mt-3 max-w-md font-display text-4xl font-semibold tracking-[-0.055em] text-white">One commercial decision. Three independent checks.</h2>
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-400">The user sees a purchase order. The protocol sees a terms hash, a source receipt, and a proof query that can only settle once.</p>
-            </div>
-            <ol className="veri-protocol-sequence">
-              {[
-                [Network, "Lock the two-party terms", "The buyer funds native tCTC escrow against a seller address, order ID, and exact shared terms hash."],
-                [ShieldCheck, "Prove buyer acceptance", "The trusted Sepolia emitter records the buyer’s exact approval; Attestcoin verifies receipt status and event semantics on CC3."],
-                [LockKeyhole, "Release to the seller exactly once", "The ASC consumes the proof query and releases only the matching seller escrow; replays are rejected on-chain."],
-              ].map(([Icon, title, text], index) => {
-                const StepIcon = Icon as typeof Network;
-                return <li key={title as string} className="group">
-                  <span className="veri-protocol-index">0{index + 1}</span>
-                  <div><p className="font-display text-lg font-semibold text-white">{title as string}</p><p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">{text as string}</p></div>
-                  <span className="grid h-10 w-10 place-items-center rounded-full border border-cyan-200/20 bg-cyan-200/[0.06] text-cyan-100"><StepIcon className="h-5 w-5" /></span>
-                </li>;
-              })}
+        <section id="execution" className="mt-24 scroll-mt-8">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-16">
+            <div className="veri-action-poster"><p className="veri-kicker">The controlled release</p><h2 className="mt-4 font-display text-4xl font-semibold leading-[0.96] tracking-[-0.06em] text-white">One purchase order. <span className="text-teal-200">Three receipts.</span> Zero hand-waving.</h2><p className="mt-5 text-sm leading-7 text-slate-300">The workflow is intentionally opinionated: every state change has a public artifact a judge, buyer, or seller can inspect.</p><Button onClick={() => setLocation("/app")} variant="outline" className="veri-action mt-7 border-cyan-200/25 text-cyan-100 hover:bg-cyan-300/10">Try the settlement workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button></div>
+            <ol className="space-y-3">
+              {stages.map(([number, Icon, title, body]) => <li key={number} className="veri-stage-card"><span className="veri-stage-card__number">{number}</span><span className="grid h-11 w-11 place-items-center rounded-2xl bg-white/[0.06] text-cyan-100"><Icon className="h-5 w-5" /></span><div><h3 className="font-display text-xl font-semibold text-white">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{body}</p></div></li>)}
             </ol>
           </div>
         </section>
 
-        <section id="security" className="veri-boundary-statement mt-20 grid gap-8 rounded-[2rem] border border-teal-200/10 p-6 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-100">Clear trust boundary</p><h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.045em] text-white">The protocol proves an on-chain acceptance event—not physical delivery.</h2></div>
-          <div className="space-y-4 text-sm leading-7 text-slate-300"><p>VeriSettle checks source transaction inclusion, successful receipt status, expected event details, terms binding, and one-time proof use before a settlement action is allowed.</p><p>Every asset and contract interaction in this prototype occurs on public testnet. The proof path is a real Attestcoin verification and settlement flow, not a decorative hash record.</p><a href="https://github.com/gluwa/usc-testnet-bridge-examples" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-cyan-100 hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Review official bridge examples <Github className="h-4 w-4" /></a></div>
+        <section id="security" className="veri-boundary-statement mt-24 grid gap-8 rounded-[2rem] border border-teal-200/10 p-6 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-100">A deliberate boundary</p><h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.05em] text-white">A real receipt is not a claim of physical delivery.</h2></div>
+          <div className="space-y-4 text-sm leading-7 text-slate-300"><p>VeriSettle checks source inclusion, receipt success, expected event semantics, terms binding, and one-time proof use before the settlement call is allowed.</p><p>Every contract interaction in this prototype uses public testnet assets. The evidence path is real; the physical-delivery claim is explicitly outside the protocol boundary.</p><a href="https://github.com/gluwa/usc-testnet-bridge-examples" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-cyan-100 hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Review official bridge examples <Github className="h-4 w-4" /></a></div>
         </section>
       </main>
       <footer className="relative border-t border-white/8 px-5 py-7 text-center text-xs text-slate-500">VeriSettle / public testnet demonstration / no real-fund custody / no physical-delivery verification</footer>

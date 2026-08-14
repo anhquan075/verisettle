@@ -120,3 +120,7 @@
 - [x] Restructure deal-detail presentation around next permitted action, grouped immutable evidence, progressive disclosure, and the existing exact replay-protection reason.
 - [x] Add focused rendering/accessibility regression coverage for the Hallmark refinement and validate desktop/mobile layouts with the full test, type-check, and production-build quality gate.
 - [x] Save the Hallmark research and visual-QA record, then checkpoint the verified cross-page design enhancement.
+- [x] Replace the sterile evidence-index visual treatment with a more distinctive, task-first landing experience that improves hierarchy, character, and CTA usefulness without changing real-testnet claims.
+- [x] Redesign the authenticated deal register and detail surfaces for stronger visual interest, clearer next actions, and less repetitive card-driven layout while preserving lifecycle behavior.
+- [x] Repair Protocol reference navigation so it reaches a real, usable protocol reference surface from both desktop and mobile app navigation.
+- [x] Add regression coverage and perform desktop/mobile validation for the visual redesign and Protocol reference route.
