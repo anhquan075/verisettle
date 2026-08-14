@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -64,15 +64,15 @@ export default function DashboardLayout({
         <a href="#workspace-sign-in" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to workspace sign-in</a>
         <div className="pointer-events-none absolute -left-24 top-16 h-80 w-80 rounded-full bg-teal-300/10 blur-3xl" />
         <div className="pointer-events-none absolute -right-24 bottom-12 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-          <div id="workspace-sign-in" className="relative w-full max-w-xl overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#09161a]/85 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
+          <div id="workspace-sign-in" className="relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#09161a]/85 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
           <div className="absolute inset-x-0 top-0 h-px bg-cyan-200/40" />
-          <div className="inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> CC3 Testnet ready</div>
-          <h1 className="mt-6 max-w-md font-display text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-white sm:text-5xl">Enter the settlement command center.</h1>
-          <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">Create protected purchase orders, connect a testnet wallet, and release escrow only through a receipt-bound Attestcoin verification path.</p>
-          <div className="veri-context-rail mt-7"><div><span>Source</span><strong>Ethereum Sepolia</strong></div><div><span>Proof</span><strong>Attestcoin ASC</strong></div><div><span>Settlement</span><strong>Creditcoin CC3</strong></div></div>
-          <div className="mt-7 rounded-xl border border-white/10 bg-white/[0.025] p-3 text-xs leading-5 text-slate-400"><span className="font-semibold text-cyan-100">What stays protected:</span> order ownership, appended evidence, and the ability to record a matching receipt.</div>
-          <Button onClick={() => startLogin()} size="lg" className="mt-5 min-h-11 w-full bg-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:bg-cyan-200">Sign in to workspace</Button>
-          <p className="mt-4 text-center text-xs text-slate-500">Authentication protects order ownership and immutable deal evidence.</p>
+          <VeriSettleBrand className="relative" compact />
+          <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Wallet-first testnet</div>
+          <h1 className="mt-5 max-w-md font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Connect.<br /><span className="text-cyan-200">Prove. Release.</span></h1>
+          <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Save the order. Then sign testnet actions with Rabby or SubWallet.</p>
+          <div className="mt-7 grid gap-2 sm:grid-cols-2"><div className="rounded-xl border border-white/10 bg-black/15 p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-500">01 · Session</p><p className="mt-1 text-sm font-semibold text-white">Save evidence</p></div><div className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.05] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-cyan-100">02 · Wallet</p><p className="mt-1 flex items-center gap-2 text-sm font-semibold text-white"><WalletCards className="h-4 w-4 text-cyan-200" /> Sign testnet actions</p></div></div>
+          <Button onClick={() => startLogin()} size="lg" className="mt-6 min-h-11 w-full bg-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:bg-cyan-200">Open secure workspace</Button>
+          <p className="mt-4 text-center text-xs text-slate-500">Wallet connection happens inside a deal. No keys requested.</p>
         </div>
       </div>
     );

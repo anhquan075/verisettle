@@ -137,3 +137,6 @@
 - [x] Add a compact mobile wordmark mode that keeps the identity recognizable without crowding the top navigation.
 - [x] Trim nonessential UI copy and establish a sharper typography hierarchy with a distinctive display treatment across key landing and workspace surfaces.
 - [x] Add regression coverage and validate metadata, theme variants, and desktop/mobile typography before checkpointing the refinement.
+- [x] Replace the signed-out workspace entry with a compact wallet-first layout that makes compatible wallet connection prominent without misrepresenting it as wallet-signature authentication.
+- [x] Preserve the existing session sign-in path while clearly separating it from real Rabby/SubWallet connection for testnet actions.
+- [x] Add regression coverage and validate the signed-out wallet-first entry at desktop and mobile widths before checkpointing.

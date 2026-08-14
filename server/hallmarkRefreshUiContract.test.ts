@@ -67,6 +67,16 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(palette).toContain("onOpenDeal");
   });
 
+  it("keeps signed-out access wallet-first without claiming unsupported wallet authentication", () => {
+    expect(layout).toContain("Wallet-first testnet");
+    expect(layout).toContain("Connect.");
+    expect(layout).toContain("Rabby or SubWallet");
+    expect(layout).toContain("Open secure workspace");
+    expect(layout).toContain("Wallet connection happens inside a deal");
+    expect(layout).toContain("No keys requested.");
+    expect(layout).not.toContain("Sign in with wallet");
+  });
+
   it("keeps the brand selectable for theme surfaces and publishable in compact and social contexts", () => {
     expect(brand).toContain('tone = "brand"');
     expect(brand).toContain("monochrome");
