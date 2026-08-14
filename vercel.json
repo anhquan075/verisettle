@@ -2,7 +2,16 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist/public",
+  "functions": {
+    "api/[...path].ts": {
+      "includeFiles": "server/vercelFunction.cjs"
+    }
+  },
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/[...path]?path=$1"
+    },
     {
       "handle": "filesystem"
     },
