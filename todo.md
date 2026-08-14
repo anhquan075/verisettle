@@ -1,0 +1,45 @@
+# Project TODO
+
+- [x] Document the verified VeriSettle domain model, deal states, immutable timeline rules, and Attestcoin integration boundaries.
+- [x] Add the `deals` database table with the requested fields, lowercase status enum values, nanoid order IDs, and lifecycle timestamps.
+- [x] Add an immutable deal-events table so chronological timeline entries persist independently of mutable deal fields.
+- [x] Create typed tRPC procedures for creating, listing, retrieving, funding, submitting proof for, releasing, refunding, and disputing deals.
+- [x] Enforce lifecycle transition authorization and explicit success, invalid-proof, and replay-protection error paths.
+- [x] Seed no fake customer reviews, ratings, or testimonials.
+- [x] Build the dark, mobile-first asymmetric public landing page with teal/cyan Creditcoin-inspired visual identity and clear app CTA.
+- [x] Build the authenticated deal dashboard with a create-purchase-order form, exact status badges, deal list, and detail navigation.
+- [x] Build the deal detail page with terms, funding state, official Attestcoin addresses/SDK references, transaction-hash input, chronological immutable timeline, explorer links, and outcome controls.
+- [x] Build the proof verification simulator with an explicit success path, invalid-proof failure path, and a judge-facing replay-protection attempt that renders the exact error reason.
+- [x] Apply Inter and Space Grotesk typography, Framer Motion state transitions, accessible focus rings, responsive layouts, loading states, and error states.
+- [x] Write Vitest coverage for core lifecycle transitions, proof validation, replay prevention, and tRPC authorization.
+- [x] Add Vitest coverage for unauthorized and cross-user deal-access rejection paths.
+- [ ] Run database migration, type checks, automated tests, browser verification, and desktop/mobile visual review.
+- [ ] Verify detail-page loading, empty, error, desktop, and mobile states in an authenticated browser session.
+- [ ] Verify the interactive browser lifecycle: create, fund, submit, valid proof, invalid proof, release, and exact replay rejection.
+- [ ] Document authenticated browser verification evidence for the full detail workflow before checkpointing.
+- [x] Remove the proof-verification simulation and all mock transaction-hash generation from the runtime product flow.
+- [x] Build a minimal Ethereum Sepolia source-order contract that emits a policy-bound delivery-acceptance event from the designated buyer.
+- [x] Build a Creditcoin CC3 Testnet settlement escrow contract and Attestcoin Smart Contract that verifies, decodes, policy-checks, and replay-protects the source event before settlement.
+- [x] Add contract integration validation for the full real proof lifecycle, invalid-proof rejection, and replay prevention against the required testnets.
+- [x] Deploy the source contract and ASC/settlement contracts to their required testnets and record real contract addresses and transaction hashes.
+- [x] Replace dashboard and detail-page actions with wallet-driven real contract calls, chain-state reads, and a real proof-submission worker flow.
+- [x] Persist only user-created deals and observed testnet transaction/proof metadata; do not seed or fabricate application data.
+- [x] Validate the full create-to-release and invalid/replay paths against testnet evidence, then update the README and submission documentation.
+- [x] Generate a dedicated testnet-only EVM deployment wallet locally without MetaMask and without exposing its private key in source code, logs, or the client.
+- [ ] Obtain free Ethereum Sepolia ETH and Creditcoin CC3 Testnet tCTC through their official faucets and verify the on-chain balances.
+- [x] Confirm the deployed wallet’s spendable CC3 Testnet EVM balance through an authoritative EVM balance endpoint after the AccountId20 transfer is indexed.
+- [ ] Capture the Creditcoin faucet’s explicit completion evidence alongside the successful on-chain transfer record.
+- [ ] Store the testnet-only deployment key securely for server-side contract deployment and proof-submission use.
+- [x] Export the dedicated testnet-only wallet as an encrypted keystore with a separate import password and verify the public address without revealing the private key.
+- [x] Refine the authenticated dashboard into a high-end operational command center with clearer deal health, chain readiness, and premium visual hierarchy.
+- [x] Add a guided live-lifecycle experience that explains the exact wallet/network requirement and next real transaction at every deal stage.
+- [x] Upgrade the deal detail evidence presentation with polished testnet provenance, transaction-state feedback, and accessible progressive disclosure.
+- [ ] Visually verify the refined public and authenticated layouts at desktop and mobile breakpoints before the final checkpoint.
+- [x] Capture fresh desktop and mobile visual verification for the public landing page alongside the command-center screenshots.
+- [ ] Record the signed-in command-center desktop and mobile visual-verification evidence before the final checkpoint.
+- [x] Write a concise end-to-end test script and recording checklist for the real wallet, funding, Sepolia acceptance, Attestcoin proof, settlement, and replay flows.
+- [x] Record an evidence-based real-testnet walkthrough without exposing the keystore password, private key, or other sensitive wallet material.
+- [ ] Capture a browser-wallet approval recording only if a local EIP-1193 wallet session is available to the sandbox; do not fabricate this step.
+- [x] Review the completed recording against transaction evidence and prepare a concise demo-viewing guide.
+- [x] Use the sandbox browser for interface capture and the dedicated local testnet-only signer for real transaction evidence; explicitly disclose this boundary in the finished demonstration.
+- [x] Prepare the final research report and project documentation with official Attestcoin references.

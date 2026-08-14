@@ -21,15 +21,15 @@ import {
 } from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { Blocks, LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Deal register", path: "/app" },
+  { icon: ShieldCheck, label: "Protocol reference", path: "/app#protocol" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -58,23 +58,17 @@ export default function DashboardLayout({
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-2xl font-semibold tracking-tight text-center">
-              Sign in to continue
-            </h1>
-            <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
-            </p>
-          </div>
-          <Button
-            onClick={() => startLogin()}
-            size="lg"
-            className="w-full shadow-lg hover:shadow-xl transition-all"
-          >
-            Sign in
-          </Button>
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#040b0e] px-5 py-10 text-white">
+        <div className="pointer-events-none absolute -left-24 top-16 h-80 w-80 rounded-full bg-teal-300/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-12 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="relative w-full max-w-xl overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#09161a]/85 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/60 to-transparent" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> CC3 Testnet ready</div>
+          <h1 className="mt-6 max-w-md font-display text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-white sm:text-5xl">Enter the settlement command center.</h1>
+          <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">Create protected purchase orders, connect a testnet wallet, and release escrow only through a real Attestcoin-verified Sepolia event.</p>
+          <div className="mt-7 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-500">Source</p><p className="mt-2 text-xs font-medium text-cyan-100">Ethereum Sepolia</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-500">Proof</p><p className="mt-2 text-xs font-medium text-cyan-100">Attestcoin ASC</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.025] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-500">Settlement</p><p className="mt-2 text-xs font-medium text-cyan-100">Creditcoin CC3</p></div></div>
+          <Button onClick={() => startLogin()} size="lg" className="mt-8 w-full bg-gradient-to-r from-teal-300 to-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:from-teal-200 hover:to-cyan-200">Sign in to workspace</Button>
+          <p className="mt-4 text-center text-xs text-slate-500">Authentication protects order ownership and immutable deal evidence.</p>
         </div>
       </div>
     );
@@ -82,6 +76,7 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider
+      className="min-h-svh bg-[#040b0e]"
       style={
         {
           "--sidebar-width": `${sidebarWidth}px`,
@@ -154,10 +149,10 @@ function DashboardLayoutContent({
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
-          className="border-r-0"
+          className="border-r border-cyan-100/10 bg-[#061014] text-slate-200 [&_[data-slot=sidebar-inner]]:!bg-[#061014] [&_[data-slot=sidebar-inner]]:!text-slate-200"
           disableTransition={isResizing}
         >
-          <SidebarHeader className="h-16 justify-center">
+          <SidebarHeader className="h-20 justify-center border-b border-cyan-100/10">
             <div className="flex items-center gap-3 px-2 transition-all w-full">
               <button
                 onClick={toggleSidebar}
@@ -168,15 +163,14 @@ function DashboardLayoutContent({
               </button>
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-semibold tracking-tight truncate">
-                    Navigation
-                  </span>
+                  <span className="font-display font-semibold tracking-tight text-white truncate">VeriSettle</span>
                 </div>
               ) : null}
             </div>
           </SidebarHeader>
 
-          <SidebarContent className="gap-0">
+          <SidebarContent className="gap-0 px-1 pt-4">
+            <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500 group-data-[collapsible=icon]:hidden">Command center</p>
             <SidebarMenu className="px-2 py-1">
               {menuItems.map(item => {
                 const isActive = location === item.path;
@@ -186,7 +180,7 @@ function DashboardLayoutContent({
                       isActive={isActive}
                       onClick={() => setLocation(item.path)}
                       tooltip={item.label}
-                      className={`h-10 transition-all font-normal`}
+                      className={`h-11 rounded-xl transition-all font-medium data-[active=true]:bg-cyan-300/10 data-[active=true]:text-cyan-100 hover:bg-white/[0.04]`}
                     >
                       <item.icon
                         className={`h-4 w-4 ${isActive ? "text-primary" : ""}`}
@@ -199,7 +193,8 @@ function DashboardLayoutContent({
             </SidebarMenu>
           </SidebarContent>
 
-          <SidebarFooter className="p-3">
+          <SidebarFooter className="border-t border-cyan-100/10 p-3">
+            {!isCollapsed && <div className="mb-3 rounded-xl border border-teal-200/10 bg-teal-300/[0.045] px-3 py-2.5"><div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Testnet live</div><p className="mt-1 text-xs text-slate-400">Sepolia × CC3 proof path</p></div>}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -240,14 +235,14 @@ function DashboardLayoutContent({
         />
       </div>
 
-      <SidebarInset>
+      <SidebarInset className="bg-[#040b0e]">
         {isMobile && (
-          <div className="flex border-b h-14 items-center justify-between bg-background/95 px-2 backdrop-blur supports-[backdrop-filter]:backdrop-blur sticky top-0 z-40">
+          <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-cyan-100/10 bg-[#061014]/95 px-2 text-slate-100 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
             <div className="flex items-center gap-2">
-              <SidebarTrigger className="h-9 w-9 rounded-lg bg-background" />
+              <SidebarTrigger className="h-9 w-9 rounded-lg bg-white/[0.05] text-cyan-100 hover:bg-cyan-300/10" />
               <div className="flex items-center gap-3">
                 <div className="flex flex-col gap-1">
-                  <span className="tracking-tight text-foreground">
+                  <span className="font-medium tracking-tight text-slate-100">
                     {activeMenuItem?.label ?? "Menu"}
                   </span>
                 </div>
@@ -255,7 +250,7 @@ function DashboardLayoutContent({
             </div>
           </div>
         )}
-        <main className="flex-1 p-4">{children}</main>
+        <main className="flex-1 bg-[radial-gradient(circle_at_95%_0%,rgba(34,211,238,0.08),transparent_28%),radial-gradient(circle_at_15%_25%,rgba(45,212,191,0.06),transparent_30%)] p-4 sm:p-6">{children}</main>
       </SidebarInset>
     </>
   );

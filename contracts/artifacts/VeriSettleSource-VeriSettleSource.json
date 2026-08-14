@@ -1,0 +1,107 @@
+{
+  "contractName": "VeriSettleSource",
+  "sourceName": "contracts/VeriSettleSource.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InvalidSeller",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidTermsHash",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OrderAlreadyAccepted",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "termsHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OrderAccepted",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "orderId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "termsHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "acceptOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "acceptedOrders",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561000f575f80fd5b506101f18061001d5f395ff3fe608060405234801561000f575f80fd5b5060043610610034575f3560e01c806363b0c5e7146100385780638f0c1ddf1461006e575b5f80fd5b61005a610046366004610164565b5f6020819052908152604090205460ff1681565b604051901515815260200160405180910390f35b61008161007c36600461017b565b610083565b005b5f8381526020819052604090205460ff16156100b95760405163f006ef4f60e01b81526004810184905260240160405180910390fd5b6001600160a01b0382166100e05760405163bab7ca3560e01b815260040160405180910390fd5b806100fe576040516392a3c43160e01b815260040160405180910390fd5b5f8381526020819052604090819020805460ff19166001179055516001600160a01b03831690339085907f1e66f520ad2d2356145e732374b86717266f45890b647d904ff18aa2bd6aabfd906101579086815260200190565b60405180910390a4505050565b5f60208284031215610174575f80fd5b5035919050565b5f805f6060848603121561018d575f80fd5b8335925060208401356001600160a01b03811681146101aa575f80fd5b92959294505050604091909101359056fea26469706673582212209f131f93d3f951a4b675913f2c799231b1a02dd203bb4bee70eef6e2b1aba32464736f6c63430008170033",
+  "deployedBytecode": "0x608060405234801561000f575f80fd5b5060043610610034575f3560e01c806363b0c5e7146100385780638f0c1ddf1461006e575b5f80fd5b61005a610046366004610164565b5f6020819052908152604090205460ff1681565b604051901515815260200160405180910390f35b61008161007c36600461017b565b610083565b005b5f8381526020819052604090205460ff16156100b95760405163f006ef4f60e01b81526004810184905260240160405180910390fd5b6001600160a01b0382166100e05760405163bab7ca3560e01b815260040160405180910390fd5b806100fe576040516392a3c43160e01b815260040160405180910390fd5b5f8381526020819052604090819020805460ff19166001179055516001600160a01b03831690339085907f1e66f520ad2d2356145e732374b86717266f45890b647d904ff18aa2bd6aabfd906101579086815260200190565b60405180910390a4505050565b5f60208284031215610174575f80fd5b5035919050565b5f805f6060848603121561018d575f80fd5b8335925060208401356001600160a01b03811681146101aa575f80fd5b92959294505050604091909101359056fea26469706673582212209f131f93d3f951a4b675913f2c799231b1a02dd203bb4bee70eef6e2b1aba32464736f6c63430008170033",
+  "methodIdentifiers": {
+    "acceptOrder(bytes32,address,bytes32)": "8f0c1ddf",
+    "acceptedOrders(bytes32)": "63b0c5e7"
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"InvalidSeller\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidTermsHash\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderAlreadyAccepted\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"buyer\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"termsHash\",\"type\":\"bytes32\"}],\"name\":\"OrderAccepted\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"termsHash\",\"type\":\"bytes32\"}],\"name\":\"acceptOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"acceptedOrders\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"The Creditcoin ASC accepts an attested receipt only when it contains this event from this exact deployed contract. No application-supplied hash can replace it.\",\"kind\":\"dev\",\"methods\":{},\"title\":\"VeriSettleSource\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Canonical Sepolia source of a buyer's on-chain acceptance evidence.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/VeriSettleSource.sol\":\"VeriSettleSource\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/VeriSettleSource.sol\":{\"keccak256\":\"0x70779f6f600b1a2a7e62653dba38f801942849b05d506b21b2a0eb9798a9eca9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://776430b314f072f306044f54eef81af13f07b925a82d10206c7db81da4cf499e\",\"dweb:/ipfs/QmU5MyfqPFctwB5Wz7Pz2qZuMdc5q23XrDbiUuCCYK7jK1\"]}},\"version\":1}"
+}

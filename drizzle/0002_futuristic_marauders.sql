@@ -1,0 +1,1 @@
+ALTER TABLE `deals` ADD CONSTRAINT `deals_sepoliaSourceTxHash_unique` UNIQUE(`sepoliaSourceTxHash`);

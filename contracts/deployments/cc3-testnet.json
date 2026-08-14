@@ -1,0 +1,30 @@
+{
+  "network": {
+    "source": {
+      "name": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "explorer": "https://sepolia.etherscan.io"
+    },
+    "settlement": {
+      "name": "Creditcoin CC3 Testnet",
+      "chainId": 102031,
+      "explorer": "https://creditcoin-testnet.blockscout.com"
+    }
+  },
+  "deployer": "0xc7774720D1C14B9dA1c656b796a2a092D0b9D1c9",
+  "source": {
+    "address": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+    "deploymentTxHash": "0x2fa878c8334fe3cd7e589f0e3f301b607f6f4e5e8be043571aa9ceedd903747e"
+  },
+  "decoderLibrary": {
+    "address": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+    "deploymentTxHash": "0x384d02a3393aff5bf3b1e6fc5b45b8c555f4238e29ddd9585ccbea2f06ee46cb"
+  },
+  "escrowAsc": {
+    "address": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+    "deploymentTxHash": "0x8bed11356577c9af97c452c9dab9a4cf9257d6863901aefc17c66baad73fdc1a",
+    "sourceChainKey": 1,
+    "blockProverPrecompile": "0x0000000000000000000000000000000000000FD2"
+  },
+  "deployedAt": "2026-08-13T11:11:16.933Z"
+}

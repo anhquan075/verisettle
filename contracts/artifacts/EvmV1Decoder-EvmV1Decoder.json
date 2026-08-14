@@ -1,0 +1,1492 @@
+{
+  "contractName": "EvmV1Decoder",
+  "sourceName": "@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeCommonTxFields",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "gasLimit",
+              "type": "uint64"
+            },
+            {
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "toIsNull",
+              "type": "bool"
+            },
+            {
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.CommonTxFields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeReceiptFields",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "receiptStatus",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint64",
+              "name": "receiptGasUsed",
+              "type": "uint64"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "address_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "topics",
+                  "type": "bytes32[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.LogEntry[]",
+              "name": "receiptLogs",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "receiptLogsBloom",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.ReceiptFields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTransactionType0",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "gasLimit",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "address",
+                  "name": "from",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "toIsNull",
+                  "type": "bool"
+                },
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.CommonTxFields",
+              "name": "commonTx",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint128",
+                  "name": "gasPrice",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "v",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "r",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "s",
+                  "type": "bytes32"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.LegacyFields",
+              "name": "type0",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint8",
+                  "name": "receiptStatus",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "receiptGasUsed",
+                  "type": "uint64"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "address_",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "topics",
+                      "type": "bytes32[]"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "data",
+                      "type": "bytes"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.LogEntry[]",
+                  "name": "receiptLogs",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "receiptLogsBloom",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.ReceiptFields",
+              "name": "receipt",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.DecodedTransactionType0",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTransactionType1",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "gasLimit",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "address",
+                  "name": "from",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "toIsNull",
+                  "type": "bool"
+                },
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.CommonTxFields",
+              "name": "commonTx",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "chainId",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "gasPrice",
+                  "type": "uint128"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "account",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "storageKeys",
+                      "type": "bytes32[]"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+                  "name": "accessList",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "yParity",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "r",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "s",
+                  "type": "bytes32"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.Type1Fields",
+              "name": "type1",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint8",
+                  "name": "receiptStatus",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "receiptGasUsed",
+                  "type": "uint64"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "address_",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "topics",
+                      "type": "bytes32[]"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "data",
+                      "type": "bytes"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.LogEntry[]",
+                  "name": "receiptLogs",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "receiptLogsBloom",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.ReceiptFields",
+              "name": "receipt",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.DecodedTransactionType1",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTransactionType2",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "gasLimit",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "address",
+                  "name": "from",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "toIsNull",
+                  "type": "bool"
+                },
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.CommonTxFields",
+              "name": "commonTx",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "chainId",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxPriorityFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "account",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "storageKeys",
+                      "type": "bytes32[]"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+                  "name": "accessList",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "yParity",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "r",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "s",
+                  "type": "bytes32"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.Type2Fields",
+              "name": "type2",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint8",
+                  "name": "receiptStatus",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "receiptGasUsed",
+                  "type": "uint64"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "address_",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "topics",
+                      "type": "bytes32[]"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "data",
+                      "type": "bytes"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.LogEntry[]",
+                  "name": "receiptLogs",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "receiptLogsBloom",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.ReceiptFields",
+              "name": "receipt",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.DecodedTransactionType2",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTransactionType3",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "gasLimit",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "address",
+                  "name": "from",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "toIsNull",
+                  "type": "bool"
+                },
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.CommonTxFields",
+              "name": "commonTx",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "chainId",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxPriorityFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "account",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "storageKeys",
+                      "type": "bytes32[]"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+                  "name": "accessList",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "maxFeePerBlobGas",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "blobVersionedHashes",
+                  "type": "bytes32[]"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "yParity",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "r",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "s",
+                  "type": "bytes32"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.Type3Fields",
+              "name": "type3",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint8",
+                  "name": "receiptStatus",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "receiptGasUsed",
+                  "type": "uint64"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "address_",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "topics",
+                      "type": "bytes32[]"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "data",
+                      "type": "bytes"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.LogEntry[]",
+                  "name": "receiptLogs",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "receiptLogsBloom",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.ReceiptFields",
+              "name": "receipt",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.DecodedTransactionType3",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTransactionType4",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "gasLimit",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "address",
+                  "name": "from",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bool",
+                  "name": "toIsNull",
+                  "type": "bool"
+                },
+                {
+                  "internalType": "address",
+                  "name": "to",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.CommonTxFields",
+              "name": "commonTx",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint64",
+                  "name": "chainId",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxPriorityFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "maxFeePerGas",
+                  "type": "uint128"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "account",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "storageKeys",
+                      "type": "bytes32[]"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+                  "name": "accessList",
+                  "type": "tuple[]"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "uint256",
+                      "name": "chainId",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "address",
+                      "name": "account",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "uint64",
+                      "name": "nonce",
+                      "type": "uint64"
+                    },
+                    {
+                      "internalType": "uint8",
+                      "name": "yParity",
+                      "type": "uint8"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "r",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "s",
+                      "type": "uint256"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.AuthorizationListEntry[]",
+                  "name": "authorizationList",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "yParity",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "r",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "s",
+                  "type": "bytes32"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.Type4Fields",
+              "name": "type4",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint8",
+                  "name": "receiptStatus",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "receiptGasUsed",
+                  "type": "uint64"
+                },
+                {
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "address_",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "bytes32[]",
+                      "name": "topics",
+                      "type": "bytes32[]"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "data",
+                      "type": "bytes"
+                    }
+                  ],
+                  "internalType": "struct EvmV1Decoder.LogEntry[]",
+                  "name": "receiptLogs",
+                  "type": "tuple[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "receiptLogsBloom",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.ReceiptFields",
+              "name": "receipt",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.DecodedTransactionType4",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTypeSpecificFieldsType0",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "gasPrice",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint256",
+              "name": "v",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.LegacyFields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTypeSpecificFieldsType1",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "chainId",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint128",
+              "name": "gasPrice",
+              "type": "uint128"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "storageKeys",
+                  "type": "bytes32[]"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+              "name": "accessList",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "yParity",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.Type1Fields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTypeSpecificFieldsType2",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "chainId",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxPriorityFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "storageKeys",
+                  "type": "bytes32[]"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+              "name": "accessList",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "yParity",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.Type2Fields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTypeSpecificFieldsType3",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "chainId",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxPriorityFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "storageKeys",
+                  "type": "bytes32[]"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+              "name": "accessList",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxFeePerBlobGas",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "blobVersionedHashes",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "yParity",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.Type3Fields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "chunk",
+          "type": "bytes"
+        }
+      ],
+      "name": "decodeTypeSpecificFieldsType4",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "chainId",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxPriorityFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "maxFeePerGas",
+              "type": "uint128"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "storageKeys",
+                  "type": "bytes32[]"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.AccessListEntry[]",
+              "name": "accessList",
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "chainId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address",
+                  "name": "account",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint8",
+                  "name": "yParity",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "r",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "s",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.AuthorizationListEntry[]",
+              "name": "authorizationList",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "uint8",
+              "name": "yParity",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "r",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "s",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.Type4Fields",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "address_",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "topics",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.LogEntry[]",
+          "name": "logs",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "eventSignature",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getLogsByEventSignature",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "address_",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "topics",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.LogEntry[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "receiptStatus",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint64",
+              "name": "receiptGasUsed",
+              "type": "uint64"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "address_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32[]",
+                  "name": "topics",
+                  "type": "bytes32[]"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct EvmV1Decoder.LogEntry[]",
+              "name": "receiptLogs",
+              "type": "tuple[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "receiptLogsBloom",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.ReceiptFields",
+          "name": "receipt",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "eventSignature",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getLogsByEventSignature",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "address_",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "topics",
+              "type": "bytes32[]"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct EvmV1Decoder.LogEntry[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "encodedTx",
+          "type": "bytes"
+        }
+      ],
+      "name": "getTransactionType",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "txType",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "txType",
+          "type": "uint8"
+        }
+      ],
+      "name": "isValidTransactionType",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x613344610035600b8282823980515f1a60731461002957634e487b7160e01b5f525f60045260245ffd5b305f52607381538281f3fe7300000000000000000000000000000000000000003014608060405260043610610106575f3560e01c80639d79c4371161009e578063c61148361161006e578063c611483614610290578063cf0d21c9146102b0578063d42370a7146102da578063de4dd61a146102fa575f80fd5b80639d79c43714610210578063a386042c14610230578063b2b083b914610250578063b5bb2cd914610270575f80fd5b806352ae22a6116100d957806352ae22a61461019357806354014825146101b357806378190020146101c65780637aecc645146101f0575f80fd5b8063051194bc1461010a57806307648c7a146101335780630dd5c77e14610153578063356954e814610173575b5f80fd5b61011d610118366004611e59565b61031a565b60405161012a9190612066565b60405180910390f35b610146610141366004612257565b61035a565b60405161012a9190612298565b610166610161366004611e59565b610529565b60405161012a91906122aa565b610186610181366004611e59565b6105b1565b60405161012a9190612440565b6101a66101a1366004611e59565b61067d565b60405161012a91906124c9565b6101466101c1366004612542565b6106ae565b6101e06101d43660046125fa565b600460ff909116111590565b604051901515815260200161012a565b6102036101fe366004611e59565b6106be565b60405161012a9190612615565b61022361021e366004611e59565b610796565b60405161012a9190612627565b61024361023e366004611e59565b6107c7565b60405161012a91906126a0565b61026361025e366004611e59565b610870565b60405161012a9190612769565b61028361027e366004611e59565b6108a1565b60405161012a91906127a2565b6102a361029e366004611e59565b6108d2565b60405161012a91906127db565b6102c86102be366004611e59565b6020015160ff1690565b60405160ff909116815260200161012a565b6102ed6102e8366004611e59565b610996565b60405161012a91906127ed565b61030d610308366004611e59565b610a59565b60405161012a9190612821565b610322611af3565b5f82511161034b5760405162461bcd60e51b81526004016103429061285a565b60405180910390fd5b61035482610a8a565b92915050565b60605f805b84518110156103e5575f85828151811061037b5761037b612887565b602002602001015160200151511180156103ca5750838582815181106103a3576103a3612887565b6020026020010151602001515f815181106103c0576103c0612887565b6020026020010151145b156103dd57816103d98161289b565b9250505b60010161035f565b505f816001600160401b038111156103ff576103ff611d0f565b60405190808252806020026020018201604052801561045c57816020015b61044960405180606001604052805f6001600160a01b0316815260200160608152602001606081525090565b81526020019060019003908161041d5790505b5090505f805b865181101561051e575f87828151811061047e5761047e612887565b602002602001015160200151511180156104cd5750858782815181106104a6576104a6612887565b6020026020010151602001515f815181106104c3576104c3612887565b6020026020010151145b15610516578681815181106104e4576104e4612887565b60200260200101518383806104f89061289b565b94508151811061050a5761050a612887565b60200260200101819052505b600101610462565b509095945050505050565b604080516080810182525f80825260208201526060918101829052818101919091525f82511161056b5760405162461bcd60e51b81526004016103429061285a565b5f61057a836020015160ff1690565b905060048160ff1611156105a05760405162461bcd60e51b8152600401610342906128bf565b6105aa8382610b6e565b9392505050565b6105b9611b5f565b5f8251116105d95760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906105ef9190612957565b915091508160ff166004146106165760405162461bcd60e51b8152600401610342906128bf565b80516004146106375760405162461bcd60e51b815260040161034290612a17565b6106758160018151811061064d5761064d612887565b60200260200101518260028151811061066857610668612887565b6020026020010151610cff565b949350505050565b610685611ba1565b5f8251116106a55760405162461bcd60e51b81526004016103429061285a565b61035482610db7565b60606105aa83604001518361035a565b6040805160e0810182525f808252602082018190529181018290526060808201526080810182905260a0810182905260c08101919091525f8251116107155760405162461bcd60e51b81526004016103429061285a565b5f808380602001905181019061072b9190612957565b915091508160ff166002146107525760405162461bcd60e51b8152600401610342906128bf565b80516003146107735760405162461bcd60e51b815260040161034290612a50565b6106758160018151811061078957610789612887565b6020026020010151610e87565b61079e611bf3565b5f8251116107be5760405162461bcd60e51b81526004016103429061285a565b61035482610f90565b6107cf611c30565b5f8251116107ef5760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906108059190612957565b915091508160ff1660011461082c5760405162461bcd60e51b8152600401610342906128bf565b805160031461084d5760405162461bcd60e51b815260040161034290612a89565b6106758160018151811061086357610863612887565b6020026020010151611123565b610878611c65565b5f8251116108985760405162461bcd60e51b81526004016103429061285a565b610354826111a1565b6108a9611c85565b5f8251116108c95760405162461bcd60e51b81526004016103429061285a565b6103548261128c565b6108da611ca5565b5f8251116108fa5760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906109109190612957565b915091508160ff166003146109375760405162461bcd60e51b8152600401610342906128bf565b80516004146109585760405162461bcd60e51b815260040161034290612ac2565b6106758160018151811061096e5761096e612887565b60200260200101518260028151811061098957610989612887565b6020026020010151611377565b604080516080810182525f8082526020820181905291810182905260608101919091525f8251116109d95760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906109ef9190612957565b915091508160ff165f14610a155760405162461bcd60e51b8152600401610342906128bf565b8051600314610a365760405162461bcd60e51b815260040161034290612afb565b61067581600181518110610a4c57610a4c612887565b6020026020010151611487565b610a61611cef565b5f825111610a815760405162461bcd60e51b81526004016103429061285a565b610354826114eb565b610a92611af3565b5f8083806020019051810190610aa89190612957565b915091508160ff165f14610b095760405162461bcd60e51b815260206004820152603560248201525f805160206132ef833981519152604482015274074696f6e20747970652c206578706563746564203605c1b6064820152608401610342565b8051600314610b2a5760405162461bcd60e51b815260040161034290612afb565b5f610b3485610f90565b90505f610b418685610b6e565b9050610b5983600181518110610a4c57610a4c612887565b60208601529084526040840152509092915050565b604080516080810182525f80825260208201526060918101829052818101919091525f83806020019051810190610ba59190612957565b91505060048360ff161115610bcc5760405162461bcd60e51b8152600401610342906128bf565b5f60028460ff1611610c3657600290508151600314610c315760405162461bcd60e51b815260206004820152602e60248201525f805160206132cf83398151915260448201526d3a103337b9102a3cb8329018169960911b6064820152608401610342565b610c8f565b600390508151600414610c8f5760405162461bcd60e51b815260206004820152602e60248201525f805160206132cf83398151915260448201526d1d08199bdc88151e5c19480ccb4d60921b6064820152608401610342565b5f80606080858581518110610ca657610ca6612887565b6020026020010151806020019051810190610cc19190612b90565b60ff84168b526001600160401b03831660208c015292965090945092509050610ce9826115bb565b6040880152606087015250939695505050505050565b610d07611b5f565b5f805f606086806020019051810190610d209190612d08565b8951939750919550935091506060905f9081908190610d48908b016020908101908c01612ea4565b6001600160401b038c168d526001600160801b03808c1660208f01528a1660408e015260ff831660a08e015260c08d0182905260e08d0181905292965090945092509050610d95856116e8565b60608a0152610da38461186c565b60808a015250969998505050505050505050565b610dbf611ba1565b5f8083806020019051810190610dd59190612957565b915091508160ff16600214610e375760405162461bcd60e51b815260206004820152603560248201525f805160206132ef8339815191526044820152743a34b7b7103a3cb832961032bc3832b1ba32b2101960591b6064820152608401610342565b8051600314610e585760405162461bcd60e51b815260040161034290612a50565b5f610e6285610f90565b90505f610e6f8685610b6e565b9050610b598360018151811061078957610789612887565b6040805160e0810182525f808252602082018190529181018290526060808201526080810182905260a0810182905260c08101919091525f805f60605f805f88806020019051810190610eda9190613075565b809750819850829950839a50849b50859c50869d505050505050505086885f01906001600160401b031690816001600160401b0316815250508588602001906001600160801b031690816001600160801b0316815250508488604001906001600160801b031690816001600160801b03168152505082886080019060ff16908160ff1681525050818860a0018181525050808860c0018181525050610f7e84611a08565b60608901525095979650505050505050565b610f98611bf3565b5f8083806020019051810190610fae9190612957565b9150915060048260ff161115610fd65760405162461bcd60e51b8152600401610342906128bf565b805160031480610fe7575080516004145b61102a5760405162461bcd60e51b815260206004820152602160248201525f805160206132cf8339815191526044820152601d60fa1b6064820152608401610342565b5f805f805f806060875f8151811061104457611044612887565b602002602001015180602001905181019061105f9190613107565b809750819850829950839a50849b50859c50869d5050505050505050868a5f01906001600160401b031690816001600160401b031681525050858a602001906001600160401b031690816001600160401b031681525050848a604001906001600160a01b031690816001600160a01b031681525050838a6060019015159081151581525050828a608001906001600160a01b031690816001600160a01b031681525050818a60a0018181525050808a60c00181905250505050505050505050919050565b61112b611c30565b5f8060605f805f8780602001905181019061114691906131ad565b6001600160401b0386168d526001600160801b03851660208e015260ff831660608e015260808d0182905260a08d01819052949a5092985090965094509250905061119084611a08565b604088015250949695505050505050565b6111a9611c65565b5f80838060200190518101906111bf9190612957565b915091508160ff166003146112215760405162461bcd60e51b815260206004820152603560248201525f805160206132ef83398151915260448201527474696f6e20747970652c206578706563746564203360581b6064820152608401610342565b80516004146112425760405162461bcd60e51b815260040161034290612ac2565b5f61124c85610f90565b90505f6112598685610b6e565b9050610b598360018151811061127157611271612887565b60200260200101518460028151811061098957610989612887565b611294611c85565b5f80838060200190518101906112aa9190612957565b915091508160ff1660041461130c5760405162461bcd60e51b815260206004820152603560248201525f805160206132ef8339815191526044820152741d1a5bdb881d1e5c194b08195e1c1958dd1959080d605a1b6064820152608401610342565b805160041461132d5760405162461bcd60e51b815260040161034290612a17565b5f61133785610f90565b90505f6113448685610b6e565b9050610b598360018151811061135c5761135c612887565b60200260200101518460028151811061066857610668612887565b61137f611ca5565b5f805f6060868060200190518101906113989190612d08565b809450819550829650839750505050505f60605f805f8a8060200190518101906113c2919061322e565b8095508196508297508398508499505050505050888a5f01906001600160401b031690816001600160401b031681525050878a602001906001600160801b031690816001600160801b031681525050868a604001906001600160801b031690816001600160801b031681525050848a6080018181525050838a60a00181905250828a60c0019060ff16908160ff1681525050818a60e0018181525050808a610100018181525050611472866116e8565b60608b015250979a9950505050505050505050565b604080516080810182525f8082526020820181905291810182905260608101919091525f805f80858060200190518101906114c29190613294565b6001600160801b0390931688526020880191909152604087015260608601525092949350505050565b6114f3611cef565b5f80838060200190518101906115099190612957565b915091508160ff1660011461156b5760405162461bcd60e51b815260206004820152603560248201525f805160206132ef83398151915260448201527474696f6e20747970652c206578706563746564203160581b6064820152608401610342565b805160031461158c5760405162461bcd60e51b815260040161034290612a89565b5f61159685610f90565b90505f6115a38685610b6e565b9050610b598360018151811061086357610863612887565b60605f82516001600160401b038111156115d7576115d7611d0f565b60405190808252806020026020018201604052801561163457816020015b61162160405180606001604052805f6001600160a01b0316815260200160608152602001606081525090565b8152602001906001900390816115f55790505b5090505f5b83518110156116e157604051806060016040528085838151811061165f5761165f612887565b60200260200101515f01516001600160a01b0316815260200185838151811061168a5761168a612887565b60200260200101516020015181526020018583815181106116ad576116ad612887565b6020026020010151604001518152508282815181106116ce576116ce612887565b6020908102919091010152600101611639565b5092915050565b60605f82516001600160401b0381111561170457611704611d0f565b60405190808252806020026020018201604052801561174957816020015b604080518082019091525f8152606060208201528152602001906001900390816117225790505b5090505f5b83518110156116e1575f84828151811061176a5761176a612887565b60200260200101516020015190505f81516001600160401b0381111561179257611792611d0f565b6040519080825280602002602001820160405280156117bb578160200160208202803683370190505b5090505f5b825181101561180a578281815181106117db576117db612887565b60200260200101515f1b8282815181106117f7576117f7612887565b60209081029190910101526001016117c0565b50604051806040016040528087858151811061182857611828612887565b60200260200101515f01516001600160a01b031681526020018281525084848151811061185757611857612887565b6020908102919091010152505060010161174e565b60605f82516001600160401b0381111561188857611888611d0f565b6040519080825280602002602001820160405280156118e657816020015b6040805160c0810182525f8082526020808301829052928201819052606082018190526080820181905260a082015282525f199092019101816118a65790505b5090505f5b83518110156116e1576040518060c0016040528085838151811061191157611911612887565b60200260200101515f0151815260200185838151811061193357611933612887565b6020026020010151602001516001600160a01b0316815260200185838151811061195f5761195f612887565b6020026020010151604001516001600160401b0316815260200185838151811061198b5761198b612887565b60200260200101516060015160ff1681526020018583815181106119b1576119b1612887565b60200260200101516080015181526020018583815181106119d4576119d4612887565b602002602001015160a001518152508282815181106119f5576119f5612887565b60209081029190910101526001016118eb565b60605f82516001600160401b03811115611a2457611a24611d0f565b604051908082528060200260200182016040528015611a6957816020015b604080518082019091525f815260606020820152815260200190600190039081611a425790505b5090505f5b83518110156116e1576040518060400160405280858381518110611a9457611a94612887565b60200260200101515f01516001600160a01b03168152602001858381518110611abf57611abf612887565b602002602001015160200151815250828281518110611ae057611ae0612887565b6020908102919091010152600101611a6e565b6040518060600160405280611b06611bf3565b8152604080516080810182525f808252602082810182905292820181905260608201529101905b8152602001611b5a604080516080810182525f808252602082015260609181018290528181019190915290565b905290565b60408051610100810182525f808252602082018190529181018290526060808201819052608082015260a0810182905260c0810182905260e081019190915290565b6040518060600160405280611bb4611bf3565b81526040805160e0810182525f80825260208281018290529282018190526060808301526080820181905260a0820181905260c0820152910190611b2d565b6040805160e0810182525f8082526020820181905291810182905260608082018390526080820183905260a082019290925260c081019190915290565b6040805160c0810182525f8082526020820181905260609282018390529181018290526080810182905260a081019190915290565b6040518060600160405280611c78611bf3565b8152602001611b2d611ca5565b6040518060600160405280611c98611bf3565b8152602001611b2d611b5f565b60408051610120810182525f8082526020820181905291810182905260608082018190526080820183905260a082015260c0810182905260e0810182905261010081019190915290565b6040518060600160405280611d02611bf3565b8152602001611b2d611c30565b634e487b7160e01b5f52604160045260245ffd5b604051606081016001600160401b0381118282101715611d4557611d45611d0f565b60405290565b604051608081016001600160401b0381118282101715611d4557611d45611d0f565b604080519081016001600160401b0381118282101715611d4557611d45611d0f565b60405160c081016001600160401b0381118282101715611d4557611d45611d0f565b604051601f8201601f191681016001600160401b0381118282101715611dd957611dd9611d0f565b604052919050565b5f6001600160401b03821115611df957611df9611d0f565b50601f01601f191660200190565b5f82601f830112611e16575f80fd5b8135611e29611e2482611de1565b611db1565b818152846020838601011115611e3d575f80fd5b816020850160208301375f918101602001919091529392505050565b5f60208284031215611e69575f80fd5b81356001600160401b03811115611e7e575f80fd5b61067584828501611e07565b5f5b83811015611ea4578181015183820152602001611e8c565b50505f910152565b5f8151808452611ec3816020860160208601611e8a565b601f01601f19169290920160200192915050565b5f6001600160401b0380835116845280602084015116602085015250604082015160018060a01b038082166040860152606084015115156060860152806080850151166080860152505060a082015160a084015260c082015160e060c085015261067560e0850182611eac565b5f815180845260208085019450602084015f5b83811015611f7357815187529582019590820190600101611f57565b509495945050505050565b5f82825180855260208086019550808260051b8401018186015f5b8481101561200357858303601f19018952815180516001600160a01b0316845284810151606086860181905290611fd282870182611f44565b91505060408083015192508582038187015250611fef8183611eac565b9a86019a9450505090830190600101611f99565b5090979650505050505050565b60ff81511682526001600160401b0360208201511660208301525f6040820151608060408501526120446080850182611f7e565b90506060830151848203606086015261205d8282611eac565b95945050505050565b602081525f825160c0602084015261208160e0840182611ed7565b905060208401516120bf60408501826001600160801b0381511682526020810151602083015260408101516040830152606081015160608301525050565b506040840151838203601f190160c085015261205d8282612010565b5f6001600160401b038211156120f3576120f3611d0f565b5060051b60200190565b6001600160a01b0381168114612111575f80fd5b50565b5f82601f830112612123575f80fd5b81356020612133611e24836120db565b82815260059290921b84018101918181019086841115612151575f80fd5b8286015b8481101561224c5780356001600160401b0380821115612173575f80fd5b908801906060828b03601f1901121561218a575f80fd5b612192611d23565b8683013561219f816120fd565b8152604083810135838111156121b3575f80fd5b8401603f81018d136121c3575f80fd5b888101356121d3611e24826120db565b81815260059190911b82018301908a8101908f8311156121f1575f80fd5b928401925b8284101561220f5783358252928b0192908b01906121f6565b858c0152505050606084013583811115612227575f80fd5b6122358d8a83880101611e07565b918301919091525085525050918301918301612155565b509695505050505050565b5f8060408385031215612268575f80fd5b82356001600160401b0381111561227d575f80fd5b61228985828601612114565b95602094909401359450505050565b602081525f6105aa6020830184611f7e565b602081525f6105aa6020830184612010565b5f82825180855260208086019550808260051b8401018186015f5b8481101561200357858303601f19018952815180516001600160a01b03168452840151604085850181905261230e81860183611f44565b9a86019a94505050908301906001016122d7565b5f815180845260208085019450602084015f5b83811015611f7357815180518852838101516001600160a01b0316848901526040808201516001600160401b03169089015260608082015160ff16908901526080808201519089015260a0908101519088015260c09096019590820190600101612335565b5f6101006001600160401b0383511684526001600160801b03602084015116602085015260408301516123d860408601826001600160801b03169052565b5060608301518160608601526123f0828601826122bc565b9150506080830151848203608086015261240a8282612322565b91505060a083015161242160a086018260ff169052565b5060c083015160c085015260e083015160e08501528091505092915050565b602081525f6105aa602083018461239a565b6001600160401b0381511682525f60208201516001600160801b0380821660208601528060408501511660408601525050606082015160e0606085015261249c60e08501826122bc565b905060ff608084015116608085015260a083015160a085015260c083015160c08501528091505092915050565b602081525f8251606060208401526124e46080840182611ed7565b90506020840151601f19808584030160408601526125028383612452565b925060408601519150808584030160608601525061205d8282612010565b60ff81168114612111575f80fd5b6001600160401b0381168114612111575f80fd5b5f8060408385031215612553575f80fd5b82356001600160401b0380821115612569575f80fd5b908401906080828703121561257c575f80fd5b612584611d4b565b823561258f81612520565b8152602083013561259f8161252e565b60208201526040830135828111156125b5575f80fd5b6125c188828601612114565b6040830152506060830135828111156125d8575f80fd5b6125e488828601611e07565b6060830152509660209590950135955050505050565b5f6020828403121561260a575f80fd5b81356105aa81612520565b602081525f6105aa6020830184612452565b602081525f6105aa6020830184611ed7565b6001600160401b0381511682526001600160801b0360208201511660208301525f604082015160c0604085015261267360c08501826122bc565b905060ff60608401511660608501526080830151608085015260a083015160a08501528091505092915050565b602081525f6105aa6020830184612639565b80516001600160401b031682525f61012060208301516126dd60208601826001600160801b03169052565b5060408301516126f860408601826001600160801b03169052565b506060830151816060860152612710828601826122bc565b9150506080830151608085015260a083015184820360a08601526127348282611f44565b91505060c083015161274b60c086018260ff169052565b5060e083810151908501526101009283015192909301919091525090565b602081525f8251606060208401526127846080840182611ed7565b90506020840151601f198085840301604086015261250283836126b2565b602081525f8251606060208401526127bd6080840182611ed7565b90506020840151601f1980858403016040860152612502838361239a565b602081525f6105aa60208301846126b2565b81516001600160801b0316815260208083015190820152604080830151908201526060808301519082015260808101610354565b602081525f82516060602084015261283c6080840182611ed7565b90506020840151601f19808584030160408601526125028383612639565b60208082526013908201527245766d56314465636f6465723a20456d70747960681b604082015260600190565b634e487b7160e01b5f52603260045260245ffd5b5f600182016128b857634e487b7160e01b5f52601160045260245ffd5b5060010190565b60208082526026908201527f45766d56314465636f6465723a20496e76616c6964207472616e73616374696f6040820152656e207479706560d01b606082015260800190565b805161291081612520565b919050565b5f82601f830112612924575f80fd5b8151612932611e2482611de1565b818152846020838601011115612946575f80fd5b610675826020830160208701611e8a565b5f8060408385031215612968575f80fd5b825161297381612520565b809250506020808401516001600160401b0380821115612991575f80fd5b818601915086601f8301126129a4575f80fd5b81516129b2611e24826120db565b81815260059190911b830184019084810190898311156129d0575f80fd5b8585015b83811015612a06578051858111156129ea575f80fd5b6129f88c89838a0101612915565b8452509186019186016129d4565b508096505050505050509250929050565b6020808252602c908201525f805160206132cf83398151915260408201526b1d08199bdc88151e5c19480d60a21b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b3a103337b9102a3cb832901960a11b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b7420666f722054797065203160a01b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b7420666f722054797065203360a01b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b07420666f72205479706520360a41b606082015260800190565b5f82601f830112612b43575f80fd5b81516020612b53611e24836120db565b8083825260208201915060208460051b870101935086841115612b74575f80fd5b602086015b8481101561224c5780518352918301918301612b79565b5f805f8060808587031215612ba3575f80fd5b8451612bae81612520565b6020860151909450612bbf8161252e565b60408601519093506001600160401b0380821115612bdb575f80fd5b818701915087601f830112612bee575f80fd5b8151612bfc611e24826120db565b8082825260208201915060208360051b86010192508a831115612c1d575f80fd5b602085015b83811015612cc057805185811115612c38575f80fd5b86016060818e03601f19011215612c4d575f80fd5b612c55611d23565b6020820151612c63816120fd565b8152604082015187811115612c76575f80fd5b612c858f602083860101612b34565b602083015250606082015187811115612c9c575f80fd5b612cab8f602083860101612915565b60408301525084525060209283019201612c22565b5060608a01519096509350505080821115612cd9575f80fd5b50612ce687828801612915565b91505092959194509250565b80516001600160801b0381168114612910575f80fd5b5f805f8060808587031215612d1b575f80fd5b8451612d268161252e565b9350612d3460208601612cf2565b9250612d4260408601612cf2565b915060608501516001600160401b03811115612d5c575f80fd5b8501601f81018713612d6c575f80fd5b8051612d7a611e24826120db565b808282526020820191508960208460051b8601011115612d98575f80fd5b602084015b60208460051b860101811015612e955780516001600160401b03811115612dc2575f80fd5b60408682018d03601f19011215612dd7575f80fd5b612ddf611d6d565b60208288010151612def816120fd565b8152868201604001516001600160401b03811115612e0b575f80fd5b80838901019250508c603f830112612e21575f80fd5b6020820151612e32611e24826120db565b808282526020820191508f60408460051b8701011115612e50575f80fd5b604085015b60408460051b870101811015612e75578051835260209283019201612e55565b508060208501525050508085525050602083019250602081019050612d9d565b50969995985093965050505050565b5f805f806080808688031215612eb8575f80fd5b85516001600160401b03811115612ecd575f80fd5b8601601f81018813612edd575f80fd5b80516020612eed611e24836120db565b82815260c0928302840182019282820191908c851115612f0b575f80fd5b948301945b84861015612f8a5780868e031215612f26575f80fd5b612f2e611d8f565b8651815284870151612f3f816120fd565b81860152604087810151612f528161252e565b90820152606087810151612f6581612520565b90820152868801518882015260a0808801519082015283529485019491830191612f10565b509850612f9a9050898201612905565b60408a01516060909a0151989b909a509650505050505050565b5f82601f830112612fc3575f80fd5b81516020612fd3611e24836120db565b82815260059290921b84018101918181019086841115612ff1575f80fd5b8286015b8481101561224c5780516001600160401b0380821115613013575f80fd5b908801906040828b03601f190181131561302b575f80fd5b613033611d6d565b87840151613040816120fd565b8152908301519082821115613053575f80fd5b6130618c8984870101612b34565b818901528652505050918301918301612ff5565b5f805f805f805f60e0888a03121561308b575f80fd5b87516130968161252e565b96506130a460208901612cf2565b95506130b260408901612cf2565b945060608801516001600160401b038111156130cc575f80fd5b6130d88a828b01612fb4565b94505060808801516130e981612520565b8093505060a0880151915060c0880151905092959891949750929550565b5f805f805f805f60e0888a03121561311d575f80fd5b87516131288161252e565b60208901519097506131398161252e565b604089015190965061314a816120fd565b6060890151909550801515811461315f575f80fd5b6080890151909450613170816120fd565b60a089015160c08a015191945092506001600160401b03811115613192575f80fd5b61319e8a828b01612915565b91505092959891949750929550565b5f805f805f8060c087890312156131c2575f80fd5b86516131cd8161252e565b95506131db60208801612cf2565b945060408701516001600160401b038111156131f5575f80fd5b61320189828a01612fb4565b945050606087015161321281612520565b809350506080870151915060a087015190509295509295509295565b5f805f805f60a08688031215613242575f80fd5b8551945060208601516001600160401b0381111561325e575f80fd5b61326a88828901612b34565b945050604086015161327b81612520565b6060870151608090970151959894975095949392505050565b5f805f80608085870312156132a7575f80fd5b6132b085612cf2565b6020860151604087015160609097015191989097509094509250505056fe45766d56314465636f6465723a20496e76616c6964206368756e6b20636f756e45766d56314465636f6465723a204d69736d617463686564207472616e736163a2646970667358221220e1b56a19991dd5b47a93972f9b6333fc40b7bec999fefd6869209b2a874e12bb64736f6c63430008170033",
+  "deployedBytecode": "0x7300000000000000000000000000000000000000003014608060405260043610610106575f3560e01c80639d79c4371161009e578063c61148361161006e578063c611483614610290578063cf0d21c9146102b0578063d42370a7146102da578063de4dd61a146102fa575f80fd5b80639d79c43714610210578063a386042c14610230578063b2b083b914610250578063b5bb2cd914610270575f80fd5b806352ae22a6116100d957806352ae22a61461019357806354014825146101b357806378190020146101c65780637aecc645146101f0575f80fd5b8063051194bc1461010a57806307648c7a146101335780630dd5c77e14610153578063356954e814610173575b5f80fd5b61011d610118366004611e59565b61031a565b60405161012a9190612066565b60405180910390f35b610146610141366004612257565b61035a565b60405161012a9190612298565b610166610161366004611e59565b610529565b60405161012a91906122aa565b610186610181366004611e59565b6105b1565b60405161012a9190612440565b6101a66101a1366004611e59565b61067d565b60405161012a91906124c9565b6101466101c1366004612542565b6106ae565b6101e06101d43660046125fa565b600460ff909116111590565b604051901515815260200161012a565b6102036101fe366004611e59565b6106be565b60405161012a9190612615565b61022361021e366004611e59565b610796565b60405161012a9190612627565b61024361023e366004611e59565b6107c7565b60405161012a91906126a0565b61026361025e366004611e59565b610870565b60405161012a9190612769565b61028361027e366004611e59565b6108a1565b60405161012a91906127a2565b6102a361029e366004611e59565b6108d2565b60405161012a91906127db565b6102c86102be366004611e59565b6020015160ff1690565b60405160ff909116815260200161012a565b6102ed6102e8366004611e59565b610996565b60405161012a91906127ed565b61030d610308366004611e59565b610a59565b60405161012a9190612821565b610322611af3565b5f82511161034b5760405162461bcd60e51b81526004016103429061285a565b60405180910390fd5b61035482610a8a565b92915050565b60605f805b84518110156103e5575f85828151811061037b5761037b612887565b602002602001015160200151511180156103ca5750838582815181106103a3576103a3612887565b6020026020010151602001515f815181106103c0576103c0612887565b6020026020010151145b156103dd57816103d98161289b565b9250505b60010161035f565b505f816001600160401b038111156103ff576103ff611d0f565b60405190808252806020026020018201604052801561045c57816020015b61044960405180606001604052805f6001600160a01b0316815260200160608152602001606081525090565b81526020019060019003908161041d5790505b5090505f805b865181101561051e575f87828151811061047e5761047e612887565b602002602001015160200151511180156104cd5750858782815181106104a6576104a6612887565b6020026020010151602001515f815181106104c3576104c3612887565b6020026020010151145b15610516578681815181106104e4576104e4612887565b60200260200101518383806104f89061289b565b94508151811061050a5761050a612887565b60200260200101819052505b600101610462565b509095945050505050565b604080516080810182525f80825260208201526060918101829052818101919091525f82511161056b5760405162461bcd60e51b81526004016103429061285a565b5f61057a836020015160ff1690565b905060048160ff1611156105a05760405162461bcd60e51b8152600401610342906128bf565b6105aa8382610b6e565b9392505050565b6105b9611b5f565b5f8251116105d95760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906105ef9190612957565b915091508160ff166004146106165760405162461bcd60e51b8152600401610342906128bf565b80516004146106375760405162461bcd60e51b815260040161034290612a17565b6106758160018151811061064d5761064d612887565b60200260200101518260028151811061066857610668612887565b6020026020010151610cff565b949350505050565b610685611ba1565b5f8251116106a55760405162461bcd60e51b81526004016103429061285a565b61035482610db7565b60606105aa83604001518361035a565b6040805160e0810182525f808252602082018190529181018290526060808201526080810182905260a0810182905260c08101919091525f8251116107155760405162461bcd60e51b81526004016103429061285a565b5f808380602001905181019061072b9190612957565b915091508160ff166002146107525760405162461bcd60e51b8152600401610342906128bf565b80516003146107735760405162461bcd60e51b815260040161034290612a50565b6106758160018151811061078957610789612887565b6020026020010151610e87565b61079e611bf3565b5f8251116107be5760405162461bcd60e51b81526004016103429061285a565b61035482610f90565b6107cf611c30565b5f8251116107ef5760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906108059190612957565b915091508160ff1660011461082c5760405162461bcd60e51b8152600401610342906128bf565b805160031461084d5760405162461bcd60e51b815260040161034290612a89565b6106758160018151811061086357610863612887565b6020026020010151611123565b610878611c65565b5f8251116108985760405162461bcd60e51b81526004016103429061285a565b610354826111a1565b6108a9611c85565b5f8251116108c95760405162461bcd60e51b81526004016103429061285a565b6103548261128c565b6108da611ca5565b5f8251116108fa5760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906109109190612957565b915091508160ff166003146109375760405162461bcd60e51b8152600401610342906128bf565b80516004146109585760405162461bcd60e51b815260040161034290612ac2565b6106758160018151811061096e5761096e612887565b60200260200101518260028151811061098957610989612887565b6020026020010151611377565b604080516080810182525f8082526020820181905291810182905260608101919091525f8251116109d95760405162461bcd60e51b81526004016103429061285a565b5f80838060200190518101906109ef9190612957565b915091508160ff165f14610a155760405162461bcd60e51b8152600401610342906128bf565b8051600314610a365760405162461bcd60e51b815260040161034290612afb565b61067581600181518110610a4c57610a4c612887565b6020026020010151611487565b610a61611cef565b5f825111610a815760405162461bcd60e51b81526004016103429061285a565b610354826114eb565b610a92611af3565b5f8083806020019051810190610aa89190612957565b915091508160ff165f14610b095760405162461bcd60e51b815260206004820152603560248201525f805160206132ef833981519152604482015274074696f6e20747970652c206578706563746564203605c1b6064820152608401610342565b8051600314610b2a5760405162461bcd60e51b815260040161034290612afb565b5f610b3485610f90565b90505f610b418685610b6e565b9050610b5983600181518110610a4c57610a4c612887565b60208601529084526040840152509092915050565b604080516080810182525f80825260208201526060918101829052818101919091525f83806020019051810190610ba59190612957565b91505060048360ff161115610bcc5760405162461bcd60e51b8152600401610342906128bf565b5f60028460ff1611610c3657600290508151600314610c315760405162461bcd60e51b815260206004820152602e60248201525f805160206132cf83398151915260448201526d3a103337b9102a3cb8329018169960911b6064820152608401610342565b610c8f565b600390508151600414610c8f5760405162461bcd60e51b815260206004820152602e60248201525f805160206132cf83398151915260448201526d1d08199bdc88151e5c19480ccb4d60921b6064820152608401610342565b5f80606080858581518110610ca657610ca6612887565b6020026020010151806020019051810190610cc19190612b90565b60ff84168b526001600160401b03831660208c015292965090945092509050610ce9826115bb565b6040880152606087015250939695505050505050565b610d07611b5f565b5f805f606086806020019051810190610d209190612d08565b8951939750919550935091506060905f9081908190610d48908b016020908101908c01612ea4565b6001600160401b038c168d526001600160801b03808c1660208f01528a1660408e015260ff831660a08e015260c08d0182905260e08d0181905292965090945092509050610d95856116e8565b60608a0152610da38461186c565b60808a015250969998505050505050505050565b610dbf611ba1565b5f8083806020019051810190610dd59190612957565b915091508160ff16600214610e375760405162461bcd60e51b815260206004820152603560248201525f805160206132ef8339815191526044820152743a34b7b7103a3cb832961032bc3832b1ba32b2101960591b6064820152608401610342565b8051600314610e585760405162461bcd60e51b815260040161034290612a50565b5f610e6285610f90565b90505f610e6f8685610b6e565b9050610b598360018151811061078957610789612887565b6040805160e0810182525f808252602082018190529181018290526060808201526080810182905260a0810182905260c08101919091525f805f60605f805f88806020019051810190610eda9190613075565b809750819850829950839a50849b50859c50869d505050505050505086885f01906001600160401b031690816001600160401b0316815250508588602001906001600160801b031690816001600160801b0316815250508488604001906001600160801b031690816001600160801b03168152505082886080019060ff16908160ff1681525050818860a0018181525050808860c0018181525050610f7e84611a08565b60608901525095979650505050505050565b610f98611bf3565b5f8083806020019051810190610fae9190612957565b9150915060048260ff161115610fd65760405162461bcd60e51b8152600401610342906128bf565b805160031480610fe7575080516004145b61102a5760405162461bcd60e51b815260206004820152602160248201525f805160206132cf8339815191526044820152601d60fa1b6064820152608401610342565b5f805f805f806060875f8151811061104457611044612887565b602002602001015180602001905181019061105f9190613107565b809750819850829950839a50849b50859c50869d5050505050505050868a5f01906001600160401b031690816001600160401b031681525050858a602001906001600160401b031690816001600160401b031681525050848a604001906001600160a01b031690816001600160a01b031681525050838a6060019015159081151581525050828a608001906001600160a01b031690816001600160a01b031681525050818a60a0018181525050808a60c00181905250505050505050505050919050565b61112b611c30565b5f8060605f805f8780602001905181019061114691906131ad565b6001600160401b0386168d526001600160801b03851660208e015260ff831660608e015260808d0182905260a08d01819052949a5092985090965094509250905061119084611a08565b604088015250949695505050505050565b6111a9611c65565b5f80838060200190518101906111bf9190612957565b915091508160ff166003146112215760405162461bcd60e51b815260206004820152603560248201525f805160206132ef83398151915260448201527474696f6e20747970652c206578706563746564203360581b6064820152608401610342565b80516004146112425760405162461bcd60e51b815260040161034290612ac2565b5f61124c85610f90565b90505f6112598685610b6e565b9050610b598360018151811061127157611271612887565b60200260200101518460028151811061098957610989612887565b611294611c85565b5f80838060200190518101906112aa9190612957565b915091508160ff1660041461130c5760405162461bcd60e51b815260206004820152603560248201525f805160206132ef8339815191526044820152741d1a5bdb881d1e5c194b08195e1c1958dd1959080d605a1b6064820152608401610342565b805160041461132d5760405162461bcd60e51b815260040161034290612a17565b5f61133785610f90565b90505f6113448685610b6e565b9050610b598360018151811061135c5761135c612887565b60200260200101518460028151811061066857610668612887565b61137f611ca5565b5f805f6060868060200190518101906113989190612d08565b809450819550829650839750505050505f60605f805f8a8060200190518101906113c2919061322e565b8095508196508297508398508499505050505050888a5f01906001600160401b031690816001600160401b031681525050878a602001906001600160801b031690816001600160801b031681525050868a604001906001600160801b031690816001600160801b031681525050848a6080018181525050838a60a00181905250828a60c0019060ff16908160ff1681525050818a60e0018181525050808a610100018181525050611472866116e8565b60608b015250979a9950505050505050505050565b604080516080810182525f8082526020820181905291810182905260608101919091525f805f80858060200190518101906114c29190613294565b6001600160801b0390931688526020880191909152604087015260608601525092949350505050565b6114f3611cef565b5f80838060200190518101906115099190612957565b915091508160ff1660011461156b5760405162461bcd60e51b815260206004820152603560248201525f805160206132ef83398151915260448201527474696f6e20747970652c206578706563746564203160581b6064820152608401610342565b805160031461158c5760405162461bcd60e51b815260040161034290612a89565b5f61159685610f90565b90505f6115a38685610b6e565b9050610b598360018151811061086357610863612887565b60605f82516001600160401b038111156115d7576115d7611d0f565b60405190808252806020026020018201604052801561163457816020015b61162160405180606001604052805f6001600160a01b0316815260200160608152602001606081525090565b8152602001906001900390816115f55790505b5090505f5b83518110156116e157604051806060016040528085838151811061165f5761165f612887565b60200260200101515f01516001600160a01b0316815260200185838151811061168a5761168a612887565b60200260200101516020015181526020018583815181106116ad576116ad612887565b6020026020010151604001518152508282815181106116ce576116ce612887565b6020908102919091010152600101611639565b5092915050565b60605f82516001600160401b0381111561170457611704611d0f565b60405190808252806020026020018201604052801561174957816020015b604080518082019091525f8152606060208201528152602001906001900390816117225790505b5090505f5b83518110156116e1575f84828151811061176a5761176a612887565b60200260200101516020015190505f81516001600160401b0381111561179257611792611d0f565b6040519080825280602002602001820160405280156117bb578160200160208202803683370190505b5090505f5b825181101561180a578281815181106117db576117db612887565b60200260200101515f1b8282815181106117f7576117f7612887565b60209081029190910101526001016117c0565b50604051806040016040528087858151811061182857611828612887565b60200260200101515f01516001600160a01b031681526020018281525084848151811061185757611857612887565b6020908102919091010152505060010161174e565b60605f82516001600160401b0381111561188857611888611d0f565b6040519080825280602002602001820160405280156118e657816020015b6040805160c0810182525f8082526020808301829052928201819052606082018190526080820181905260a082015282525f199092019101816118a65790505b5090505f5b83518110156116e1576040518060c0016040528085838151811061191157611911612887565b60200260200101515f0151815260200185838151811061193357611933612887565b6020026020010151602001516001600160a01b0316815260200185838151811061195f5761195f612887565b6020026020010151604001516001600160401b0316815260200185838151811061198b5761198b612887565b60200260200101516060015160ff1681526020018583815181106119b1576119b1612887565b60200260200101516080015181526020018583815181106119d4576119d4612887565b602002602001015160a001518152508282815181106119f5576119f5612887565b60209081029190910101526001016118eb565b60605f82516001600160401b03811115611a2457611a24611d0f565b604051908082528060200260200182016040528015611a6957816020015b604080518082019091525f815260606020820152815260200190600190039081611a425790505b5090505f5b83518110156116e1576040518060400160405280858381518110611a9457611a94612887565b60200260200101515f01516001600160a01b03168152602001858381518110611abf57611abf612887565b602002602001015160200151815250828281518110611ae057611ae0612887565b6020908102919091010152600101611a6e565b6040518060600160405280611b06611bf3565b8152604080516080810182525f808252602082810182905292820181905260608201529101905b8152602001611b5a604080516080810182525f808252602082015260609181018290528181019190915290565b905290565b60408051610100810182525f808252602082018190529181018290526060808201819052608082015260a0810182905260c0810182905260e081019190915290565b6040518060600160405280611bb4611bf3565b81526040805160e0810182525f80825260208281018290529282018190526060808301526080820181905260a0820181905260c0820152910190611b2d565b6040805160e0810182525f8082526020820181905291810182905260608082018390526080820183905260a082019290925260c081019190915290565b6040805160c0810182525f8082526020820181905260609282018390529181018290526080810182905260a081019190915290565b6040518060600160405280611c78611bf3565b8152602001611b2d611ca5565b6040518060600160405280611c98611bf3565b8152602001611b2d611b5f565b60408051610120810182525f8082526020820181905291810182905260608082018190526080820183905260a082015260c0810182905260e0810182905261010081019190915290565b6040518060600160405280611d02611bf3565b8152602001611b2d611c30565b634e487b7160e01b5f52604160045260245ffd5b604051606081016001600160401b0381118282101715611d4557611d45611d0f565b60405290565b604051608081016001600160401b0381118282101715611d4557611d45611d0f565b604080519081016001600160401b0381118282101715611d4557611d45611d0f565b60405160c081016001600160401b0381118282101715611d4557611d45611d0f565b604051601f8201601f191681016001600160401b0381118282101715611dd957611dd9611d0f565b604052919050565b5f6001600160401b03821115611df957611df9611d0f565b50601f01601f191660200190565b5f82601f830112611e16575f80fd5b8135611e29611e2482611de1565b611db1565b818152846020838601011115611e3d575f80fd5b816020850160208301375f918101602001919091529392505050565b5f60208284031215611e69575f80fd5b81356001600160401b03811115611e7e575f80fd5b61067584828501611e07565b5f5b83811015611ea4578181015183820152602001611e8c565b50505f910152565b5f8151808452611ec3816020860160208601611e8a565b601f01601f19169290920160200192915050565b5f6001600160401b0380835116845280602084015116602085015250604082015160018060a01b038082166040860152606084015115156060860152806080850151166080860152505060a082015160a084015260c082015160e060c085015261067560e0850182611eac565b5f815180845260208085019450602084015f5b83811015611f7357815187529582019590820190600101611f57565b509495945050505050565b5f82825180855260208086019550808260051b8401018186015f5b8481101561200357858303601f19018952815180516001600160a01b0316845284810151606086860181905290611fd282870182611f44565b91505060408083015192508582038187015250611fef8183611eac565b9a86019a9450505090830190600101611f99565b5090979650505050505050565b60ff81511682526001600160401b0360208201511660208301525f6040820151608060408501526120446080850182611f7e565b90506060830151848203606086015261205d8282611eac565b95945050505050565b602081525f825160c0602084015261208160e0840182611ed7565b905060208401516120bf60408501826001600160801b0381511682526020810151602083015260408101516040830152606081015160608301525050565b506040840151838203601f190160c085015261205d8282612010565b5f6001600160401b038211156120f3576120f3611d0f565b5060051b60200190565b6001600160a01b0381168114612111575f80fd5b50565b5f82601f830112612123575f80fd5b81356020612133611e24836120db565b82815260059290921b84018101918181019086841115612151575f80fd5b8286015b8481101561224c5780356001600160401b0380821115612173575f80fd5b908801906060828b03601f1901121561218a575f80fd5b612192611d23565b8683013561219f816120fd565b8152604083810135838111156121b3575f80fd5b8401603f81018d136121c3575f80fd5b888101356121d3611e24826120db565b81815260059190911b82018301908a8101908f8311156121f1575f80fd5b928401925b8284101561220f5783358252928b0192908b01906121f6565b858c0152505050606084013583811115612227575f80fd5b6122358d8a83880101611e07565b918301919091525085525050918301918301612155565b509695505050505050565b5f8060408385031215612268575f80fd5b82356001600160401b0381111561227d575f80fd5b61228985828601612114565b95602094909401359450505050565b602081525f6105aa6020830184611f7e565b602081525f6105aa6020830184612010565b5f82825180855260208086019550808260051b8401018186015f5b8481101561200357858303601f19018952815180516001600160a01b03168452840151604085850181905261230e81860183611f44565b9a86019a94505050908301906001016122d7565b5f815180845260208085019450602084015f5b83811015611f7357815180518852838101516001600160a01b0316848901526040808201516001600160401b03169089015260608082015160ff16908901526080808201519089015260a0908101519088015260c09096019590820190600101612335565b5f6101006001600160401b0383511684526001600160801b03602084015116602085015260408301516123d860408601826001600160801b03169052565b5060608301518160608601526123f0828601826122bc565b9150506080830151848203608086015261240a8282612322565b91505060a083015161242160a086018260ff169052565b5060c083015160c085015260e083015160e08501528091505092915050565b602081525f6105aa602083018461239a565b6001600160401b0381511682525f60208201516001600160801b0380821660208601528060408501511660408601525050606082015160e0606085015261249c60e08501826122bc565b905060ff608084015116608085015260a083015160a085015260c083015160c08501528091505092915050565b602081525f8251606060208401526124e46080840182611ed7565b90506020840151601f19808584030160408601526125028383612452565b925060408601519150808584030160608601525061205d8282612010565b60ff81168114612111575f80fd5b6001600160401b0381168114612111575f80fd5b5f8060408385031215612553575f80fd5b82356001600160401b0380821115612569575f80fd5b908401906080828703121561257c575f80fd5b612584611d4b565b823561258f81612520565b8152602083013561259f8161252e565b60208201526040830135828111156125b5575f80fd5b6125c188828601612114565b6040830152506060830135828111156125d8575f80fd5b6125e488828601611e07565b6060830152509660209590950135955050505050565b5f6020828403121561260a575f80fd5b81356105aa81612520565b602081525f6105aa6020830184612452565b602081525f6105aa6020830184611ed7565b6001600160401b0381511682526001600160801b0360208201511660208301525f604082015160c0604085015261267360c08501826122bc565b905060ff60608401511660608501526080830151608085015260a083015160a08501528091505092915050565b602081525f6105aa6020830184612639565b80516001600160401b031682525f61012060208301516126dd60208601826001600160801b03169052565b5060408301516126f860408601826001600160801b03169052565b506060830151816060860152612710828601826122bc565b9150506080830151608085015260a083015184820360a08601526127348282611f44565b91505060c083015161274b60c086018260ff169052565b5060e083810151908501526101009283015192909301919091525090565b602081525f8251606060208401526127846080840182611ed7565b90506020840151601f198085840301604086015261250283836126b2565b602081525f8251606060208401526127bd6080840182611ed7565b90506020840151601f1980858403016040860152612502838361239a565b602081525f6105aa60208301846126b2565b81516001600160801b0316815260208083015190820152604080830151908201526060808301519082015260808101610354565b602081525f82516060602084015261283c6080840182611ed7565b90506020840151601f19808584030160408601526125028383612639565b60208082526013908201527245766d56314465636f6465723a20456d70747960681b604082015260600190565b634e487b7160e01b5f52603260045260245ffd5b5f600182016128b857634e487b7160e01b5f52601160045260245ffd5b5060010190565b60208082526026908201527f45766d56314465636f6465723a20496e76616c6964207472616e73616374696f6040820152656e207479706560d01b606082015260800190565b805161291081612520565b919050565b5f82601f830112612924575f80fd5b8151612932611e2482611de1565b818152846020838601011115612946575f80fd5b610675826020830160208701611e8a565b5f8060408385031215612968575f80fd5b825161297381612520565b809250506020808401516001600160401b0380821115612991575f80fd5b818601915086601f8301126129a4575f80fd5b81516129b2611e24826120db565b81815260059190911b830184019084810190898311156129d0575f80fd5b8585015b83811015612a06578051858111156129ea575f80fd5b6129f88c89838a0101612915565b8452509186019186016129d4565b508096505050505050509250929050565b6020808252602c908201525f805160206132cf83398151915260408201526b1d08199bdc88151e5c19480d60a21b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b3a103337b9102a3cb832901960a11b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b7420666f722054797065203160a01b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b7420666f722054797065203360a01b606082015260800190565b6020808252602c908201525f805160206132cf83398151915260408201526b07420666f72205479706520360a41b606082015260800190565b5f82601f830112612b43575f80fd5b81516020612b53611e24836120db565b8083825260208201915060208460051b870101935086841115612b74575f80fd5b602086015b8481101561224c5780518352918301918301612b79565b5f805f8060808587031215612ba3575f80fd5b8451612bae81612520565b6020860151909450612bbf8161252e565b60408601519093506001600160401b0380821115612bdb575f80fd5b818701915087601f830112612bee575f80fd5b8151612bfc611e24826120db565b8082825260208201915060208360051b86010192508a831115612c1d575f80fd5b602085015b83811015612cc057805185811115612c38575f80fd5b86016060818e03601f19011215612c4d575f80fd5b612c55611d23565b6020820151612c63816120fd565b8152604082015187811115612c76575f80fd5b612c858f602083860101612b34565b602083015250606082015187811115612c9c575f80fd5b612cab8f602083860101612915565b60408301525084525060209283019201612c22565b5060608a01519096509350505080821115612cd9575f80fd5b50612ce687828801612915565b91505092959194509250565b80516001600160801b0381168114612910575f80fd5b5f805f8060808587031215612d1b575f80fd5b8451612d268161252e565b9350612d3460208601612cf2565b9250612d4260408601612cf2565b915060608501516001600160401b03811115612d5c575f80fd5b8501601f81018713612d6c575f80fd5b8051612d7a611e24826120db565b808282526020820191508960208460051b8601011115612d98575f80fd5b602084015b60208460051b860101811015612e955780516001600160401b03811115612dc2575f80fd5b60408682018d03601f19011215612dd7575f80fd5b612ddf611d6d565b60208288010151612def816120fd565b8152868201604001516001600160401b03811115612e0b575f80fd5b80838901019250508c603f830112612e21575f80fd5b6020820151612e32611e24826120db565b808282526020820191508f60408460051b8701011115612e50575f80fd5b604085015b60408460051b870101811015612e75578051835260209283019201612e55565b508060208501525050508085525050602083019250602081019050612d9d565b50969995985093965050505050565b5f805f806080808688031215612eb8575f80fd5b85516001600160401b03811115612ecd575f80fd5b8601601f81018813612edd575f80fd5b80516020612eed611e24836120db565b82815260c0928302840182019282820191908c851115612f0b575f80fd5b948301945b84861015612f8a5780868e031215612f26575f80fd5b612f2e611d8f565b8651815284870151612f3f816120fd565b81860152604087810151612f528161252e565b90820152606087810151612f6581612520565b90820152868801518882015260a0808801519082015283529485019491830191612f10565b509850612f9a9050898201612905565b60408a01516060909a0151989b909a509650505050505050565b5f82601f830112612fc3575f80fd5b81516020612fd3611e24836120db565b82815260059290921b84018101918181019086841115612ff1575f80fd5b8286015b8481101561224c5780516001600160401b0380821115613013575f80fd5b908801906040828b03601f190181131561302b575f80fd5b613033611d6d565b87840151613040816120fd565b8152908301519082821115613053575f80fd5b6130618c8984870101612b34565b818901528652505050918301918301612ff5565b5f805f805f805f60e0888a03121561308b575f80fd5b87516130968161252e565b96506130a460208901612cf2565b95506130b260408901612cf2565b945060608801516001600160401b038111156130cc575f80fd5b6130d88a828b01612fb4565b94505060808801516130e981612520565b8093505060a0880151915060c0880151905092959891949750929550565b5f805f805f805f60e0888a03121561311d575f80fd5b87516131288161252e565b60208901519097506131398161252e565b604089015190965061314a816120fd565b6060890151909550801515811461315f575f80fd5b6080890151909450613170816120fd565b60a089015160c08a015191945092506001600160401b03811115613192575f80fd5b61319e8a828b01612915565b91505092959891949750929550565b5f805f805f8060c087890312156131c2575f80fd5b86516131cd8161252e565b95506131db60208801612cf2565b945060408701516001600160401b038111156131f5575f80fd5b61320189828a01612fb4565b945050606087015161321281612520565b809350506080870151915060a087015190509295509295509295565b5f805f805f60a08688031215613242575f80fd5b8551945060208601516001600160401b0381111561325e575f80fd5b61326a88828901612b34565b945050604086015161327b81612520565b6060870151608090970151959894975095949392505050565b5f805f80608085870312156132a7575f80fd5b6132b085612cf2565b6020860151604087015160609097015191989097509094509250505056fe45766d56314465636f6465723a20496e76616c6964206368756e6b20636f756e45766d56314465636f6465723a204d69736d617463686564207472616e736163a2646970667358221220e1b56a19991dd5b47a93972f9b6333fc40b7bec999fefd6869209b2a874e12bb64736f6c63430008170033",
+  "methodIdentifiers": {
+    "decodeCommonTxFields(bytes)": "9d79c437",
+    "decodeReceiptFields(bytes)": "0dd5c77e",
+    "decodeTransactionType0(bytes)": "051194bc",
+    "decodeTransactionType1(bytes)": "de4dd61a",
+    "decodeTransactionType2(bytes)": "52ae22a6",
+    "decodeTransactionType3(bytes)": "b2b083b9",
+    "decodeTransactionType4(bytes)": "b5bb2cd9",
+    "decodeTypeSpecificFieldsType0(bytes)": "d42370a7",
+    "decodeTypeSpecificFieldsType1(bytes)": "a386042c",
+    "decodeTypeSpecificFieldsType2(bytes)": "7aecc645",
+    "decodeTypeSpecificFieldsType3(bytes)": "c6114836",
+    "decodeTypeSpecificFieldsType4(bytes)": "356954e8",
+    "getLogsByEventSignature(EvmV1Decoder.LogEntry[],bytes32)": "07648c7a",
+    "getLogsByEventSignature(EvmV1Decoder.ReceiptFields,bytes32)": "54014825",
+    "getTransactionType(bytes)": "cf0d21c9",
+    "isValidTransactionType(uint8)": "78190020"
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeCommonTxFields\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeReceiptFields\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTransactionType0\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"commonTx\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint128\",\"name\":\"gasPrice\",\"type\":\"uint128\"},{\"internalType\":\"uint256\",\"name\":\"v\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.LegacyFields\",\"name\":\"type0\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"}],\"internalType\":\"struct EvmV1Decoder.DecodedTransactionType0\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTransactionType1\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"commonTx\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"gasPrice\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type1Fields\",\"name\":\"type1\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"}],\"internalType\":\"struct EvmV1Decoder.DecodedTransactionType1\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTransactionType2\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"commonTx\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type2Fields\",\"name\":\"type2\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"}],\"internalType\":\"struct EvmV1Decoder.DecodedTransactionType2\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTransactionType3\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"commonTx\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"maxFeePerBlobGas\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"blobVersionedHashes\",\"type\":\"bytes32[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type3Fields\",\"name\":\"type3\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"}],\"internalType\":\"struct EvmV1Decoder.DecodedTransactionType3\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTransactionType4\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toIsNull\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.CommonTxFields\",\"name\":\"commonTx\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"chainId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"r\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"s\",\"type\":\"uint256\"}],\"internalType\":\"struct EvmV1Decoder.AuthorizationListEntry[]\",\"name\":\"authorizationList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type4Fields\",\"name\":\"type4\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"}],\"internalType\":\"struct EvmV1Decoder.DecodedTransactionType4\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTypeSpecificFieldsType0\",\"outputs\":[{\"components\":[{\"internalType\":\"uint128\",\"name\":\"gasPrice\",\"type\":\"uint128\"},{\"internalType\":\"uint256\",\"name\":\"v\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.LegacyFields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTypeSpecificFieldsType1\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"gasPrice\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type1Fields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTypeSpecificFieldsType2\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type2Fields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTypeSpecificFieldsType3\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"maxFeePerBlobGas\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"blobVersionedHashes\",\"type\":\"bytes32[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type3Fields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"chunk\",\"type\":\"bytes\"}],\"name\":\"decodeTypeSpecificFieldsType4\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"chainId\",\"type\":\"uint64\"},{\"internalType\":\"uint128\",\"name\":\"maxPriorityFeePerGas\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxFeePerGas\",\"type\":\"uint128\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"storageKeys\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct EvmV1Decoder.AccessListEntry[]\",\"name\":\"accessList\",\"type\":\"tuple[]\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"chainId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"r\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"s\",\"type\":\"uint256\"}],\"internalType\":\"struct EvmV1Decoder.AuthorizationListEntry[]\",\"name\":\"authorizationList\",\"type\":\"tuple[]\"},{\"internalType\":\"uint8\",\"name\":\"yParity\",\"type\":\"uint8\"},{\"internalType\":\"bytes32\",\"name\":\"r\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"s\",\"type\":\"bytes32\"}],\"internalType\":\"struct EvmV1Decoder.Type4Fields\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"logs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes32\",\"name\":\"eventSignature\",\"type\":\"bytes32\"}],\"name\":\"getLogsByEventSignature\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"receiptStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint64\",\"name\":\"receiptGasUsed\",\"type\":\"uint64\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"receiptLogs\",\"type\":\"tuple[]\"},{\"internalType\":\"bytes\",\"name\":\"receiptLogsBloom\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.ReceiptFields\",\"name\":\"receipt\",\"type\":\"tuple\"},{\"internalType\":\"bytes32\",\"name\":\"eventSignature\",\"type\":\"bytes32\"}],\"name\":\"getLogsByEventSignature\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"address_\",\"type\":\"address\"},{\"internalType\":\"bytes32[]\",\"name\":\"topics\",\"type\":\"bytes32[]\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct EvmV1Decoder.LogEntry[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"encodedTx\",\"type\":\"bytes\"}],\"name\":\"getTransactionType\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"txType\",\"type\":\"uint8\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"txType\",\"type\":\"uint8\"}],\"name\":\"isValidTransactionType\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"The encoding format is bytes[] where each chunk contains explicitly chunked fields (deterministic grouping)This nested ABI encoding structure avoids \\\"stack too deep\\\" errors in SolidityThe checkpoint attests to this bytes[] format - all components must use the same structureQueryBuilder calculates offsets from bytes[] structure, BlockProver extracts using those offsetsSelective Decoding (Gas-Efficient):This library provides selective decoding functions that allow you to decode only the fields you need:- decodeCommonTxFields(): Decode only common transaction fields (chunk 1)- decodeReceiptFields(): Decode only receipt fields (last chunk)- decodeTypeSpecificFieldsTypeX(): Decode only type-specific fields (chunks 2+)@dev Gas Efficiency Tips:- Decode once in memory and reuse the struct to avoid redundant decoding within the same transaction- Use selective decoding when you only need specific fields (e.g., only receipt logs, only TX value)- Full decoding (decodeTransactionTypeX) is still available for backward compatibility@dev Example Usage:```solidity// Only need receipt logs? Decode just the receipt:ReceiptFields memory receipt = EvmV1Decoder.decodeReceiptFields(encodedTx);LogEntry[] memory logs = receipt.receiptLogs;@dev // Need both common TX fields and receipt? Decode separately:CommonTxFields memory tx = EvmV1Decoder.decodeCommonTxFields(encodedTx);ReceiptFields memory receipt = EvmV1Decoder.decodeReceiptFields(encodedTx);// Reuse tx and receipt structs throughout your function to avoid re-decoding```\",\"kind\":\"dev\",\"methods\":{\"decodeCommonTxFields(bytes)\":{\"details\":\"Use this when you only need common TX fields, not receipt or type-specific fieldsGas-efficient: decodes only chunk 1 instead of all chunksTip: Decode once in memory and reuse the struct to avoid redundant decoding\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Common transaction fields (nonce, gasLimit, from, toIsNull, to, value, data)\"}},\"decodeReceiptFields(bytes)\":{\"details\":\"Use this when you only need receipt fields, not transaction fieldsGas-efficient: decodes only the last chunk instead of all chunksTip: Decode once in memory and reuse the struct to avoid redundant decoding\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Receipt fields (receiptStatus, receiptGasUsed, receiptLogs, receiptLogsBloom)\"}},\"decodeTypeSpecificFieldsType0(bytes)\":{\"details\":\"Use this when you only need type-specific fields, not common TX or receipt fieldsGas-efficient: decodes only chunk 2 instead of all chunks\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Type-specific fields (gasPrice, v)\"}},\"decodeTypeSpecificFieldsType1(bytes)\":{\"details\":\"Use this when you only need type-specific fields, not common TX or receipt fieldsGas-efficient: decodes only chunk 2 instead of all chunks\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Type-specific fields (chainId, gasPrice, accessList, yParity)\"}},\"decodeTypeSpecificFieldsType2(bytes)\":{\"details\":\"Use this when you only need type-specific fields, not common TX or receipt fieldsGas-efficient: decodes only chunk 2 instead of all chunks\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Type-specific fields (chainId, maxPriorityFeePerGas, maxFeePerGas, accessList, yParity)\"}},\"decodeTypeSpecificFieldsType3(bytes)\":{\"details\":\"Use this when you only need type-specific fields, not common TX or receipt fieldsGas-efficient: decodes only chunks 2 and 3 instead of all chunks\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Type-specific fields (chainId, maxPriorityFeePerGas, maxFeePerGas, accessList, maxFeePerBlobGas, blobVersionedHashes, yParity)\"}},\"decodeTypeSpecificFieldsType4(bytes)\":{\"details\":\"Use this when you only need type-specific fields, not common TX or receipt fieldsGas-efficient: decodes only chunks 2 and 3 instead of all chunks\",\"params\":{\"chunk\":\"- ABI-encoded (uint8, bytes[]) where bytes[] contains explicitly chunked chunks\"},\"returns\":{\"_0\":\"Type-specific fields (chainId, maxPriorityFeePerGas, maxFeePerGas, accessList, authorizationList, yParity)\"}},\"getLogsByEventSignature(EvmV1Decoder.LogEntry[],bytes32)\":{\"params\":{\"eventSignature\":\"- Event signature (keccak256 hash of event signature)\",\"logs\":\"- Array of log entries\"},\"returns\":{\"_0\":\"Filtered logs matching the event signature\"}},\"getLogsByEventSignature(EvmV1Decoder.ReceiptFields,bytes32)\":{\"params\":{\"eventSignature\":\"- Event signature (keccak256 hash of event signature)\",\"receipt\":\"- Receipt fields containing logs\"},\"returns\":{\"_0\":\"Filtered logs matching the event signature\"}},\"getTransactionType(bytes)\":{\"details\":\"Decodes only the first uint8 parameter without decoding the entire bytes[] array\",\"params\":{\"encodedTx\":\"- ABI-encoded (uint8, bytes[]) where uint8 is the transaction type\"},\"returns\":{\"txType\":\"- Transaction type (0-4)\"}}},\"title\":\"EvmV1Decoder\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"decodeCommonTxFields(bytes)\":{\"notice\":\"Decodes only common transaction fields (chunk 1) from any transaction type\"},\"decodeReceiptFields(bytes)\":{\"notice\":\"Decodes only receipt fields (last chunk) from any transaction type\"},\"decodeTypeSpecificFieldsType0(bytes)\":{\"notice\":\"Decodes only type-specific fields for Type 0 transaction (chunk 2)\"},\"decodeTypeSpecificFieldsType1(bytes)\":{\"notice\":\"Decodes only type-specific fields for Type 1 transaction (chunk 2)\"},\"decodeTypeSpecificFieldsType2(bytes)\":{\"notice\":\"Decodes only type-specific fields for Type 2 transaction (chunk 2)\"},\"decodeTypeSpecificFieldsType3(bytes)\":{\"notice\":\"Decodes only type-specific fields for Type 3 transaction (chunks 2 and 3)\"},\"decodeTypeSpecificFieldsType4(bytes)\":{\"notice\":\"Decodes only type-specific fields for Type 4 transaction (chunks 2 and 3)\"},\"getLogsByEventSignature(EvmV1Decoder.LogEntry[],bytes32)\":{\"notice\":\"Filters logs by event signature\"},\"getLogsByEventSignature(EvmV1Decoder.ReceiptFields,bytes32)\":{\"notice\":\"Filters logs by event signature\"},\"getTransactionType(bytes)\":{\"notice\":\"Extracts transaction type from (uint8, bytes[]) encoded format without full decode\"}},\"notice\":\"Library for decoding ABI-encoded EVM transactions (types 0-4) and receipts\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol\":\"EvmV1Decoder\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol\":{\"keccak256\":\"0x830b2f99bdc4b7c05aad2066eff5ef2afb2f925c0bdd18f5aee19a920362ff81\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6d472ee371b82ed16659ca1b9402726851faf247e356b38bb2bcc8adc8260ad6\",\"dweb:/ipfs/Qmdqc7ZgD2kJhtTqbD4W7f3g4hzLrph1DrVX9geHv4K5Dp\"]}},\"version\":1}"
+}

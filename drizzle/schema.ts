@@ -1,4 +1,5 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { index, int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, uniqueIndex } from "drizzle-orm/mysql-core";
+import { dealEventTypeValues, dealStatusValues } from "../shared/deals";
 
 /**
  * Core user table backing auth flow.
@@ -25,4 +26,47 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+export const deals = mysqlTable(
+  "deals",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    orderId: varchar("orderId", { length: 32 }).notNull().unique(),
+    buyerOpenId: varchar("buyerOpenId", { length: 64 }).notNull(),
+    buyerAddress: varchar("buyerAddress", { length: 42 }).notNull(),
+    sellerAddress: varchar("sellerAddress", { length: 42 }).notNull(),
+    amount: decimal("amount", { precision: 36, scale: 18 }).notNull(),
+    currency: varchar("currency", { length: 12 }).notNull(),
+    description: text("description").notNull(),
+    status: mysqlEnum("status", dealStatusValues).notNull().default("draft"),
+    proofPolicyNonce: varchar("proofPolicyNonce", { length: 32 }).notNull(),
+    fundingTxHash: varchar("fundingTxHash", { length: 66 }),
+    sepoliaSourceTxHash: varchar("sepoliaSourceTxHash", { length: 66 }).unique(),
+    proofVerifiedAt: timestamp("proofVerifiedAt"),
+    settlementTxHash: varchar("settlementTxHash", { length: 66 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [index("deals_buyer_open_id_idx").on(table.buyerOpenId)]
+);
+
+export const dealEvents = mysqlTable(
+  "deal_events",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    dealId: int("dealId").notNull(),
+    sequence: int("sequence").notNull(),
+    type: mysqlEnum("type", dealEventTypeValues).notNull(),
+    title: varchar("title", { length: 160 }).notNull(),
+    detail: text("detail").notNull(),
+    txHash: varchar("txHash", { length: 66 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [
+    index("deal_events_deal_id_idx").on(table.dealId),
+    uniqueIndex("deal_events_deal_sequence_unique").on(table.dealId, table.sequence),
+  ]
+);
+
+export type Deal = typeof deals.$inferSelect;
+export type InsertDeal = typeof deals.$inferInsert;
+export type DealEvent = typeof dealEvents.$inferSelect;

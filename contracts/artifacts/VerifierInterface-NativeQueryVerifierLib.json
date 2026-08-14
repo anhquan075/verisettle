@@ -1,0 +1,9 @@
+{
+  "contractName": "NativeQueryVerifierLib",
+  "sourceName": "contracts/VerifierInterface.sol",
+  "abi": [],
+  "bytecode": "0x60556032600b8282823980515f1a607314602657634e487b7160e01b5f525f60045260245ffd5b305f52607381538281f3fe730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220235187f8c390a4ff249041c757e7ba4fd97cbc214c1eb5f7020f78c9d8c140f864736f6c63430008170033",
+  "deployedBytecode": "0x730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220235187f8c390a4ff249041c757e7ba4fd97cbc214c1eb5f7020f78c9d8c140f864736f6c63430008170033",
+  "methodIdentifiers": {},
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/VerifierInterface.sol\":\"NativeQueryVerifierLib\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/VerifierInterface.sol\":{\"keccak256\":\"0x48cd9b4715727feb023835653538de31e5cd8ac1029deeb7b9130027a61342b1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2f3045a015debc603dfc155a3d545d80d9ee64a34ff07b1424f60f08d2eb0b04\",\"dweb:/ipfs/QmSzSURXpZCC8h8oeXszmtGeeCVDvqB5EdbzcdXcLwUrwd\"]}},\"version\":1}"
+}

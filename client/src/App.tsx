@@ -5,12 +5,28 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import DealDashboard from "./pages/DealDashboard";
+import DashboardLayout from "./components/DashboardLayout";
+import { useRoute } from "wouter";
+import DealDetail from "./pages/DealDetail";
+
+function AppDashboard() {
+  return <DashboardLayout><DealDashboard /></DashboardLayout>;
+}
+
+function DealDetailRoute() {
+  const [, params] = useRoute("/deals/:orderId");
+  if (!params?.orderId) return <NotFound />;
+  return <DashboardLayout><DealDetail orderId={params.orderId} /></DashboardLayout>;
+}
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/app"} component={AppDashboard} />
+      <Route path={"/deals/:orderId"} component={DealDetailRoute} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

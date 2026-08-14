@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { dealEvents, deals, InsertDeal, InsertUser, users } from "../drizzle/schema";
+import type { DealEventType, DealStatus } from "../shared/deals";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +90,67 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function createDeal(deal: Omit<InsertDeal, "id" | "createdAt" | "updatedAt" | "status">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(deals).values({ ...deal, status: "draft" });
+  const [created] = await db.select().from(deals).where(eq(deals.orderId, deal.orderId)).limit(1);
+  if (!created) throw new Error("Failed to create deal");
+  return created;
+}
+
+export async function listDealsForBuyer(buyerOpenId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  return db.select().from(deals).where(eq(deals.buyerOpenId, buyerOpenId)).orderBy(desc(deals.createdAt));
+}
+
+export async function getDealByOrderId(orderId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [deal] = await db.select().from(deals).where(eq(deals.orderId, orderId)).limit(1);
+  return deal;
+}
+
+export async function getDealBySourceTxHash(sepoliaSourceTxHash: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [deal] = await db
+    .select()
+    .from(deals)
+    .where(eq(deals.sepoliaSourceTxHash, sepoliaSourceTxHash))
+    .limit(1);
+  return deal;
+}
+
+export async function updateDeal(
+  dealId: number,
+  update: Partial<Pick<InsertDeal, "status" | "fundingTxHash" | "sepoliaSourceTxHash" | "proofVerifiedAt" | "settlementTxHash">>
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(deals).set(update).where(eq(deals.id, dealId));
+}
+
+export async function appendDealEvent(input: {
+  dealId: number;
+  type: DealEventType;
+  title: string;
+  detail: string;
+  txHash?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [sequenceResult] = await db
+    .select({ highestSequence: sql<number>`coalesce(max(${dealEvents.sequence}), 0)` })
+    .from(dealEvents)
+    .where(eq(dealEvents.dealId, input.dealId));
+  const sequence = Number(sequenceResult?.highestSequence ?? 0) + 1;
+  await db.insert(dealEvents).values({ ...input, sequence });
+}
+
+export async function getDealTimeline(dealId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  return db.select().from(dealEvents).where(eq(dealEvents.dealId, dealId)).orderBy(dealEvents.sequence);
+}
