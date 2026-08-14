@@ -17,6 +17,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const palette = source("../client/src/components/DealCommandPalette.tsx");
   const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
+  const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
 
@@ -71,9 +72,9 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain("Wallet-first testnet");
     expect(layout).toContain("Connect.");
     expect(layout).toContain("Rabby or SubWallet");
-    expect(layout).toContain("Open secure workspace");
-    expect(layout).toContain("Wallet connection happens inside a deal");
-    expect(layout).toContain("No keys requested.");
+    expect(layout).toContain("Use another sign-in");
+    expect(layout).toContain("Wallet signatures never authorize transactions.");
+    expect(walletPanel).toContain("VeriSettle never requests keys or recovery phrases.");
     expect(layout).not.toContain("Sign in with wallet");
   });
 

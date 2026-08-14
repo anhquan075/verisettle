@@ -26,6 +26,32 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+export const walletIdentities = mysqlTable(
+  "wallet_identities",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    address: varchar("address", { length: 42 }).notNull().unique(),
+    userOpenId: varchar("userOpenId", { length: 64 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    lastVerifiedAt: timestamp("lastVerifiedAt").defaultNow().notNull(),
+  },
+  table => [index("wallet_identities_user_open_id_idx").on(table.userOpenId)]
+);
+
+export const siweNonces = mysqlTable(
+  "siwe_nonces",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    nonce: varchar("nonce", { length: 96 }).notNull().unique(),
+    address: varchar("address", { length: 42 }).notNull(),
+    message: text("message").notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    usedAt: timestamp("usedAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  table => [index("siwe_nonces_address_idx").on(table.address), index("siwe_nonces_expires_at_idx").on(table.expiresAt)]
+);
+
 export const deals = mysqlTable(
   "deals",
   {
@@ -70,3 +96,5 @@ export const dealEvents = mysqlTable(
 export type Deal = typeof deals.$inferSelect;
 export type InsertDeal = typeof deals.$inferInsert;
 export type DealEvent = typeof dealEvents.$inferSelect;
+export type WalletIdentity = typeof walletIdentities.$inferSelect;
+export type SiweNonce = typeof siweNonces.$inferSelect;

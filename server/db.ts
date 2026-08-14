@@ -1,6 +1,6 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, gt, isNull, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { dealEvents, deals, InsertDeal, InsertUser, users } from "../drizzle/schema";
+import { dealEvents, deals, InsertDeal, InsertUser, siweNonces, users, walletIdentities } from "../drizzle/schema";
 import type { DealEventType, DealStatus } from "../shared/deals";
 import { ENV } from './_core/env';
 
@@ -88,6 +88,53 @@ export async function getUserByOpenId(openId: string) {
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
 
   return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createSiweNonce(input: { nonce: string; address: string; message: string; expiresAt: Date }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(siweNonces).values(input);
+}
+
+export async function getActiveSiweNonce(nonce: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [record] = await db.select().from(siweNonces).where(and(eq(siweNonces.nonce, nonce), isNull(siweNonces.usedAt), gt(siweNonces.expiresAt, new Date()))).limit(1);
+  return record;
+}
+
+export async function consumeSiweNonce(input: { nonce: string; address: string; message: string }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [result] = await db
+    .update(siweNonces)
+    .set({ usedAt: new Date() })
+    .where(and(eq(siweNonces.nonce, input.nonce), eq(siweNonces.address, input.address), eq(siweNonces.message, input.message), isNull(siweNonces.usedAt), gt(siweNonces.expiresAt, new Date())));
+  return result.affectedRows === 1;
+}
+
+export async function getWalletIdentity(address: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [identity] = await db.select().from(walletIdentities).where(eq(walletIdentities.address, address)).limit(1);
+  return identity;
+}
+
+export async function linkWalletIdentity(input: { address: string; userOpenId: string }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const existing = await getWalletIdentity(input.address);
+  if (existing && existing.userOpenId !== input.userOpenId) {
+    throw new Error("This wallet is already linked to another VeriSettle account.");
+  }
+  if (existing) {
+    await db.update(walletIdentities).set({ lastVerifiedAt: new Date() }).where(eq(walletIdentities.id, existing.id));
+    return existing;
+  }
+  await db.insert(walletIdentities).values(input);
+  const created = await getWalletIdentity(input.address);
+  if (!created) throw new Error("Failed to link wallet identity");
+  return created;
 }
 
 export async function createDeal(deal: Omit<InsertDeal, "id" | "createdAt" | "updatedAt" | "status">) {

@@ -11,11 +11,12 @@ describe("judge-mode and wallet-evidence UI accessibility contract", () => {
   const judgeMode = source("../client/src/components/JudgeReplayWalkthrough.tsx");
   const judgeLogic = source("../shared/judgeMode.ts");
 
-  it("keeps the wallet evidence surface labeled and the adjacent connection action focusable", () => {
+  it("keeps the wallet evidence surface labeled and the adjacent readiness action available", () => {
     expect(walletEvidence).toContain('aria-label="Wallet approval evidence checklist"');
     expect(walletEvidence).toContain("Never capture passwords, seed phrases, or private key material.");
-    expect(detail).toContain("Connect testnet wallet");
-    expect(detail).toContain("veri-action mt-4");
+    expect(detail).toContain("WalletReadinessPanel");
+    expect(detail).toContain("requiredNetwork={requiredWalletNetwork}");
+    expect(detail).toContain("walletNetworkReady");
   });
 
   it("exposes an expected replay success status and preserves a disabled state during operations", () => {

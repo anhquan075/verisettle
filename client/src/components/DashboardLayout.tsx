@@ -28,6 +28,7 @@ import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 import { AttestationOrbit } from "./AttestationOrbit";
 import { VeriSettleBrand } from "./VeriSettleBrand";
+import { WalletReadinessPanel } from "./WalletReadinessPanel";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
@@ -48,7 +49,7 @@ export default function DashboardLayout({
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
   });
-  const { loading, user } = useAuth();
+  const { loading, user, refresh } = useAuth();
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
@@ -70,9 +71,9 @@ export default function DashboardLayout({
           <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Wallet-first testnet</div>
           <h1 className="mt-5 max-w-md font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Connect.<br /><span className="text-cyan-200">Prove. Release.</span></h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Save the order. Then sign testnet actions with Rabby or SubWallet.</p>
-          <div className="mt-7 grid gap-2 sm:grid-cols-2"><div className="rounded-xl border border-white/10 bg-black/15 p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-slate-500">01 · Session</p><p className="mt-1 text-sm font-semibold text-white">Save evidence</p></div><div className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.05] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-cyan-100">02 · Wallet</p><p className="mt-1 flex items-center gap-2 text-sm font-semibold text-white"><WalletCards className="h-4 w-4 text-cyan-200" /> Sign testnet actions</p></div></div>
-          <Button onClick={() => startLogin()} size="lg" className="mt-6 min-h-11 w-full bg-cyan-300 font-semibold text-slate-950 shadow-[0_0_28px_rgba(45,212,191,0.22)] hover:bg-cyan-200">Open secure workspace</Button>
-          <p className="mt-4 text-center text-xs text-slate-500">Wallet connection happens inside a deal. No keys requested.</p>
+          <div className="mt-7"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
+          <Button onClick={() => startLogin()} variant="ghost" size="sm" className="veri-action mt-4 w-full text-slate-400 hover:bg-white/[0.05] hover:text-white">Use another sign-in</Button>
+          <p className="mt-3 text-center text-xs text-slate-500">Wallet signatures never authorize transactions.</p>
         </div>
       </div>
     );

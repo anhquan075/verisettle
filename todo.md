@@ -140,3 +140,7 @@
 - [x] Replace the signed-out workspace entry with a compact wallet-first layout that makes compatible wallet connection prominent without misrepresenting it as wallet-signature authentication.
 - [x] Preserve the existing session sign-in path while clearly separating it from real Rabby/SubWallet connection for testnet actions.
 - [x] Add regression coverage and validate the signed-out wallet-first entry at desktop and mobile widths before checkpointing.
+- [x] Implement SIWE-style nonce, signature verification, replay prevention, and wallet-to-user account linking without exposing signatures or private material in client state.
+- [x] Add real Rabby/SubWallet extension detection with clear install, unavailable, connect, and connected states.
+- [x] Add wallet-network readiness checks for Creditcoin CC3 Testnet and Ethereum Sepolia, with safe switch-network guidance before deal actions.
+- [x] Add security and UI regression coverage for SIWE expiry/replay/authentication failure, extension detection, and network-readiness paths, then validate at desktop/mobile widths.
