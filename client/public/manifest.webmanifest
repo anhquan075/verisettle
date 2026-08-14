@@ -1,0 +1,22 @@
+{
+  "name": "VeriSettle — Attested Cross-Chain Escrow",
+  "short_name": "VeriSettle",
+  "description": "Proof before release. Attestcoin-governed Creditcoin escrow on public testnet.",
+  "theme_color": "#061014",
+  "background_color": "#061014",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/manus-storage/android-chrome-192x192_f9734ca9.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/manus-storage/android-chrome-512x512_9fa8226a.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -170,3 +170,5 @@
 - [x] Add regression coverage and desktop/mobile validation for the corrected workspace header and layout before checkpointing.
 - [x] Audit and replace the mismatched current logo with the established VeriSettle mark across visible brand lockups, favicon, and social metadata.
 - [x] Validate consistent logo rendering at desktop/mobile widths and checkpoint the brand-asset correction.
+- [x] Create a standards-compatible favicon and device-icon set from the established interlocking VeriSettle mark, including legacy browser and Apple/Android sizes.
+- [x] Wire the full icon manifest into document metadata, validate its asset references, and checkpoint the compatibility enhancement.
