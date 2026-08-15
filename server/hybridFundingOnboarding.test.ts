@@ -34,7 +34,16 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).not.toContain("testnetFunderPrivateKey");
     expect(walletAccess).toContain("eip6963:requestProvider");
     expect(walletAccess).toContain("eip6963:announceProvider");
-    expect(walletAccess).toContain("providers.find(provider => provider.isSubWallet)");
+    expect(walletAccess).toContain('type WalletProviderId = "metamask" | "okx" | "binance" | "rabby" | "subwallet" | "injected"');
+    expect(walletAccess).toContain('name: "MetaMask"');
+    expect(walletAccess).toContain('name: "OKX Wallet"');
+    expect(walletAccess).toContain('name: "Binance Wallet"');
+    expect(walletAccess).toContain('name: "Rabby"');
+    expect(walletAccess).toContain('name: "SubWallet"');
+    expect(walletAccess).toContain("dedupeWallets");
     expect(walletAccess).toContain("lateRetryDiscovery");
+    const readiness = read("../client/src/components/WalletReadinessPanel.tsx");
+    expect(readiness).toContain("Connect {candidate.name}");
+    expect(readiness).toContain("Install a supported EVM wallet.");
   });
 });

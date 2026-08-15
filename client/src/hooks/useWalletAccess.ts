@@ -7,11 +7,25 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 type WalletNetwork = keyof typeof TESTNET_NETWORKS;
 
 type Eip1193Provider = {
+  isMetaMask?: boolean;
   isRabby?: boolean;
   isSubWallet?: boolean;
+  isOkxWallet?: boolean;
+  isOKExWallet?: boolean;
+  isBinance?: boolean;
+  isBinanceChain?: boolean;
+  isBinanceWallet?: boolean;
   request: (request: { method: string; params?: unknown[] }) => Promise<unknown>;
   on?: (event: "accountsChanged" | "chainChanged", listener: (...args: unknown[]) => void) => void;
   removeListener?: (event: "accountsChanged" | "chainChanged", listener: (...args: unknown[]) => void) => void;
+};
+
+export type WalletProviderId = "metamask" | "okx" | "binance" | "rabby" | "subwallet" | "injected";
+
+export type DiscoveredWallet = {
+  id: WalletProviderId;
+  name: string;
+  provider: Eip1193Provider;
 };
 
 type Eip6963ProviderDetail = {
@@ -19,20 +33,33 @@ type Eip6963ProviderDetail = {
   provider?: Eip1193Provider;
 };
 
-function preferSupportedProvider(candidate: Eip1193Provider | undefined) {
-  if (!candidate) return undefined;
-  const providers = ((candidate as Eip1193Provider & { providers?: Eip1193Provider[] }).providers ?? []);
-  return providers.find(provider => provider.isSubWallet) ?? providers.find(provider => provider.isRabby) ?? candidate;
+const supportedWalletLabel = "MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet";
+
+function classifyProvider(provider: Eip1193Provider, detail?: Eip6963ProviderDetail): DiscoveredWallet {
+  const identity = `${detail?.info?.name ?? ""} ${detail?.info?.rdns ?? ""}`.toLowerCase();
+  if (provider.isSubWallet || identity.includes("subwallet")) return { id: "subwallet", name: "SubWallet", provider };
+  if (provider.isRabby || identity.includes("rabby")) return { id: "rabby", name: "Rabby", provider };
+  if (provider.isOkxWallet || provider.isOKExWallet || identity.includes("okx") || identity.includes("okex")) return { id: "okx", name: "OKX Wallet", provider };
+  if (provider.isBinance || provider.isBinanceChain || provider.isBinanceWallet || identity.includes("binance")) return { id: "binance", name: "Binance Wallet", provider };
+  if (provider.isMetaMask || identity.includes("metamask")) return { id: "metamask", name: "MetaMask", provider };
+  return { id: "injected", name: detail?.info?.name || "Browser wallet", provider };
 }
 
-function getInjectedProvider() {
-  return preferSupportedProvider((window as Window & { ethereum?: Eip1193Provider }).ethereum);
+function dedupeWallets(wallets: DiscoveredWallet[]) {
+  const providers = new Set<Eip1193Provider>();
+  const ids = new Set<WalletProviderId>();
+  return wallets.filter((wallet) => {
+    if (providers.has(wallet.provider) || (wallet.id !== "injected" && ids.has(wallet.id))) return false;
+    providers.add(wallet.provider);
+    ids.add(wallet.id);
+    return true;
+  });
 }
 
-function extensionName(provider: Eip1193Provider) {
-  if (provider.isRabby) return "Rabby";
-  if (provider.isSubWallet) return "SubWallet";
-  return "EIP-1193 wallet";
+function getInjectedWallets() {
+  const ethereum = (window as Window & { ethereum?: Eip1193Provider & { providers?: Eip1193Provider[] } }).ethereum;
+  if (!ethereum) return [];
+  return dedupeWallets([...(ethereum.providers ?? []), ethereum].map((provider) => classifyProvider(provider)));
 }
 
 function networkConfig(network: WalletNetwork) {
@@ -51,7 +78,8 @@ function networkConfig(network: WalletNetwork) {
 }
 
 export function useWalletAccess() {
-  const [provider, setProvider] = useState<Eip1193Provider | null>(null);
+  const [wallets, setWallets] = useState<DiscoveredWallet[]>([]);
+  const [selectedWalletId, setSelectedWalletId] = useState<WalletProviderId | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [chainId, setChainId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -59,6 +87,8 @@ export function useWalletAccess() {
   const requestNonce = trpc.auth.wallet.requestNonce.useMutation();
   const verify = trpc.auth.wallet.verify.useMutation();
   const utils = trpc.useUtils();
+  const selectedWallet = useMemo(() => wallets.find((wallet) => wallet.id === selectedWalletId) ?? wallets[0] ?? null, [selectedWalletId, wallets]);
+  const provider = selectedWallet?.provider ?? null;
 
   const refresh = useCallback(async (nextProvider: Eip1193Provider, requestAccounts = false) => {
     const accounts = (await nextProvider.request({ method: requestAccounts ? "eth_requestAccounts" : "eth_accounts" })) as string[];
@@ -70,64 +100,61 @@ export function useWalletAccess() {
   }, []);
 
   useEffect(() => {
-    let activeProvider = getInjectedProvider() ?? null;
-    const attachProvider = (nextProvider: Eip1193Provider | null) => {
-      if (!nextProvider) return;
-      activeProvider = nextProvider;
-      setProvider(nextProvider);
-      void refresh(nextProvider).catch(() => undefined);
+    const registerWallets = (nextWallets: DiscoveredWallet[]) => {
+      if (!nextWallets.length) return;
+      setWallets((current) => dedupeWallets([...current, ...nextWallets]));
     };
-    attachProvider(activeProvider);
+    registerWallets(getInjectedWallets());
     const onAnnounce = (event: Event) => {
       const detail = (event as CustomEvent<Eip6963ProviderDetail>).detail;
-      const announced = detail?.provider;
-      if (!announced) return;
-      const namedSubWallet = announced.isSubWallet || detail?.info?.name?.toLowerCase().includes("subwallet") || detail?.info?.rdns?.toLowerCase().includes("subwallet");
-      const namedRabby = announced.isRabby || detail?.info?.name?.toLowerCase().includes("rabby") || detail?.info?.rdns?.toLowerCase().includes("rabby");
-      if (namedSubWallet || namedRabby || !activeProvider) attachProvider(announced);
+      if (detail?.provider) registerWallets([classifyProvider(detail.provider, detail)]);
     };
     window.addEventListener("eip6963:announceProvider", onAnnounce as EventListener);
     window.dispatchEvent(new Event("eip6963:requestProvider"));
-    const retryDiscovery = window.setTimeout(() => attachProvider(getInjectedProvider() ?? null), 350);
-    const lateRetryDiscovery = window.setTimeout(() => attachProvider(getInjectedProvider() ?? null), 1200);
-    if (!activeProvider) return () => {
-      window.removeEventListener("eip6963:announceProvider", onAnnounce as EventListener);
-      window.clearTimeout(retryDiscovery);
-      window.clearTimeout(lateRetryDiscovery);
-    };
-    const onAccountsChanged = () => activeProvider && void refresh(activeProvider).catch(() => undefined);
-    const onChainChanged = () => activeProvider && void refresh(activeProvider).catch(() => undefined);
-    activeProvider.on?.("accountsChanged", onAccountsChanged);
-    activeProvider.on?.("chainChanged", onChainChanged);
+    const retryDiscovery = window.setTimeout(() => registerWallets(getInjectedWallets()), 350);
+    const lateRetryDiscovery = window.setTimeout(() => registerWallets(getInjectedWallets()), 1200);
     return () => {
-      activeProvider?.removeListener?.("accountsChanged", onAccountsChanged);
-      activeProvider?.removeListener?.("chainChanged", onChainChanged);
       window.removeEventListener("eip6963:announceProvider", onAnnounce as EventListener);
       window.clearTimeout(retryDiscovery);
       window.clearTimeout(lateRetryDiscovery);
     };
-  }, [refresh]);
+  }, []);
 
-  const connect = useCallback(async () => {
-    if (!provider) {
-      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet, then return to this testnet workspace.", action: "connect" });
+  useEffect(() => {
+    if (!provider) return;
+    void refresh(provider).catch(() => undefined);
+    const onAccountsChanged = () => void refresh(provider).catch(() => undefined);
+    const onChainChanged = () => void refresh(provider).catch(() => undefined);
+    provider.on?.("accountsChanged", onAccountsChanged);
+    provider.on?.("chainChanged", onChainChanged);
+    return () => {
+      provider.removeListener?.("accountsChanged", onAccountsChanged);
+      provider.removeListener?.("chainChanged", onChainChanged);
+    };
+  }, [provider, refresh]);
+
+  const connect = useCallback(async (walletId?: WalletProviderId) => {
+    const targetWallet = walletId ? wallets.find((wallet) => wallet.id === walletId) : selectedWallet;
+    if (!targetWallet) {
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: `Install ${supportedWalletLabel}, then return to this testnet workspace.`, action: "connect" });
       return null;
     }
+    setSelectedWalletId(targetWallet.id);
     setBusy(true);
     setError(null);
     try {
-      return await refresh(provider, true);
+      return await refresh(targetWallet.provider, true);
     } catch (cause) {
       setError(describeWalletError(cause, "Unlock your wallet and choose a testnet account to continue.", "connect"));
       return null;
     } finally {
       setBusy(false);
     }
-  }, [provider, refresh]);
+  }, [refresh, selectedWallet, wallets]);
 
   const switchNetwork = useCallback(async (network: WalletNetwork) => {
     if (!provider) {
-      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet, then return to this testnet workspace.", action: "connect" });
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: `Install ${supportedWalletLabel}, then return to this testnet workspace.`, action: "connect" });
       return false;
     }
     setBusy(true);
@@ -153,7 +180,7 @@ export function useWalletAccess() {
 
   const signIn = useCallback(async () => {
     if (!provider) {
-      setError({ kind: "extension", title: "Wallet extension unavailable", detail: "Install Rabby or SubWallet before requesting a secure wallet sign-in.", action: "connect" });
+      setError({ kind: "extension", title: "Wallet extension unavailable", detail: `Install ${supportedWalletLabel} before requesting a secure wallet sign-in.`, action: "connect" });
       return false;
     }
     setBusy(true);
@@ -161,10 +188,7 @@ export function useWalletAccess() {
     try {
       const connection = await refresh(provider, true);
       if (!connection.address || !connection.chainId) throw new Error("Connect a wallet account before signing in.");
-      const challenge = await requestNonce.mutateAsync({
-        address: connection.address,
-        chainId: Number.parseInt(connection.chainId, 16),
-      });
+      const challenge = await requestNonce.mutateAsync({ address: connection.address, chainId: Number.parseInt(connection.chainId, 16) });
       const signature = (await provider.request({ method: "personal_sign", params: [challenge.message, connection.address] })) as string;
       await verify.mutateAsync({ address: connection.address, nonce: challenge.nonce, signature });
       await utils.auth.me.invalidate();
@@ -182,16 +206,5 @@ export function useWalletAccess() {
     sepolia: chainId === TESTNET_NETWORKS.sepolia.chainIdHex,
   }), [chainId]);
 
-  return {
-    address,
-    busy,
-    chainId,
-    error,
-    extension: provider ? extensionName(provider) : null,
-    hasExtension: Boolean(provider),
-    readiness,
-    connect,
-    signIn,
-    switchNetwork,
-  };
+  return { address, busy, chainId, error, extension: selectedWallet?.name ?? null, hasExtension: wallets.length > 0, readiness, wallets, selectedWallet, connect, signIn, switchNetwork };
 }

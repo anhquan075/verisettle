@@ -70,7 +70,7 @@ describe("SIWE wallet authentication security", () => {
     const access = source("../client/src/hooks/useWalletAccess.ts");
     const panel = source("../client/src/components/WalletReadinessPanel.tsx");
     const detail = source("../client/src/pages/DealDetail.tsx");
-    expect(access).toContain("Install Rabby or SubWallet");
+    expect(access).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");
     expect(access).toContain("wallet_switchEthereumChain");
     expect(access).toContain("wallet_addEthereumChain");
     expect(panel).toContain("Wallet unavailable");
