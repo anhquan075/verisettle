@@ -218,4 +218,4 @@
 - [x] Keep the public landing header persistently visible during scroll and add a branded VeriSettle copyright footer without reducing mobile or keyboard accessibility.
 - [x] Verify the implemented SIWE wallet-authentication flow, including challenge generation, origin binding, nonce replay protection, signature verification, session boundary, and client error recovery.
 - [x] Preview the motion-enhanced landing page with its sticky header and branded copyright footer at desktop and mobile widths.
-- [ ] Run the full quality gate, commit the verified SIWE and landing release under `anhquan075`, and push it to the private GitHub main branch for Vercel.
+- [x] Run the full quality gate, commit the verified SIWE and landing release under `anhquan075`, and push it to the private GitHub main branch for Vercel.
