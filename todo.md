@@ -214,6 +214,7 @@
 - [x] Validate RainbowKit connection recovery, SIWE message completion, desktop/mobile UX, and testnet-readiness behavior before checkpointing.
 - [x] Align the wallet dependency stack to RainbowKit’s supported Wagmi 2 peer range before exposing RainbowKit connection controls in production.
 - [ ] Recover the live RainbowKit SIWE request-not-finished state by clearing only application-local connection cache, requesting a fresh nonce, and validating the renewed wallet-signature flow.
+- [ ] Add a visible RainbowKit change-wallet control for connected users so they can securely disconnect the current wallet and select an alternate supported provider for SIWE testing.
 - [x] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance. Live production self-validation detects the SubWallet EIP-1193 provider through the hardened discovery path.
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.
