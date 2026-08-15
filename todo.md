@@ -216,3 +216,6 @@
 - [x] Review current Motion examples and apply an evidence-first motion and visual-hierarchy upgrade to the public VeriSettle landing page.
 - [x] Validate landing-page motion at desktop and mobile widths, including keyboard access, visible focus, and reduced-motion safety before checkpointing.
 - [x] Keep the public landing header persistently visible during scroll and add a branded VeriSettle copyright footer without reducing mobile or keyboard accessibility.
+- [x] Verify the implemented SIWE wallet-authentication flow, including challenge generation, origin binding, nonce replay protection, signature verification, session boundary, and client error recovery.
+- [x] Preview the motion-enhanced landing page with its sticky header and branded copyright footer at desktop and mobile widths.
+- [ ] Run the full quality gate, commit the verified SIWE and landing release under `anhquan075`, and push it to the private GitHub main branch for Vercel.
