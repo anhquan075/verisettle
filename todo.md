@@ -187,3 +187,7 @@
 - [x] Integrate safe V2 contract interaction logic and a frontend deployment-manifest verifier that blocks any V2 submission when policy/chain/address/code integrity does not match.
 - [x] Enhance workspace creation, register, filters, and detail evidence with clear V1 live versus V2 deployed/draft tags and policy-specific action states.
 - [x] Add V2 contract/frontend regression coverage, verify real testnet deployment receipts, and run full quality/visual validation before checkpointing.
+- [x] Define and implement Foundry invariant tests for V2 expiry enforcement, one-time receipt consumption, and refund liveness without compromising release conditions.
+- [ ] Replace V2 single-owner dispute authority with a threshold multisig governance model, including deployment/migration evidence and access-control tests. The governed successor and its access-control tests are complete; its public testnet deployment awaits the final threshold and signer addresses.
+- [x] Add an accessible visual explanation of V2 manifest verification and policy-aware routing in creation and deal-detail workflows.
+- [x] Run the combined Solidity, Foundry, application, type/build, and desktop/mobile visual validation suite before checkpointing the governance hardening release.

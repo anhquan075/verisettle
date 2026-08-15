@@ -5,6 +5,9 @@
 # Build outputs
 dist/
 build/
+out/
+cache_forge/
+cache/
 *.dist
 
 # Environment variables

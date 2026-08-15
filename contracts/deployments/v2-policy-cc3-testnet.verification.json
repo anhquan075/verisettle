@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "policyHash": "0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976",
-  "verifiedAt": "2026-08-14T15:20:22.787Z",
+  "verifiedAt": "2026-08-15T06:13:57.249Z",
   "checks": {
     "sourceRuntimeCodeHash": true,
     "escrowRuntimeCodeHash": true,
