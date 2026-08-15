@@ -11,13 +11,15 @@ describe("V2 policy workspace contract", () => {
   it("keeps policy drafts distinct from the active V1 settlement flow", () => {
     expect(router).toContain('kind: z.literal("v2_draft")');
     expect(router).toContain('kind: z.literal("v2_deployed")');
+    expect(router).toContain('kind: z.literal("v2_governed")');
     expect(router).toContain("requireSupportedSettlementPolicy(deal)");
-    expect(router).toContain("V2_POLICY_MANIFEST.policyHash");
+    expect(router).toContain("V2_GOVERNED_POLICY_MANIFEST");
   });
 
   it("surfaces V2 policy creation and non-settleable evidence in the workspace", () => {
     expect(dashboard).toContain("V2 policy preview");
     expect(dashboard).toContain("V2 pinned policy");
+    expect(dashboard).toContain("V2 governed policy");
     expect(dashboard).toContain("verifyV2PolicyManifest");
     expect(dashboard).toContain("V2 policies");
     expect(detail).toContain("Settlement policy commitment");
@@ -25,5 +27,6 @@ describe("V2 policy workspace contract", () => {
     expect(detail).toContain("no on-chain actions enabled");
     expect(detail).toContain("requireVerifiedV2Manifest");
     expect(detail).toContain("V2 policy-pinned testnet route");
+    expect(detail).toContain("2-of-3 governed testnet route");
   });
 });

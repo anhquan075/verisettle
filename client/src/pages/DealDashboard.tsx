@@ -9,7 +9,7 @@ import { useTestnetWallet } from "@/hooks/useTestnetWallet";
 import { verifyV2PolicyManifest, type V2ManifestVerification } from "@/lib/v2Manifest";
 import { V2ManifestGateExplainer } from "@/components/V2ManifestGateExplainer";
 import { VERISETTLE_CONTRACTS } from "@shared/contracts";
-import { V2_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
 import { AnimatePresence, motion } from "framer-motion";
 import { Activity, ArrowUpRight, CircleAlert, FileKey2, FilePlus2, Loader2, Network, Plus, ReceiptText, ShieldCheck, WalletCards } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
@@ -21,7 +21,7 @@ const initialForm = {
   amount: "",
   currency: "tCTC" as const,
   description: "",
-  policyKind: "v1_live" as "v1_live" | "v2_draft" | "v2_deployed",
+  policyKind: "v1_live" as "v1_live" | "v2_draft" | "v2_deployed" | "v2_governed",
   policySourceContract: "",
   policyConfirmations: "12",
   policyAcceptanceDays: "7",
@@ -79,14 +79,14 @@ export default function DealDashboard() {
     !amountIsValid ? "Enter a positive native tCTC amount." : null,
     !descriptionIsValid ? "Add a purchase-order description with at least 8 characters." : null,
     !v2PolicyValid ? "Review the V2 policy window, confirmation, and optional source address." : null,
-    form.policyKind === "v2_deployed" && !v2Manifest?.verified ? "The V2 deployment manifest must verify before you can create an actionable V2 order." : null,
+    (form.policyKind === "v2_deployed" || form.policyKind === "v2_governed") && !v2Manifest?.verified ? "The selected V2 deployment manifest must verify before you can create an actionable V2 order." : null,
   ].filter((error): error is string => Boolean(error));
 
   useEffect(() => {
-    if (form.policyKind !== "v2_deployed") return;
+    if (form.policyKind !== "v2_deployed" && form.policyKind !== "v2_governed") return;
     let active = true;
     setV2ManifestChecking(true);
-    verifyV2PolicyManifest().then(result => {
+    verifyV2PolicyManifest(form.policyKind).then(result => {
       if (active) setV2Manifest(result);
     }).finally(() => {
       if (active) setV2ManifestChecking(false);
@@ -115,8 +115,8 @@ export default function DealDashboard() {
     }
     const policy = form.policyKind === "v1_live"
       ? { kind: "v1_live" as const }
-      : form.policyKind === "v2_deployed"
-        ? { kind: "v2_deployed" as const }
+        : form.policyKind === "v2_deployed" || form.policyKind === "v2_governed"
+          ? { kind: form.policyKind }
         : {
           kind: "v2_draft" as const,
           sourceContract: form.policySourceContract.trim(),
@@ -157,7 +157,7 @@ export default function DealDashboard() {
     if (statusFilter === "active") return ["funded", "proof_pending"].includes(deal.status);
     if (statusFilter === "released") return deal.status === "released";
     if (policyFilter === "v1") return deal.policyVersion === "v1_live";
-    if (policyFilter === "v2") return deal.policyVersion === "v2_draft" || deal.policyVersion === "v2_deployed";
+    if (policyFilter === "v2") return deal.policyVersion === "v2_draft" || deal.policyVersion === "v2_deployed" || deal.policyVersion === "v2_governed";
     return true;
   }) ?? [];
   const filters = [
@@ -231,12 +231,13 @@ export default function DealDashboard() {
             </div>
             <fieldset className="md:col-span-2 rounded-2xl border border-cyan-200/15 bg-[#061014]/60 p-4">
               <legend className="px-2 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100">Settlement policy</legend>
-              <div className="grid gap-3 lg:grid-cols-3">
+              <div className="grid gap-3 lg:grid-cols-4">
                 <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v1_live" }))} aria-pressed={form.policyKind === "v1_live"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v1_live" ? "border-teal-200/35 bg-teal-300/[0.08]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-teal-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-teal-100">Live</span> V1 testnet policy</p><p className="mt-2 text-xs leading-5 text-slate-400">Current source and ASC. Funding and proof actions are available.</p></button>
                 <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v2_deployed" }))} aria-pressed={form.policyKind === "v2_deployed"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v2_deployed" ? "border-violet-200/40 bg-violet-300/[0.09]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-violet-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-violet-100">Verified</span> V2 pinned policy</p><p className="mt-2 text-xs leading-5 text-slate-400">Sepolia + CC3 policy hash. Public code must verify before funding.</p></button>
+                <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v2_governed" }))} aria-pressed={form.policyKind === "v2_governed"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v2_governed" ? "border-fuchsia-200/40 bg-fuchsia-300/[0.09]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-fuchsia-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-fuchsia-100">2 of 3</span> V2 governed policy</p><p className="mt-2 text-xs leading-5 text-slate-400">Verified source and ASC. Disputes require threshold governance.</p></button>
                 <button type="button" onClick={() => setForm(current => ({ ...current, policyKind: "v2_draft" }))} aria-pressed={form.policyKind === "v2_draft"} className={`veri-action rounded-xl border p-4 text-left transition-colors ${form.policyKind === "v2_draft" ? "border-cyan-200/35 bg-cyan-300/[0.08]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}><p className="flex items-center gap-2 text-sm font-semibold text-white"><span className="rounded-full bg-cyan-300/15 px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] text-cyan-100">Draft</span> V2 policy preview</p><p className="mt-2 text-xs leading-5 text-slate-400">Creates an immutable policy commitment. No V1 transaction can use it.</p></button>
               </div>
-              {form.policyKind === "v2_deployed" && <div className={`mt-4 rounded-xl border p-4 ${v2Manifest?.verified ? "border-violet-200/25 bg-violet-300/[0.06]" : "border-amber-200/25 bg-amber-300/[0.06]"}`}><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-sm font-semibold text-white">V2 deployment manifest</p><p className="mt-1 text-xs leading-5 text-slate-300">Policy <span className="font-mono text-violet-100">{V2_POLICY_MANIFEST.policyHash.slice(0, 12)}…{V2_POLICY_MANIFEST.policyHash.slice(-8)}</span> · 7-day acceptance · 30-day refund.</p></div><span role="status" className={`rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${v2ManifestChecking ? "bg-amber-200/10 text-amber-100" : v2Manifest?.verified ? "bg-violet-200/10 text-violet-100" : "bg-rose-200/10 text-rose-100"}`}>{v2ManifestChecking ? "Verifying" : v2Manifest?.verified ? "Code verified" : "Blocked"}</span></div><p className="mt-3 font-mono text-[11px] text-slate-400">Source {V2_POLICY_MANIFEST.source.address} · ASC {V2_POLICY_MANIFEST.escrowAsc.address}</p><V2ManifestGateExplainer checking={v2ManifestChecking} verified={Boolean(v2Manifest?.verified)} />{v2Manifest && !v2Manifest.verified && <p role="alert" className="mt-3 text-xs leading-5 text-amber-100">Public RPC verification did not match the pinned manifest. V2 creation and submission remain blocked; retry after checking the deployment record.</p>}</div>}
+              {(form.policyKind === "v2_deployed" || form.policyKind === "v2_governed") && (() => { const manifest = form.policyKind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST; return <div className={`mt-4 rounded-xl border p-4 ${v2Manifest?.verified ? "border-violet-200/25 bg-violet-300/[0.06]" : "border-amber-200/25 bg-amber-300/[0.06]"}`}><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-sm font-semibold text-white">{form.policyKind === "v2_governed" ? "V2 governed deployment manifest" : "V2 deployment manifest"}</p><p className="mt-1 text-xs leading-5 text-slate-300">Policy <span className="font-mono text-violet-100">{manifest.policyHash.slice(0, 12)}…{manifest.policyHash.slice(-8)}</span> · 7-day acceptance · 30-day refund.</p></div><span role="status" className={`rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${v2ManifestChecking ? "bg-amber-200/10 text-amber-100" : v2Manifest?.verified ? "bg-violet-200/10 text-violet-100" : "bg-rose-200/10 text-rose-100"}`}>{v2ManifestChecking ? "Verifying" : v2Manifest?.verified ? "Code verified" : "Blocked"}</span></div><p className="mt-3 font-mono text-[11px] text-slate-400">Source {manifest.source.address} · ASC {manifest.escrowAsc.address}</p>{form.policyKind === "v2_governed" && <p className="mt-2 text-xs leading-5 text-fuchsia-100">Dispute authority is pinned to <span className="font-mono">{V2_GOVERNED_POLICY_MANIFEST.governance.address}</span> with a 2-of-3 signer threshold.</p>}<V2ManifestGateExplainer checking={v2ManifestChecking} verified={Boolean(v2Manifest?.verified)} />{v2Manifest && !v2Manifest.verified && <p role="alert" className="mt-3 text-xs leading-5 text-amber-100">Public RPC verification did not match the pinned manifest. V2 creation and submission remain blocked; retry after checking the deployment record.</p>}</div>; })()}
               {form.policyKind === "v2_draft" && <div className="mt-4 space-y-4 rounded-xl border border-cyan-200/15 bg-cyan-300/[0.045] p-4"><div className="flex gap-3 text-sm leading-6 text-cyan-50"><FileKey2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" /><p><span className="font-semibold">Draft only.</span> The workspace will calculate a V2 policy hash and per-order commitment. Funding stays disabled until a future V2 source and ASC pin the same policy.</p></div><div className="grid gap-3 sm:grid-cols-3"><div className="space-y-2"><Label htmlFor="policyConfirmations">Source confirmations</Label><Input id="policyConfirmations" inputMode="numeric" value={form.policyConfirmations} onChange={event => setForm({ ...form, policyConfirmations: event.target.value })} /></div><div className="space-y-2"><Label htmlFor="policyAcceptanceDays">Acceptance window (days)</Label><Input id="policyAcceptanceDays" inputMode="numeric" value={form.policyAcceptanceDays} onChange={event => setForm({ ...form, policyAcceptanceDays: event.target.value })} /></div><div className="space-y-2"><Label htmlFor="policyRefundDays">Refund window (days)</Label><Input id="policyRefundDays" inputMode="numeric" value={form.policyRefundDays} onChange={event => setForm({ ...form, policyRefundDays: event.target.value })} /></div></div><div className="space-y-2"><Label htmlFor="policySourceContract">V2 source contract (optional until deployed)</Label><Input id="policySourceContract" value={form.policySourceContract} onChange={event => setForm({ ...form, policySourceContract: event.target.value })} placeholder="0x… (leave empty while source deployment is pending)" className="font-mono" /></div>{attemptedSubmit && !v2PolicyValid && <p className="flex items-center gap-1.5 text-xs text-rose-100"><CircleAlert className="h-3.5 w-3.5" /> Use 1–512 confirmations, a 1–30 day acceptance window, and a refund window that is not shorter.</p>}</div>}
             </fieldset>
             <div className="space-y-2 md:col-span-2">

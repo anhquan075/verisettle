@@ -21,7 +21,7 @@ import {
 } from "../onchain";
 import { type DealStatus, REPLAY_PROTECTION_ERROR } from "../../shared/deals";
 import { buildV2PolicyDraft, toV2TermsCommitmentHash, V2_POLICY_DEFAULTS } from "../../shared/settlementPolicy";
-import { V2_POLICY_MANIFEST } from "../../shared/v2PolicyManifest";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "../../shared/v2PolicyManifest";
 
 const ethereumAddress = z.string().regex(/^0x[a-fA-F0-9]{40}$/, "Enter a valid EVM address.");
 const transactionHash = z.string().regex(/^0x[a-fA-F0-9]{64}$/, "Enter a valid 32-byte transaction hash.");
@@ -42,6 +42,7 @@ const v2PolicyInput = z
 const policyInput = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("v1_live") }),
   z.object({ kind: z.literal("v2_deployed") }),
+  z.object({ kind: z.literal("v2_governed") }),
   v2PolicyInput,
 ]);
 
@@ -55,7 +56,7 @@ function requireStatus(currentStatus: DealStatus, allowedStatuses: DealStatus[])
 }
 
 function requireSupportedSettlementPolicy(deal: Awaited<ReturnType<typeof getDealByOrderId>>) {
-  if (!deal || (deal.policyVersion !== "v1_live" && deal.policyVersion !== "v2_deployed")) {
+  if (!deal || (deal.policyVersion !== "v1_live" && deal.policyVersion !== "v2_deployed" && deal.policyVersion !== "v2_governed")) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "This V2 policy is a draft. Select the verified V2 deployment before submitting testnet transactions.",
@@ -105,14 +106,14 @@ export const dealsRouter = router({
             acceptanceWindowSeconds: input.policy.acceptanceWindowSeconds,
             refundWindowSeconds: input.policy.refundWindowSeconds,
           })
-        : input.policy.kind === "v2_deployed"
+        : input.policy.kind === "v2_deployed" || input.policy.kind === "v2_governed"
           ? {
-              policyHash: V2_POLICY_MANIFEST.policyHash,
-              sourceContract: V2_POLICY_MANIFEST.source.address,
-              termsSchemaVersion: V2_POLICY_MANIFEST.policy.termsSchemaVersion,
-              minimumSourceConfirmations: V2_POLICY_MANIFEST.policy.minimumSourceConfirmations,
-              acceptanceWindowSeconds: V2_POLICY_MANIFEST.policy.acceptanceWindowSeconds,
-              refundWindowSeconds: V2_POLICY_MANIFEST.policy.refundWindowSeconds,
+              policyHash: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).policyHash,
+              sourceContract: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).source.address,
+              termsSchemaVersion: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).policy.termsSchemaVersion,
+              minimumSourceConfirmations: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).policy.minimumSourceConfirmations,
+              acceptanceWindowSeconds: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).policy.acceptanceWindowSeconds,
+              refundWindowSeconds: (input.policy.kind === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).policy.refundWindowSeconds,
             }
         : null;
       const acceptanceExpiresAt = v2Policy ? new Date(createdAt.getTime() + v2Policy.acceptanceWindowSeconds * 1000) : null;
@@ -152,8 +153,10 @@ export const dealsRouter = router({
         type: "created",
         title: "Purchase order created",
         detail: v2Policy
-          ? input.policy.kind === "v2_deployed"
-            ? "Manifest-pinned V2 policy is persisted. V2 actions verify public code and immutable policy before submission."
+          ? input.policy.kind === "v2_deployed" || input.policy.kind === "v2_governed"
+            ? input.policy.kind === "v2_governed"
+              ? "Manifest-pinned 2-of-3 governed V2 policy is persisted. Wallet actions verify source, escrow, and governance code before submission."
+              : "Manifest-pinned V2 policy is persisted. V2 actions verify public code and immutable policy before submission."
             : "V2 policy draft is persisted with a deterministic policy hash. On-chain actions remain disabled until the matching V2 source and ASC are deployed and pinned."
           : "Order terms are persisted. Connect a CC3 Testnet wallet to fund the native tCTC escrow.",
       });

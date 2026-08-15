@@ -15,7 +15,7 @@ import { verifyV2PolicyManifest, type V2ManifestVerification } from "@/lib/v2Man
 import { WalletReadinessPanel } from "@/components/WalletReadinessPanel";
 import { REPLAY_PROTECTION_ERROR, type DealEventType } from "@shared/deals";
 import { TESTNET_NETWORKS, toTermsHash, VERISETTLE_CONTRACTS } from "@shared/contracts";
-import { V2_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
 import { assertExpectedReplayResult, isExpectedReplayRejection } from "@shared/judgeMode";
 import { motion } from "framer-motion";
 import {
@@ -110,18 +110,23 @@ export default function DealDetail({ orderId }: { orderId: string }) {
     return () => window.clearTimeout(timer);
   }, [detailQuery.isLoading, orderId]);
 
-  const isV2PolicyDeployed = detailQuery.data?.deal.policyVersion === "v2_deployed";
+  const manifestPolicyKind = detailQuery.data?.deal.policyVersion === "v2_governed"
+    ? "v2_governed"
+    : detailQuery.data?.deal.policyVersion === "v2_deployed"
+      ? "v2_deployed"
+      : null;
+  const isV2PolicyDeployed = Boolean(manifestPolicyKind);
   useEffect(() => {
-    if (!isV2PolicyDeployed) return;
+    if (!manifestPolicyKind) return;
     let active = true;
     setV2ManifestChecking(true);
-    verifyV2PolicyManifest().then(result => {
+    verifyV2PolicyManifest(manifestPolicyKind).then(result => {
       if (active) setV2Manifest(result);
     }).finally(() => {
       if (active) setV2ManifestChecking(false);
     });
     return () => { active = false; };
-  }, [isV2PolicyDeployed]);
+  }, [manifestPolicyKind]);
 
   const run = async (label: string, operation: () => Promise<void>) => {
     setActionError(null);
@@ -160,6 +165,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
   };
   const termsHash = toTermsHash(terms);
   const isV2PolicyDraft = deal.policyVersion === "v2_draft";
+  const isV2PolicyGoverned = deal.policyVersion === "v2_governed";
   const isV2Policy = isV2PolicyDraft || isV2PolicyDeployed;
   const v2ActionsReady = !isV2PolicyDeployed || Boolean(v2Manifest?.verified);
   const canSubmitPolicyAction = !isV2PolicyDeployed || v2ActionsReady;
@@ -248,7 +254,7 @@ export default function DealDetail({ orderId }: { orderId: string }) {
       </div>
       {actionError && <ErrorBox message={actionError} onDismiss={() => setActionError(null)} />}
       {isV2PolicyDraft && <div role="status" className="rounded-[1.35rem] border border-cyan-200/20 bg-cyan-300/[0.07] px-5 py-4 text-sm text-cyan-50"><div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" /><div><p className="font-semibold">V2 policy draft — no on-chain actions enabled</p><p className="mt-1 leading-6 text-cyan-50/75">This commitment is immutable workspace evidence. Funding, source acceptance, proof, refund, dispute, and release stay blocked until a V2 source and ASC deploy with the same pinned policy hash.</p></div></div></div>}
-      {isV2PolicyDeployed && <div role="status" className={`rounded-[1.35rem] border px-5 py-4 text-sm ${v2Manifest?.verified ? "border-violet-200/25 bg-violet-300/[0.08] text-violet-50" : "border-amber-200/25 bg-amber-300/[0.07] text-amber-50"}`}><div className="flex flex-wrap items-start justify-between gap-3"><div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" /><div><p className="font-semibold">V2 policy-pinned testnet route</p><p className="mt-1 leading-6 opacity-80">Policy {V2_POLICY_MANIFEST.policyHash.slice(0, 12)}…{V2_POLICY_MANIFEST.policyHash.slice(-8)} · Sepolia source and CC3 ASC must match public runtime code before every action.</p></div></div><span className="rounded-full border border-current/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]">{v2ManifestChecking ? "Verifying" : v2Manifest?.verified ? "Manifest verified" : "Actions blocked"}</span></div><V2ManifestGateExplainer checking={v2ManifestChecking} verified={Boolean(v2Manifest?.verified)} />{v2Manifest && !v2Manifest.verified && <p role="alert" className="mt-3 text-xs leading-5">The public deployment manifest did not verify. Refresh after checking the V2 deployment receipt; no V2 wallet action is available until it does.</p>}</div>}
+      {isV2PolicyDeployed && (() => { const manifest = isV2PolicyGoverned ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST; return <div role="status" className={`rounded-[1.35rem] border px-5 py-4 text-sm ${v2Manifest?.verified ? "border-violet-200/25 bg-violet-300/[0.08] text-violet-50" : "border-amber-200/25 bg-amber-300/[0.07] text-amber-50"}`}><div className="flex flex-wrap items-start justify-between gap-3"><div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" /><div><p className="font-semibold">{isV2PolicyGoverned ? "V2 2-of-3 governed testnet route" : "V2 policy-pinned testnet route"}</p><p className="mt-1 leading-6 opacity-80">Policy {manifest.policyHash.slice(0, 12)}…{manifest.policyHash.slice(-8)} · Sepolia source and CC3 ASC must match public runtime code before every action.</p></div></div><span className="rounded-full border border-current/20 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]">{v2ManifestChecking ? "Verifying" : v2Manifest?.verified ? "Manifest verified" : "Actions blocked"}</span></div>{isV2PolicyGoverned && <p className="mt-3 text-xs leading-5 text-fuchsia-100">Dispute resolution is pinned to the public <span className="font-mono">{V2_GOVERNED_POLICY_MANIFEST.governance.address}</span> contract; any outcome needs 2 of its 3 configured signers.</p>}<p className="mt-3 font-mono text-[11px] opacity-75">ASC {manifest.escrowAsc.address}</p><V2ManifestGateExplainer checking={v2ManifestChecking} verified={Boolean(v2Manifest?.verified)} />{v2Manifest && !v2Manifest.verified && <p role="alert" className="mt-3 text-xs leading-5">The public deployment manifest did not verify. Refresh after checking the V2 deployment receipt; no V2 wallet action is available until it does.</p>}</div>; })()}
 
       <section aria-label="Deal lifecycle status" className="overflow-hidden rounded-[1.45rem] border border-white/10 bg-[#071216]/85 shadow-[0_18px_50px_rgba(0,0,0,0.16)]">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-cyan-200/75">Live lifecycle</p><p className="mt-1 text-sm font-medium text-white">Every stage is advanced by a persisted receipt or the deployed ASC.</p></div><span className="rounded-full border border-teal-200/15 bg-teal-300/[0.06] px-3 py-1 text-xs font-medium text-teal-100">CC3 × Sepolia</span></div>

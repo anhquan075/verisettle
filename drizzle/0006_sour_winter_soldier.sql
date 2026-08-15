@@ -1,0 +1,1 @@
+ALTER TABLE `deals` MODIFY COLUMN `policyVersion` enum('v1_live','v2_draft','v2_deployed','v2_governed') NOT NULL DEFAULT 'v1_live';

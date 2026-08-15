@@ -30,6 +30,34 @@ export const V2_POLICY_MANIFEST = {
   },
 } as const;
 
+/**
+ * A separately deployed V2-policy route which keeps the verified source policy
+ * but binds Creditcoin dispute execution to the immutable 2-of-3 multisig.
+ */
+export const V2_GOVERNED_POLICY_MANIFEST = {
+  ...V2_POLICY_MANIFEST,
+  policyKind: "v2_governed",
+  governance: {
+    address: "0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849",
+    deploymentTxHash: "0x5547fbd93d802522bc8c28509299c19c2a9b7ceaecfebea0973bd4593a7dddbe",
+    runtimeCodeHash: "0x405b23101b7bba716651a5d2fe169127de32e88dc2949bc46cce6ae4857f7bd7",
+    threshold: 2,
+    signerCount: 3,
+    signers: [
+      "0xc7774720D1C14B9dA1c656b796a2a092D0b9D1c9",
+      "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+      "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+    ],
+  },
+  escrowAsc: {
+    address: "0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
+    deploymentTxHash: "0xf7d9e76c14da6577e910cc5cc9d7e5902d57c71cdd03907ba67003ac55734c43",
+    runtimeCodeHash: "0xa6941218e616580443904913bd4a901798b76acdaf0d6f9f8e25cece02c2bf74",
+    sourceChainKey: 1,
+    blockProverPrecompile: "0x0000000000000000000000000000000000000FD2",
+  },
+} as const;
+
 export const v2SourceAbi = [
   "function policyHash() view returns (bytes32)",
   "function acceptanceWindowSeconds() view returns (uint64)",
@@ -43,6 +71,7 @@ export const v2EscrowAbi = [
   "function sourceChainKey() view returns (uint64)",
   "function acceptanceWindowSeconds() view returns (uint64)",
   "function refundWindowSeconds() view returns (uint64)",
+  "function disputeGovernance() view returns (address)",
   "function fundEscrow(bytes32 orderId, address seller, bytes32 termsCommitment, uint64 acceptanceExpiresAt) payable",
   "function submitAcceptanceProof(uint64 chainKey, uint64 blockHeight, bytes encodedTransaction, bytes32 merkleRoot, tuple(bytes32 hash, bool isLeft)[] siblings, bytes32 lowerEndpointDigest, bytes32[] continuityRoots) returns (bytes32)",
   "function refundExpiredEscrow(bytes32 orderId)",
@@ -51,4 +80,10 @@ export const v2EscrowAbi = [
   "event EscrowReleasedV2(bytes32 indexed orderId, bytes32 indexed queryId, address indexed seller, uint256 amount, bytes32 policyHash)",
   "event EscrowRefundedV2(bytes32 indexed orderId, address indexed buyer, uint256 amount)",
   "event EscrowDisputedV2(bytes32 indexed orderId, address indexed raisedBy, bytes32 evidenceHash)",
+] as const;
+
+export const v2GovernanceAbi = [
+  "function threshold() view returns (uint8)",
+  "function signerCount() view returns (uint8)",
+  "function isSigner(address) view returns (bool)",
 ] as const;

@@ -15,7 +15,7 @@ type EvidenceDeal = {
   fundingTxHash?: string | null;
   settlementTxHash?: string | null;
   proofPolicyNonce: string;
-  policyVersion?: "v1_live" | "v2_draft" | "v2_deployed";
+  policyVersion?: "v1_live" | "v2_draft" | "v2_deployed" | "v2_governed";
   policyHash?: string | null;
   termsCommitmentHash?: string | null;
   termsSchemaVersion?: number | null;
@@ -96,6 +96,16 @@ ${deal.policyVersion === "v2_draft" ? `
 - Refund window: ${deal.refundWindowSeconds ? `${deal.refundWindowSeconds} seconds` : "Not recorded"}
 
 This V2 policy is immutable workspace evidence. It cannot authorize V1 source, escrow, proof, refund, dispute, or release calls until a future V2 deployment pins the same policy hash.
+` : ""}
+${deal.policyVersion === "v2_governed" ? `
+## V2 governed settlement route
+
+- Policy state: **Public-manifest verified, 2-of-3 dispute governance**
+- Policy hash: \`${deal.policyHash ?? "Not recorded"}\`
+- Per-order V2 commitment: \`${deal.termsCommitmentHash ?? "Not recorded"}\`
+- Source emitter: \`${deal.policySourceContract ?? "Not recorded"}\`
+
+The CC3 governed escrow routes dispute outcomes only through the separately pinned 2-of-3 governance contract after public-RPC manifest verification.
 ` : ""}
 
 ## Public receipt links

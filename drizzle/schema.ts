@@ -65,7 +65,7 @@ export const deals = mysqlTable(
     description: text("description").notNull(),
     status: mysqlEnum("status", dealStatusValues).notNull().default("draft"),
     proofPolicyNonce: varchar("proofPolicyNonce", { length: 32 }).notNull(),
-    policyVersion: mysqlEnum("policyVersion", ["v1_live", "v2_draft", "v2_deployed"]).notNull().default("v1_live"),
+    policyVersion: mysqlEnum("policyVersion", ["v1_live", "v2_draft", "v2_deployed", "v2_governed"]).notNull().default("v1_live"),
     policyHash: varchar("policyHash", { length: 66 }),
     termsCommitmentHash: varchar("termsCommitmentHash", { length: 66 }),
     termsSchemaVersion: int("termsSchemaVersion"),

@@ -43,6 +43,13 @@
       "when": 1786719968560,
       "tag": "0005_open_jubilee",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1786777174005,
+      "tag": "0006_sour_winter_soldier",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { V2_POLICY_MANIFEST } from "../shared/v2PolicyManifest";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "../shared/v2PolicyManifest";
 
 const root = path.resolve(import.meta.dirname, "..");
 const source = fs.readFileSync(path.join(root, "contracts/VeriSettleSourceV2.sol"), "utf8");
 const escrow = fs.readFileSync(path.join(root, "contracts/VeriSettleEscrowASCV2.sol"), "utf8");
 const verifier = fs.readFileSync(path.join(root, "scripts/verify-v2-policy-manifest.mjs"), "utf8");
+const governedEscrow = fs.readFileSync(path.join(root, "contracts/VeriSettleEscrowASCV2Governed.sol"), "utf8");
+const governedVerifier = fs.readFileSync(path.join(root, "scripts/verify-governed-v2-policy-manifest.mjs"), "utf8");
 
 describe("V2 deployment manifest", () => {
   it("pins non-zero independent V2 testnet addresses and code hashes", () => {
@@ -32,5 +34,18 @@ describe("V2 deployment manifest", () => {
     expect(verifier).toContain("runtimeCodeHash");
     expect(verifier).toContain("policyHash");
     expect(verifier).toContain("sourceContract");
+  });
+
+  it("pins the verified 2-of-3 governed successor and its immutable dispute authority", () => {
+    expect(V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address).toMatch(/^0x[\da-f]{40}$/i);
+    expect(V2_GOVERNED_POLICY_MANIFEST.governance.address).toMatch(/^0x[\da-f]{40}$/i);
+    expect(V2_GOVERNED_POLICY_MANIFEST.governance.threshold).toBe(2);
+    expect(V2_GOVERNED_POLICY_MANIFEST.governance.signers).toHaveLength(3);
+    expect(new Set(V2_GOVERNED_POLICY_MANIFEST.governance.signers.map(address => address.toLowerCase())).size).toBe(3);
+    expect(V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address).not.toBe(V2_GOVERNED_POLICY_MANIFEST.governance.address);
+    expect(governedEscrow).toContain("address public immutable disputeGovernance");
+    expect(governedEscrow).toContain("if (msg.sender != disputeGovernance)");
+    expect(governedVerifier).toContain("multisigThreshold");
+    expect(governedVerifier).toContain("escrowDisputeGovernance");
   });
 });

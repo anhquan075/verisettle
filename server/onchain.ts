@@ -1,6 +1,7 @@
 import { Contract, Interface, JsonRpcProvider, getAddress, keccak256, parseUnits } from "ethers";
 import { escrowAbi, sourceAbi, TESTNET_NETWORKS, toOrderKey, toTermsHash, VERISETTLE_CONTRACTS } from "../shared/contracts";
-import { V2_POLICY_MANIFEST, v2EscrowAbi, v2SourceAbi } from "../shared/v2PolicyManifest";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST, v2EscrowAbi, v2GovernanceAbi, v2SourceAbi } from "../shared/v2PolicyManifest";
+import type { DealPolicyVersion } from "../shared/settlementPolicy";
 
 const sepoliaProvider = new JsonRpcProvider(TESTNET_NETWORKS.sepolia.rpcUrl);
 const creditcoinProvider = new JsonRpcProvider(TESTNET_NETWORKS.creditcoin.rpcUrl);
@@ -16,7 +17,7 @@ type DealTerms = {
   amount: string;
   currency: string;
   description: string;
-  policyVersion?: "v1_live" | "v2_draft" | "v2_deployed";
+  policyVersion?: DealPolicyVersion;
   policyHash?: string | null;
   termsCommitmentHash?: string | null;
   policySourceContract?: string | null;
@@ -26,7 +27,11 @@ type DealTerms = {
 };
 
 function isV2(terms: DealTerms) {
-  return terms.policyVersion === "v2_deployed";
+  return terms.policyVersion === "v2_deployed" || terms.policyVersion === "v2_governed";
+}
+
+function v2ManifestFor(terms: DealTerms) {
+  return terms.policyVersion === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST;
 }
 
 function expectedTerms(terms: DealTerms) {
@@ -39,14 +44,15 @@ function expectedTerms(terms: DealTerms) {
 }
 
 function expectedV2Terms(terms: DealTerms) {
+  const manifest = v2ManifestFor(terms);
   if (!terms.policyHash || !terms.termsCommitmentHash || !terms.acceptanceExpiresAt || !terms.policySourceContract) {
     throw new Error("V2 policy record is missing a required immutable commitment field.");
   }
   if (
-    terms.policyHash !== V2_POLICY_MANIFEST.policyHash ||
-    getAddress(terms.policySourceContract) !== getAddress(V2_POLICY_MANIFEST.source.address) ||
-    terms.minimumSourceConfirmations !== V2_POLICY_MANIFEST.policy.minimumSourceConfirmations ||
-    terms.refundWindowSeconds !== V2_POLICY_MANIFEST.policy.refundWindowSeconds
+    terms.policyHash !== manifest.policyHash ||
+    getAddress(terms.policySourceContract) !== getAddress(manifest.source.address) ||
+    terms.minimumSourceConfirmations !== manifest.policy.minimumSourceConfirmations ||
+    terms.refundWindowSeconds !== manifest.policy.refundWindowSeconds
   ) throw new Error("V2 policy record does not match the verified deployment manifest.");
   return {
     orderKey: toOrderKey(terms.orderId),
@@ -58,12 +64,15 @@ function expectedV2Terms(terms: DealTerms) {
   };
 }
 
-async function verifyV2ManifestIntegrity() {
-  const source = new Contract(V2_POLICY_MANIFEST.source.address, v2SourceAbi, sepoliaProvider);
-  const escrow = new Contract(V2_POLICY_MANIFEST.escrowAsc.address, v2EscrowAbi, creditcoinProvider);
-  const [sourceCode, escrowCode, sourcePolicyHash, sourceWindow, escrowPolicyHash, escrowSource, escrowChainKey, escrowWindow, escrowRefundWindow] = await Promise.all([
-    sepoliaProvider.getCode(V2_POLICY_MANIFEST.source.address),
-    creditcoinProvider.getCode(V2_POLICY_MANIFEST.escrowAsc.address),
+async function verifyV2ManifestIntegrity(terms: DealTerms) {
+  const governedManifest = terms.policyVersion === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : null;
+  const manifest = governedManifest ?? V2_POLICY_MANIFEST;
+  const source = new Contract(manifest.source.address, v2SourceAbi, sepoliaProvider);
+  const escrow = new Contract(manifest.escrowAsc.address, v2EscrowAbi, creditcoinProvider);
+  const governance = governedManifest ? new Contract(governedManifest.governance.address, v2GovernanceAbi, creditcoinProvider) : null;
+  const [sourceCode, escrowCode, sourcePolicyHash, sourceWindow, escrowPolicyHash, escrowSource, escrowChainKey, escrowWindow, escrowRefundWindow, disputeGovernance, governanceCode, threshold, signerCount, ...signerChecks] = await Promise.all([
+    sepoliaProvider.getCode(manifest.source.address),
+    creditcoinProvider.getCode(manifest.escrowAsc.address),
     source.policyHash(),
     source.acceptanceWindowSeconds(),
     escrow.policyHash(),
@@ -71,18 +80,31 @@ async function verifyV2ManifestIntegrity() {
     escrow.sourceChainKey(),
     escrow.acceptanceWindowSeconds(),
     escrow.refundWindowSeconds(),
+    governedManifest ? escrow.disputeGovernance() : Promise.resolve(undefined),
+    governedManifest ? creditcoinProvider.getCode(governedManifest.governance.address) : Promise.resolve(undefined),
+    governance ? governance.threshold() : Promise.resolve(undefined),
+    governance ? governance.signerCount() : Promise.resolve(undefined),
+    ...(governance ? governedManifest!.governance.signers.map(signer => governance.isSigner(signer)) : []),
   ]);
   const valid =
     sourceCode !== "0x" && escrowCode !== "0x" &&
-    keccak256(sourceCode) === V2_POLICY_MANIFEST.source.runtimeCodeHash &&
-    keccak256(escrowCode) === V2_POLICY_MANIFEST.escrowAsc.runtimeCodeHash &&
-    sourcePolicyHash === V2_POLICY_MANIFEST.policyHash &&
-    Number(sourceWindow) === V2_POLICY_MANIFEST.policy.acceptanceWindowSeconds &&
-    escrowPolicyHash === V2_POLICY_MANIFEST.policyHash &&
-    getAddress(escrowSource) === getAddress(V2_POLICY_MANIFEST.source.address) &&
-    Number(escrowChainKey) === V2_POLICY_MANIFEST.policy.sourceChainKey &&
-    Number(escrowWindow) === V2_POLICY_MANIFEST.policy.acceptanceWindowSeconds &&
-    Number(escrowRefundWindow) === V2_POLICY_MANIFEST.policy.refundWindowSeconds;
+    keccak256(sourceCode) === manifest.source.runtimeCodeHash &&
+    keccak256(escrowCode) === manifest.escrowAsc.runtimeCodeHash &&
+    sourcePolicyHash === manifest.policyHash &&
+    Number(sourceWindow) === manifest.policy.acceptanceWindowSeconds &&
+    escrowPolicyHash === manifest.policyHash &&
+    getAddress(escrowSource) === getAddress(manifest.source.address) &&
+    Number(escrowChainKey) === manifest.policy.sourceChainKey &&
+    Number(escrowWindow) === manifest.policy.acceptanceWindowSeconds &&
+    Number(escrowRefundWindow) === manifest.policy.refundWindowSeconds &&
+    (!governedManifest || (
+      governanceCode !== "0x" &&
+      keccak256(governanceCode!) === governedManifest.governance.runtimeCodeHash &&
+      Number(threshold) === governedManifest.governance.threshold &&
+      Number(signerCount) === governedManifest.governance.signerCount &&
+      signerChecks.every(Boolean) &&
+      getAddress(disputeGovernance!) === getAddress(governedManifest.governance.address)
+    ));
   if (!valid) throw new Error("The public V2 deployment no longer matches its pinned manifest. V2 receipt submission is blocked.");
 }
 
@@ -102,8 +124,8 @@ function findEvent(receipt: Awaited<ReturnType<JsonRpcProvider["getTransactionRe
 export async function verifyEscrowFunding(txHash: string, terms: DealTerms) {
   const receipt = await creditcoinProvider.getTransactionReceipt(txHash);
   if (isV2(terms)) {
-    await verifyV2ManifestIntegrity();
-    const event = findEvent(receipt, V2_POLICY_MANIFEST.escrowAsc.address, "EscrowFundedV2", v2EscrowInterface);
+    await verifyV2ManifestIntegrity(terms);
+    const event = findEvent(receipt, v2ManifestFor(terms).escrowAsc.address, "EscrowFundedV2", v2EscrowInterface);
     const expected = expectedV2Terms(terms);
     const [orderKey, buyer, seller, amount, commitment, policyHash, acceptanceExpiresAt] = event.args;
     if (orderKey !== expected.orderKey || getAddress(buyer) !== expected.buyerAddress || getAddress(seller) !== expected.sellerAddress || commitment !== expected.termsCommitmentHash || policyHash !== expected.policyHash || acceptanceExpiresAt !== expected.acceptanceExpiresAt) {
@@ -125,8 +147,8 @@ export async function verifyEscrowFunding(txHash: string, terms: DealTerms) {
 export async function verifySourceAcceptance(txHash: string, terms: DealTerms) {
   const receipt = await sepoliaProvider.getTransactionReceipt(txHash);
   if (isV2(terms)) {
-    await verifyV2ManifestIntegrity();
-    const event = findEvent(receipt, V2_POLICY_MANIFEST.source.address, "OrderAcceptedV2", v2SourceInterface);
+    await verifyV2ManifestIntegrity(terms);
+    const event = findEvent(receipt, v2ManifestFor(terms).source.address, "OrderAcceptedV2", v2SourceInterface);
     const expected = expectedV2Terms(terms);
     const [orderKey, buyer, seller, commitment, policyHash, acceptanceExpiresAt] = event.args;
     if (orderKey !== expected.orderKey || getAddress(buyer) !== expected.buyerAddress || getAddress(seller) !== expected.sellerAddress || commitment !== expected.termsCommitmentHash || policyHash !== expected.policyHash || acceptanceExpiresAt !== expected.acceptanceExpiresAt) {
@@ -146,8 +168,8 @@ export async function verifySourceAcceptance(txHash: string, terms: DealTerms) {
 export async function verifyReleasedSettlement(txHash: string, terms: DealTerms) {
   const receipt = await creditcoinProvider.getTransactionReceipt(txHash);
   if (isV2(terms)) {
-    await verifyV2ManifestIntegrity();
-    const event = findEvent(receipt, V2_POLICY_MANIFEST.escrowAsc.address, "EscrowReleasedV2", v2EscrowInterface);
+    await verifyV2ManifestIntegrity(terms);
+    const event = findEvent(receipt, v2ManifestFor(terms).escrowAsc.address, "EscrowReleasedV2", v2EscrowInterface);
     const expected = expectedV2Terms(terms);
     const [orderKey, , seller, , policyHash] = event.args;
     if (orderKey !== expected.orderKey || getAddress(seller) !== expected.sellerAddress || policyHash !== expected.policyHash) throw new Error("V2 settlement receipt does not release this purchase order under its committed policy.");
@@ -163,8 +185,8 @@ export async function verifyReleasedSettlement(txHash: string, terms: DealTerms)
 export async function verifyEscrowRefund(txHash: string, terms: DealTerms) {
   const receipt = await creditcoinProvider.getTransactionReceipt(txHash);
   const v2 = isV2(terms);
-  if (v2) await verifyV2ManifestIntegrity();
-  const event = findEvent(receipt, v2 ? V2_POLICY_MANIFEST.escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? "EscrowRefundedV2" : "EscrowRefunded", v2 ? v2EscrowInterface : escrowInterface);
+  if (v2) await verifyV2ManifestIntegrity(terms);
+  const event = findEvent(receipt, v2 ? v2ManifestFor(terms).escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? "EscrowRefundedV2" : "EscrowRefunded", v2 ? v2EscrowInterface : escrowInterface);
   const expected = v2 ? expectedV2Terms(terms) : expectedTerms(terms);
   const [orderKey, buyer] = event.args;
   if (orderKey !== expected.orderKey || getAddress(buyer) !== expected.buyerAddress) throw new Error("Refund receipt does not return this purchase order’s escrow to its buyer.");
@@ -174,8 +196,8 @@ export async function verifyEscrowRefund(txHash: string, terms: DealTerms) {
 export async function verifyEscrowDispute(txHash: string, terms: DealTerms) {
   const receipt = await creditcoinProvider.getTransactionReceipt(txHash);
   const v2 = isV2(terms);
-  if (v2) await verifyV2ManifestIntegrity();
-  const event = findEvent(receipt, v2 ? V2_POLICY_MANIFEST.escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? "EscrowDisputedV2" : "EscrowDisputed", v2 ? v2EscrowInterface : escrowInterface);
+  if (v2) await verifyV2ManifestIntegrity(terms);
+  const event = findEvent(receipt, v2 ? v2ManifestFor(terms).escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? "EscrowDisputedV2" : "EscrowDisputed", v2 ? v2EscrowInterface : escrowInterface);
   const expected = v2 ? expectedV2Terms(terms) : expectedTerms(terms);
   const [orderKey, raisedBy] = event.args;
   const actor = getAddress(raisedBy);
@@ -192,7 +214,7 @@ export async function getProofForSourceTransaction(txHash: string) {
 }
 
 export async function readEscrowStatus(orderId: string, policyVersion: DealTerms["policyVersion"] = "v1_live") {
-  const v2 = policyVersion === "v2_deployed";
-  const escrow = new Contract(v2 ? V2_POLICY_MANIFEST.escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? v2EscrowAbi : escrowAbi, creditcoinProvider);
+  const v2 = policyVersion === "v2_deployed" || policyVersion === "v2_governed";
+  const escrow = new Contract(v2 ? (policyVersion === "v2_governed" ? V2_GOVERNED_POLICY_MANIFEST : V2_POLICY_MANIFEST).escrowAsc.address : VERISETTLE_CONTRACTS.escrowAsc, v2 ? v2EscrowAbi : escrowAbi, creditcoinProvider);
   return escrow.escrows(toOrderKey(orderId));
 }
