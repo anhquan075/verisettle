@@ -71,8 +71,9 @@ describe("SIWE wallet authentication security", () => {
     const panel = source("../client/src/components/WalletReadinessPanel.tsx");
     const detail = source("../client/src/pages/DealDetail.tsx");
     expect(access).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");
-    expect(access).toContain("wallet_switchEthereumChain");
-    expect(access).toContain("wallet_addEthereumChain");
+    expect(access).toContain("useSwitchChain");
+    expect(access).toContain("switchChainAsync");
+    expect(access).toContain("useConnectors");
     expect(panel).toContain("Wallet unavailable");
     expect(panel).toContain("Switch to");
     expect(detail).toContain("creditcoinReady");

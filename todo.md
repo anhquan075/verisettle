@@ -206,6 +206,9 @@
 - [ ] After the updated Vercel deployment is live, run a signed-wallet hybrid claim with a newly eligible test user and verify the two real receipt hashes plus the official-faucet fallback state.
 - [ ] Connect a supported testnet wallet to the ready production workspace, complete SIWE and CC3/Sepolia readiness, then preflight the user-approved hybrid claim without submitting a transfer prematurely.
 - [ ] Repair the detected-SubWallet/no-account recovery path with an explicit account refresh action, clear extension-unlock guidance, and regression coverage for provider account state changes.
+- [x] Correct the production SIWE trusted-origin configuration so the current verified Vercel HTTPS URL can issue wallet challenges without weakening origin validation. Live canonical-origin nonce validation returned the expected origin-bound SIWE challenge.
+- [x] Replace the hand-rolled browser wallet connector layer with Wagmi-based connectors while preserving SIWE challenge, signature, nonce, origin, session, and funding security controls.
+- [x] Validate the Wagmi wallet selection, MetaMask/OKX/Binance/Rabby/SubWallet compatibility, CC3/Sepolia readiness, and accessible recovery UI before checkpointing.
 - [x] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance. Live production self-validation detects the SubWallet EIP-1193 provider through the hardened discovery path.
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.
