@@ -115,7 +115,7 @@ export function useWalletAccess() {
     setError(null);
     try {
       const challenge = await requestNonce.mutateAsync({ address, chainId });
-      const signature = await signMessageAsync({ message: challenge.message });
+      const signature = await signMessageAsync({ account: address, message: challenge.message });
       await verify.mutateAsync({ address, nonce: challenge.nonce, signature });
       await utils.auth.me.invalidate();
       return true;
