@@ -217,6 +217,8 @@
 - [ ] Add a visible RainbowKit change-wallet control for connected users so they can securely disconnect the current wallet and select an alternate supported provider for SIWE testing.
 - [ ] Repair the connected-wallet Change wallet control so it opens a reliable disconnect-and-select-alternate-provider path rather than a non-opening account modal.
 - [x] Redesign the RainbowKit SIWE sign-in component with a concise connect → sign → ready hierarchy, progressive recovery guidance, and mobile/keyboard accessibility validation.
+- [ ] Diagnose and correct the Vercel production deployment or alias state so the stable VeriSettle URL serves the latest committed sign-in redesign.
+- [ ] Apply the new simplified RainbowKit connect → sign → ready design to the signed-out production workspace entry currently rendered before app authentication.
 - [x] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance. Live production self-validation detects the SubWallet EIP-1193 provider through the hardened discovery path.
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.

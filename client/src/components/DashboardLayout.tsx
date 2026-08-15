@@ -64,15 +64,23 @@ export default function DashboardLayout({
         <a href="#workspace-sign-in" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to workspace sign-in</a>
         <div className="pointer-events-none absolute -left-24 top-16 h-80 w-80 rounded-full bg-teal-300/10 blur-3xl" />
         <div className="pointer-events-none absolute -right-24 bottom-12 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-          <div id="workspace-sign-in" className="relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#09161a]/85 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
+        <div id="workspace-sign-in" className="relative w-full max-w-3xl overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#071216]/90 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
           <div className="absolute inset-x-0 top-0 h-px bg-cyan-200/40" />
           <VeriSettleBrand className="relative" compact />
-          <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Wallet-first testnet</div>
-          <h1 className="mt-5 max-w-md font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Connect once.<br /><span className="text-cyan-200">Follow the proof.</span></h1>
-          <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Start with your testnet wallet. The workspace will guide network checks, test funding, and each evidence-backed action.</p>
-          <ol className="mt-5 grid grid-cols-3 gap-2 text-[10px] leading-4"><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">01 · Sign in</span>Wallet proof</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">02 · Ready</span>CC3 + Sepolia</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">03 · Try</span>Real receipts</li></ol>
-          <div className="mt-7"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
-          <p className="mt-3 text-center text-xs text-slate-500">Wallet signatures never authorize transactions.</p>
+          <div className="mt-8 grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Secure wallet sign-in</div>
+              <h1 className="mt-5 max-w-xl font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Choose a wallet.<br /><span className="text-cyan-200">Prove the address.</span></h1>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-slate-300">Connect a testnet wallet, sign one VeriSettle session message, then check CC3 and Sepolia. Sign-in never sends a transaction or requests a recovery phrase.</p>
+            </div>
+            <ol className="grid gap-2 text-xs leading-5">
+              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">01 · Connect</span><span className="ml-2 text-slate-400">Choose your wallet.</span></li>
+              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">02 · Sign</span><span className="ml-2 text-slate-400">Approve one session message.</span></li>
+              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">03 · Ready</span><span className="ml-2 text-slate-400">Check CC3 and Sepolia.</span></li>
+            </ol>
+          </div>
+          <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
+          <p className="mt-4 text-center text-xs text-slate-500">Wallet signatures prove control of an address. They never authorize transactions.</p>
         </div>
       </div>
     );

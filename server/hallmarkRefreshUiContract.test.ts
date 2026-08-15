@@ -69,10 +69,12 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   });
 
   it("keeps signed-out access wallet-first without claiming unsupported wallet authentication", () => {
-    expect(layout).toContain("Wallet-first testnet");
-    expect(layout).toContain("Connect once.");
+    expect(layout).toContain("Secure wallet sign-in");
+    expect(layout).toContain("Choose a wallet.");
+    expect(layout).toContain("Prove the address.");
+    expect(layout).toContain("03 · Ready");
     expect(walletPanel).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");
-    expect(layout).toContain("Wallet signatures never authorize transactions.");
+    expect(layout).toContain("They never authorize transactions.");
     expect(walletPanel).toContain("VeriSettle never requests keys or recovery phrases.");
     expect(layout).not.toContain("Use another sign-in");
     expect(layout).not.toContain("startLogin");
