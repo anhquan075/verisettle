@@ -215,3 +215,4 @@
 - [ ] Submit the DoraHacks project only after the user explicitly confirms the final form contents and submission action.
 - [x] Review current Motion examples and apply an evidence-first motion and visual-hierarchy upgrade to the public VeriSettle landing page.
 - [x] Validate landing-page motion at desktop and mobile widths, including keyboard access, visible focus, and reduced-motion safety before checkpointing.
+- [x] Keep the public landing header persistently visible during scroll and add a branded VeriSettle copyright footer without reducing mobile or keyboard accessibility.

@@ -32,7 +32,7 @@ export default function Home() {
       <div className="veri-aurora pointer-events-none fixed inset-0" />
       <AttestationOrbit />
 
-      <header className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
+      <header className="sticky top-0 z-40 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 border-b border-white/[0.06] bg-[#061014]/88 px-5 py-4 shadow-[0_12px_34px_rgba(2,10,14,0.26)] backdrop-blur-xl sm:px-8">
         <button onClick={() => setLocation("/")} aria-label="VeriSettle home" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
           <span className="sm:hidden"><VeriSettleBrand compact /></span>
           <span className="hidden sm:inline-flex"><VeriSettleBrand /></span>
@@ -82,7 +82,12 @@ export default function Home() {
           <div className="space-y-4 text-sm leading-7 text-slate-300"><p>VeriSettle checks source inclusion, receipt success, expected event semantics, terms binding, and one-time proof use before the settlement call is allowed.</p><p>Every contract interaction in this prototype uses public testnet assets. The evidence path is real; the physical-delivery claim is explicitly outside the protocol boundary.</p><a href="https://github.com/gluwa/usc-testnet-bridge-examples" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-cyan-100 hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Review official bridge examples <Github className="h-4 w-4" /></a></div>
         </motion.section>
       </main>
-      <footer className="relative border-t border-white/8 px-5 py-7 text-center text-xs text-slate-500">VeriSettle / public testnet demonstration / no real-fund custody / no physical-delivery verification</footer>
+      <footer className="relative border-t border-white/8 bg-black/10 px-5 py-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
+          <p>© 2026 VeriSettle. All rights reserved.</p>
+          <p>Public testnet demonstration · No real-fund custody · No physical-delivery verification</p>
+        </div>
+      </footer>
     </div>
   );
 }
