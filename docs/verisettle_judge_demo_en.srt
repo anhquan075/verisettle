@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:09,000
+VeriSettle is a cross-chain purchase-order escrow built for evidence, not promises.
+
+2
+00:00:09,000 --> 00:00:18,000
+It holds native tCTC on Creditcoin CC3 and releases only after an Attestcoin-verified Sepolia receipt matches committed terms.
+
+3
+00:00:18,000 --> 00:00:30,000
+This wallet-first route supports EVM wallets, SIWE sign-in, and guided CC3 plus Sepolia readiness.
+
+4
+00:00:30,000 --> 00:00:42,000
+Connection and sign-in never move funds. VeriSettle never asks for a private key or recovery phrase.
+
+5
+00:00:42,000 --> 00:00:56,000
+This completed V1 order shows real CC3 escrow funding, a Sepolia acceptance event, and an Attestcoin proof request.
+
+6
+00:00:56,000 --> 00:01:20,000
+The Creditcoin ASC verifies receipt inclusion, source success, event semantics, parties, order key, and immutable terms before release.
+
+7
+00:01:20,000 --> 00:01:35,000
+V2 wallet actions are blocked until a public-RPC manifest confirms the source, escrow, chains, code hashes, and policy hash.
+
+8
+00:01:35,000 --> 00:01:48,000
+The verification result is visible before a user can route an action to the policy-pinned contracts.
+
+9
+00:01:48,000 --> 00:02:03,000
+Governed disputes replace a single owner with a two-of-three multisig and a bound-action approval tracker.
+
+10
+00:02:03,000 --> 00:02:15,000
+The evidence includes a real dispute, two independent approvals, and an on-chain buyer refund.
+
+11
+00:02:15,000 --> 00:02:35,000
+Replay protection is enforced on chain. A consumed verified query is rejected again with QueryAlreadyProcessed.
+
+12
+00:02:35,000 --> 00:02:48,000
+VeriSettle is testnet-only, with public contracts, receipts, policy verification, governed resolution, and judge-ready evidence.

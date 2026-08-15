@@ -208,3 +208,10 @@
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.
 - [ ] Validate provider discovery, selected-wallet labeling, connection recovery, and CC3/Sepolia readiness across the supported wallet types before checkpointing.
+- [ ] Validate a live installed wallet provider through account connection, SIWE sign-in, and CC3/Sepolia readiness without submitting an unapproved funding claim.
+- [x] Review the current DoraHacks BUIDL CTC Fall 2026 submission requirements and prepare the project description, evidence links, repository, deployment URL, and category materials.
+- [x] Create a judge-ready VeriSettle walkthrough with a full-featured evidence plan, accurate voiceover script, and subtitle track that distinguishes real completed flows from wallet-holder-gated steps.
+- [ ] Complete the DoraHacks GitHub login and hacker registration, then prepare the project submission for user review without posting it.
+- [ ] Submit the DoraHacks project only after the user explicitly confirms the final form contents and submission action.
+- [x] Review current Motion examples and apply an evidence-first motion and visual-hierarchy upgrade to the public VeriSettle landing page.
+- [x] Validate landing-page motion at desktop and mobile widths, including keyboard access, visible focus, and reduced-motion safety before checkpointing.
