@@ -19,13 +19,11 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import { LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
-import { Button } from "./ui/button";
 import { AttestationOrbit } from "./AttestationOrbit";
 import { VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletReadinessPanel } from "./WalletReadinessPanel";
@@ -74,7 +72,6 @@ export default function DashboardLayout({
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Start with your testnet wallet. The workspace will guide network checks, test funding, and each evidence-backed action.</p>
           <ol className="mt-5 grid grid-cols-3 gap-2 text-[10px] leading-4"><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">01 · Sign in</span>Wallet proof</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">02 · Ready</span>CC3 + Sepolia</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">03 · Try</span>Real receipts</li></ol>
           <div className="mt-7"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
-          <Button onClick={() => startLogin()} variant="ghost" size="sm" className="veri-action mt-4 w-full text-slate-400 hover:bg-white/[0.05] hover:text-white">Use another sign-in</Button>
           <p className="mt-3 text-center text-xs text-slate-500">Wallet signatures never authorize transactions.</p>
         </div>
       </div>

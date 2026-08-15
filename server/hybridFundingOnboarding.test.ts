@@ -24,6 +24,7 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
 
   it("keeps the launchpad wallet-first, route-aware, and free of key-handling UI", () => {
     const launchpad = read("../client/src/components/WalletFirstLaunchpad.tsx");
+    const walletAccess = read("../client/src/hooks/useWalletAccess.ts");
     expect(launchpad).toContain("useWalletAccess");
     expect(launchpad).toContain('verifyNetwork("creditcoin")');
     expect(launchpad).toContain('verifyNetwork("sepolia")');
@@ -31,5 +32,9 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).toContain("CC3 official faucet");
     expect(launchpad).not.toContain("VERISETTLE_TESTNET_FUNDER_PRIVATE_KEY");
     expect(launchpad).not.toContain("testnetFunderPrivateKey");
+    expect(walletAccess).toContain("eip6963:requestProvider");
+    expect(walletAccess).toContain("eip6963:announceProvider");
+    expect(walletAccess).toContain("providers.find(provider => provider.isSubWallet)");
+    expect(walletAccess).toContain("lateRetryDiscovery");
   });
 });

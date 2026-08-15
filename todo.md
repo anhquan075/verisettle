@@ -204,3 +204,5 @@
 - [x] Generate a fresh dedicated testnet-only EVM funding wallet, retain its private material only in secure storage, and configure it as the server-side hybrid-funding secret.
 - [x] Fund and independently verify the fresh funding wallet with small CC3 tCTC and Sepolia ETH balances before enabling any real public drip.
 - [ ] After the updated Vercel deployment is live, run a signed-wallet hybrid claim with a newly eligible test user and verify the two real receipt hashes plus the official-faucet fallback state.
+- [ ] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance.
+- [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.

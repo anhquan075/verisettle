@@ -14,8 +14,19 @@ type Eip1193Provider = {
   removeListener?: (event: "accountsChanged" | "chainChanged", listener: (...args: unknown[]) => void) => void;
 };
 
+type Eip6963ProviderDetail = {
+  info?: { name?: string; rdns?: string };
+  provider?: Eip1193Provider;
+};
+
+function preferSupportedProvider(candidate: Eip1193Provider | undefined) {
+  if (!candidate) return undefined;
+  const providers = ((candidate as Eip1193Provider & { providers?: Eip1193Provider[] }).providers ?? []);
+  return providers.find(provider => provider.isSubWallet) ?? providers.find(provider => provider.isRabby) ?? candidate;
+}
+
 function getInjectedProvider() {
-  return (window as Window & { ethereum?: Eip1193Provider }).ethereum;
+  return preferSupportedProvider((window as Window & { ethereum?: Eip1193Provider }).ethereum);
 }
 
 function extensionName(provider: Eip1193Provider) {
@@ -59,17 +70,41 @@ export function useWalletAccess() {
   }, []);
 
   useEffect(() => {
-    const nextProvider = getInjectedProvider() ?? null;
-    setProvider(nextProvider);
-    if (!nextProvider) return;
-    void refresh(nextProvider).catch(() => undefined);
-    const onAccountsChanged = () => void refresh(nextProvider).catch(() => undefined);
-    const onChainChanged = () => void refresh(nextProvider).catch(() => undefined);
-    nextProvider.on?.("accountsChanged", onAccountsChanged);
-    nextProvider.on?.("chainChanged", onChainChanged);
+    let activeProvider = getInjectedProvider() ?? null;
+    const attachProvider = (nextProvider: Eip1193Provider | null) => {
+      if (!nextProvider) return;
+      activeProvider = nextProvider;
+      setProvider(nextProvider);
+      void refresh(nextProvider).catch(() => undefined);
+    };
+    attachProvider(activeProvider);
+    const onAnnounce = (event: Event) => {
+      const detail = (event as CustomEvent<Eip6963ProviderDetail>).detail;
+      const announced = detail?.provider;
+      if (!announced) return;
+      const namedSubWallet = announced.isSubWallet || detail?.info?.name?.toLowerCase().includes("subwallet") || detail?.info?.rdns?.toLowerCase().includes("subwallet");
+      const namedRabby = announced.isRabby || detail?.info?.name?.toLowerCase().includes("rabby") || detail?.info?.rdns?.toLowerCase().includes("rabby");
+      if (namedSubWallet || namedRabby || !activeProvider) attachProvider(announced);
+    };
+    window.addEventListener("eip6963:announceProvider", onAnnounce as EventListener);
+    window.dispatchEvent(new Event("eip6963:requestProvider"));
+    const retryDiscovery = window.setTimeout(() => attachProvider(getInjectedProvider() ?? null), 350);
+    const lateRetryDiscovery = window.setTimeout(() => attachProvider(getInjectedProvider() ?? null), 1200);
+    if (!activeProvider) return () => {
+      window.removeEventListener("eip6963:announceProvider", onAnnounce as EventListener);
+      window.clearTimeout(retryDiscovery);
+      window.clearTimeout(lateRetryDiscovery);
+    };
+    const onAccountsChanged = () => activeProvider && void refresh(activeProvider).catch(() => undefined);
+    const onChainChanged = () => activeProvider && void refresh(activeProvider).catch(() => undefined);
+    activeProvider.on?.("accountsChanged", onAccountsChanged);
+    activeProvider.on?.("chainChanged", onChainChanged);
     return () => {
-      nextProvider.removeListener?.("accountsChanged", onAccountsChanged);
-      nextProvider.removeListener?.("chainChanged", onChainChanged);
+      activeProvider?.removeListener?.("accountsChanged", onAccountsChanged);
+      activeProvider?.removeListener?.("chainChanged", onChainChanged);
+      window.removeEventListener("eip6963:announceProvider", onAnnounce as EventListener);
+      window.clearTimeout(retryDiscovery);
+      window.clearTimeout(lateRetryDiscovery);
     };
   }, [refresh]);
 

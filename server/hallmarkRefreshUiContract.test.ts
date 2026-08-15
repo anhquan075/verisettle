@@ -72,9 +72,10 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain("Wallet-first testnet");
     expect(layout).toContain("Connect once.");
     expect(walletPanel).toContain("Rabby or SubWallet");
-    expect(layout).toContain("Use another sign-in");
     expect(layout).toContain("Wallet signatures never authorize transactions.");
     expect(walletPanel).toContain("VeriSettle never requests keys or recovery phrases.");
+    expect(layout).not.toContain("Use another sign-in");
+    expect(layout).not.toContain("startLogin");
     expect(layout).not.toContain("Sign in with wallet");
   });
 
