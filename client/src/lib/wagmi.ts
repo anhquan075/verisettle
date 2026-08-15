@@ -1,8 +1,8 @@
 import { TESTNET_NETWORKS } from "@shared/contracts";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { defineChain } from "viem";
-import { createConfig, http } from "wagmi";
+import { http } from "wagmi";
 import { sepolia } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
 
 export const creditcoinCc3 = defineChain({
   id: TESTNET_NETWORKS.creditcoin.chainId,
@@ -24,23 +24,18 @@ export const creditcoinCc3 = defineChain({
   testnet: true,
 });
 
-export const wagmiConfig = createConfig({
+const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
+
+if (!walletConnectProjectId) {
+  throw new Error("RainbowKit requires VITE_WALLETCONNECT_PROJECT_ID.");
+}
+
+export const wagmiConfig = getDefaultConfig({
+  appName: "VeriSettle",
+  projectId: walletConnectProjectId,
   chains: [creditcoinCc3, sepolia],
-  connectors: [
-    injected({
-      shimDisconnect: true,
-      unstable_shimAsyncInject: 2_000,
-    }),
-  ],
-  multiInjectedProviderDiscovery: true,
   transports: {
     [creditcoinCc3.id]: http(TESTNET_NETWORKS.creditcoin.rpcUrl),
     [sepolia.id]: http(TESTNET_NETWORKS.sepolia.rpcUrl),
   },
 });
-
-declare module "wagmi" {
-  interface Register {
-    config: typeof wagmiConfig;
-  }
-}

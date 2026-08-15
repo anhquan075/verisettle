@@ -209,6 +209,10 @@
 - [x] Correct the production SIWE trusted-origin configuration so the current verified Vercel HTTPS URL can issue wallet challenges without weakening origin validation. Live canonical-origin nonce validation returned the expected origin-bound SIWE challenge.
 - [x] Replace the hand-rolled browser wallet connector layer with Wagmi-based connectors while preserving SIWE challenge, signature, nonce, origin, session, and funding security controls.
 - [x] Validate the Wagmi wallet selection, MetaMask/OKX/Binance/Rabby/SubWallet compatibility, CC3/Sepolia readiness, and accessible recovery UI before checkpointing.
+- [x] Integrate RainbowKit with Wagmi for maintained wallet connection choices while preserving VeriSettle’s CC3/Sepolia network configuration and server-side SIWE security.
+- [x] Redesign the wallet sign-in surface into a simple connect → sign message → verify readiness flow with clear non-transactional and funding boundaries.
+- [x] Validate RainbowKit connection recovery, SIWE message completion, desktop/mobile UX, and testnet-readiness behavior before checkpointing.
+- [x] Align the wallet dependency stack to RainbowKit’s supported Wagmi 2 peer range before exposing RainbowKit connection controls in production.
 - [x] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance. Live production self-validation detects the SubWallet EIP-1193 provider through the hardened discovery path.
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.

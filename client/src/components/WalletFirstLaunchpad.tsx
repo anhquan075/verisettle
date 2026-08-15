@@ -1,6 +1,7 @@
 import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Check, CircleAlert, ExternalLink, Loader2, Route, ShieldCheck, Sparkles, WalletCards } from "lucide-react";
 import { useState } from "react";
 
@@ -45,20 +46,19 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/15 bg-cyan-300/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100"><Sparkles className="h-3.5 w-3.5" /> Judge-ready launchpad</div>
           <h2 className="mt-4 max-w-2xl font-veri-display text-3xl font-semibold leading-[0.96] tracking-[-0.065em] text-white sm:text-4xl">One wallet. One route.<br /><span className="text-cyan-200">Every action is real.</span></h2>
-          <p className="mt-4 max-w-xl text-sm leading-6 text-slate-300">Choose MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet, sign a wallet session, confirm each required testnet, then claim a small one-time starter balance or use the official faucet fallback. VeriSettle never asks for a key or recovery phrase.</p>
+          <p className="mt-4 max-w-xl text-sm leading-6 text-slate-300">Choose a wallet, sign one secure session message, then confirm each testnet. VeriSettle never asks for a key, recovery phrase, or transaction approval during sign-in.</p>
           <div className="mt-6 flex flex-wrap gap-2">
-            {!wallet.address ? wallet.wallets.map((candidate) => <Button key={candidate.id} onClick={() => void wallet.connect(candidate.id)} disabled={wallet.busy} className={wallet.selectedWallet?.id === candidate.id ? "veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200" : "veri-action border border-cyan-100/20 bg-black/10 font-semibold text-cyan-50 hover:bg-cyan-300/10"}><WalletCards className="mr-2 h-4 w-4" />{wallet.busy && wallet.selectedWallet?.id === candidate.id ? "Connecting…" : `Connect ${candidate.name}`}</Button>) : <Button onClick={() => void signInWithWallet()} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><ShieldCheck className="mr-2 h-4 w-4" />{wallet.busy ? "Signing…" : `Sign in with ${wallet.extension ?? "wallet"}`}</Button>}
-            {!wallet.address && wallet.selectedWallet ? <Button type="button" variant="outline" onClick={() => void wallet.refreshAccount()} disabled={wallet.busy} className="veri-action border-cyan-100/20 bg-black/10 text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-4 w-4" />Refresh account</Button> : null}
+            {!wallet.address ? <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button onClick={openConnectModal} disabled={!mounted} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><WalletCards className="mr-2 h-4 w-4" />Choose wallet</Button>}</ConnectButton.Custom> : <Button onClick={() => void signInWithWallet()} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><ShieldCheck className="mr-2 h-4 w-4" />{wallet.busy ? "Signing…" : "Sign wallet session"}</Button>}
             <Button onClick={onCreateOrder} variant="outline" className="veri-action border-cyan-100/20 bg-black/10 text-cyan-50 hover:bg-cyan-300/10">Explore order flow <Route className="ml-2 h-4 w-4" /></Button>
           </div>
-          {!wallet.address && wallet.selectedWallet && <p className="mt-3 text-xs leading-5 text-slate-400">If your extension is unlocked but no address appears, select the account in {wallet.selectedWallet.name}, then use <span className="font-semibold text-slate-200">Refresh account</span>. This does not request a signature or move funds.</p>}
+          {!wallet.address && <p className="mt-3 text-xs leading-5 text-slate-400">The wallet picker handles MetaMask, OKX Wallet, Binance Wallet, Rabby, SubWallet, and WalletConnect recovery. Connecting only shares your public address.</p>}
           {wallet.address && <p className="mt-4 font-mono text-xs text-cyan-100">Connected wallet · {wallet.address}</p>}
           {wallet.error && <div role="alert" className="mt-4 flex gap-2 rounded-xl border border-amber-200/20 bg-amber-300/[0.06] p-3 text-xs leading-5 text-amber-50"><CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-200" /><span><strong>{wallet.error.title}.</strong> {wallet.error.detail}</span></div>}
         </div>
         <div className="rounded-2xl border border-white/10 bg-[#050d11]/60 p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3"><div><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">Guided testnet route</p><p className="mt-1 text-sm font-semibold text-white">Complete the next unlocked step.</p></div><span className="rounded-full border border-violet-200/20 bg-violet-300/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-100">No simulation</span></div>
           <ol className="mt-4 grid gap-2">
-            <RailStep complete={Boolean(wallet.address)} label="1 · Connect" detail="Use a MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet EIP-1193 account." />
+            <RailStep complete={Boolean(wallet.address)} label="1 · Connect" detail="Choose your preferred wallet in the secure connection modal." />
             <RailStep complete={cc3Checked && sepoliaChecked} label="2 · Check networks" detail="Switch to CC3 for escrow and Sepolia for source acceptance; only one chain is active in a wallet at a time." />
             <RailStep complete={claimComplete} label="3 · Fund test account" detail={claimComplete ? "Both real starter drips were confirmed on chain." : "Claim once when the secured reserve is available; external faucets remain available."} />
             <RailStep complete={false} label="4 · Run the proof path" detail="Create terms, fund CC3 escrow, accept on Sepolia, then inspect the verified settlement evidence." />

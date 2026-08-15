@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { TESTNET_NETWORKS } from "@shared/contracts";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Check, CircleAlert, ExternalLink, Loader2, PlugZap, ShieldCheck, WalletCards } from "lucide-react";
 
 type WalletNetwork = keyof typeof TESTNET_NETWORKS;
@@ -50,18 +51,7 @@ export function WalletReadinessPanel({
       <div className="flex items-start justify-between gap-3"><div className="flex items-start gap-3"><div className={`rounded-xl p-2 ${ready ? "bg-cyan-300/10 text-cyan-100" : "bg-white/[0.06] text-slate-300"}`}>{ready ? <Check className="h-4 w-4" /> : <WalletCards className="h-4 w-4" />}</div><div><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">{wallet.extension}</p><h3 className="mt-1 text-sm font-semibold text-white">{wallet.address ? (ready ? `${label} ready` : `${label} required`) : "Connect wallet"}</h3><p className="mt-1 font-mono text-xs text-slate-400">{wallet.address ? `${wallet.address.slice(0, 8)}…${wallet.address.slice(-6)}` : "No account connected"}</p></div></div>{ready && <ShieldCheck className="h-5 w-5 text-cyan-200" />}</div>
       {!compact && <p className="mt-3 text-xs leading-5 text-slate-400">{wallet.address ? (requiredNetwork && !ready ? `Switch before ${requiredNetwork === "creditcoin" ? "CC3 escrow" : "Sepolia acceptance"}.` : "Wallet actions require your own extension approval.") : "Connect a testnet account to check chain readiness. If the extension is already unlocked, refresh the account state below."}</p>}
       <div className="mt-3 flex flex-wrap gap-2">
-        {!wallet.address && wallet.wallets.map((candidate) => (
-          <Button key={candidate.id} type="button" size="sm" onClick={() => void wallet.connect(candidate.id)} disabled={wallet.busy} className={wallet.selectedWallet?.id === candidate.id ? "veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200" : "veri-action border border-white/10 bg-white/[0.04] font-semibold text-slate-100 hover:bg-white/[0.08]"}>
-            {wallet.busy && wallet.selectedWallet?.id === candidate.id ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <WalletCards className="mr-2 h-3.5 w-3.5" />}
-            Connect {candidate.name}
-          </Button>
-        ))}
-        {!wallet.address && wallet.selectedWallet ? (
-          <Button type="button" size="sm" variant="outline" onClick={() => void wallet.refreshAccount()} disabled={wallet.busy} className="veri-action border-white/15 text-slate-100 hover:bg-white/[0.08]">
-            {wallet.busy ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <PlugZap className="mr-2 h-3.5 w-3.5" />}
-            Refresh account
-          </Button>
-        ) : null}
+        {!wallet.address ? <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button type="button" size="sm" onClick={openConnectModal} disabled={!mounted || wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><WalletCards className="mr-2 h-3.5 w-3.5" />Choose wallet</Button>}</ConnectButton.Custom> : null}
         {wallet.address && requiredNetwork && !ready ? <Button type="button" size="sm" onClick={() => void wallet.switchNetwork(requiredNetwork)} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Switch to {requiredNetwork === "creditcoin" ? "CC3" : "Sepolia"}</Button> : null}
         {wallet.address && signIn ? <Button type="button" size="sm" onClick={() => void handleSignIn()} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Sign in with wallet</Button> : null}
       </div>

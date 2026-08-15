@@ -3,8 +3,8 @@ import { describeWalletError, type WalletErrorNotice } from "@/lib/walletError";
 import { TESTNET_NETWORKS } from "@shared/contracts";
 import { useCallback, useMemo, useState } from "react";
 import {
+  useAccount,
   useConnect,
-  useConnection,
   useConnectors,
   useReconnect,
   useSignMessage,
@@ -36,7 +36,7 @@ function displayConnectorName(connector: Connector) {
 
 export function useWalletAccess() {
   const connectors = useConnectors();
-  const connection = useConnection();
+  const connection = useAccount();
   const { connectAsync, isPending: isConnecting } = useConnect();
   const { reconnectAsync, isPending: isReconnecting } = useReconnect();
   const { signMessageAsync, isPending: isSigning } = useSignMessage();

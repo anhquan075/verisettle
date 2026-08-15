@@ -32,8 +32,10 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).toContain("CC3 official faucet");
     expect(launchpad).not.toContain("VERISETTLE_TESTNET_FUNDER_PRIVATE_KEY");
     expect(launchpad).not.toContain("testnetFunderPrivateKey");
+    expect(launchpad).toContain("ConnectButton.Custom");
+    expect(launchpad).toContain("Choose wallet");
     expect(walletAccess).toContain("useConnectors");
-    expect(walletAccess).toContain("useConnection");
+    expect(walletAccess).toContain("useAccount");
     expect(walletAccess).toContain("useReconnect");
     expect(walletAccess).toContain("useSignMessage");
     expect(walletAccess).toContain("useSwitchChain");
@@ -45,8 +47,8 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(walletAccess).toContain("SubWallet");
     expect(walletAccess).toContain("refreshAccount");
     const readiness = read("../client/src/components/WalletReadinessPanel.tsx");
-    expect(readiness).toContain("Connect {candidate.name}");
-    expect(readiness).toContain("Refresh account");
+    expect(readiness).toContain("ConnectButton.Custom");
+    expect(readiness).toContain("Choose wallet");
     expect(readiness).toContain("Install a supported EVM wallet.");
   });
 });
