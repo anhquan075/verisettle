@@ -6,6 +6,7 @@ import {
   useAccount,
   useConnect,
   useConnectors,
+  useDisconnect,
   useReconnect,
   useSignMessage,
   useSwitchChain,
@@ -38,6 +39,7 @@ export function useWalletAccess() {
   const connectors = useConnectors();
   const connection = useAccount();
   const { connectAsync, isPending: isConnecting } = useConnect();
+  const { disconnect } = useDisconnect();
   const { reconnectAsync, isPending: isReconnecting } = useReconnect();
   const { signMessageAsync, isPending: isSigning } = useSignMessage();
   const { switchChainAsync, isPending: isSwitching } = useSwitchChain();
@@ -91,6 +93,12 @@ export function useWalletAccess() {
     }
   }, [connection.address, connection.chainId, connectors, reconnectAsync, selectedWallet]);
 
+  const changeWallet = useCallback(() => {
+    setError(null);
+    setSelectedWalletId(null);
+    disconnect();
+  }, [disconnect]);
+
   const switchNetwork = useCallback(async (network: WalletNetwork) => {
     if (!address) {
       setError({ kind: "extension", title: "Connect wallet first", detail: "Connect an approved wallet account before changing its testnet network.", action: "connect" });
@@ -141,6 +149,7 @@ export function useWalletAccess() {
     wallets,
     selectedWallet,
     connect,
+    changeWallet,
     refreshAccount,
     signIn,
     switchNetwork,
