@@ -99,6 +99,20 @@ export function useWalletAccess() {
     return { address: nextAddress, chainId: nextChainId };
   }, []);
 
+  const refreshAccount = useCallback(async () => {
+    if (!provider) return null;
+    setBusy(true);
+    setError(null);
+    try {
+      return await refresh(provider);
+    } catch (cause) {
+      setError(describeWalletError(cause, "Unlock the selected wallet account, then refresh its account state.", "retry"));
+      return null;
+    } finally {
+      setBusy(false);
+    }
+  }, [provider, refresh]);
+
   useEffect(() => {
     const registerWallets = (nextWallets: DiscoveredWallet[]) => {
       if (!nextWallets.length) return;
@@ -206,5 +220,5 @@ export function useWalletAccess() {
     sepolia: chainId === TESTNET_NETWORKS.sepolia.chainIdHex,
   }), [chainId]);
 
-  return { address, busy, chainId, error, extension: selectedWallet?.name ?? null, hasExtension: wallets.length > 0, readiness, wallets, selectedWallet, connect, signIn, switchNetwork };
+  return { address, busy, chainId, error, extension: selectedWallet?.name ?? null, hasExtension: wallets.length > 0, readiness, wallets, selectedWallet, connect, refreshAccount, signIn, switchNetwork };
 }

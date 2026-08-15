@@ -42,8 +42,10 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(walletAccess).toContain('name: "SubWallet"');
     expect(walletAccess).toContain("dedupeWallets");
     expect(walletAccess).toContain("lateRetryDiscovery");
+    expect(walletAccess).toContain("refreshAccount");
     const readiness = read("../client/src/components/WalletReadinessPanel.tsx");
     expect(readiness).toContain("Connect {candidate.name}");
+    expect(readiness).toContain("Refresh account");
     expect(readiness).toContain("Install a supported EVM wallet.");
   });
 });
