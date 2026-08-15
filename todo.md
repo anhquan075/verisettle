@@ -192,3 +192,6 @@
 - [x] Add an accessible visual explanation of V2 manifest verification and policy-aware routing in creation and deal-detail workflows.
 - [x] Run the combined Solidity, Foundry, application, type/build, and desktop/mobile visual validation suite before checkpointing the governance hardening release.
 - [x] Deploy the approved 2-of-3 multisig with the documented deployment, buyer, and seller testnet addresses; deploy the governed escrow successor; and verify its public-RPC manifest before enabling governed policy routing.
+- [x] Add a governed-dispute approvals timeline and accessible 2-of-3 signature-progress tracker to the deal workspace.
+- [x] Execute and independently verify a real CC3 governed-dispute resolution using two distinct configured signer sessions, without fabricating approvals or seeded deal data.
+- [x] Run contract, application, type/build, and responsive UI validation for governed-dispute tracking before checkpointing.

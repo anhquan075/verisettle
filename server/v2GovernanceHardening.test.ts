@@ -7,6 +7,7 @@ const governedEscrow = fs.readFileSync(path.join(root, "contracts/VeriSettleEscr
 const multisig = fs.readFileSync(path.join(root, "contracts/VeriSettleDisputeMultisig.sol"), "utf8");
 const invariantSuite = fs.readFileSync(path.join(root, "test/foundry/V2EscrowInvariants.t.sol"), "utf8");
 const manifestExplainer = fs.readFileSync(path.join(root, "client/src/components/V2ManifestGateExplainer.tsx"), "utf8");
+const governedTracker = fs.readFileSync(path.join(root, "client/src/components/GovernedDisputeTracker.tsx"), "utf8");
 const dashboard = fs.readFileSync(path.join(root, "client/src/pages/DealDashboard.tsx"), "utf8");
 const detail = fs.readFileSync(path.join(root, "client/src/pages/DealDetail.tsx"), "utf8");
 
@@ -42,5 +43,15 @@ describe("V2 governance hardening contract", () => {
     expect(manifestExplainer).toContain("runtime code hashes");
     expect(dashboard).toContain("V2ManifestGateExplainer");
     expect(detail).toContain("V2ManifestGateExplainer");
+  });
+
+  it("renders real public-RPC governed approval progress only for disputed governed deals", () => {
+    expect(governedTracker).toContain("disputeResolutionActionHash");
+    expect(governedTracker).toContain("approvalCount");
+    expect(governedTracker).toContain("approvedBy");
+    expect(governedTracker).toContain("Signer approval timeline");
+    expect(governedTracker).toContain("2-of-3 signature progress");
+    expect(detail).toContain("GovernedDisputeTracker");
+    expect(detail).toContain('isV2PolicyGoverned && deal.status === "disputed"');
   });
 });

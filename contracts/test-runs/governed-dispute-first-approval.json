@@ -1,0 +1,35 @@
+{
+  "orderId": "governed-dispute-1786777969007",
+  "orderKey": "0x1e5781baeef7e3f63a462b26954b2b0d9051320af01db24676cd5ec1fe543ef1",
+  "governedEscrow": "0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "amountTctc": "0.001",
+  "termsCommitment": "0x20b40fea5ce34f64745b26b9511603f77a35f14e4801af1ad1edf1bf11c81d17",
+  "acceptanceExpiresAt": 1786864369,
+  "refundAfter": 1789456369,
+  "transactionHash": "0x7ca3cd1f63739bac3923996a579e7c232267a3b5f1d02c6c5d45c08acbcf2fec",
+  "blockNumber": 5312753,
+  "balanceBeforeTctc": "0.987642244",
+  "balanceAfterTctc": "0.9865730745",
+  "recordedAt": "2026-08-15T07:19:21.491Z",
+  "evidenceHash": "0x42dadc36422f3dd1ca2d8323085c00a4208c8eb1b4690fc2ac4af56d9173cb78",
+  "dispute": {
+    "transactionHash": "0xf10539ef789d9694a65d3f6ffd05faabaad5bc116fa9d6d842eccacf6acd877b",
+    "blockNumber": 5312759,
+    "raisedBy": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620"
+  },
+  "firstApproval": {
+    "transactionHash": "0x76d9bc86a3ec16fd350c427fae188891752424423d61e5676aefc770dd2336ba",
+    "blockNumber": 5312760,
+    "signer": "0xc7774720D1C14B9dA1c656b796a2a092D0b9D1c9",
+    "actionHash": "0xfca00bcba4d9b4aecc9dc31ebdadaee54e7b6c333e5b177a7422e3fc689eb472",
+    "approvalCount": 1
+  },
+  "pendingState": {
+    "escrowStatus": "Disputed",
+    "executed": false,
+    "nextNonce": "0",
+    "buyerApproved": false
+  }
+}

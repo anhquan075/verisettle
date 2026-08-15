@@ -2,6 +2,7 @@ import { DealStatusBadge } from "@/components/DealStatusBadge";
 import { ExplorerLink } from "@/components/ExplorerLink";
 import { JudgeReplayWalkthrough } from "@/components/JudgeReplayWalkthrough";
 import { JudgeEvidenceExport } from "@/components/JudgeEvidenceExport";
+import { GovernedDisputeTracker } from "@/components/GovernedDisputeTracker";
 import { WalletApprovalEvidence } from "@/components/WalletApprovalEvidence";
 import { V2ManifestGateExplainer } from "@/components/V2ManifestGateExplainer";
 import { Button } from "@/components/ui/button";
@@ -262,6 +263,8 @@ export default function DealDetail({ orderId }: { orderId: string }) {
       </section>
 
       <DealActionGuide status={deal.status} walletAddress={address} activeOperation={activeOperation} nextAction={nextAction} />
+
+      <GovernedDisputeTracker orderId={deal.orderId} active={isV2PolicyGoverned && deal.status === "disputed"} />
 
       <section className="veri-order-sheet relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0a1b21] p-5 sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 h-60 w-60 rounded-full bg-teal-300/10 blur-3xl" />

@@ -1,0 +1,16 @@
+{
+  "orderId": "governed-dispute-1786777969007",
+  "orderKey": "0x1e5781baeef7e3f63a462b26954b2b0d9051320af01db24676cd5ec1fe543ef1",
+  "governedEscrow": "0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "amountTctc": "0.001",
+  "termsCommitment": "0x20b40fea5ce34f64745b26b9511603f77a35f14e4801af1ad1edf1bf11c81d17",
+  "acceptanceExpiresAt": 1786864369,
+  "refundAfter": 1789456369,
+  "transactionHash": "0x7ca3cd1f63739bac3923996a579e7c232267a3b5f1d02c6c5d45c08acbcf2fec",
+  "blockNumber": 5312753,
+  "balanceBeforeTctc": "0.987642244",
+  "balanceAfterTctc": "0.9865730745",
+  "recordedAt": "2026-08-15T07:17:34.015Z"
+}

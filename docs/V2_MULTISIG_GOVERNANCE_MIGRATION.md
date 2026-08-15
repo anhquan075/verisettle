@@ -17,6 +17,19 @@ The governed successor was deployed on Creditcoin CC3 Testnet on 2026-08-15. It 
 
 The public-RPC verifier checks 15 bindings: both chain IDs, source/multisig/escrow runtime hashes, policy hashes, multisig threshold and signer set, escrow source/window parameters, and the escrow’s immutable governance address. The deployment manifest is recorded at `contracts/deployments/v2-governed-policy-cc3-testnet.json`.
 
+## Real two-signer governed-dispute exercise
+
+The successor’s dispute path was exercised with a fresh **0.001 tCTC** CC3 Testnet escrow. The buyer raised a dispute, the deployment signer recorded the first approval, and the buyer supplied the independent second approval. The second approval executed the action atomically and refunded the buyer; no approval or resolution data was fabricated or seeded.
+
+| Stage | Public testnet receipt | Verified state |
+|---|---|---|
+| Governed escrow funding | [`0x7ca3…2fec`](https://creditcoin-testnet.blockscout.com/tx/0x7ca3cd1f63739bac3923996a579e7c232267a3b5f1d02c6c5d45c08acbcf2fec) | Funded 0.001 tCTC under order `governed-dispute-1786777969007` |
+| Buyer raises dispute | [`0xf105…877b`](https://creditcoin-testnet.blockscout.com/tx/0xf10539ef789d9694a65d3f6ffd05faabaad5bc116fa9d6d842eccacf6acd877b) | Escrow entered `Disputed` |
+| First approval | [`0x76d9…36ba`](https://creditcoin-testnet.blockscout.com/tx/0x76d9bc86a3ec16fd350c427fae188891752424423d61e5676aefc770dd2336ba) | One approval recorded; action remained unexecuted and nonce remained `0` |
+| Second approval and execution | [`0x905a…9a7f`](https://creditcoin-testnet.blockscout.com/tx/0x905ac47d6b529b285a15e40372b150456eacee862225c55c737ca9113b729a7f) | Approval count reached `2`; action executed; escrow became `Refunded`; nonce advanced to `1` |
+
+The action hash was `0xfca00bcba4d9b4aecc9dc31ebdadaee54e7b6c333e5b177a7422e3fc689eb472`. It commits to the CC3 chain, governance address, governed escrow, order, refund outcome, and nonce. Raw checked evidence is preserved at `contracts/test-runs/governed-dispute-resolution.json`.
+
 ## Threshold multisig model
 
 The governance constructor receives a unique public-address signer set and a threshold. A resolution action commits to the following tuple before the final signer executes it:

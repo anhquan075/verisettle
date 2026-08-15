@@ -86,4 +86,9 @@ export const v2GovernanceAbi = [
   "function threshold() view returns (uint8)",
   "function signerCount() view returns (uint8)",
   "function isSigner(address) view returns (bool)",
+  "function nextNonce() view returns (uint256)",
+  "function disputeResolutionActionHash(address escrow, bytes32 orderId, bool releaseToSeller, uint256 nonce) view returns (bytes32)",
+  "function approvalCount(bytes32 actionHash) view returns (uint256)",
+  "function approvedBy(bytes32 actionHash, address signer) view returns (bool)",
+  "function executed(bytes32 actionHash) view returns (bool)",
 ] as const;
