@@ -50,6 +50,20 @@
       "when": 1786777174005,
       "tag": "0006_sour_winter_soldier",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1786780246909,
+      "tag": "0007_gray_lethal_legion",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1786780647923,
+      "tag": "0008_minor_luke_cage",
+      "breakpoints": true
     }
   ]
 }

@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { dealsRouter } from "./routers/deals";
+import { testnetFundingRouter } from "./routers/testnetFunding";
 import { walletAuthRouter } from "./routers/walletAuth";
 
 export const appRouter = router({
@@ -20,6 +21,7 @@ export const appRouter = router({
     }),
   }),
   deals: dealsRouter,
+  testnetFunding: testnetFundingRouter,
 });
 
 export type AppRouter = typeof appRouter;

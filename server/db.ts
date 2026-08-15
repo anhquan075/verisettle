@@ -1,6 +1,6 @@
 import { and, desc, eq, gt, isNull, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { dealEvents, deals, InsertDeal, InsertUser, siweNonces, users, walletIdentities } from "../drizzle/schema";
+import { dealEvents, deals, InsertDeal, InsertUser, siweNonces, testnetFundingRequests, users, walletIdentities } from "../drizzle/schema";
 import type { DealEventType, DealStatus } from "../shared/deals";
 import { ENV } from './_core/env';
 
@@ -135,6 +135,36 @@ export async function linkWalletIdentity(input: { address: string; userOpenId: s
   const created = await getWalletIdentity(input.address);
   if (!created) throw new Error("Failed to link wallet identity");
   return created;
+}
+
+export async function getTestnetFundingRequest(walletAddress: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [request] = await db.select().from(testnetFundingRequests).where(eq(testnetFundingRequests.walletAddress, walletAddress)).limit(1);
+  return request;
+}
+
+export async function getTestnetFundingRequestForUser(userOpenId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  const [request] = await db.select().from(testnetFundingRequests).where(eq(testnetFundingRequests.userOpenId, userOpenId)).limit(1);
+  return request;
+}
+
+export async function createTestnetFundingRequest(input: { walletAddress: string; userOpenId: string }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(testnetFundingRequests).values(input);
+  const created = await getTestnetFundingRequest(input.walletAddress);
+  if (!created) throw new Error("Failed to create the funding request record");
+  return created;
+}
+
+export async function updateTestnetFundingRequest(walletAddress: string, update: Partial<Pick<typeof testnetFundingRequests.$inferInsert, "status" | "cc3TxHash" | "sepoliaTxHash" | "failureReason">>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(testnetFundingRequests).set(update).where(eq(testnetFundingRequests.walletAddress, walletAddress));
+  return getTestnetFundingRequest(walletAddress);
 }
 
 export async function createDeal(deal: Omit<InsertDeal, "id" | "createdAt" | "updatedAt" | "status">) {

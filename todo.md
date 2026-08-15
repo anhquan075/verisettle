@@ -195,3 +195,12 @@
 - [x] Add a governed-dispute approvals timeline and accessible 2-of-3 signature-progress tracker to the deal workspace.
 - [x] Execute and independently verify a real CC3 governed-dispute resolution using two distinct configured signer sessions, without fabricating approvals or seeded deal data.
 - [x] Run contract, application, type/build, and responsive UI validation for governed-dispute tracking before checkpointing.
+- [x] Research and document official, real Creditcoin CC3 tCTC and Sepolia ETH testnet funding paths, including rate-limit, anti-abuse, and custody constraints.
+- [x] Redesign workspace access around wallet-first sign-in, automatic CC3/Sepolia network readiness, and a concise judge-first action path.
+- [x] Implement a secure one-time testnet funding experience that uses only real approved funding sources, preserves request auditability, and never fabricates balances or wallet approvals.
+- [x] Add an interactive guided walkthrough that directs judges through authentication, network readiness, funding, deal creation, proof, governance evidence, and replay safety.
+- [x] Add coverage and responsive validation for wallet-first onboarding, funding states, judge guidance, and error recovery before checkpointing.
+- [x] Configure the selected hybrid model: small per-wallet real testnet drips with a documented official-faucet fallback for rate-limited, ineligible, or depleted-reserve cases.
+- [x] Generate a fresh dedicated testnet-only EVM funding wallet, retain its private material only in secure storage, and configure it as the server-side hybrid-funding secret.
+- [x] Fund and independently verify the fresh funding wallet with small CC3 tCTC and Sepolia ETH balances before enabling any real public drip.
+- [ ] After the updated Vercel deployment is live, run a signed-wallet hybrid claim with a newly eligible test user and verify the two real receipt hashes plus the official-faucet fallback state.

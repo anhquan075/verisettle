@@ -52,6 +52,22 @@ export const siweNonces = mysqlTable(
   table => [index("siwe_nonces_address_idx").on(table.address), index("siwe_nonces_expires_at_idx").on(table.expiresAt)]
 );
 
+export const testnetFundingRequests = mysqlTable(
+  "testnet_funding_requests",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    walletAddress: varchar("walletAddress", { length: 42 }).notNull().unique(),
+    userOpenId: varchar("userOpenId", { length: 64 }).notNull().unique(),
+    status: mysqlEnum("status", ["pending", "complete", "partial", "failed"]).notNull().default("pending"),
+    cc3TxHash: varchar("cc3TxHash", { length: 66 }),
+    sepoliaTxHash: varchar("sepoliaTxHash", { length: 66 }),
+    failureReason: varchar("failureReason", { length: 280 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [index("testnet_funding_requests_user_open_id_idx").on(table.userOpenId)]
+);
+
 export const deals = mysqlTable(
   "deals",
   {
@@ -106,3 +122,4 @@ export type InsertDeal = typeof deals.$inferInsert;
 export type DealEvent = typeof dealEvents.$inferSelect;
 export type WalletIdentity = typeof walletIdentities.$inferSelect;
 export type SiweNonce = typeof siweNonces.$inferSelect;
+export type TestnetFundingRequest = typeof testnetFundingRequests.$inferSelect;

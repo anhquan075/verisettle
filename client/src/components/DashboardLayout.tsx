@@ -70,8 +70,9 @@ export default function DashboardLayout({
           <div className="absolute inset-x-0 top-0 h-px bg-cyan-200/40" />
           <VeriSettleBrand className="relative" compact />
           <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Wallet-first testnet</div>
-          <h1 className="mt-5 max-w-md font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Connect.<br /><span className="text-cyan-200">Prove. Release.</span></h1>
-          <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Save the order. Then sign testnet actions with Rabby or SubWallet.</p>
+          <h1 className="mt-5 max-w-md font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Connect once.<br /><span className="text-cyan-200">Follow the proof.</span></h1>
+          <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">Start with your testnet wallet. The workspace will guide network checks, test funding, and each evidence-backed action.</p>
+          <ol className="mt-5 grid grid-cols-3 gap-2 text-[10px] leading-4"><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">01 · Sign in</span>Wallet proof</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">02 · Ready</span>CC3 + Sepolia</li><li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-2 text-slate-300"><span className="block font-semibold text-cyan-100">03 · Try</span>Real receipts</li></ol>
           <div className="mt-7"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
           <Button onClick={() => startLogin()} variant="ghost" size="sm" className="veri-action mt-4 w-full text-slate-400 hover:bg-white/[0.05] hover:text-white">Use another sign-in</Button>
           <p className="mt-3 text-center text-xs text-slate-500">Wallet signatures never authorize transactions.</p>

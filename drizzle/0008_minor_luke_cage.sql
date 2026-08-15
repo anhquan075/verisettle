@@ -1,0 +1,1 @@
+ALTER TABLE `testnet_funding_requests` ADD CONSTRAINT `testnet_funding_requests_userOpenId_unique` UNIQUE(`userOpenId`);
