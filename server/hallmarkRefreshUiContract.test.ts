@@ -87,6 +87,9 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(publicJudgeEvidence).toContain("No wallet required");
     expect(publicJudgeEvidence).toContain("JudgeProofRoute");
     expect(publicJudgeEvidence).toContain("Everything here is inspectable. Acting still requires a wallet.");
+    expect(publicJudgeEvidence).toContain("Copy evidence");
+    expect(publicJudgeEvidence).toContain("navigator.clipboard.writeText");
+    expect(publicJudgeEvidence).toContain("This public route requires no wallet connection.");
   });
 
   it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {
