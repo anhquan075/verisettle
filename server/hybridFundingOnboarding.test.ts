@@ -33,6 +33,8 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).toContain("Claim small test balance");
     expect(launchpad).toContain('funding?.status === "complete"');
     expect(launchpad).toContain("FundingReceiptEmbed");
+    expect(launchpad).toContain('user?.openId.startsWith("wallet:")');
+    expect(launchpad).toContain("const fundingWalletAddress = wallet.address ?? persistedWalletAddress");
     expect(launchpad).toContain("CC3 official faucet");
     expect(launchpad).not.toContain("VERISETTLE_TESTNET_FUNDER_PRIVATE_KEY");
     expect(launchpad).not.toContain("testnetFunderPrivateKey");

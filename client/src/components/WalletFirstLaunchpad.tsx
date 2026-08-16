@@ -25,12 +25,14 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
   const utils = trpc.useUtils();
   const [cc3Checked, setCc3Checked] = useState(false);
   const [sepoliaChecked, setSepoliaChecked] = useState(false);
+  const signedIn = user?.sessionKind === "siwe";
+  const persistedWalletAddress = signedIn && user?.openId.startsWith("wallet:") ? user.openId.slice("wallet:".length) : null;
+  const fundingWalletAddress = wallet.address ?? persistedWalletAddress;
   const status = trpc.testnetFunding.status.useQuery(
-    { walletAddress: wallet.address ?? "0x0000000000000000000000000000000000000000" },
-    { enabled: Boolean(wallet.address && user?.sessionKind === "siwe"), retry: false },
+    { walletAddress: fundingWalletAddress ?? "0x0000000000000000000000000000000000000000" },
+    { enabled: Boolean(fundingWalletAddress && signedIn), retry: false },
   );
   const claim = trpc.testnetFunding.claim.useMutation({ onSuccess: () => void utils.testnetFunding.status.invalidate() });
-  const signedIn = user?.sessionKind === "siwe";
   const funding = status.data?.request;
   const claimComplete = funding?.status === "complete";
   const networksReady = cc3Checked && sepoliaChecked;
