@@ -44,8 +44,10 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   it("keeps the authenticated workspace organized around a real next action and register", () => {
     expect(layout).toContain("veri-workspace-header");
     expect(layout).toContain("sticky top-0");
-    expect(layout).toContain("Receipt-bound ·");
-    expect(layout).toContain("Public testnet only");
+    expect(layout).toContain("veri-command-bar");
+    expect(layout).toContain("veri-command-context");
+    expect(layout).toContain("veri-network-signal");
+    expect(layout).toContain("CC3 testnet");
     expect(dashboard).toContain("Settlement desk");
     expect(dashboard).toContain("Terms first.");
     expect(dashboard).toContain("veri-workspace-spark");
@@ -155,6 +157,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-proof-canvas");
     expect(styles).toContain(".veri-workspace-spark");
     expect(styles).toContain(".veri-workspace-header");
+    expect(styles).toContain(".veri-command-bar");
     expect(styles).toContain(".veri-live-route");
     expect(styles).toContain(".veri-protocol-route");
     expect(styles).toContain(".veri-action-rail");

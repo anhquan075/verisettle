@@ -52,7 +52,7 @@ function WorkspaceWalletControl({ fullWidth = false }: { fullWidth?: boolean }) 
             variant={connected ? "outline" : "default"}
             onClick={connected ? openAccountModal : openConnectModal}
             disabled={!mounted}
-            className={`veri-action min-h-9 border-cyan-100/20 font-semibold ${connected ? "bg-white/[0.03] text-cyan-50 hover:bg-cyan-300/10" : "bg-cyan-300 text-slate-950 hover:bg-cyan-200"} ${fullWidth ? "w-full justify-start" : "max-w-[11.5rem]"}`}
+            className={`veri-action min-h-9 border-cyan-100/20 font-semibold ${connected ? "bg-white/[0.03] text-cyan-50 hover:bg-cyan-300/10" : "bg-cyan-300 text-[#06191f] hover:bg-cyan-200"} ${fullWidth ? "w-full justify-start" : "max-w-[11.5rem]"}`}
           >
             <WalletCards className="mr-1.5 h-3.5 w-3.5 shrink-0" />
             <span className="truncate">{connected ? `Wallet · ${account?.displayName}` : "Connect wallet"}</span>
@@ -168,7 +168,7 @@ function DashboardLayoutContent({
 
   return (
     <>
-      <a href="#workspace-content" className="sr-only z-[60] rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to workspace content</a>
+      <a href="#workspace-content" className="sr-only z-[60] rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-[#062126] focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to workspace content</a>
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
@@ -223,8 +223,8 @@ function DashboardLayoutContent({
           </SidebarContent>
 
           <SidebarFooter className="border-t border-cyan-100/10 p-3">
-            {!isCollapsed && <div className="mb-3 rounded-xl border border-teal-200/10 bg-teal-300/[0.045] px-3 py-2.5"><div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Testnet live</div><p className="mt-1 text-xs text-slate-400">Sepolia × CC3 proof path</p></div>}
-            {!isCollapsed && user?.sessionKind === "siwe" && user.sessionExpiresAt && <div className="mb-3 rounded-xl border border-cyan-200/10 bg-cyan-300/[0.035] px-3 py-2.5"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Wallet session</p><div className="mt-1"><WalletSessionCountdown expiresAt={user.sessionExpiresAt} /></div><p className="mt-2 text-xs leading-5 text-slate-400">Sign in with your wallet again when it expires.</p></div>}
+            {!isCollapsed && <div className="mb-3 rounded-xl border border-teal-200/10 bg-teal-300/[0.045] px-3 py-2.5"><div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Testnet live</div><p className="mt-1 text-xs text-teal-50/75">Sepolia × CC3 proof path</p></div>}
+            {!isCollapsed && user?.sessionKind === "siwe" && user.sessionExpiresAt && <div className="mb-3 rounded-xl border border-cyan-200/10 bg-cyan-300/[0.035] px-3 py-2.5"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Wallet session</p><div className="mt-1"><WalletSessionCountdown expiresAt={user.sessionExpiresAt} /></div><p className="mt-2 text-xs leading-5 text-cyan-50/70">Sign in with your wallet again when it expires.</p></div>}
             {hasWalletSession ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -275,17 +275,16 @@ function DashboardLayoutContent({
       <SidebarInset className="relative min-w-0 overflow-hidden bg-[#040b0e]">
         <AttestationOrbit variant="workspace" />
         <header className="veri-workspace-header sticky top-0 z-40 border-b border-cyan-100/10 bg-[#061014]/92 text-slate-100 backdrop-blur-xl supports-[backdrop-filter]:bg-[#061014]/78">
-          <div className="flex min-h-14 w-full items-center gap-3 px-3 sm:px-6 lg:px-8">
-            <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+          <div className="veri-command-bar flex min-h-16 w-full items-center justify-between gap-3 px-3 sm:px-6 lg:px-8">
+            <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
-              <Button type="button" size="sm" variant="ghost" onClick={() => setLocation("/")} aria-label="Back to landing page" className="veri-action h-9 shrink-0 gap-1.5 rounded-lg border border-white/10 bg-white/[0.025] px-2.5 text-xs font-semibold text-cyan-50 hover:bg-cyan-300/10 hover:text-cyan-100"><ArrowLeft className="h-3.5 w-3.5" /><span className="hidden md:inline">Landing</span></Button>
+              <Button type="button" size="sm" variant="ghost" onClick={() => setLocation("/")} aria-label="Back to landing page" className="veri-action h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.025] p-0 text-cyan-50 hover:bg-cyan-300/10 hover:text-cyan-100"><ArrowLeft className="h-3.5 w-3.5" /><span className="sr-only">Landing</span></Button>
               <span className="sm:hidden"><VeriSettleBrand compact /></span>
-              <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
+              <div className="veri-command-context hidden min-w-0 items-center gap-2 sm:flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">Workspace</span><span className="h-3 w-px bg-white/10" aria-hidden="true" /><span className="truncate text-sm font-semibold text-slate-100">{activeMenuItem?.label ?? "Settlement"}</span></div>
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-              {hasWalletSession && user?.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}
+              <span aria-label="Creditcoin CC3 public testnet" className="veri-network-signal hidden items-center gap-1.5 rounded-full border border-teal-200/15 bg-teal-300/[0.045] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(45,212,191,0.8)]" /><span className="hidden md:inline">CC3 testnet</span><span className="md:hidden">CC3</span></span>
               <WorkspaceWalletControl />
-              <span className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:gap-2 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden lg:inline">Receipt-bound · </span><span className="sm:hidden">Testnet</span><span className="hidden sm:inline">Public testnet only</span></span>
             </div>
           </div>
         </header>
