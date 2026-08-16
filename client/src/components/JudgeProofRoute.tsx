@@ -57,10 +57,10 @@ export function JudgeProofRoute() {
         </div>
       </div>
 
-      <div className="grid gap-px bg-white/10 md:grid-cols-3">
+      <div className="veri-judge-rail grid gap-px bg-white/10 md:grid-cols-3" aria-label="Settlement proof rail">
         {checkpoints.map(({ step, title, detail, Icon, tone }) => (
-          <article key={step} className="bg-[#091216] p-5 sm:p-6">
-            <div className="flex items-center justify-between"><span className="font-mono text-[11px] font-semibold tracking-[0.14em] text-slate-500">{step} / 03</span><span className={`grid h-9 w-9 place-items-center rounded-xl border ${tone}`}><Icon className="h-4.5 w-4.5" /></span></div>
+          <article key={step} className="veri-judge-rail__stage bg-[#091216] p-5 sm:p-6">
+            <div className="flex items-center justify-between"><span className="flex items-center gap-2 font-mono text-[11px] font-semibold tracking-[0.14em] text-slate-500"><i aria-hidden className="veri-judge-rail__node" />{step} / 03</span><span className={`grid h-9 w-9 place-items-center rounded-xl border ${tone}`}><Icon className="h-4.5 w-4.5" /></span></div>
             <h3 className="mt-5 text-base font-semibold text-white">{title}</h3>
             <p className="mt-2 text-sm leading-6 text-slate-400">{detail}</p>
           </article>
@@ -70,8 +70,8 @@ export function JudgeProofRoute() {
       <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[1fr_0.78fr]">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Open the completed evidence</p>
-          <div className="mt-3 grid gap-2">
-            {receipts.map(receipt => <a key={receipt.label} href={receipt.href} target="_blank" rel="noreferrer" className="veri-action group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 transition-colors hover:border-cyan-200/25 hover:bg-cyan-300/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><span><span className="block text-sm font-semibold text-white">{receipt.label}</span><span className="mt-1 block font-mono text-[11px] text-cyan-100">{receipt.hash}</span></span><ArrowUpRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-100" /></a>)}
+          <div className="veri-receipt-rail mt-3 grid gap-2">
+            {receipts.map((receipt, index) => <a key={receipt.label} href={receipt.href} target="_blank" rel="noreferrer" className="veri-receipt-rail__item veri-action group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 transition-colors hover:border-cyan-200/25 hover:bg-cyan-300/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><span className="flex min-w-0 items-center gap-3"><span className="veri-receipt-rail__sequence">R0{index + 1}</span><span><span className="block text-sm font-semibold text-white">{receipt.label}</span><span className="mt-1 block font-mono text-[11px] text-cyan-100">{receipt.hash}</span></span></span><ArrowUpRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-100" /></a>)}
           </div>
         </div>
         <aside className="rounded-2xl border border-teal-200/15 bg-teal-300/[0.055] p-5">

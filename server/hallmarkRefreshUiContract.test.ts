@@ -61,6 +61,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(judgeRoute).toContain("Governed recovery / deployed V3 route");
     expect(judgeRoute).toContain("2 of 3 independent approvals");
     expect(judgeRoute).toContain("V2_GOVERNED_POLICY_MANIFEST");
+    expect(judgeRoute).toContain("veri-judge-rail");
+    expect(judgeRoute).toContain("veri-receipt-rail__sequence");
   });
 
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {
@@ -131,6 +133,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-live-route");
     expect(styles).toContain(".veri-protocol-route");
     expect(styles).toContain(".veri-action-rail");
+    expect(styles).toContain(".veri-judge-rail__node");
+    expect(styles).toContain(".veri-receipt-rail__sequence");
     expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/eFHWodZEAyBplgdg.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");
