@@ -16,7 +16,8 @@ This is the concise, judge-first run of show derived from the prior BUIDL CTC wi
 | 2 | `/app#judge-route` | Sepolia `OrderAccepted` receipt `0x4b6c…1d18` | Delivery acceptance is a verifiable source-chain event. |
 | 3 | `/app#judge-route` | CC3 Attestcoin release `0x0e8c…d6df` | The proof authorizes a one-time release on the destination chain. |
 | 4 | `/protocol` | Deployed source emitter, active ASC, BlockProver precompile, and network configuration | The cross-chain verification path is concrete and inspectable. |
-| 5 | Deal evidence export / governed route | Corrupted-proof rejection, exact replay error, and 2-of-3 dispute path | Failure handling and governance are designed into the settlement rail. |
+| 5 | `/app#judge-route` governed recovery panel | Deployed V3 multisig and governed-ASC public deployment links | A single signer cannot resolve a dispute or move funds. |
+| 6 | Deal evidence export / governed route | Corrupted-proof rejection, exact replay error, and live 2-of-3 dispute path | Failure handling and governance are designed into the settlement rail. |
 
 ## What to say when challenged
 
@@ -38,3 +39,7 @@ This is the concise, judge-first run of show derived from the prior BUIDL CTC wi
 | Deck or whitepaper | Uses the same buyer → receipt → proof → release structure. |
 | Attestcoin summary | Names the source event, terms binding, source constraints, and replay defense. |
 | Personal fields | Supplied and approved by the team member in DoraHacks; never invented in source control. |
+
+## Governed recovery proof
+
+The public Judge route now links directly to the deployed **V3 two-of-three dispute multisig** and its **governed escrow ASC** on Creditcoin CC3. Use these links when explaining that standard proof settlement and exceptional dispute recovery are intentionally separate authority paths: Attestcoin validates the acceptance route, while a disputed release or refund requires the threshold governance contract.

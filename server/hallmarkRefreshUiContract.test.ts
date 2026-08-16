@@ -53,6 +53,9 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(judgeRoute).toContain("0x4b6c…1d18");
     expect(judgeRoute).toContain("0x0e8c…d6df");
     expect(judgeRoute).toContain("cannot be replayed");
+    expect(judgeRoute).toContain("Governed recovery / deployed V3 route");
+    expect(judgeRoute).toContain("2 of 3 independent approvals");
+    expect(judgeRoute).toContain("V2_GOVERNED_POLICY_MANIFEST");
   });
 
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {

@@ -36,7 +36,7 @@ The project turns opaque cross-chain settlement into an evidence-first workflow.
 | 0:20–0:45 | Completed CC3 funding, Sepolia acceptance, and CC3 release explorer links | Provides three publicly inspectable receipts, not a narrated claim. |
 | 0:45–1:10 | Proof boundary: trusted emitter, party/terms binding, and one-time query use | Shows Attestcoin is the release condition, not a decorative integration. |
 | 1:10–1:35 | Corrupted-proof rejection and exact `QueryAlreadyProcessed` replay defense | Turns security controls into a memorable observable result. |
-| 1:35–1:55 | V3 dispute timeline and two-of-three governed refund evidence | Differentiates VeriSettle from simple two-party escrow. |
+| 1:35–1:55 | Judge route’s deployed V3 multisig and governed-ASC links, then the dispute timeline | Differentiates VeriSettle from simple two-party escrow with a public, inspectable authority boundary. |
 | 1:55–2:10 | Repository, deployment inventory, tests, and submission links | Closes with reproducible engineering evidence and a bounded testnet claim. |
 
 Use the stable workspace route: <https://verisettle-testnet.vercel.app/app#judge-route>. The page intentionally contains real public-testnet receipt links rather than an embedded third-party explorer frame, because explorer frame policies prevent reliable in-page rendering.

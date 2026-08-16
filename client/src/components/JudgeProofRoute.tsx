@@ -1,4 +1,5 @@
-import { ArrowUpRight, CheckCircle2, LockKeyhole, ShieldCheck, UserCheck, WalletCards } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Landmark, LockKeyhole, ShieldCheck, UserCheck, WalletCards } from "lucide-react";
+import { V2_GOVERNED_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
 
 const checkpoints = [
   {
@@ -78,6 +79,23 @@ export function JudgeProofRoute() {
           <p className="mt-3 text-sm leading-6 text-slate-300">Release requires receipt success, expected emitter and event semantics, buyer and seller binding, the committed terms hash, and a previously unused query.</p>
           <p className="mt-3 flex items-start gap-2 text-xs leading-5 text-teal-50"><CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />The verified proof cannot be replayed to release the same escrow twice.</p>
         </aside>
+      </div>
+
+      <div className="border-t border-fuchsia-200/15 bg-[linear-gradient(115deg,rgba(71,19,89,0.24),rgba(7,18,22,0.96)_58%)] p-5 sm:p-7">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex max-w-2xl items-start gap-3">
+            <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-fuchsia-200/20 bg-fuchsia-300/[0.09] text-fuchsia-100"><Landmark className="h-5 w-5" /></span>
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-fuchsia-100/80">Governed recovery / deployed V3 route</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">A disputed escrow needs 2 of 3 independent approvals.</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-300">The governed successor separates dispute authority from the escrow contract. A single signer cannot release or refund funds; the bound action must reach the immutable two-of-three threshold.</p>
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2 lg:w-[23rem]">
+            <a href={`https://creditcoin-testnet.blockscout.com/tx/${V2_GOVERNED_POLICY_MANIFEST.governance.deploymentTxHash}`} target="_blank" rel="noreferrer" className="veri-action rounded-xl border border-fuchsia-200/20 bg-fuchsia-300/[0.08] px-4 py-3 text-left transition-colors hover:bg-fuchsia-300/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200"><span className="block text-xs font-semibold text-fuchsia-50">2-of-3 multisig</span><span className="mt-1 block font-mono text-[10px] text-fuchsia-100/70">{V2_GOVERNED_POLICY_MANIFEST.governance.address.slice(0, 8)}…{V2_GOVERNED_POLICY_MANIFEST.governance.address.slice(-4)} <ArrowUpRight className="inline h-3 w-3" /></span></a>
+            <a href={`https://creditcoin-testnet.blockscout.com/tx/${V2_GOVERNED_POLICY_MANIFEST.escrowAsc.deploymentTxHash}`} target="_blank" rel="noreferrer" className="veri-action rounded-xl border border-fuchsia-200/20 bg-fuchsia-300/[0.08] px-4 py-3 text-left transition-colors hover:bg-fuchsia-300/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-200"><span className="block text-xs font-semibold text-fuchsia-50">Governed escrow ASC</span><span className="mt-1 block font-mono text-[10px] text-fuchsia-100/70">{V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address.slice(0, 8)}…{V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address.slice(-4)} <ArrowUpRight className="inline h-3 w-3" /></span></a>
+          </div>
+        </div>
       </div>
     </section>
   );
