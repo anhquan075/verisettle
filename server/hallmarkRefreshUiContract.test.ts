@@ -29,6 +29,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("Release once.");
     expect(home).toContain("Public testnet");
     expect(home).toContain("veri-live-route");
+    expect(home).toContain("veri-execution-rail");
     expect(home).toContain("VeriSettleBrand");
     expect(home).toContain("openJudgeRoute");
     expect(home).toContain("isLeavingForJudge");
@@ -82,6 +83,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(protocol).toContain("Proof releases. Governance resolves.");
     expect(protocol).toContain("V2_GOVERNED_POLICY_MANIFEST");
     expect(protocol).toContain("2-of-3 multisig");
+    expect(protocol).toContain("Read the contract surface.");
+    expect(protocol).toContain("veri-contract-disclosure");
   });
 
   it("keeps a standalone no-wallet public Judge Evidence route grounded in verified proof components", () => {
@@ -157,6 +160,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-action-rail");
     expect(styles).toContain(".veri-judge-rail__node");
     expect(styles).toContain(".veri-receipt-rail__sequence");
+    expect(styles).toContain(".veri-execution-rail");
+    expect(styles).toContain(".veri-contract-disclosure");
     expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/eFHWodZEAyBplgdg.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");

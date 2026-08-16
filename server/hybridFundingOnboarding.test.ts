@@ -42,14 +42,14 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).toContain("Choose wallet");
     expect(launchpad).toContain("Refresh wallet access");
     expect(launchpad).toContain("wallet.refreshAccount()");
-    expect(launchpad).toContain("does not request a signature or send a transaction");
+    expect(launchpad).toContain("No signature or transaction.");
     expect(launchpad).toContain('user?.sessionKind === "siwe"');
     expect(launchpad).toContain("await refresh()");
     expect(dashboard).toContain("WorkspaceWalletControl");
     expect(dashboard).toContain("Connect wallet");
     expect(dashboard).not.toContain('id="workspace-sign-in"');
     expect(register).toContain('enabled: hasWalletSession');
-    expect(register).toContain("Your private deal register appears after sign-in");
+    expect(register).toContain("Private orders appear after sign-in");
     expect(register).toContain("Connect & sign in to create");
     expect(walletAccess).toContain("useConnectors");
     expect(walletAccess).toContain("useAccount");
