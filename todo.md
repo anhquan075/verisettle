@@ -205,7 +205,7 @@
 - [x] Fund and independently verify the fresh funding wallet with small CC3 tCTC and Sepolia ETH balances before enabling any real public drip.
 - [ ] After the updated Vercel deployment is live, run a signed-wallet hybrid claim with a newly eligible test user and verify the two real receipt hashes plus the official-faucet fallback state.
 - [ ] Connect a supported testnet wallet to the ready production workspace, complete SIWE and CC3/Sepolia readiness, then preflight the user-approved hybrid claim without submitting a transfer prematurely.
-- [ ] Repair the detected-SubWallet/no-account recovery path with an explicit account refresh action, clear extension-unlock guidance, and regression coverage for provider account state changes.
+- [x] Repair the detected-SubWallet/no-account recovery path with an explicit account refresh action, clear extension-unlock guidance, and regression coverage for provider account state changes. The action-level RainbowKit launchpad now exposes non-transactional account refresh after extension unlock or Connected-sites approval.
 - [x] Correct the production SIWE trusted-origin configuration so the current verified Vercel HTTPS URL can issue wallet challenges without weakening origin validation. Live canonical-origin nonce validation returned the expected origin-bound SIWE challenge.
 - [x] Replace the hand-rolled browser wallet connector layer with Wagmi-based connectors while preserving SIWE challenge, signature, nonce, origin, session, and funding security controls.
 - [x] Validate the Wagmi wallet selection, MetaMask/OKX/Binance/Rabby/SubWallet compatibility, CC3/Sepolia readiness, and accessible recovery UI before checkpointing.

@@ -3,7 +3,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { trpc } from "@/lib/trpc";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Check, CircleAlert, ExternalLink, Loader2, Route, ShieldCheck, WalletCards } from "lucide-react";
+import { Check, CircleAlert, ExternalLink, Loader2, RefreshCw, Route, ShieldCheck, WalletCards } from "lucide-react";
 import { useState } from "react";
 
 const OFFICIAL_CC3_FAUCET = "https://discord.gg/creditcoin";
@@ -63,6 +63,10 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
                 <h3 className="mt-2 text-lg font-semibold text-white">Start with your testnet wallet.</h3>
                 <p className="mt-1 text-sm leading-6 text-slate-400">The secure wallet picker supports injected wallets and WalletConnect. Connecting shares only your public address.</p>
                 <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button onClick={openConnectModal} disabled={!mounted} className="veri-action mt-5 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><WalletCards className="mr-2 h-4 w-4" />Choose wallet</Button>}</ConnectButton.Custom>
+                <div className="mt-4 border-t border-white/10 pt-4">
+                  <Button type="button" size="sm" variant="ghost" onClick={() => void wallet.refreshAccount()} disabled={wallet.busy} className="veri-action px-0 text-xs font-semibold text-slate-300 hover:bg-transparent hover:text-cyan-100"><RefreshCw className={`mr-2 h-3.5 w-3.5 ${wallet.busy ? "animate-spin" : ""}`} />Refresh wallet access</Button>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">Use this after unlocking your extension or approving VeriSettle in its Connected sites list. It does not request a signature or send a transaction.</p>
+                </div>
               </div>
             ) : !signedIn ? (
               <div>
