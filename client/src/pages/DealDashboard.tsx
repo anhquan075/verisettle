@@ -203,15 +203,15 @@ export default function DealDashboard() {
           <div className="relative">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-black/15 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100"><ShieldCheck className="h-3.5 w-3.5" /> Settlement desk</div>
             <h1 className="mt-6 max-w-xl font-veri-display text-4xl font-semibold leading-[0.95] tracking-[-0.07em] text-white sm:text-5xl">Terms first.<br />Proof decides.</h1>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">A buyer funds exact terms on CC3. The buyer accepts delivery on Sepolia. Attestcoin proof then releases the seller’s escrow—once.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />{hasWalletSession ? "Open wallet checks" : "Connect to act"}</Button><Button size="lg" onClick={() => document.getElementById("judge-route")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><ReceiptText className="mr-2 h-4 w-4" />Inspect a completed proof</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-white/15 bg-[#061014]/25 font-semibold text-slate-200 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close order form" : hasWalletSession ? "Create purchase order" : "Preview order form"}</Button></div>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Fund on CC3. Accept on Sepolia. Proof releases once.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />{hasWalletSession ? "Wallet checks" : "Connect"}</Button><Button size="lg" onClick={() => document.getElementById("judge-route")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><ReceiptText className="mr-2 h-4 w-4" />See proof</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-white/15 bg-[#061014]/25 font-semibold text-slate-200 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close form" : hasWalletSession ? "New order" : "Preview form"}</Button></div>
             <div className="veri-workspace-spark__footer"><span><span className="h-2 w-2 rounded-full bg-teal-300" /> Testnet only</span><span>Sepolia approval → CC3 escrow</span></div>
           </div>
         </div>
 
         <aside className="veri-workspace-queue rounded-[2rem] border border-white/10 p-5 sm:p-7">
-          <div className="flex items-start justify-between gap-4"><div><p className="veri-kicker">Live queue</p><h2 className="mt-2 font-veri-display text-2xl font-semibold tracking-[-0.055em] text-white">Needs action.</h2></div><Network className="h-6 w-6 text-cyan-200" /></div>
-          <div className="veri-operator-meter mt-6"><div><p>Active</p><strong>{totals.active}</strong><span>Proof or settlement</span></div><div><p>Released</p><strong>{totals.released}</strong><span>Receipt final</span></div></div>
+          <div className="flex items-start justify-between gap-4"><div><p className="veri-kicker">Live status</p><h2 className="mt-2 font-veri-display text-2xl font-semibold tracking-[-0.055em] text-white">Orders now.</h2></div><Network className="h-6 w-6 text-cyan-200" /></div>
+          <div className="veri-operator-meter mt-6"><div><p>Active</p><strong>{totals.active}</strong><span>In progress</span></div><div><p>Released</p><strong>{totals.released}</strong><span>Complete</span></div></div>
           <div className="mt-5 rounded-2xl border border-white/10 bg-black/15 p-4"><div className="flex items-center justify-between"><p className="text-xs font-semibold uppercase tracking-[0.13em] text-slate-500">Proof rail</p><span className="rounded-full bg-teal-300/10 px-2 py-1 text-[10px] font-semibold text-teal-100">Configured</span></div><p className="mt-3 font-display text-lg font-semibold text-white">Sepolia <span className="text-cyan-200">→</span> CC3</p><p className="mt-2 truncate font-mono text-[11px] text-cyan-100">{VERISETTLE_CONTRACTS.escrowAsc}</p></div>
         </aside>
       </section>
@@ -233,10 +233,10 @@ export default function DealDashboard() {
               <div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-200"><FilePlus2 className="h-5 w-5" /></div>
               <div>
                 <div className="flex flex-wrap items-center gap-2"><h2 className="font-veri-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</span></div>
-                <p className="mt-1 text-sm text-slate-400">Set the terms. The chain binds the rest.</p>
+                <p className="mt-1 text-sm text-slate-400">Set terms. The chain enforces them.</p>
               </div>
             </div>
-          {!hasWalletSession && <div className="mb-6 flex flex-col gap-3 rounded-xl border border-cyan-200/15 bg-cyan-300/[0.045] p-4 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm leading-6 text-slate-300"><span className="font-semibold text-cyan-100">Judge preview.</span> The live form is readable before sign-in; creating a private draft requires an explicit wallet session.</p><Button type="button" size="sm" onClick={openGuidedSetup} className="veri-action shrink-0 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">Connect wallet</Button></div>}
+          {!hasWalletSession && <div className="mb-6 flex flex-col gap-3 rounded-xl border border-cyan-200/15 bg-cyan-300/[0.045] p-4 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm leading-6 text-slate-300"><span className="font-semibold text-cyan-100">Preview only.</span> Sign in to create a private draft.</p><Button type="button" size="sm" onClick={openGuidedSetup} className="veri-action shrink-0 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">Connect wallet</Button></div>}
           <ol aria-label="Purchase order stages" className="mb-6 grid gap-2 sm:grid-cols-3"><li className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.06] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</p><p className="mt-1 text-xs leading-5 text-slate-300">Parties, value, description.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">02 · Fund</p><p className="mt-1 text-xs leading-5 text-slate-400">CC3 receipt matches.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">03 · Prove</p><p className="mt-1 text-xs leading-5 text-slate-400">Proof releases escrow.</p></li></ol>
           <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
@@ -261,7 +261,7 @@ export default function DealDashboard() {
               </div>
             </div>
             <div className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.035] px-4 py-3 text-sm leading-6 text-slate-300">
-              <span className="font-semibold text-cyan-100">Proof policy:</span> only a receipt-success `OrderAccepted` event for these exact terms can enter the Attestcoin verification path.
+              <span className="font-semibold text-cyan-100">Proof policy:</span> only this order’s successful `OrderAccepted` receipt can enter verification.
             </div>
             <fieldset className="md:col-span-2 rounded-2xl border border-cyan-200/15 bg-[#061014]/60 p-4">
               <legend className="px-2 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-100">Settlement policy</legend>
@@ -297,7 +297,7 @@ export default function DealDashboard() {
           <div>
             <p className="veri-kicker mb-2">Immutable order index</p>
             <h2 className="font-veri-display text-xl font-semibold text-white">Deal register</h2>
-            <p className="mt-1 text-sm text-slate-400">Persisted orders. Open one to act.</p>
+            <p className="mt-1 text-sm text-slate-400">Private orders. Open one to act.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2"><span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-xs font-medium text-slate-300"><Activity className="h-3.5 w-3.5 text-teal-200" />{totals.total} total</span><DealCommandPalette deals={dealsQuery.data ?? []} statusFilter={statusFilter} onStatusFilter={setStatusFilter} onOpenDeal={(id) => setLocation(`/deals/${id}`)} /></div>
         </div>
@@ -309,8 +309,8 @@ export default function DealDashboard() {
         {!hasWalletSession ? (
           <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-cyan-100/15 bg-cyan-300/[0.025] px-6 text-center">
             <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><ShieldCheck className="h-6 w-6" /></div>
-            <h3 className="mt-4 font-display text-lg font-semibold text-white">Your private deal register appears after sign-in</h3>
-            <p className="mt-2 max-w-md text-sm leading-6 text-slate-400">Browse the protocol and terms flow now. Connect through the maintained wallet control only when you want to create, fund, or view orders owned by your wallet session.</p>
+            <h3 className="mt-4 font-display text-lg font-semibold text-white">Private orders appear after sign-in</h3>
+            <p className="mt-2 max-w-md text-sm leading-6 text-slate-400">Browse proof now. Sign in to view or act on private orders.</p>
             <Button onClick={openGuidedSetup} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Open secure wallet flow</Button>
           </div>
         ) : dealsQuery.isLoading ? (

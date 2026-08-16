@@ -27,11 +27,11 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("veri-proof-canvas");
     expect(home).toContain("Proof first.");
     expect(home).toContain("Release once.");
-    expect(home).toContain("public testnet assets");
+    expect(home).toContain("Public testnet");
     expect(home).toContain("veri-live-route");
     expect(home).toContain("VeriSettleBrand");
     expect(home).toContain('setLocation("/judge")');
-    expect(home).toContain("Open judge route");
+    expect(home).toContain("Judge proof");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
     expect(ledger).toContain("Policy:");
@@ -46,21 +46,21 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(dashboard).toContain("Terms first.");
     expect(dashboard).toContain("veri-workspace-spark");
     expect(dashboard).toContain("veri-operator-meter");
-    expect(dashboard).toContain("Create purchase order");
+    expect(dashboard).toContain("New order");
     expect(dashboard).toContain("DealCommandPalette");
     expect(dashboard).toContain("JudgeProofRoute");
-    expect(dashboard).toContain("Inspect a completed proof");
+    expect(dashboard).toContain("See proof");
     expect(dashboard).toContain('window.location.hash !== "#judge-route"');
     expect(dashboard).toContain('route.scrollIntoView({ behavior: "auto", block: "start" })');
-    expect(judgeRoute).toContain("Judge route / real testnet evidence");
-    expect(judgeRoute).toContain("A delivery receipt becomes");
+    expect(judgeRoute).toContain("Proof route / live testnet");
+    expect(judgeRoute).toContain("Receipt in.");
     expect(judgeRoute).toContain("0x6975…1d94");
     expect(judgeRoute).toContain("0x4b6c…1d18");
     expect(judgeRoute).toContain("0x0e8c…d6df");
-    expect(judgeRoute).toContain("cannot be replayed");
+    expect(judgeRoute).toContain("cannot release twice");
     expect(judgeRoute).toContain('tabIndex={-1}');
-    expect(judgeRoute).toContain("Governed recovery / deployed V3 route");
-    expect(judgeRoute).toContain("2 of 3 independent approvals");
+    expect(judgeRoute).toContain("V3 governed recovery");
+    expect(judgeRoute).toContain("Disputes need 2 of 3 approvals");
     expect(judgeRoute).toContain("V2_GOVERNED_POLICY_MANIFEST");
     expect(judgeRoute).toContain("veri-judge-rail");
     expect(judgeRoute).toContain("veri-receipt-rail__sequence");
@@ -69,27 +69,27 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {
     expect(layout).toContain('path: "/protocol"');
     expect(app).toContain('path={"/protocol"}');
-    expect(protocol).toContain("Live testnet configuration");
-    expect(protocol).toContain("Inspect the contracts.");
+    expect(protocol).toContain("Protocol / live testnet");
+    expect(protocol).toContain("Contracts.");
     expect(protocol).toContain("BlockProver precompile");
     expect(protocol).toContain("CopyValue");
     expect(protocol).toContain("veri-protocol-route");
-    expect(protocol).toContain("Inspect emitter");
-    expect(protocol).toContain("Governed recovery / deployed V3");
-    expect(protocol).toContain("Settlement proof is not dispute authority.");
+    expect(protocol).toContain("Emitter");
+    expect(protocol).toContain("V3 governed recovery");
+    expect(protocol).toContain("Proof releases. Governance resolves.");
     expect(protocol).toContain("V2_GOVERNED_POLICY_MANIFEST");
-    expect(protocol).toContain("Inspect 2-of-3 multisig");
+    expect(protocol).toContain("2-of-3 multisig");
   });
 
   it("keeps a standalone no-wallet public Judge Evidence route grounded in verified proof components", () => {
     expect(app).toContain('path={"/judge"}');
-    expect(publicJudgeEvidence).toContain("Public Judge Evidence / CC3 testnet");
-    expect(publicJudgeEvidence).toContain("No wallet required");
+    expect(publicJudgeEvidence).toContain("Judge evidence / CC3 testnet");
+    expect(publicJudgeEvidence).toContain("No wallet");
     expect(publicJudgeEvidence).toContain("JudgeProofRoute");
-    expect(publicJudgeEvidence).toContain("Everything here is inspectable. Acting still requires a wallet.");
-    expect(publicJudgeEvidence).toContain("Copy evidence");
+    expect(publicJudgeEvidence).toContain("Inspect freely. Act with a wallet.");
+    expect(publicJudgeEvidence).toContain("Copy link");
     expect(publicJudgeEvidence).toContain("navigator.clipboard.writeText");
-    expect(publicJudgeEvidence).toContain("This public route requires no wallet connection.");
+    expect(publicJudgeEvidence).toContain("No wallet needed.");
   });
 
   it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {
@@ -110,7 +110,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain("Judge evidence");
     expect(layout).toContain("openJudgeEvidence");
     expect(layout).toContain("/app#judge-route");
-    expect(dashboard).toContain("Your private deal register appears after sign-in");
+    expect(dashboard).toContain("Private orders appear after sign-in");
     expect(dashboard).toContain("Connect & sign in to create");
     expect(walletPanel).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");
     expect(walletPanel).toContain("VeriSettle never requests keys or recovery phrases.");
