@@ -30,7 +30,10 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("Public testnet");
     expect(home).toContain("veri-live-route");
     expect(home).toContain("VeriSettleBrand");
-    expect(home).toContain('setLocation("/judge")');
+    expect(home).toContain("openJudgeRoute");
+    expect(home).toContain("isLeavingForJudge");
+    expect(home).toContain("shouldReduceMotion");
+    expect(home.indexOf('href="#security"')).toBeLessThan(home.indexOf("Judge route"));
     expect(home).toContain("Judge proof");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
