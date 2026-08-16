@@ -34,9 +34,11 @@ describe("SIWE wallet authentication security", () => {
 
   it("bounds wallet-authenticated sessions to one day rather than inheriting the generic session lifetime", () => {
     const routerSource = source("./routers/walletAuth.ts");
+    const sdkSource = source("./_core/sdk.ts");
     expect(__walletAuthTestUtils.SIWE_SESSION_TTL_MS).toBe(24 * 60 * 60 * 1000);
     expect(routerSource).toContain("expiresInMs: SIWE_SESSION_TTL_MS");
     expect(routerSource).toContain("maxAge: SIWE_SESSION_TTL_MS");
+    expect(sdkSource).toContain("sessionKind: payload.sessionKind");
   });
 
   it("uses a stricter authenticated-session cookie without changing the dedicated OAuth state cookie", () => {
