@@ -17,6 +17,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const palette = source("../client/src/components/DealCommandPalette.tsx");
   const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
   const judgeRoute = source("../client/src/components/JudgeProofRoute.tsx");
+  const publicJudgeEvidence = source("../client/src/pages/JudgeEvidence.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
@@ -29,7 +30,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("public testnet assets");
     expect(home).toContain("veri-live-route");
     expect(home).toContain("VeriSettleBrand");
-    expect(home).toContain('setLocation("/app#judge-route")');
+    expect(home).toContain('setLocation("/judge")');
     expect(home).toContain("Open judge route");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
@@ -78,6 +79,14 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(protocol).toContain("Settlement proof is not dispute authority.");
     expect(protocol).toContain("V2_GOVERNED_POLICY_MANIFEST");
     expect(protocol).toContain("Inspect 2-of-3 multisig");
+  });
+
+  it("keeps a standalone no-wallet public Judge Evidence route grounded in verified proof components", () => {
+    expect(app).toContain('path={"/judge"}');
+    expect(publicJudgeEvidence).toContain("Public Judge Evidence / CC3 testnet");
+    expect(publicJudgeEvidence).toContain("No wallet required");
+    expect(publicJudgeEvidence).toContain("JudgeProofRoute");
+    expect(publicJudgeEvidence).toContain("Everything here is inspectable. Acting still requires a wallet.");
   });
 
   it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {

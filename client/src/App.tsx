@@ -11,6 +11,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import { useRoute } from "wouter";
 import DealDetail from "./pages/DealDetail";
 import ProtocolReference from "./pages/ProtocolReference";
+import JudgeEvidence from "./pages/JudgeEvidence";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -31,6 +32,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/judge"} component={JudgeEvidence} />
       <Route path={"/app"} component={AppDashboard} />
       <Route path={"/protocol"} component={ProtocolReferenceRoute} />
       <Route path={"/deals/:orderId"} component={DealDetailRoute} />
