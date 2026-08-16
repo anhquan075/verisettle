@@ -104,6 +104,18 @@ export default function DealDashboard() {
   useEffect(() => {
     if (attemptedSubmit && fieldErrors.length) errorSummaryRef.current?.focus();
   }, [attemptedSubmit, fieldErrors.length]);
+
+  useEffect(() => {
+    if (window.location.hash !== "#judge-route") return;
+    const frame = window.requestAnimationFrame(() => {
+      const route = document.getElementById("judge-route");
+      if (!route) return;
+      route.scrollIntoView({ behavior: "auto", block: "start" });
+      route.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   const createDeal = trpc.deals.createDeal.useMutation({
     onSuccess: data => {
       utils.deals.listDeals.invalidate();

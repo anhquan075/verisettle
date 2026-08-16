@@ -45,7 +45,7 @@ const receipts = [
 
 export function JudgeProofRoute() {
   return (
-    <section id="judge-route" className="scroll-mt-24 overflow-hidden rounded-[1.75rem] border border-cyan-200/15 bg-[#071216]" aria-labelledby="judge-route-heading">
+    <section id="judge-route" tabIndex={-1} className="scroll-mt-24 overflow-hidden rounded-[1.75rem] border border-cyan-200/15 bg-[#071216] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300" aria-labelledby="judge-route-heading">
       <div className="border-b border-white/10 bg-[radial-gradient(circle_at_84%_10%,rgba(45,212,191,0.14),transparent_34%),linear-gradient(110deg,rgba(6,28,34,0.96),rgba(7,18,22,0.96))] p-5 sm:p-7">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">

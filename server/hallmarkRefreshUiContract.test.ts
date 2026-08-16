@@ -49,12 +49,15 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(dashboard).toContain("DealCommandPalette");
     expect(dashboard).toContain("JudgeProofRoute");
     expect(dashboard).toContain("Inspect a completed proof");
+    expect(dashboard).toContain('window.location.hash !== "#judge-route"');
+    expect(dashboard).toContain('route.scrollIntoView({ behavior: "auto", block: "start" })');
     expect(judgeRoute).toContain("Judge route / real testnet evidence");
     expect(judgeRoute).toContain("A delivery receipt becomes");
     expect(judgeRoute).toContain("0x6975…1d94");
     expect(judgeRoute).toContain("0x4b6c…1d18");
     expect(judgeRoute).toContain("0x0e8c…d6df");
     expect(judgeRoute).toContain("cannot be replayed");
+    expect(judgeRoute).toContain('tabIndex={-1}');
     expect(judgeRoute).toContain("Governed recovery / deployed V3 route");
     expect(judgeRoute).toContain("2 of 3 independent approvals");
     expect(judgeRoute).toContain("V2_GOVERNED_POLICY_MANIFEST");
