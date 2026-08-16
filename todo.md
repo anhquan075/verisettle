@@ -236,3 +236,5 @@
 - [x] Preview the motion-enhanced landing page with its sticky header and branded copyright footer at desktop and mobile widths.
 - [x] Run the full quality gate, commit the verified SIWE and landing release under `anhquan075`, and push it to the private GitHub main branch for Vercel.
 - [x] Replace the `/app` sign-in gate with an immediately explorable judge workspace and keep RainbowKit connection plus SIWE as explicit action-level flows. The workspace is readable before authentication; RainbowKit connection is available in the sticky header and action launchpad; private deal access and all deal mutations require an explicit SIWE wallet session server-side.
+- [ ] Sync the verified judge-first workspace checkpoint to `anhquan075/verisettle`, verify the Vercel production route serves the new sticky RainbowKit header, and resume the approved SubWallet retry.
+- [x] Fix the missing VeriSettle logo asset on Vercel production and add an accessible workspace control that returns users to the public landing page. The mark uses the production-uploaded asset URL, and the persistent header return control is responsive and keyboard-accessible.

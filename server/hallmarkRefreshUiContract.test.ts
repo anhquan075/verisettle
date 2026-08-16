@@ -91,6 +91,13 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(html).toContain("Instrument+Sans");
   });
 
+  it("uses the production-uploaded brand asset and retains a persistent return to the public landing page", () => {
+    expect(brand).toContain("verisettle-interlocking-alpha_0a013cf6.png");
+    expect(layout).toContain("Back to landing page");
+    expect(layout).toContain('setLocation("/")');
+    expect(layout).toContain("ArrowLeft");
+  });
+
   it("keeps detail actions ahead of immutable evidence without weakening replay safety", () => {
     expect(detail).toContain("Next permitted action");
     expect(detail).toContain("veri-action-rail");
@@ -107,7 +114,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-live-route");
     expect(styles).toContain(".veri-protocol-route");
     expect(styles).toContain(".veri-action-rail");
-    expect(brand).toContain("verisettle-interlocking-alpha_4b09fcd2.png");
+    expect(brand).toContain("verisettle-interlocking-alpha_0a013cf6.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");
   });

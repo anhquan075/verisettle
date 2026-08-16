@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -255,6 +255,7 @@ function DashboardLayoutContent({
           <div className="flex min-h-14 w-full items-center gap-3 px-3 sm:px-6 lg:px-8">
             <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
+              <Button type="button" size="sm" variant="ghost" onClick={() => setLocation("/")} aria-label="Back to landing page" className="veri-action h-9 shrink-0 gap-1.5 rounded-lg border border-white/10 bg-white/[0.025] px-2.5 text-xs font-semibold text-cyan-50 hover:bg-cyan-300/10 hover:text-cyan-100"><ArrowLeft className="h-3.5 w-3.5" /><span className="hidden md:inline">Landing</span></Button>
               <span className="sm:hidden"><VeriSettleBrand compact /></span>
               <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
