@@ -18,7 +18,8 @@ VeriSettle is prepared for the **BUIDL CTC 2026 Fall** event’s required Attest
 | Technical documentation | <https://github.com/anhquan075/verisettle/blob/main/README.md> |
 | Deployment evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/DEPLOYMENT_INVENTORY.md> |
 | Governance evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/V2_MULTISIG_GOVERNANCE_MIGRATION.md> |
-| Demo video | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/xtyJfSWsxrmZVxIp.mp4> |
+| Demo video | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/NDrMzQOoGlsOrWkt.mp4> |
+| Demo subtitles | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FNhOQLsGMsKPovCo.srt> |
 | Deck / whitepaper PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
 
 ## Project description
