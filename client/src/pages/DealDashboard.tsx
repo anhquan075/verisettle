@@ -10,6 +10,7 @@ import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { verifyV2PolicyManifest, type V2ManifestVerification } from "@/lib/v2Manifest";
 import { V2ManifestGateExplainer } from "@/components/V2ManifestGateExplainer";
 import { WalletFirstLaunchpad } from "@/components/WalletFirstLaunchpad";
+import { JudgeProofRoute } from "@/components/JudgeProofRoute";
 import { VERISETTLE_CONTRACTS } from "@shared/contracts";
 import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
 import { AnimatePresence, motion } from "framer-motion";
@@ -190,8 +191,8 @@ export default function DealDashboard() {
           <div className="relative">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-black/15 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100"><ShieldCheck className="h-3.5 w-3.5" /> Settlement desk</div>
             <h1 className="mt-6 max-w-xl font-veri-display text-4xl font-semibold leading-[0.95] tracking-[-0.07em] text-white sm:text-5xl">Terms first.<br />Proof decides.</h1>
-            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Start guided setup first. Then create terms, fund CC3 escrow, and follow public proof evidence.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />{hasWalletSession ? "Open wallet checks" : "Connect to act"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close order form" : hasWalletSession ? "Create purchase order" : "Preview order form"}</Button></div>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">A buyer funds exact terms on CC3. The buyer accepts delivery on Sepolia. Attestcoin proof then releases the seller’s escrow—once.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />{hasWalletSession ? "Open wallet checks" : "Connect to act"}</Button><Button size="lg" onClick={() => document.getElementById("judge-route")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><ReceiptText className="mr-2 h-4 w-4" />Inspect a completed proof</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-white/15 bg-[#061014]/25 font-semibold text-slate-200 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close order form" : hasWalletSession ? "Create purchase order" : "Preview order form"}</Button></div>
             <div className="veri-workspace-spark__footer"><span><span className="h-2 w-2 rounded-full bg-teal-300" /> Testnet only</span><span>Sepolia approval → CC3 escrow</span></div>
           </div>
         </div>
@@ -202,6 +203,8 @@ export default function DealDashboard() {
           <div className="mt-5 rounded-2xl border border-white/10 bg-black/15 p-4"><div className="flex items-center justify-between"><p className="text-xs font-semibold uppercase tracking-[0.13em] text-slate-500">Proof rail</p><span className="rounded-full bg-teal-300/10 px-2 py-1 text-[10px] font-semibold text-teal-100">Configured</span></div><p className="mt-3 font-display text-lg font-semibold text-white">Sepolia <span className="text-cyan-200">→</span> CC3</p><p className="mt-2 truncate font-mono text-[11px] text-cyan-100">{VERISETTLE_CONTRACTS.escrowAsc}</p></div>
         </aside>
       </section>
+
+      <JudgeProofRoute />
 
       <WalletFirstLaunchpad onCreateOrder={() => setShowCreateForm(true)} />
 

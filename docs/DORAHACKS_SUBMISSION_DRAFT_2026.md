@@ -13,7 +13,7 @@ VeriSettle is prepared for the **BUIDL CTC 2026 Fall** event’s required Attest
 | Short description | Cross-chain purchase-order escrow that releases Creditcoin CC3 testnet tCTC only after an Attestcoin-verified Ethereum Sepolia acceptance receipt matches immutable order terms. |
 | Project logo | Use the existing transparent VeriSettle interlocking-mark PNG or SVG from the project brand assets. |
 | GitHub repository | <https://github.com/anhquan075/verisettle> |
-| Live prototype | <https://verisettle-testnet-bvmbk2x4y-anhquan075s-projects.vercel.app/app> |
+| Live prototype | <https://verisettle-testnet.vercel.app/app> |
 | Technical documentation | <https://github.com/anhquan075/verisettle/blob/main/README.md> |
 | Deployment evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/DEPLOYMENT_INVENTORY.md> |
 | Governance evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/V2_MULTISIG_GOVERNANCE_MIGRATION.md> |
@@ -22,9 +22,24 @@ VeriSettle is prepared for the **BUIDL CTC 2026 Fall** event’s required Attest
 
 ## Project description
 
-**VeriSettle** is a testnet-only cross-chain purchase-order escrow for real-world settlement workflows. A buyer creates a policy-bound order and funds native tCTC on Creditcoin CC3. When the buyer accepts delivery on Ethereum Sepolia, VeriSettle uses the Attestcoin Protocol to verify the source receipt in a Creditcoin Attestcoin Smart Contract. The escrow releases only when the verified receipt proves the expected source event, buyer, seller, order key, and immutable terms hash. A repeated proof is rejected by the contract’s on-chain replay protection.
+**VeriSettle** is a testnet-only cross-chain purchase-order escrow for real-world settlement workflows. A buyer funds exact order terms in native tCTC on Creditcoin CC3. When that buyer accepts delivery on Ethereum Sepolia, VeriSettle uses the Attestcoin Protocol to verify the source receipt in a Creditcoin Attestcoin Smart Contract. The escrow releases to the seller only when the verified receipt proves the expected source event, buyer, seller, order key, and immutable terms hash. A repeated proof is rejected by the contract’s on-chain replay protection.
 
 The project turns opaque cross-chain settlement into an evidence-first workflow. Its immutable timeline, public explorer receipts, and one-click judge evidence export make every release or refund auditable. The current workspace supports policy-pinned V2 routes, public-RPC deployment-manifest checks before V2 wallet actions, and a governed successor whose disputes execute only through a verified two-of-three multisig. VeriSettle also includes a wallet-first testnet onboarding path that recognizes supported EVM wallets, guides CC3/Sepolia readiness, and provides a strictly limited, auditable starter-funding route with official-faucet fallback.
+
+## Recommended judge evidence sequence
+
+> **Tell one settlement story before explaining the protocol.** A buyer funds terms on CC3, accepts delivery on Sepolia, and the seller receives the escrow only after Attestcoin verifies the receipt.
+
+| Time | Show | Why it is persuasive |
+|---:|---|---|
+| 0:00–0:20 | Live workspace **Judge route** and the buyer → acceptance → seller path | Establishes the human and commercial outcome before contract vocabulary. |
+| 0:20–0:45 | Completed CC3 funding, Sepolia acceptance, and CC3 release explorer links | Provides three publicly inspectable receipts, not a narrated claim. |
+| 0:45–1:10 | Proof boundary: trusted emitter, party/terms binding, and one-time query use | Shows Attestcoin is the release condition, not a decorative integration. |
+| 1:10–1:35 | Corrupted-proof rejection and exact `QueryAlreadyProcessed` replay defense | Turns security controls into a memorable observable result. |
+| 1:35–1:55 | V3 dispute timeline and two-of-three governed refund evidence | Differentiates VeriSettle from simple two-party escrow. |
+| 1:55–2:10 | Repository, deployment inventory, tests, and submission links | Closes with reproducible engineering evidence and a bounded testnet claim. |
+
+Use the stable workspace route: <https://verisettle-testnet.vercel.app/app#judge-route>. The page intentionally contains real public-testnet receipt links rather than an embedded third-party explorer frame, because explorer frame policies prevent reliable in-page rendering.
 
 ## Attestcoin Protocol integration summary
 

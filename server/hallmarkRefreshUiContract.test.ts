@@ -16,6 +16,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const protocol = source("../client/src/pages/ProtocolReference.tsx");
   const palette = source("../client/src/components/DealCommandPalette.tsx");
   const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
+  const judgeRoute = source("../client/src/components/JudgeProofRoute.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
@@ -44,6 +45,14 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(dashboard).toContain("veri-operator-meter");
     expect(dashboard).toContain("Create purchase order");
     expect(dashboard).toContain("DealCommandPalette");
+    expect(dashboard).toContain("JudgeProofRoute");
+    expect(dashboard).toContain("Inspect a completed proof");
+    expect(judgeRoute).toContain("Judge route / real testnet evidence");
+    expect(judgeRoute).toContain("A delivery receipt becomes");
+    expect(judgeRoute).toContain("0x6975…1d94");
+    expect(judgeRoute).toContain("0x4b6c…1d18");
+    expect(judgeRoute).toContain("0x0e8c…d6df");
+    expect(judgeRoute).toContain("cannot be replayed");
   });
 
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {
