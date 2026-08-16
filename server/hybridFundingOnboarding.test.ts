@@ -31,6 +31,8 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).toContain('verifyNetwork("creditcoin")');
     expect(launchpad).toContain('verifyNetwork("sepolia")');
     expect(launchpad).toContain("Claim small test balance");
+    expect(launchpad).toContain('funding?.status === "complete"');
+    expect(launchpad).toContain("FundingReceiptEmbed");
     expect(launchpad).toContain("CC3 official faucet");
     expect(launchpad).not.toContain("VERISETTLE_TESTNET_FUNDER_PRIVATE_KEY");
     expect(launchpad).not.toContain("testnetFunderPrivateKey");
@@ -63,5 +65,15 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(readiness).toContain("ConnectButton.Custom");
     expect(readiness).toContain("Choose wallet");
     expect(readiness).toContain("Install a supported EVM wallet.");
+  });
+
+  it("restores completed wallet-linked funding receipts as embedded CC3 and Sepolia evidence", () => {
+    const receiptEmbed = read("../client/src/components/FundingReceiptEmbed.tsx");
+    expect(receiptEmbed).toContain("Saved wallet state");
+    expect(receiptEmbed).toContain("Creditcoin CC3");
+    expect(receiptEmbed).toContain("Ethereum Sepolia");
+    expect(receiptEmbed).toContain("https://creditcoin-testnet.blockscout.com/tx/");
+    expect(receiptEmbed).toContain("https://sepolia.etherscan.io/tx/");
+    expect(receiptEmbed).toContain("disallows third-party page frames");
   });
 });
