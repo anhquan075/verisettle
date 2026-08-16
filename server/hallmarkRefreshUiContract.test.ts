@@ -29,6 +29,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("public testnet assets");
     expect(home).toContain("veri-live-route");
     expect(home).toContain("VeriSettleBrand");
+    expect(home).toContain('setLocation("/app#judge-route")');
+    expect(home).toContain("Open judge route");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
     expect(ledger).toContain("Policy:");
