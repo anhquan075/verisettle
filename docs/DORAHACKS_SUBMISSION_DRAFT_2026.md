@@ -14,11 +14,12 @@ VeriSettle is prepared for the **BUIDL CTC 2026 Fall** event’s required Attest
 | Project logo | Use the existing transparent VeriSettle interlocking-mark PNG or SVG from the project brand assets. |
 | GitHub repository | <https://github.com/anhquan075/verisettle> |
 | Live prototype | <https://verisettle-testnet.vercel.app/app> |
+| Public Judge Evidence | <https://verisettle-testnet.vercel.app/judge> |
 | Technical documentation | <https://github.com/anhquan075/verisettle/blob/main/README.md> |
 | Deployment evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/DEPLOYMENT_INVENTORY.md> |
 | Governance evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/V2_MULTISIG_GOVERNANCE_MIGRATION.md> |
-| Demo video | Pending recording and upload; use the judge demo plan in `docs/JUDGE_DEMO_SCRIPT.md`. |
-| Deck / whitepaper PDF | Pending production and public upload; do not substitute an unhosted local file. |
+| Demo video | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/xtyJfSWsxrmZVxIp.mp4> |
+| Deck / whitepaper PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
 
 ## Project description
 

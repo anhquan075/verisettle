@@ -1,7 +1,7 @@
 # VeriSettle — BUIDL CTC Fall 2026 Readiness Assessment
 
 **Assessment date:** 16 August 2026.  
-**Verdict:** **Technically on track; not yet submission-complete.** VeriSettle meets the core product and technical direction of the Fall event, including its Attestcoin Protocol focus, Creditcoin deployment, and testnet requirement. The remaining gap is largely administrative and packaging-related: hacker registration, a public demo-video URL, a public deck or whitepaper URL, final team-profile information, and the user’s explicit final-submission approval.
+**Verdict:** **Technically on track; packaging-ready but not yet submission-complete.** VeriSettle meets the core product and technical direction of the Fall event, including its Attestcoin Protocol focus, Creditcoin deployment, and testnet requirement. The public demo-video and evidence-PDF links are now prepared. The remaining gap is administrative: hacker registration, final team-profile information, repository review access, truthful originality attestation, and the user’s explicit final-submission approval.
 
 > **Recommended positioning:** submit VeriSettle primarily as an **RWA** project: an evidence-first cross-chain purchase-order settlement rail. It also has credible DeFi adjacency, but RWA makes the buyer-acceptance-to-seller-payment use case clearest.
 
@@ -17,8 +17,8 @@ The official Fall site describes five tracks—DeFi, RWA, DePIN, Gaming, and AI�
 | Relevant Fall track | Cross-chain purchase-order escrow converts an off-chain delivery acceptance into transparent on-chain settlement. | **Met** | Strongest fit is **RWA**; describe DeFi as a secondary settlement primitive, not the primary sector. |
 | Original work during hackathon | Project repository and development history exist. | **Team attestation required** | The team must truthfully attest that the submitted work satisfies the event’s originality period. |
 | Repository with README | Private repository at `anhquan075/verisettle`, with documentation and deployment inventory. | **Ready** | Ensure the reviewer has access if the repository stays private, or provide an approved public review path. |
-| Prototype demo video URL | A narrated, subtitled judge demo exists locally at `webdev-static-assets/verisettle_judge_demo.mp4`. | **Packaging gap** | Upload it to a durable public URL and place that URL in the DoraHacks form. |
-| Deck or whitepaper PDF URL | Submission draft identifies this as pending. | **Packaging gap** | Publish a concise PDF deck or whitepaper at a durable public URL before submitting. |
+| Prototype demo video URL | Public narrated, subtitled judge demo: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/xtyJfSWsxrmZVxIp.mp4>. | **Ready** | Public MP4 verified before inclusion in the draft. |
+| Deck or whitepaper PDF URL | Public evidence deck: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf>. | **Ready** | Public PDF, strict-compiled, verified, and visually reviewed. |
 | Hacker/team profile | Team fields require legal name, email, short bio, role, residence, and citizenship. | **User action required** | Do not invent or store these values in source control. |
 | Final submission on DoraHacks | Draft copy and evidence sequence are prepared, but the project has not been submitted. | **User action required** | Review final wording and explicitly authorize submission only after all public links are populated. |
 
@@ -54,10 +54,8 @@ The public sources currently show the DoraHacks submission deadline as **6 Septe
 | Priority | Required action | Owner | Why it gates submission |
 |---:|---|---|---|
 | 1 | Complete DoraHacks hacker registration and team-profile fields. | User | Required personal data cannot be inferred or fabricated. |
-| 2 | Upload the existing demo video and place a durable public URL in the form. | User / team | DoraHacks requires a prototype demo video URL. |
-| 3 | Publish a concise deck or whitepaper PDF and add its public URL. | Team | Required submission information is currently incomplete. |
-| 4 | Decide repository-review access: make the repository reviewable or provide an approved access mechanism. | User / team | A code link is required; judges must be able to review it. |
-| 5 | Review the final project description and evidence URLs, then explicitly approve the final DoraHacks submission. | User | Submission must not be posted without explicit approval. |
+| 2 | Decide repository-review access: make the repository reviewable or provide an approved access mechanism. | User / team | A code link is required; judges must be able to review it. |
+| 3 | Review the final project description and evidence URLs, then explicitly approve the final DoraHacks submission. | User | Submission must not be posted without explicit approval. |
 
 ## Bottom Line
 
