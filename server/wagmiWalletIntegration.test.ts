@@ -38,4 +38,18 @@ describe("Wagmi wallet integration contract", () => {
     expect(access).not.toContain('method: "personal_sign"');
     expect(access).not.toContain('method: "wallet_switchEthereumChain"');
   });
+
+  it("uses a safe disconnect-and-reselect path for connected-wallet changes", () => {
+    const access = read("../client/src/hooks/useWalletAccess.ts");
+    const readiness = read("../client/src/components/WalletReadinessPanel.tsx");
+    const launchpad = read("../client/src/components/WalletFirstLaunchpad.tsx");
+    expect(access).toContain("const changeWallet");
+    expect(access).toContain("setSelectedWalletId(null)");
+    expect(access).toContain("disconnect()");
+    expect(readiness).toContain("onClick={wallet.changeWallet}");
+    expect(readiness).toContain("Change wallet");
+    expect(readiness).toContain("ConnectButton.Custom");
+    expect(launchpad).toContain("onClick={wallet.changeWallet}");
+    expect(launchpad).toContain(">Change</Button>");
+  });
 });

@@ -214,8 +214,8 @@
 - [x] Validate RainbowKit connection recovery, SIWE message completion, desktop/mobile UX, and testnet-readiness behavior before checkpointing.
 - [x] Align the wallet dependency stack to RainbowKit’s supported Wagmi 2 peer range before exposing RainbowKit connection controls in production.
 - [ ] Recover the live RainbowKit SIWE request-not-finished state by clearing only application-local connection cache, requesting a fresh nonce, and validating the renewed wallet-signature flow.
-- [ ] Add a visible RainbowKit change-wallet control for connected users so they can securely disconnect the current wallet and select an alternate supported provider for SIWE testing.
-- [ ] Repair the connected-wallet Change wallet control so it opens a reliable disconnect-and-select-alternate-provider path rather than a non-opening account modal.
+- [x] Add a visible RainbowKit change-wallet control for connected users so they can securely disconnect the current wallet and select an alternate supported provider for SIWE testing. The connected readiness panel and launchpad both expose this control.
+- [x] Repair the connected-wallet Change wallet control so it opens a reliable disconnect-and-select-alternate-provider path rather than a non-opening account modal. The tested action clears the selected connector and disconnects, returning the user to the maintained RainbowKit chooser.
 - [x] Redesign the RainbowKit SIWE sign-in component with a concise connect → sign → ready hierarchy, progressive recovery guidance, and mobile/keyboard accessibility validation.
 - [x] Diagnose and correct the Vercel production deployment or alias state so the stable VeriSettle URL serves the latest committed sign-in redesign.
 - [x] Apply the new simplified RainbowKit connect → sign → ready design to the signed-out production workspace entry currently rendered before app authentication.
