@@ -68,13 +68,13 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(palette).toContain("onOpenDeal");
   });
 
-  it("keeps signed-out access wallet-first without claiming unsupported wallet authentication", () => {
-    expect(layout).toContain("Secure wallet sign-in");
-    expect(layout).toContain("Choose a wallet.");
-    expect(layout).toContain("Prove the address.");
-    expect(layout).toContain("03 · Ready");
+  it("keeps the judge workspace explorable with inherited wallet controls and explicit SIWE action boundaries", () => {
+    expect(layout).toContain("WorkspaceWalletControl");
+    expect(layout).toContain("Judge access");
+    expect(layout).toContain("Connect wallet");
+    expect(dashboard).toContain("Your private deal register appears after sign-in");
+    expect(dashboard).toContain("Connect & sign in to create");
     expect(walletPanel).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");
-    expect(layout).toContain("They never authorize transactions.");
     expect(walletPanel).toContain("VeriSettle never requests keys or recovery phrases.");
     expect(layout).not.toContain("Use another sign-in");
     expect(layout).not.toContain("startLogin");

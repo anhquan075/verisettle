@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { trpc } from "@/lib/trpc";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -19,21 +20,22 @@ function RouteStep({ complete, number, title, detail }: { complete: boolean; num
 
 export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => void }) {
   const wallet = useWalletAccess();
+  const { user, refresh } = useAuth();
   const utils = trpc.useUtils();
   const [cc3Checked, setCc3Checked] = useState(false);
   const [sepoliaChecked, setSepoliaChecked] = useState(false);
   const status = trpc.testnetFunding.status.useQuery(
     { walletAddress: wallet.address ?? "0x0000000000000000000000000000000000000000" },
-    { enabled: Boolean(wallet.address), retry: false },
+    { enabled: Boolean(wallet.address && user?.sessionKind === "siwe"), retry: false },
   );
   const claim = trpc.testnetFunding.claim.useMutation({ onSuccess: () => void utils.testnetFunding.status.invalidate() });
-  const signedIn = Boolean(status.data);
+  const signedIn = user?.sessionKind === "siwe";
   const funding = status.data?.request;
   const claimComplete = funding?.status === "complete";
   const networksReady = cc3Checked && sepoliaChecked;
 
   const signInWithWallet = async () => {
-    if (await wallet.signIn()) await status.refetch();
+    if (await wallet.signIn()) await refresh();
   };
   const verifyNetwork = async (network: "creditcoin" | "sepolia") => {
     const switched = await wallet.switchNetwork(network);

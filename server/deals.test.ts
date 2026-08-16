@@ -39,7 +39,7 @@ vi.mock("./onchain", () => ({
 
 import { dealsRouter } from "./routers/deals";
 
-const buyer = { id: 1, openId: "buyer-open-id", name: "Buyer", email: "buyer@example.com", loginMethod: "manus", role: "user" as const, createdAt: new Date(), updatedAt: new Date(), lastSignedIn: new Date() };
+const buyer = { id: 1, openId: "buyer-open-id", name: "Buyer", email: "buyer@example.com", loginMethod: "manus", role: "user" as const, sessionKind: "siwe" as const, createdAt: new Date(), updatedAt: new Date(), lastSignedIn: new Date() };
 const otherBuyer = { ...buyer, id: 2, openId: "other-buyer-open-id", email: "other@example.com", name: "Other Buyer" };
 const address = (character: string) => `0x${character.repeat(40)}`;
 const hash = (character: string) => `0x${character.repeat(64)}`;
@@ -116,6 +116,7 @@ describe("VeriSettle receipt-backed deal lifecycle", () => {
   it("blocks unauthenticated callers and cross-user deal access", async () => {
     const created = await makeDeal();
     await expect(callerFor(null).listDeals()).rejects.toMatchObject({ code: "UNAUTHORIZED" });
+    await expect(callerFor({ ...buyer, sessionKind: "oauth" as const }).listDeals()).rejects.toMatchObject({ code: "UNAUTHORIZED", message: "Sign in with your connected wallet before accessing private purchase orders." });
     await expect(callerFor(otherBuyer).getDeal({ orderId: created.deal.orderId })).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(callerFor(otherBuyer).recordFunding({ orderId: created.deal.orderId, fundingTxHash: hash("c") })).rejects.toMatchObject({ code: "FORBIDDEN" });
   });

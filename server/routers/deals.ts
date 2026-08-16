@@ -46,6 +46,16 @@ const policyInput = z.discriminatedUnion("kind", [
   v2PolicyInput,
 ]);
 
+const siweWalletProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.sessionKind !== "siwe") {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Sign in with your connected wallet before accessing private purchase orders.",
+    });
+  }
+  return next();
+});
+
 function requireStatus(currentStatus: DealStatus, allowedStatuses: DealStatus[]) {
   if (!allowedStatuses.includes(currentStatus)) {
     throw new TRPCError({
@@ -85,7 +95,7 @@ function asChainError(error: unknown) {
 }
 
 export const dealsRouter = router({
-  createDeal: protectedProcedure
+  createDeal: siweWalletProcedure
     .input(
       z.object({
         buyerAddress: ethereumAddress,
@@ -163,11 +173,11 @@ export const dealsRouter = router({
       return getDealView(orderId, ctx.user.openId);
     }),
 
-  listDeals: protectedProcedure.query(async ({ ctx }) => listDealsForBuyer(ctx.user.openId)),
+  listDeals: siweWalletProcedure.query(async ({ ctx }) => listDealsForBuyer(ctx.user.openId)),
 
-  getDeal: protectedProcedure.input(orderIdInput).query(async ({ ctx, input }) => getDealView(input.orderId, ctx.user.openId)),
+  getDeal: siweWalletProcedure.input(orderIdInput).query(async ({ ctx, input }) => getDealView(input.orderId, ctx.user.openId)),
 
-  recordFunding: protectedProcedure
+  recordFunding: siweWalletProcedure
     .input(orderIdInput.extend({ fundingTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
@@ -189,7 +199,7 @@ export const dealsRouter = router({
       return getDealView(input.orderId, ctx.user.openId);
     }),
 
-  submitProof: protectedProcedure
+  submitProof: siweWalletProcedure
     .input(orderIdInput.extend({ sepoliaSourceTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
@@ -220,7 +230,7 @@ export const dealsRouter = router({
       return getDealView(input.orderId, ctx.user.openId);
     }),
 
-  prepareProof: protectedProcedure.input(orderIdInput).mutation(async ({ ctx, input }) => {
+  prepareProof: siweWalletProcedure.input(orderIdInput).mutation(async ({ ctx, input }) => {
     const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
     requireSupportedSettlementPolicy(deal);
     requireStatus(deal.status, ["proof_pending"]);
@@ -234,7 +244,7 @@ export const dealsRouter = router({
     }
   }),
 
-  recordSettlement: protectedProcedure
+  recordSettlement: siweWalletProcedure
     .input(orderIdInput.extend({ settlementTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
@@ -263,7 +273,7 @@ export const dealsRouter = router({
       return getDealView(input.orderId, ctx.user.openId);
     }),
 
-  recordRefund: protectedProcedure
+  recordRefund: siweWalletProcedure
     .input(orderIdInput.extend({ settlementTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
@@ -285,7 +295,7 @@ export const dealsRouter = router({
       return getDealView(input.orderId, ctx.user.openId);
     }),
 
-  recordDispute: protectedProcedure
+  recordDispute: siweWalletProcedure
     .input(orderIdInput.extend({ reason: z.string().trim().min(8).max(500), disputeTxHash: transactionHash }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
@@ -307,7 +317,7 @@ export const dealsRouter = router({
       return getDealView(input.orderId, ctx.user.openId);
     }),
 
-  recordReplayRejection: protectedProcedure
+  recordReplayRejection: siweWalletProcedure
     .input(orderIdInput.extend({ settlementTxHash: transactionHash.optional() }))
     .mutation(async ({ ctx, input }) => {
       const deal = await getOwnedDeal(input.orderId, ctx.user.openId);

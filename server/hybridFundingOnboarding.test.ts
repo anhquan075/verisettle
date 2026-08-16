@@ -24,6 +24,8 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
 
   it("keeps the launchpad wallet-first, route-aware, and free of key-handling UI", () => {
     const launchpad = read("../client/src/components/WalletFirstLaunchpad.tsx");
+    const dashboard = read("../client/src/components/DashboardLayout.tsx");
+    const register = read("../client/src/pages/DealDashboard.tsx");
     const walletAccess = read("../client/src/hooks/useWalletAccess.ts");
     expect(launchpad).toContain("useWalletAccess");
     expect(launchpad).toContain('verifyNetwork("creditcoin")');
@@ -34,6 +36,14 @@ describe("hybrid testnet funding and wallet-first onboarding contract", () => {
     expect(launchpad).not.toContain("testnetFunderPrivateKey");
     expect(launchpad).toContain("ConnectButton.Custom");
     expect(launchpad).toContain("Choose wallet");
+    expect(launchpad).toContain('user?.sessionKind === "siwe"');
+    expect(launchpad).toContain("await refresh()");
+    expect(dashboard).toContain("WorkspaceWalletControl");
+    expect(dashboard).toContain("Connect wallet");
+    expect(dashboard).not.toContain('id="workspace-sign-in"');
+    expect(register).toContain('enabled: hasWalletSession');
+    expect(register).toContain("Your private deal register appears after sign-in");
+    expect(register).toContain("Connect & sign in to create");
     expect(walletAccess).toContain("useConnectors");
     expect(walletAccess).toContain("useAccount");
     expect(walletAccess).toContain("useReconnect");

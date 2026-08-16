@@ -1,3 +1,4 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { DealStatusBadge } from "@/components/DealStatusBadge";
 import { Button } from "@/components/ui/button";
 import { DealCommandPalette } from "@/components/DealCommandPalette";
@@ -5,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { useTestnetWallet } from "@/hooks/useTestnetWallet";
+import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { verifyV2PolicyManifest, type V2ManifestVerification } from "@/lib/v2Manifest";
 import { V2ManifestGateExplainer } from "@/components/V2ManifestGateExplainer";
 import { WalletFirstLaunchpad } from "@/components/WalletFirstLaunchpad";
@@ -49,6 +50,8 @@ const isPositiveAmount = (value: string) => Number.isFinite(Number(value)) && Nu
 export default function DealDashboard() {
   const [, setLocation] = useLocation();
   const utils = trpc.useUtils();
+  const { user } = useAuth();
+  const hasWalletSession = user?.sessionKind === "siwe";
   const [form, setForm] = useState(initialForm);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -58,8 +61,10 @@ export default function DealDashboard() {
   const [v2Manifest, setV2Manifest] = useState<V2ManifestVerification | null>(null);
   const [v2ManifestChecking, setV2ManifestChecking] = useState(false);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
-  const dealsQuery = trpc.deals.listDeals.useQuery();
-  const { address: walletAddress, busy: walletBusy, connect } = useTestnetWallet();
+  const dealsQuery = trpc.deals.listDeals.useQuery(undefined, { enabled: hasWalletSession, retry: false });
+  const wallet = useWalletAccess();
+  const walletAddress = wallet.address;
+  const walletBusy = wallet.busy;
   const descriptionLength = form.description.trim().length;
   const descriptionIsValid = descriptionLength >= 8;
   const buyerIsValid = isEvmAddress(form.buyerAddress);
@@ -110,6 +115,11 @@ export default function DealDashboard() {
     event.preventDefault();
     setAttemptedSubmit(true);
     setFormError(null);
+    if (!hasWalletSession) {
+      setFormError("Connect a wallet and sign a VeriSettle session message before creating a private testnet draft.");
+      openGuidedSetup();
+      return;
+    }
     if (fieldErrors.length) {
       setFormError("Review the highlighted purchase-order fields before creating the draft.");
       return;
@@ -137,12 +147,12 @@ export default function DealDashboard() {
 
   const connectWallet = async () => {
     setFormError(null);
-    try {
-      const address = await connect();
-      setForm(current => ({ ...current, buyerAddress: address }));
-    } catch (error) {
-      setFormError(error instanceof Error ? error.message : "Unable to connect the testnet wallet.");
+    if (!walletAddress) {
+      setFormError("Choose a wallet in the secure workspace control first. The order form uses that RainbowKit-selected address.");
+      openGuidedSetup();
+      return;
     }
+    setForm(current => ({ ...current, buyerAddress: walletAddress }));
   };
 
   const openGuidedSetup = () => {
@@ -181,7 +191,7 @@ export default function DealDashboard() {
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-100/20 bg-black/15 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-cyan-100"><ShieldCheck className="h-3.5 w-3.5" /> Settlement desk</div>
             <h1 className="mt-6 max-w-xl font-veri-display text-4xl font-semibold leading-[0.95] tracking-[-0.07em] text-white sm:text-5xl">Terms first.<br />Proof decides.</h1>
             <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200 sm:text-base">Start guided setup first. Then create terms, fund CC3 escrow, and follow public proof evidence.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />Start guided setup</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close order form" : "Create purchase order"}</Button></div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" onClick={openGuidedSetup} className="veri-action group bg-white font-semibold text-slate-950 shadow-[0_0_32px_rgba(255,255,255,0.18)] hover:bg-cyan-50"><ShieldCheck className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />{hasWalletSession ? "Open wallet checks" : "Connect to act"}</Button><Button size="lg" onClick={() => setShowCreateForm(open => !open)} variant="outline" className="veri-action border-cyan-100/25 bg-[#061014]/25 font-semibold text-cyan-50 hover:bg-[#061014]/45"><Plus className="mr-2 h-4 w-4" />{showCreateForm ? "Close order form" : hasWalletSession ? "Create purchase order" : "Preview order form"}</Button></div>
             <div className="veri-workspace-spark__footer"><span><span className="h-2 w-2 rounded-full bg-teal-300" /> Testnet only</span><span>Sepolia approval → CC3 escrow</span></div>
           </div>
         </div>
@@ -204,13 +214,14 @@ export default function DealDashboard() {
           transition={{ duration: 0.22 }}
           className="rounded-[1.5rem] border border-white/10 bg-[#0a1519] p-5 sm:p-7"
         >
-          <div className="mb-6 flex items-start gap-3">
-            <div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-200"><FilePlus2 className="h-5 w-5" /></div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2"><h2 className="font-veri-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</span></div>
-              <p className="mt-1 text-sm text-slate-400">Set the terms. The chain binds the rest.</p>
+            <div className="mb-6 flex items-start gap-3">
+              <div className="rounded-xl bg-cyan-300/10 p-2.5 text-cyan-200"><FilePlus2 className="h-5 w-5" /></div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2"><h2 className="font-veri-display text-xl font-semibold text-white">New purchase order</h2><span className="rounded-full border border-cyan-200/15 bg-cyan-300/[0.06] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</span></div>
+                <p className="mt-1 text-sm text-slate-400">Set the terms. The chain binds the rest.</p>
+              </div>
             </div>
-          </div>
+          {!hasWalletSession && <div className="mb-6 flex flex-col gap-3 rounded-xl border border-cyan-200/15 bg-cyan-300/[0.045] p-4 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm leading-6 text-slate-300"><span className="font-semibold text-cyan-100">Judge preview.</span> The live form is readable before sign-in; creating a private draft requires an explicit wallet session.</p><Button type="button" size="sm" onClick={openGuidedSetup} className="veri-action shrink-0 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">Connect wallet</Button></div>}
           <ol aria-label="Purchase order stages" className="mb-6 grid gap-2 sm:grid-cols-3"><li className="rounded-xl border border-cyan-200/15 bg-cyan-300/[0.06] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">01 · Terms</p><p className="mt-1 text-xs leading-5 text-slate-300">Parties, value, description.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">02 · Fund</p><p className="mt-1 text-xs leading-5 text-slate-400">CC3 receipt matches.</p></li><li className="rounded-xl border border-white/8 bg-white/[0.02] p-3"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">03 · Prove</p><p className="mt-1 text-xs leading-5 text-slate-400">Proof releases escrow.</p></li></ol>
           <form onSubmit={handleSubmit} className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
@@ -256,10 +267,10 @@ export default function DealDashboard() {
             {formError && <div ref={errorSummaryRef} tabIndex={-1} role="alert" className="md:col-span-2 rounded-xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200"><p className="flex items-center gap-2 font-semibold"><CircleAlert className="h-4 w-4" /> There is a problem with this draft.</p><p className="mt-1 text-rose-100/85">{formError}</p></div>}
             <div className="flex flex-col-reverse gap-3 sm:col-span-2 sm:flex-row sm:justify-end">
               <Button type="button" variant="outline" onClick={() => setShowCreateForm(false)}>Cancel</Button>
-              <Button type="submit" disabled={createDeal.isPending} className="min-h-11 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
+              {hasWalletSession ? <Button type="submit" disabled={createDeal.isPending} className="min-h-11 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">
                 {createDeal.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ReceiptText className="mr-2 h-4 w-4" />}
                 Create Draft
-              </Button>
+              </Button> : <Button type="button" onClick={openGuidedSetup} className="min-h-11 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><ShieldCheck className="mr-2 h-4 w-4" />Connect & sign in to create</Button>}
             </div>
           </form>
         </motion.section>
@@ -280,7 +291,14 @@ export default function DealDashboard() {
           <span className="mx-1 h-6 w-px bg-white/10" aria-hidden="true" />
           {(["all", "v1", "v2"] as const).map(policy => <button key={policy} type="button" onClick={() => setPolicyFilter(policy)} aria-pressed={policyFilter === policy} className={`veri-action rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${policyFilter === policy ? "border-violet-200/30 bg-violet-300/10 text-violet-100" : "border-white/10 bg-white/[0.02] text-slate-400 hover:bg-white/[0.06] hover:text-slate-200"}`}>{policy === "all" ? "All policies" : policy === "v1" ? "V1 live" : "V2 policies"}</button>)}
         </div>
-        {dealsQuery.isLoading ? (
+        {!hasWalletSession ? (
+          <div className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-dashed border-cyan-100/15 bg-cyan-300/[0.025] px-6 text-center">
+            <div className="rounded-2xl bg-cyan-300/10 p-3 text-cyan-200"><ShieldCheck className="h-6 w-6" /></div>
+            <h3 className="mt-4 font-display text-lg font-semibold text-white">Your private deal register appears after sign-in</h3>
+            <p className="mt-2 max-w-md text-sm leading-6 text-slate-400">Browse the protocol and terms flow now. Connect through the maintained wallet control only when you want to create, fund, or view orders owned by your wallet session.</p>
+            <Button onClick={openGuidedSetup} variant="outline" className="veri-action mt-5 border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10">Open secure wallet flow</Button>
+          </div>
+        ) : dealsQuery.isLoading ? (
           <div className="flex min-h-48 items-center justify-center text-sm text-slate-400"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading your deals</div>
         ) : dealsQuery.error ? (
           <div className="rounded-xl border border-rose-300/25 bg-rose-400/10 p-4 text-sm text-rose-100">{dealsQuery.error.message}</div>

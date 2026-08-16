@@ -217,8 +217,9 @@
 - [ ] Add a visible RainbowKit change-wallet control for connected users so they can securely disconnect the current wallet and select an alternate supported provider for SIWE testing.
 - [ ] Repair the connected-wallet Change wallet control so it opens a reliable disconnect-and-select-alternate-provider path rather than a non-opening account modal.
 - [x] Redesign the RainbowKit SIWE sign-in component with a concise connect → sign → ready hierarchy, progressive recovery guidance, and mobile/keyboard accessibility validation.
-- [ ] Diagnose and correct the Vercel production deployment or alias state so the stable VeriSettle URL serves the latest committed sign-in redesign.
-- [ ] Apply the new simplified RainbowKit connect → sign → ready design to the signed-out production workspace entry currently rendered before app authentication.
+- [x] Diagnose and correct the Vercel production deployment or alias state so the stable VeriSettle URL serves the latest committed sign-in redesign.
+- [x] Apply the new simplified RainbowKit connect → sign → ready design to the signed-out production workspace entry currently rendered before app authentication.
+- [ ] Complete the current production RainbowKit connection, SIWE sign-in, and CC3/Sepolia readiness validation before presenting the one-time hybrid funding request.
 - [x] Diagnose and resolve SubWallet extension detection when the user opens VeriSettle from their installed-extension browser profile, then validate the connection recovery guidance. Live production self-validation detects the SubWallet EIP-1193 provider through the hardened discovery path.
 - [x] Remove the alternate workspace sign-in path so wallet connection and SIWE wallet sign-in are the only available authentication route.
 - [x] Add provider-aware connection selection for MetaMask, OKX Wallet, Binance Wallet, Rabby, and SubWallet while preserving one safe EIP-1193/SIWE path.
@@ -234,3 +235,4 @@
 - [x] Verify the implemented SIWE wallet-authentication flow, including challenge generation, origin binding, nonce replay protection, signature verification, session boundary, and client error recovery.
 - [x] Preview the motion-enhanced landing page with its sticky header and branded copyright footer at desktop and mobile widths.
 - [x] Run the full quality gate, commit the verified SIWE and landing release under `anhquan075`, and push it to the private GitHub main branch for Vercel.
+- [x] Replace the `/app` sign-in gate with an immediately explorable judge workspace and keep RainbowKit connection plus SIWE as explicit action-level flows. The workspace is readable before authentication; RainbowKit connection is available in the sticky header and action launchpad; private deal access and all deal mutations require an explicit SIWE wallet session server-side.

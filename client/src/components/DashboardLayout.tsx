@@ -1,5 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,13 +21,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
 import { VeriSettleBrand } from "./VeriSettleBrand";
-import { WalletReadinessPanel } from "./WalletReadinessPanel";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
 
 const menuItems = [
@@ -39,6 +40,29 @@ const DEFAULT_WIDTH = 280;
 const MIN_WIDTH = 200;
 const MAX_WIDTH = 480;
 
+function WorkspaceWalletControl({ fullWidth = false }: { fullWidth?: boolean }) {
+  return (
+    <ConnectButton.Custom>
+      {({ account, mounted, openAccountModal, openConnectModal }) => {
+        const connected = mounted && Boolean(account);
+        return (
+          <Button
+            type="button"
+            size="sm"
+            variant={connected ? "outline" : "default"}
+            onClick={connected ? openAccountModal : openConnectModal}
+            disabled={!mounted}
+            className={`veri-action min-h-9 border-cyan-100/20 font-semibold ${connected ? "bg-white/[0.03] text-cyan-50 hover:bg-cyan-300/10" : "bg-cyan-300 text-slate-950 hover:bg-cyan-200"} ${fullWidth ? "w-full justify-start" : "max-w-[11.5rem]"}`}
+          >
+            <WalletCards className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">{connected ? `Wallet · ${account?.displayName}` : "Connect wallet"}</span>
+          </Button>
+        );
+      }}
+    </ConnectButton.Custom>
+  );
+}
+
 export default function DashboardLayout({
   children,
 }: {
@@ -48,7 +72,7 @@ export default function DashboardLayout({
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
   });
-  const { loading, user, refresh } = useAuth();
+  const { loading } = useAuth();
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
@@ -56,34 +80,6 @@ export default function DashboardLayout({
 
   if (loading) {
     return <DashboardLayoutSkeleton />
-  }
-
-  if (!user) {
-    return (
-      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#040b0e] px-5 py-10 text-white">
-        <a href="#workspace-sign-in" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to workspace sign-in</a>
-        <div className="pointer-events-none absolute -left-24 top-16 h-80 w-80 rounded-full bg-teal-300/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 bottom-12 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div id="workspace-sign-in" className="relative w-full max-w-3xl overflow-hidden rounded-[2rem] border border-cyan-100/15 bg-[#071216]/90 p-6 shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur sm:p-9">
-          <div className="absolute inset-x-0 top-0 h-px bg-cyan-200/40" />
-          <VeriSettleBrand className="relative" compact />
-          <div className="mt-8 grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-teal-200/20 bg-teal-300/[0.08] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Secure wallet sign-in</div>
-              <h1 className="mt-5 max-w-xl font-veri-display text-4xl font-semibold leading-[0.92] tracking-[-0.07em] text-white sm:text-5xl">Choose a wallet.<br /><span className="text-cyan-200">Prove the address.</span></h1>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-slate-300">Connect a testnet wallet, sign one VeriSettle session message, then check CC3 and Sepolia. Sign-in never sends a transaction or requests a recovery phrase.</p>
-            </div>
-            <ol className="grid gap-2 text-xs leading-5">
-              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">01 · Connect</span><span className="ml-2 text-slate-400">Choose your wallet.</span></li>
-              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">02 · Sign</span><span className="ml-2 text-slate-400">Approve one session message.</span></li>
-              <li className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.04] p-3"><span className="font-semibold text-cyan-100">03 · Ready</span><span className="ml-2 text-slate-400">Check CC3 and Sepolia.</span></li>
-            </ol>
-          </div>
-          <div className="mt-7 rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-5"><WalletReadinessPanel signIn onSignedIn={() => void refresh()} /></div>
-          <p className="mt-4 text-center text-xs text-slate-500">Wallet signatures prove control of an address. They never authorize transactions.</p>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -112,6 +108,7 @@ function DashboardLayoutContent({
   setSidebarWidth,
 }: DashboardLayoutContentProps) {
   const { user, logout } = useAuth();
+  const hasWalletSession = user?.sessionKind === "siwe";
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -205,34 +202,41 @@ function DashboardLayoutContent({
           <SidebarFooter className="border-t border-cyan-100/10 p-3">
             {!isCollapsed && <div className="mb-3 rounded-xl border border-teal-200/10 bg-teal-300/[0.045] px-3 py-2.5"><div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-100"><Radio className="h-3.5 w-3.5" /> Testnet live</div><p className="mt-1 text-xs text-slate-400">Sepolia × CC3 proof path</p></div>}
             {!isCollapsed && user?.sessionKind === "siwe" && user.sessionExpiresAt && <div className="mb-3 rounded-xl border border-cyan-200/10 bg-cyan-300/[0.035] px-3 py-2.5"><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Wallet session</p><div className="mt-1"><WalletSessionCountdown expiresAt={user.sessionExpiresAt} /></div><p className="mt-2 text-xs leading-5 text-slate-400">Sign in with your wallet again when it expires.</p></div>}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                  <Avatar className="h-9 w-9 border shrink-0">
-                    <AvatarFallback className="text-xs font-medium">
-                      {user?.name?.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
-                    <p className="text-sm font-medium truncate leading-none">
-                      {user?.name || "-"}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate mt-1.5">
-                      {user?.email || "-"}
-                    </p>
-                  </div>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem
-                  onClick={logout}
-                  className="cursor-pointer text-destructive focus:text-destructive"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {hasWalletSession ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-3 rounded-lg px-1 py-1 hover:bg-accent/50 transition-colors w-full text-left group-data-[collapsible=icon]:justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <Avatar className="h-9 w-9 border shrink-0">
+                      <AvatarFallback className="text-xs font-medium">
+                        {user.name?.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0 group-data-[collapsible=icon]:hidden">
+                      <p className="text-sm font-medium truncate leading-none">
+                        {user.name || "Wallet session"}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate mt-1.5">
+                        {user.email || "Private workspace"}
+                      </p>
+                    </div>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    onClick={logout}
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sign out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="rounded-xl border border-cyan-100/10 bg-cyan-300/[0.035] p-3 group-data-[collapsible=icon]:p-1.5">
+                {!isCollapsed && <><p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100">Judge access</p><p className="mt-1 text-xs leading-5 text-slate-400">Explore the protocol freely. Connect only when you want to act.</p></>}
+                <div className={isCollapsed ? "" : "mt-3"}><WorkspaceWalletControl fullWidth={!isCollapsed} /></div>
+              </div>
+            )}
           </SidebarFooter>
         </Sidebar>
         <div
@@ -255,7 +259,8 @@ function DashboardLayoutContent({
               <span className="hidden min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 sm:inline-flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="truncate">Workspace / {activeMenuItem?.label ?? "Settlement"}</span></span>
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-              {user?.sessionKind === "siwe" && user.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}
+              {hasWalletSession && user?.sessionExpiresAt ? <WalletSessionCountdown expiresAt={user.sessionExpiresAt} /> : null}
+              <WorkspaceWalletControl />
               <span className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:gap-2 sm:text-xs"><Radio className="h-3.5 w-3.5" /><span className="hidden lg:inline">Receipt-bound · </span><span className="sm:hidden">Testnet</span><span className="hidden sm:inline">Public testnet only</span></span>
             </div>
           </div>
