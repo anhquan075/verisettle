@@ -74,6 +74,10 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(protocol).toContain("CopyValue");
     expect(protocol).toContain("veri-protocol-route");
     expect(protocol).toContain("Inspect emitter");
+    expect(protocol).toContain("Governed recovery / deployed V3");
+    expect(protocol).toContain("Settlement proof is not dispute authority.");
+    expect(protocol).toContain("V2_GOVERNED_POLICY_MANIFEST");
+    expect(protocol).toContain("Inspect 2-of-3 multisig");
   });
 
   it("keeps the evidence export and keyboard-first deal discovery bound to real workspace data", () => {
@@ -91,6 +95,9 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(layout).toContain("WorkspaceWalletControl");
     expect(layout).toContain("Judge access");
     expect(layout).toContain("Connect wallet");
+    expect(layout).toContain("Judge evidence");
+    expect(layout).toContain("openJudgeEvidence");
+    expect(layout).toContain("/app#judge-route");
     expect(dashboard).toContain("Your private deal register appears after sign-in");
     expect(dashboard).toContain("Connect & sign in to create");
     expect(walletPanel).toContain("MetaMask, OKX Wallet, Binance Wallet, Rabby, or SubWallet");

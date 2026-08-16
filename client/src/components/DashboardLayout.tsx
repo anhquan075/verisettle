@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ArrowLeft, LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
+import { ArrowLeft, FileSearch, LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -117,6 +117,19 @@ function DashboardLayoutContent({
   const activeMenuItem = menuItems.find(item => item.path === "/app" ? location === "/app" || location.startsWith("/deals/") : location === item.path);
   const isMobile = useIsMobile();
 
+  const openJudgeEvidence = () => {
+    if (location !== "/app") {
+      setLocation("/app");
+    }
+
+    window.setTimeout(() => {
+      window.history.replaceState(null, "", "/app#judge-route");
+      const evidence = document.getElementById("judge-route");
+      evidence?.scrollIntoView({ behavior: "smooth", block: "start" });
+      evidence?.focus({ preventScroll: true });
+    }, location === "/app" ? 0 : 80);
+  };
+
   useEffect(() => {
     if (isCollapsed) {
       setIsResizing(false);
@@ -196,6 +209,16 @@ function DashboardLayoutContent({
                   </SidebarMenuItem>
                 );
               })}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={openJudgeEvidence}
+                  tooltip="Judge evidence"
+                  className="h-11 rounded-xl font-medium text-cyan-100 transition-all hover:bg-cyan-300/10"
+                >
+                  <FileSearch className="h-4 w-4 text-cyan-200" />
+                  <span>Judge evidence</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
 

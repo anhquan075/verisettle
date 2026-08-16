@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { TESTNET_NETWORKS, VERISETTLE_CONTRACTS, escrowAbi, sourceAbi } from "@shared/contracts";
+import { V2_GOVERNED_POLICY_MANIFEST } from "@shared/v2PolicyManifest";
 import { ArrowLeft, ArrowUpRight, Check, Clipboard, FileCode2, GitBranch, Network, ShieldCheck, Waypoints } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
@@ -93,6 +94,22 @@ export default function ProtocolReference() {
           <section className="rounded-[1.75rem] border border-amber-200/15 bg-amber-300/[0.045] p-5 text-sm leading-6 text-amber-50/90"><p className="font-semibold text-amber-100">Protocol boundary</p><p className="mt-2">Attestcoin proves the configured on-chain acceptance receipt. It does not prove physical delivery or custody real funds; VeriSettle uses public test assets only.</p></section>
         </div>
       </div>
+
+      <section className="overflow-hidden rounded-[1.75rem] border border-violet-200/15 bg-[linear-gradient(115deg,rgba(88,28,135,0.14),rgba(6,16,20,0.86)_48%,rgba(12,74,110,0.1))] p-5 sm:p-7">
+        <div className="grid gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <p className="veri-kicker text-violet-200">Governed recovery / deployed V3</p>
+            <h2 className="mt-3 max-w-md font-veri-display text-3xl font-semibold tracking-[-0.06em] text-white">Settlement proof is not dispute authority.</h2>
+            <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300">Normal release stays receipt-bound. When an escrow is disputed, the governed successor requires an immutable two-of-three approval before it can resolve funds. No individual signer can unilaterally release or refund.</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-violet-200/15 bg-[#090d16]/70 p-4"><p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-violet-200">Threshold</p><p className="mt-3 font-veri-display text-4xl font-semibold tracking-[-0.07em] text-white">{V2_GOVERNED_POLICY_MANIFEST.governance.threshold} / {V2_GOVERNED_POLICY_MANIFEST.governance.signerCount}</p><p className="mt-2 text-xs leading-5 text-slate-400">Independent approvals required to execute a bound resolution.</p></div>
+            <div className="rounded-2xl border border-violet-200/15 bg-[#090d16]/70 p-4"><p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-violet-200">Authority split</p><p className="mt-3 text-sm font-semibold text-white">Multisig → governed ASC</p><p className="mt-2 text-xs leading-5 text-slate-400">Resolution authority and custody contract are separately deployed.</p></div>
+            <a href={`${TESTNET_NETWORKS.creditcoin.explorerUrl}/tx/${V2_GOVERNED_POLICY_MANIFEST.governance.deploymentTxHash}`} target="_blank" rel="noreferrer" className="veri-action rounded-2xl border border-white/10 bg-white/[0.025] p-4 transition-colors hover:border-violet-200/35 hover:bg-violet-300/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200"><p className="text-xs font-semibold text-white">Inspect 2-of-3 multisig <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></p><p className="mt-2 break-all font-mono text-[11px] text-violet-100">{V2_GOVERNED_POLICY_MANIFEST.governance.address}</p></a>
+            <a href={`${TESTNET_NETWORKS.creditcoin.explorerUrl}/tx/${V2_GOVERNED_POLICY_MANIFEST.escrowAsc.deploymentTxHash}`} target="_blank" rel="noreferrer" className="veri-action rounded-2xl border border-white/10 bg-white/[0.025] p-4 transition-colors hover:border-violet-200/35 hover:bg-violet-300/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200"><p className="text-xs font-semibold text-white">Inspect governed escrow ASC <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></p><p className="mt-2 break-all font-mono text-[11px] text-violet-100">{V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address}</p></a>
+          </div>
+        </div>
+      </section>
 
       <section className="veri-reference-surface rounded-[1.75rem] border border-white/10 p-5 sm:p-7"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="veri-kicker">Interface contract</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.045em] text-white">What the deployed contracts expose.</h2></div><a href="https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-sdk-usc-sdk.md" target="_blank" rel="noreferrer" className="veri-action inline-flex items-center gap-2 rounded-md border border-cyan-200/20 px-3 text-sm font-semibold text-cyan-100 hover:bg-cyan-300/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">SDK reference <ArrowUpRight className="h-4 w-4" /></a></div>
         <div className="mt-6 grid gap-5 lg:grid-cols-2"><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Source emitter</p><ul className="mt-3 space-y-2">{sourceAbi.map(signature => <li key={signature} className="rounded-xl border border-white/8 bg-white/[0.02] p-3 font-mono text-xs leading-5 text-slate-300">{signature}</li>)}</ul></div><div><p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Escrow ASC</p><ul className="mt-3 space-y-2">{escrowAbi.map(signature => <li key={signature} className="rounded-xl border border-white/8 bg-white/[0.02] p-3 font-mono text-xs leading-5 text-slate-300">{signature}</li>)}</ul></div></div>
