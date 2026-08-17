@@ -14,6 +14,7 @@ import { useLocation, useRoute } from "wouter";
 import DealDetail from "./pages/DealDetail";
 import ProtocolReference from "./pages/ProtocolReference";
 import JudgeEvidence from "./pages/JudgeEvidence";
+import ContrastAudit from "./pages/ContrastAudit";
 import { RouteTransitionLight } from "./components/RouteTransitionLight";
 import { RouteProgressIndicator } from "./components/RouteProgressIndicator";
 import { RouteLoadingSkeleton } from "./components/RouteLoadingSkeleton";
@@ -43,6 +44,7 @@ function Router() {
       <Switch>
         <Route path={"/"} component={Home} />
         <Route path={"/judge"} component={JudgeEvidence} />
+        <Route path={"/contrast-audit"} component={ContrastAudit} />
         <Route path={"/app"} component={AppDashboard} />
         <Route path={"/protocol"} component={ProtocolReferenceRoute} />
         <Route path={"/deals/:orderId"} component={DealDetailRoute} />

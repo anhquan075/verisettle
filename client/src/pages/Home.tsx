@@ -5,8 +5,6 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
-import { BackgroundIntensityMenu } from "@/components/BackgroundIntensityMenu";
-import { HighContrastToggle } from "@/components/HighContrastToggle";
 import { ProofFieldBackground } from "@/components/ProofFieldBackground";
 import { VeriSettleBrand } from "@/components/VeriSettleBrand";
 import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
@@ -62,8 +60,6 @@ export default function Home() {
             <a href="#security" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Boundary</a>
             <button onClick={openJudgeRoute} disabled={isLeavingForJudge} className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-wait disabled:opacity-60">Judge route</button>
           </nav>
-          <BackgroundIntensityMenu />
-          <HighContrastToggle className="hidden lg:inline-flex" />
           <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-[#07161a] hover:bg-cyan-50">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
         </div>
       </header>
@@ -108,7 +104,7 @@ export default function Home() {
       <footer className="relative border-t border-white/8 bg-black/10 px-5 py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
           <p>© 2026 VeriSettle. All rights reserved.</p>
-          <p>Public testnet · No real-fund custody · No delivery verification</p>
+          <p>Public testnet · No real-fund custody · No delivery verification · <button onClick={() => setLocation("/contrast-audit")} className="veri-action font-semibold text-cyan-100 hover:text-cyan-50">Contrast audit <ArrowUpRight className="ml-1 inline h-3 w-3" /></button></p>
         </div>
       </footer>
     </motion.div>
