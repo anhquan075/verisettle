@@ -8,8 +8,8 @@
 
 | What to inspect | Link |
 |---|---|
-| Live application | <https://verisettle-testnet.vercel.app> |
-| Public judge evidence | <https://verisettle-testnet.vercel.app/judge> |
+| Live application | <https://verisettle.vercel.app> |
+| Public judge evidence | <https://verisettle.vercel.app/judge> |
 | Full HD walkthrough | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/KogIzpIAXyJnCsjH.mp4> |
 | Evidence PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
 
