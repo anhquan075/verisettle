@@ -18,6 +18,7 @@ import ContrastAudit from "./pages/ContrastAudit";
 import { RouteTransitionLight } from "./components/RouteTransitionLight";
 import { RouteProgressIndicator } from "./components/RouteProgressIndicator";
 import { RouteLoadingSkeleton } from "./components/RouteLoadingSkeleton";
+import { OfflineFallback } from "./components/OfflineFallback";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -73,6 +74,7 @@ function App() {
             <HighContrastProvider>
               <MotionPreferenceProvider>
                 <Toaster />
+                <OfflineFallback />
                 <Router />
               </MotionPreferenceProvider>
             </HighContrastProvider>

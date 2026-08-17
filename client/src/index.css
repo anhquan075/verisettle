@@ -481,6 +481,12 @@ html[data-contrast="high"] .veri-route-skeleton { background: oklch(0.02 0.006 2
   .veri-status-line { border-left: 2px solid oklch(0.84 0.125 190 / 0.5); }
   .veri-brand-mark { transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1); }
   .veri-brand-mark-placeholder { background: radial-gradient(circle at 30% 28%, oklch(0.92 0.08 196 / 0.92) 0 6%, transparent 7%), radial-gradient(circle at 71% 68%, oklch(0.8 0.1 178 / 0.74) 0 7%, transparent 8%), linear-gradient(135deg, oklch(0.84 0.125 190 / 0.22), oklch(0.06 0.016 210 / 0.38)); border: 1px solid oklch(0.84 0.125 190 / 0.24); box-shadow: 0 0 0 1px oklch(0.03 0.015 210 / 0.28), 0 0 1.4rem oklch(0.84 0.125 190 / 0.16); transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .veri-evaluator-link { min-height: 10.75rem; transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .veri-evaluator-link:hover { background: linear-gradient(135deg, oklch(0.15 0.038 205 / 0.88), oklch(0.13 0.038 188 / 0.74)); border-color: oklch(0.84 0.125 190 / 0.48); box-shadow: 0 0.7rem 1.7rem oklch(0.84 0.125 190 / 0.12); transform: translateY(-1px); }
+  .veri-offline-fallback { align-items: center; background: oklch(0.04 0.015 210 / 0.94); display: grid; inset: 0; isolation: isolate; justify-items: center; overflow: hidden; padding: 1.25rem; position: fixed; text-align: center; z-index: 200; }
+  .veri-offline-fallback__current { background: radial-gradient(circle at 50% 35%, oklch(0.84 0.125 190 / 0.2), transparent 28%), radial-gradient(circle at 50% 66%, oklch(0.8 0.1 178 / 0.12), transparent 35%); inset: 0; pointer-events: none; position: absolute; }
+  .veri-offline-fallback__panel { background: linear-gradient(155deg, oklch(0.11 0.028 210 / 0.96), oklch(0.075 0.02 210 / 0.98)); border: 1px solid oklch(0.84 0.125 190 / 0.24); border-radius: 1.75rem; box-shadow: 0 2rem 5rem oklch(0.02 0.02 210 / 0.56), inset 0 1px 0 oklch(0.92 0.08 196 / 0.12); max-width: 34rem; padding: clamp(1.5rem, 5vw, 3rem); position: relative; }
+  .veri-offline-fallback__icon { align-items: center; background: oklch(0.84 0.125 190 / 0.1); border: 1px solid oklch(0.84 0.125 190 / 0.24); border-radius: 999px; color: oklch(0.92 0.08 196); display: inline-flex; height: 2.75rem; justify-content: center; margin: 2rem auto 1rem; width: 2.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -26,6 +26,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const routeSkeleton = source("../client/src/components/RouteLoadingSkeleton.tsx");
   const highContrast = source("../client/src/contexts/HighContrastContext.tsx");
   const contrastAudit = source("../client/src/pages/ContrastAudit.tsx");
+  const offlineFallback = source("../client/src/components/OfflineFallback.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
@@ -227,5 +228,16 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(contrastAudit).toContain("Inspect the interface.");
     expect(contrastAudit).toContain("Accessibility review never opens a wallet.");
     expect(contrastAudit).toContain("systemPrefersHighContrast");
+    expect(contrastAudit).toContain("Evaluator deep links");
+    expect(contrastAudit).toContain("/judge#judge-actions");
+    expect(contrastAudit).toContain("/judge#judge-route");
+    expect(contrastAudit).toContain("/app#judge-route");
+    expect(publicJudgeEvidence).toContain('id="judge-actions"');
+    expect(app).toContain("OfflineFallback");
+    expect(offlineFallback).toContain('window.addEventListener("offline"');
+    expect(offlineFallback).toContain('window.addEventListener("online"');
+    expect(offlineFallback).toContain("Your wallet did not.");
+    expect(offlineFallback).toContain("No wallet connection, signature, transaction, or claim has been initiated.");
+    expect(styles).toContain(".veri-offline-fallback");
   });
 });
