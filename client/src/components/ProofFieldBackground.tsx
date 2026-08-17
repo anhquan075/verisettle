@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
 
 type ProofFieldBackgroundProps = {
   variant?: "landing" | "judge" | "workspace";
@@ -9,7 +10,9 @@ type ProofFieldBackgroundProps = {
  * settlement path without claiming live chain telemetry or wallet activity.
  */
 export function ProofFieldBackground({ variant = "landing" }: ProofFieldBackgroundProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const systemPrefersReducedMotion = useReducedMotion();
+  const { decorativeMotionEnabled } = useMotionPreference();
+  const shouldReduceMotion = systemPrefersReducedMotion || !decorativeMotionEnabled;
   const isWorkspace = variant === "workspace";
   const travelDuration = isWorkspace ? 24 : variant === "judge" ? 20 : 18;
 

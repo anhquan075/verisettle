@@ -28,6 +28,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
+import { MotionPreferenceToggle } from "./MotionPreferenceToggle";
 import { ProofFieldBackground } from "./ProofFieldBackground";
 import { VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
@@ -295,11 +296,12 @@ function DashboardLayoutContent({
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
               <Button type="button" size="sm" variant="ghost" onClick={() => setLocation("/")} aria-label="Back to landing page" className="veri-action h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.025] p-0 text-cyan-50 hover:bg-cyan-300/10 hover:text-cyan-100"><ArrowLeft className="h-3.5 w-3.5" /><span className="sr-only">Landing</span></Button>
-              <span className="sm:hidden"><VeriSettleBrand compact /></span>
+              <span className="sm:hidden inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-100/10 bg-white/[0.025]"><img src="/verisettle-mark.svg" alt="VeriSettle" className="h-6 w-6 object-contain" /></span>
               <div className="veri-command-context hidden min-w-0 items-center gap-2 sm:flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">Workspace</span><span className="h-3 w-px bg-white/10" aria-hidden="true" /><span className="truncate text-sm font-semibold text-slate-100">{activeMenuItem?.label ?? "Settlement"}</span></div>
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">
               <span aria-label="Creditcoin CC3 public testnet" className="veri-network-signal hidden items-center gap-1.5 rounded-full border border-teal-200/15 bg-teal-300/[0.045] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(45,212,191,0.8)]" /><span className="hidden md:inline">CC3 testnet</span><span className="md:hidden">CC3</span></span>
+              <MotionPreferenceToggle />
               <WorkspaceWalletControl />
             </div>
           </div>

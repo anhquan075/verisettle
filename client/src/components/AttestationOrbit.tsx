@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
 
 type AttestationOrbitProps = {
   variant?: "landing" | "workspace";
@@ -9,7 +10,9 @@ type AttestationOrbitProps = {
  * It never represents live chain telemetry or a wallet state.
  */
 export function AttestationOrbit({ variant = "landing" }: AttestationOrbitProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const systemPrefersReducedMotion = useReducedMotion();
+  const { decorativeMotionEnabled } = useMotionPreference();
+  const shouldReduceMotion = systemPrefersReducedMotion || !decorativeMotionEnabled;
   const isWorkspace = variant === "workspace";
 
   return (

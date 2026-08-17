@@ -5,8 +5,10 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
+import { MotionPreferenceToggle } from "@/components/MotionPreferenceToggle";
 import { ProofFieldBackground } from "@/components/ProofFieldBackground";
 import { VeriSettleBrand } from "@/components/VeriSettleBrand";
+import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
 
 const stages = [
   ["01", Network, "Fund the terms", "Lock tCTC to this order."],
@@ -21,7 +23,9 @@ const heroBeats = [
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const shouldReduceMotion = useReducedMotion();
+  const systemPrefersReducedMotion = useReducedMotion();
+  const { decorativeMotionEnabled } = useMotionPreference();
+  const shouldReduceMotion = systemPrefersReducedMotion || !decorativeMotionEnabled;
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
   const entrance = shouldReduceMotion ? false : { opacity: 0, y: 18 };
@@ -50,13 +54,16 @@ export default function Home() {
           <span className="sm:hidden"><VeriSettleBrand compact /></span>
           <span className="hidden sm:inline-flex"><VeriSettleBrand /></span>
         </button>
-        <nav aria-label="Landing navigation" className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm text-slate-300 md:flex">
-          <a href="#execution" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">How it works</a>
-          <a href="#evidence" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Proof record</a>
-          <a href="#security" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Boundary</a>
-          <button onClick={openJudgeRoute} disabled={isLeavingForJudge} className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-wait disabled:opacity-60">Judge route</button>
-        </nav>
-        <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-[#07161a] hover:bg-cyan-50">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <nav aria-label="Landing navigation" className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm text-slate-300 md:flex">
+            <a href="#execution" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">How it works</a>
+            <a href="#evidence" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Proof record</a>
+            <a href="#security" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Boundary</a>
+            <button onClick={openJudgeRoute} disabled={isLeavingForJudge} className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-wait disabled:opacity-60">Judge route</button>
+          </nav>
+          <MotionPreferenceToggle />
+          <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-[#07161a] hover:bg-cyan-50">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+        </div>
       </header>
 
       <main id="landing-content" className="relative mx-auto max-w-7xl px-5 pb-24 pt-10 sm:px-8 sm:pt-16 lg:pt-20">

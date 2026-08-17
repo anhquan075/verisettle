@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { MotionPreferenceProvider } from "@/contexts/MotionPreferenceContext";
 import { MotionConfig } from "framer-motion";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -8,10 +9,11 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import DealDashboard from "./pages/DealDashboard";
 import DashboardLayout from "./components/DashboardLayout";
-import { useRoute } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import DealDetail from "./pages/DealDetail";
 import ProtocolReference from "./pages/ProtocolReference";
 import JudgeEvidence from "./pages/JudgeEvidence";
+import { RouteTransitionLight } from "./components/RouteTransitionLight";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -28,18 +30,22 @@ function ProtocolReferenceRoute() {
 }
 
 function Router() {
+  const [location] = useLocation();
   // make sure to consider if you need authentication for certain routes
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/judge"} component={JudgeEvidence} />
-      <Route path={"/app"} component={AppDashboard} />
-      <Route path={"/protocol"} component={ProtocolReferenceRoute} />
-      <Route path={"/deals/:orderId"} component={DealDetailRoute} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <>
+      <RouteTransitionLight key={location} />
+      <Switch>
+        <Route path={"/"} component={Home} />
+        <Route path={"/judge"} component={JudgeEvidence} />
+        <Route path={"/app"} component={AppDashboard} />
+        <Route path={"/protocol"} component={ProtocolReferenceRoute} />
+        <Route path={"/deals/:orderId"} component={DealDetailRoute} />
+        <Route path={"/404"} component={NotFound} />
+        {/* Final fallback route */}
+        <Route component={NotFound} />
+      </Switch>
+    </>
   );
 }
 
@@ -57,8 +63,10 @@ function App() {
           // switchable
         >
           <TooltipProvider>
-            <Toaster />
-            <Router />
+            <MotionPreferenceProvider>
+              <Toaster />
+              <Router />
+            </MotionPreferenceProvider>
           </TooltipProvider>
         </ThemeProvider>
       </MotionConfig>
