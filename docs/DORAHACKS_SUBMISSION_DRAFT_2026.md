@@ -18,13 +18,13 @@ VeriSettle is prepared for the **BUIDL CTC 2026 Fall** event’s required Attest
 | Technical documentation | <https://github.com/anhquan075/verisettle/blob/main/README.md> |
 | Deployment evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/DEPLOYMENT_INVENTORY.md> |
 | Governance evidence | <https://github.com/anhquan075/verisettle/blob/main/docs/V2_MULTISIG_GOVERNANCE_MIGRATION.md> |
-| Demo video | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/dlOeQIgcaQXpfdIv.mp4> |
+| Demo video | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FUFyhIQFfvzmGeYG.mp4> |
 | Demo subtitles | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FNhOQLsGMsKPovCo.srt> |
 | Deck / whitepaper PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
 
 ## Project description
 
-The current 1:50 demo is a **1280 × 720 real-interface walkthrough**. It deliberately scrolls to the live receipt rail, proof boundary, V3 governance panel, and wallet route as each is narrated; thin video-only callouts identify the relevant component without fabricating a product state or hiding the underlying evidence.
+The current 1:50 demo is a **native 1920 × 1080 real-interface walkthrough**. It deliberately scrolls to the live receipt rail, proof boundary, V3 governance panel, and wallet route as each is narrated; thin video-only callouts identify the relevant component without fabricating a product state or hiding the underlying evidence.
 
 **VeriSettle** is a testnet-only cross-chain purchase-order escrow for real-world settlement workflows. A buyer funds exact order terms in native tCTC on Creditcoin CC3. When that buyer accepts delivery on Ethereum Sepolia, VeriSettle uses the Attestcoin Protocol to verify the source receipt in a Creditcoin Attestcoin Smart Contract. The escrow releases to the seller only when the verified receipt proves the expected source event, buyer, seller, order key, and immutable terms hash. A repeated proof is rejected by the contract’s on-chain replay protection.
 
