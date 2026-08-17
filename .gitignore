@@ -121,3 +121,6 @@ client/public/__manus__/version.json
 
 # Local-only project documentation and research materials
 docs/
+
+# Local-only task checklist
+todo.md
