@@ -6,6 +6,7 @@
 dist/
 build/
 out/
+server/vercelFunction.cjs
 cache_forge/
 cache/
 *.dist

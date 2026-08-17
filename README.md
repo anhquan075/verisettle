@@ -1,75 +1,81 @@
 # VeriSettle
 
-**VeriSettle** is a dark, mobile-first purchase-order escrow application for the BUIDL CTC 2026 Fall hackathon. A successful, policy-bound Ethereum Sepolia event is attested by Attestcoin and releases a real native-tCTC testnet escrow on Creditcoin CC3 Testnet.
+**VeriSettle** is a cross-chain escrow prototype for the **BUIDL CTC Fall 2026** hackathon. A buyer locks test tCTC on Creditcoin CC3. When the buyer accepts the order on Ethereum Sepolia, Attestcoin verifies that receipt and the Creditcoin escrow releases once.
 
-> **Testnet boundary:** Every wallet transaction, source event, proof, and settlement uses public testnet infrastructure. VeriSettle does not custody real assets or verify physical delivery. It does deploy and use a real Attestcoin Smart Contract, and its application records only receipts that match the protected on-chain purchase-order terms.
+> **Testnet only.** VeriSettle uses real public testnet contracts and real testnet transactions. It does not hold real customer funds, verify physical delivery, or act as a production custody service.
 
-## Product Flow
+## Start Here
 
-| Step | Product action | Security control |
+| What to inspect | Link |
+|---|---|
+| Live application | <https://verisettle-testnet.vercel.app> |
+| Public judge evidence | <https://verisettle-testnet.vercel.app/judge> |
+| Full HD walkthrough | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FUFyhIQFfvzmGeYG.mp4> |
+| Evidence PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
+| Submission draft | [`docs/DORAHACKS_SUBMISSION_DRAFT_2026.md`](docs/DORAHACKS_SUBMISSION_DRAFT_2026.md) |
+
+## How It Works
+
+| Step | What happens | What prevents a bad release |
 |---|---|---|
-| 1 | Buyer creates a purchase order. | A nanoid `orderId` and unique proof-policy nonce bind the terms. |
-| 2 | Buyer funds native tCTC escrow from a CC3 Testnet wallet. | The API records `funded` only after decoding a matching `EscrowFunded` receipt from the deployed ASC. |
-| 3 | Buyer emits the exact `OrderAccepted` event from the deployed Sepolia source contract. | The receipt’s order key, buyer, seller, and terms hash must match the persisted deal. |
-| 4 | The product requests a proof from the Attestcoin proof builder once the source block is attested. | The ASC’s BlockProver precompile verifies source inclusion and receipt success. |
-| 5 | Buyer submits that proof to the deployed Creditcoin ASC. | The ASC decodes the trusted event and releases escrow in the same real testnet transaction. |
-| 6 | A repeated proof is submitted again. | The ASC rejects the query with `QueryAlreadyProcessed`; the UI renders the exact replay-protection reason. |
+| 1. Fund | The buyer locks native test tCTC in a Creditcoin CC3 escrow. | The application accepts the funded state only after it decodes a matching on-chain receipt. |
+| 2. Accept | The buyer emits `OrderAccepted` on Ethereum Sepolia. | The event is bound to the buyer, seller, order ID, and terms hash. |
+| 3. Verify | Attestcoin builds proof of the Sepolia receipt. | The Creditcoin ASC checks receipt success, source event data, terms, parties, and one-time use. |
+| 4. Release once | The buyer submits the proof to the Creditcoin escrow. | A successful proof releases escrow; a repeated query is rejected. |
+| 5. Resolve disputes | V3 sends dispute authority to a separate 2-of-3 multisig. | One signer cannot release or refund the escrow on their own. |
 
-## Architecture
+## Deployed Testnet Contracts
 
-```text
-React landing page + authenticated dashboard + injected EVM wallet
-	                │ tRPC receipt verification
-Express lifecycle API ───── MySQL/TiDB deal + append-only event records
-	                │ Attestcoin SDK
-Ethereum Sepolia source event → proof builder → CC3 Testnet BlockProver → deployed escrow ASC
-```
-
-The implementation separates mutable `deals` state from chronological `deal_events`. There is no update or delete procedure for events; every lifecycle action appends the next per-deal sequence number. Authorization ensures only the order creator can view or mutate that order.
-
-## Status Contract
-
-| Stored value | UI label | Description |
+| Network | Contract | Address |
 |---|---|---|
-| `draft` | Draft | Terms are recorded but test escrow is not funded. |
-| `funded` | Funded | Escrow is funded and accepts a source transaction. |
-| `proof_pending` | ProofPending | A source transaction awaits verification. |
-| `released` | Released | Verified proof authorized settlement. |
-| `refunded` | Refunded | Escrow was returned before verified release. |
-| `disputed` | Disputed | The deal moved to manual review. |
+| Ethereum Sepolia | VeriSettle source V1 | `0x1aC5b6B47EFe751681A206Fa8A5C305250017425` |
+| Ethereum Sepolia | VeriSettle source V2 | `0x56e6d3E213141AA8285D0b12504bDa5dA260aa18` |
+| Creditcoin CC3 | V2 escrow ASC | `0x185c81ED5a757d1e290BaBa55F051f3cE791D641` |
+| Creditcoin CC3 | V3 dispute multisig | `0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849` |
+| Creditcoin CC3 | V3 governed escrow | `0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7` |
 
-## Local Development
+The application also exposes the deployed-address inventory, real receipt sequence, and governed-recovery explanation in the public Judge Evidence route.
+
+## Run Locally
+
+Install dependencies, configure the required server environment variables in a local untracked `.env` file, then run the project.
 
 ```bash
 pnpm install
-pnpm drizzle-kit generate
-pnpm test
-pnpm check
 pnpm dev
 ```
 
-The schema migration files are in `drizzle/`. The application uses the managed database injected by the project environment.
-
-## Quality Gate
+The main commands are:
 
 ```bash
-pnpm test   # lifecycle, invalid proof, replay, unauthenticated, and cross-user access tests
-pnpm check  # strict TypeScript validation
+pnpm test   # 78 automated application tests
+pnpm check  # TypeScript validation
 pnpm build  # production build
 ```
 
-## Active Attestcoin Integration
+Do not commit a private key, wallet seed phrase, database URL, JWT secret, WalletConnect ID, or any environment file. The testnet funding signer is configured only in the deployment environment.
 
-The deployed ASC accepts the proof package from the Attestcoin SDK, calls the CC3 Testnet BlockProver precompile synchronously, requires a successful source receipt, decodes the expected source contract/event data, validates the order key, buyer, seller, and terms hash, applies replay protection, and only then releases native tCTC escrow.
+## Project Layout
 
-| Reference | Value |
+| Path | Purpose |
 |---|---|
-| Decoder contract | `0x731c345d79Fb8BbDC541f9DF3b6317585F849F9f` |
-| ChainInfo precompile | `0x0000000000000000000000000000000000000fd3` |
-| BlockProver precompile | `0x0000000000000000000000000000000000000FD2` |
-| SDK | `@gluwa/usc-sdk` |
-| Testnet source chain | Ethereum Sepolia, `chainKey: 1` |
+| `client/` | React interface, wallet onboarding, public Judge Evidence page, and workspace. |
+| `server/` | tRPC API, SIWE authentication, testnet funding guard, and receipt checks. |
+| `contracts/` | Solidity source for the escrow, V2 policy route, and V3 governed recovery. |
+| `foundry/` | Contract tests and invariants. |
+| `docs/` | Deployment inventory, security notes, judge sequence, and submission materials. |
 
-The references above come from the current [Attestcoin Protocol Chains and Environments documentation](https://docs.creditcoin.org/attestcoin-protocol/attestcoin-protocol-chains-environments.md) and the [Attestcoin SDK documentation](https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-sdk-usc-sdk.md). Consult the official [Attestcoin Smart Contract guidance](https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-smart-contracts.md) before a testnet deployment.
+## Security Boundaries
 
-The complete contract-address and transaction inventory is in [`docs/DEPLOYMENT_INVENTORY.md`](docs/DEPLOYMENT_INVENTORY.md), and the testnet funding evidence is in [`docs/TESTNET_FUNDING.md`](docs/TESTNET_FUNDING.md).
+Wallet signatures are used for SIWE authentication only; they do not authorize a transfer. Testnet funding requires separate user confirmation and is limited by wallet and user identity. The settlement contract enforces event binding and replay protection, while the V3 multisig separates dispute recovery from ordinary receipt-based release.
+
+## Further Reading
+
+The technical details and testnet evidence are available in [`docs/DEPLOYMENT_INVENTORY.md`](docs/DEPLOYMENT_INVENTORY.md), [`docs/TESTNET_FUNDING.md`](docs/TESTNET_FUNDING.md), [`docs/JUDGE_PROOF_SEQUENCE.md`](docs/JUDGE_PROOF_SEQUENCE.md), and [`docs/SECURITY_AUDIT_2026-08-14.md`](docs/SECURITY_AUDIT_2026-08-14.md).
+
+Attestcoin contract and SDK behavior follows the official Creditcoin documentation.[1] [2]
+
+## References
+
+[1]: https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-smart-contracts.md "Attestcoin smart contracts"
+[2]: https://docs.creditcoin.org/attestcoin-protocol/dapp-builder-infrastructure/attestcoin-sdk-usc-sdk.md "Attestcoin SDK"

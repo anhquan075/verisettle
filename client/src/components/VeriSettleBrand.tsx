@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type BrandTone = "brand" | "monochrome";
 type BrandSurface = "dark" | "light";
-const INTERLOCKING_VERISSETTLE_MARK = "https://files.manuscdn.com/user_upload_by_module/session_file/119889830/eFHWodZEAyBplgdg.png";
+const INTERLOCKING_VERISSETTLE_MARK = "/assets/verisettle-interlocking-mark_f85b392e.png";
 
 export function VeriSettleBrand({
   className,

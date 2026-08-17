@@ -1,6 +1,6 @@
 # Corrective UX Audit — Post-Hallmark Pass
 
-**Author:** Manus AI  
+**Author:** VeriSettle engineering review
 **Reviewed:** 2026-08-14
 
 ## Reported problem and confirmed cause

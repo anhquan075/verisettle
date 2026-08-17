@@ -1,7 +1,7 @@
 # VeriSettle Source-Based Security Assessment
 
 **Assessment date:** 14 August 2026  
-**Assessor:** Manus AI  
+**Assessor:** VeriSettle engineering review
 **Scope:** `VeriSettleEscrowASC.sol`, `VeriSettleSource.sol`, `VerifierInterface.sol`, SIWE challenge/session flow, wallet-extension handling, and pre-action network readiness.  
 **Assessment type:** source review plus targeted automated regression tests; **not** a third-party formal audit, formal verification, bytecode-equivalence review, or production security certification.
 

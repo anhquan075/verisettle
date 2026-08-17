@@ -6,7 +6,7 @@ The private GitHub repository is **`anhquan075/verisettle`**. Vercel import is u
 
 Vercel uses the linked Git repository to create deployments. Deploy `vercel/testnet-preview` for a non-production preview and use `main` only after the required configuration has been checked. Git-driven Vercel deployments and project environment variables are managed in the Vercel project settings. [1] [2]
 
-> **Security boundary:** Never copy a private key, seed phrase, or the Manus project’s secret values into Git. Configure values only in the Vercel project’s encrypted Environment Variables settings. The Vercel preview is a public-testnet application, not a custody service.
+> **Security boundary:** Never copy a private key, seed phrase, or hosting-project secret into Git. Configure values only in the Vercel project’s encrypted Environment Variables settings. The Vercel preview is a public-testnet application, not a custody service.
 
 ## Required Vercel configuration
 

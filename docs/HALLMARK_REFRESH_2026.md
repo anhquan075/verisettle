@@ -1,6 +1,6 @@
 # Hallmark Refresh — Research Notes and Implementation Boundary
 
-**Author:** Manus AI  
+**Author:** VeriSettle engineering review
 **Reviewed:** 2026-08-14
 
 ## Official Hallmark findings

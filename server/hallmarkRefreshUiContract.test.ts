@@ -137,8 +137,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(html).toContain("Instrument+Sans");
   });
 
-  it("uses the production-uploaded brand asset and retains a persistent return to the public landing page", () => {
-    expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/eFHWodZEAyBplgdg.png");
+  it("uses the neutral project brand asset route and retains a persistent return to the public landing page", () => {
+    expect(brand).toContain("/assets/verisettle-interlocking-mark_f85b392e.png");
     expect(layout).toContain("Back to landing page");
     expect(layout).toContain('setLocation("/")');
     expect(layout).toContain("ArrowLeft");
@@ -165,7 +165,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-receipt-rail__sequence");
     expect(styles).toContain(".veri-execution-rail");
     expect(styles).toContain(".veri-contract-disclosure");
-    expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/eFHWodZEAyBplgdg.png");
+    expect(brand).toContain("/assets/verisettle-interlocking-mark_f85b392e.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain("overflow-x: clip");
   });
