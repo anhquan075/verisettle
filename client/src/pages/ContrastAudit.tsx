@@ -28,9 +28,9 @@ export default function ContrastAudit() {
 
   return <div className="veri-shell min-h-screen overflow-x-clip text-white">
     <a href="#audit-content" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-[#062126] focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to contrast audit</a>
-    <div className="veri-aurora pointer-events-none fixed inset-0" />
-    <ProofFieldBackground variant="judge" />
-    <AttestationOrbit />
+      <div className="veri-aurora pointer-events-none fixed inset-0" />
+      <ProofFieldBackground variant="audit" />
+      <AttestationOrbit variant="audit" />
     <header className="sticky top-0 z-40 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 border-b border-white/[0.06] bg-[#061014]/88 px-5 py-4 shadow-[0_12px_34px_rgba(2,10,14,0.26)] backdrop-blur-xl sm:px-8">
       <button onClick={() => setLocation("/")} aria-label="Back to VeriSettle landing page" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><span className="sm:hidden"><VeriSettleBrand compact /></span><span className="hidden sm:inline-flex"><VeriSettleBrand /></span></button>
       <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-3"><ConnectionQualityIndicator /><Button size="sm" variant="outline" onClick={() => setLocation("/judge")} aria-label="Open Judge Evidence" className="veri-action shrink-0 border-white/15 bg-white/[0.025] px-2 text-white hover:bg-white/[0.08] sm:px-3"><span className="sm:hidden">Judge</span><span className="hidden sm:inline">Judge evidence</span><ArrowUpRight className="ml-1 h-3.5 w-3.5 sm:ml-1.5" /></Button><Button size="sm" onClick={() => setLocation("/app")} aria-label="Open workspace" className="veri-action shrink-0 bg-cyan-300 px-2 font-semibold text-[#06191f] hover:bg-cyan-200 sm:px-3"><span className="sm:hidden">App</span><span className="hidden sm:inline">Workspace</span><ArrowUpRight className="ml-1 h-3.5 w-3.5 sm:ml-1.5" /></Button></div>

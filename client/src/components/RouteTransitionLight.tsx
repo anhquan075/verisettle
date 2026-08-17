@@ -1,11 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
+import { ambientPresetForPath } from "@/lib/ambientPresets";
 
 function routeTone(location: string) {
-  if (location === "/judge") return "judge";
-  if (location === "/" || location === "/app") return "cyan";
-  return "teal";
+  return ambientPresetForPath(location);
 }
 
 /** Decorative continuity cue for route changes. It never represents chain or wallet activity. */

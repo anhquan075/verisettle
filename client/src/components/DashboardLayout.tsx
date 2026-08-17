@@ -32,6 +32,7 @@ import { ProofFieldBackground } from "./ProofFieldBackground";
 import { VERISETTLE_HEADER_LOGO_SRC, VeriSettleBrand } from "./VeriSettleBrand";
 import { ConnectionQualityIndicator } from "./ConnectionQualityIndicator";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
+import { ambientPresetForPath } from "@/lib/ambientPresets";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Deal register", path: "/app" },
@@ -133,6 +134,7 @@ function DashboardLayoutContent({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const activeMenuItem = menuItems.find(item => item.path === "/app" ? location === "/app" || location.startsWith("/deals/") : location === item.path);
   const isMobile = useIsMobile();
+  const ambientPreset = ambientPresetForPath(location);
 
   const openJudgeEvidence = () => {
     if (location !== "/app") {
@@ -290,8 +292,8 @@ function DashboardLayoutContent({
       </div>
 
       <SidebarInset className="veri-workspace-surface relative min-w-0 overflow-hidden bg-[#040b0e]">
-        <ProofFieldBackground variant="workspace" />
-        <AttestationOrbit variant="workspace" />
+        <ProofFieldBackground variant={ambientPreset} />
+        <AttestationOrbit variant={ambientPreset} />
         <header className="veri-workspace-header sticky top-0 z-40 border-b border-cyan-100/10 bg-[#061014]/92 text-slate-100 backdrop-blur-xl supports-[backdrop-filter]:bg-[#061014]/78">
           <div className="veri-command-bar flex min-h-16 w-full items-center justify-between gap-3 px-3 sm:px-6 lg:px-8">
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
