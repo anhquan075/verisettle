@@ -7,19 +7,19 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "/assets/android-chrome-192x192_f9734ca9.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/android-chrome-512x512_9fa8226a.png",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/android-adaptive-maskable-512x512_284ae5bc.png",
+      "src": "/android-adaptive-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
