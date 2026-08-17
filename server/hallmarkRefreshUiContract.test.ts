@@ -24,6 +24,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const intensityMenu = source("../client/src/components/BackgroundIntensityMenu.tsx");
   const routeLight = source("../client/src/components/RouteTransitionLight.tsx");
   const routeProgress = source("../client/src/components/RouteProgressIndicator.tsx");
+  const routeSkeleton = source("../client/src/components/RouteLoadingSkeleton.tsx");
+  const highContrast = source("../client/src/contexts/HighContrastContext.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
@@ -188,6 +190,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(app).toContain("MotionPreferenceProvider");
     expect(app).toContain("RouteTransitionLight");
     expect(app).toContain("RouteProgressIndicator");
+    expect(app).toContain("RouteLoadingSkeleton");
+    expect(app).toContain("HighContrastProvider");
     expect(motionPreference).toContain("verisettle-motion-preference");
     expect(motionPreference).toContain("low");
     expect(motionPreference).toContain("balanced");
@@ -195,12 +199,20 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(motionPreference).toContain("systemPrefersReducedMotion");
     expect(intensityMenu).toContain("Background intensity");
     expect(intensityMenu).toContain("DropdownMenuRadioGroup");
+    expect(intensityMenu).toContain("TooltipContent");
+    expect(intensityMenu).toContain("High contrast");
     expect(routeLight).toContain("Decorative continuity cue");
     expect(routeLight).toContain("AnimatePresence");
     expect(routeProgress).toContain("Short navigation-progress cue");
     expect(routeProgress).toContain("role=\"status\"");
+    expect(routeSkeleton).toContain("Brief route-aware placeholder");
+    expect(routeSkeleton).toContain("routeKind");
+    expect(highContrast).toContain("verisettle-high-contrast");
+    expect(highContrast).toContain("dataset.contrast");
     expect(styles).toContain(".veri-intensity-control");
     expect(styles).toContain(".veri-route-progress");
+    expect(styles).toContain("html[data-contrast=\"high\"]");
+    expect(styles).toContain(".veri-route-skeleton");
     expect(styles).toContain(".veri-route-light");
     expect(styles).toContain(".veri-action:hover:not(:disabled)");
   });

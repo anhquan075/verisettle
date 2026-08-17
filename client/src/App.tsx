@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { MotionPreferenceProvider } from "@/contexts/MotionPreferenceContext";
+import { HighContrastProvider } from "@/contexts/HighContrastContext";
 import { MotionConfig } from "framer-motion";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -15,6 +16,7 @@ import ProtocolReference from "./pages/ProtocolReference";
 import JudgeEvidence from "./pages/JudgeEvidence";
 import { RouteTransitionLight } from "./components/RouteTransitionLight";
 import { RouteProgressIndicator } from "./components/RouteProgressIndicator";
+import { RouteLoadingSkeleton } from "./components/RouteLoadingSkeleton";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -37,6 +39,7 @@ function Router() {
     <>
       <RouteTransitionLight key={location} />
       <RouteProgressIndicator key={`progress-${location}`} />
+      <RouteLoadingSkeleton />
       <Switch>
         <Route path={"/"} component={Home} />
         <Route path={"/judge"} component={JudgeEvidence} />
@@ -65,10 +68,12 @@ function App() {
           // switchable
         >
           <TooltipProvider>
-            <MotionPreferenceProvider>
-              <Toaster />
-              <Router />
-            </MotionPreferenceProvider>
+            <HighContrastProvider>
+              <MotionPreferenceProvider>
+                <Toaster />
+                <Router />
+              </MotionPreferenceProvider>
+            </HighContrastProvider>
           </TooltipProvider>
         </ThemeProvider>
       </MotionConfig>
