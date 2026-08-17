@@ -11,16 +11,16 @@ type AttestationOrbitProps = {
  */
 export function AttestationOrbit({ variant = "landing" }: AttestationOrbitProps) {
   const systemPrefersReducedMotion = useReducedMotion();
-  const { decorativeMotionEnabled } = useMotionPreference();
+  const { decorativeMotionEnabled, profile } = useMotionPreference();
   const shouldReduceMotion = systemPrefersReducedMotion || !decorativeMotionEnabled;
   const isWorkspace = variant === "workspace";
 
   return (
-    <div aria-hidden="true" className={`veri-attestation-orbit veri-attestation-orbit--${variant}`}>
+    <div aria-hidden="true" className={`veri-attestation-orbit veri-attestation-orbit--${variant}`} style={{ opacity: (isWorkspace ? 0.48 : 0.72) * (shouldReduceMotion ? 1 : profile.opacity) }}>
       <motion.div
         className="veri-orbit-ring"
         animate={shouldReduceMotion ? { opacity: 0.35 } : { rotate: 360 }}
-        transition={shouldReduceMotion ? { duration: 0.2 } : { duration: isWorkspace ? 34 : 28, repeat: Infinity, ease: "linear" }}
+        transition={shouldReduceMotion ? { duration: 0.2 } : { duration: (isWorkspace ? 34 : 28) * profile.duration, repeat: Infinity, ease: "linear" }}
       >
         <span className="veri-orbit-node veri-orbit-node--source" />
         <span className="veri-orbit-node veri-orbit-node--proof" />
@@ -29,7 +29,7 @@ export function AttestationOrbit({ variant = "landing" }: AttestationOrbitProps)
       <motion.div
         className="veri-orbit-signal"
         animate={shouldReduceMotion ? { opacity: 0.22 } : { opacity: [0.16, 0.54, 0.16], scale: [0.94, 1.04, 0.94] }}
-        transition={shouldReduceMotion ? { duration: 0.2 } : { duration: isWorkspace ? 7 : 5.5, repeat: Infinity, ease: "easeInOut" }}
+        transition={shouldReduceMotion ? { duration: 0.2 } : { duration: (isWorkspace ? 7 : 5.5) * profile.duration, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>
   );

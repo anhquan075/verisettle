@@ -14,6 +14,7 @@ import DealDetail from "./pages/DealDetail";
 import ProtocolReference from "./pages/ProtocolReference";
 import JudgeEvidence from "./pages/JudgeEvidence";
 import { RouteTransitionLight } from "./components/RouteTransitionLight";
+import { RouteProgressIndicator } from "./components/RouteProgressIndicator";
 
 function AppDashboard() {
   return <DashboardLayout><DealDashboard /></DashboardLayout>;
@@ -35,6 +36,7 @@ function Router() {
   return (
     <>
       <RouteTransitionLight key={location} />
+      <RouteProgressIndicator key={`progress-${location}`} />
       <Switch>
         <Route path={"/"} component={Home} />
         <Route path={"/judge"} component={JudgeEvidence} />

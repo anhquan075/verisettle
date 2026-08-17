@@ -21,8 +21,9 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
   const proofField = source("../client/src/components/ProofFieldBackground.tsx");
   const motionPreference = source("../client/src/contexts/MotionPreferenceContext.tsx");
-  const motionToggle = source("../client/src/components/MotionPreferenceToggle.tsx");
+  const intensityMenu = source("../client/src/components/BackgroundIntensityMenu.tsx");
   const routeLight = source("../client/src/components/RouteTransitionLight.tsx");
+  const routeProgress = source("../client/src/components/RouteProgressIndicator.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
@@ -183,16 +184,23 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain("overflow-x: clip");
   });
 
-  it("keeps decorative motion user-controllable while preserving route continuity and action feedback", () => {
+  it("keeps decorative motion intensity user-controllable while preserving route continuity and action feedback", () => {
     expect(app).toContain("MotionPreferenceProvider");
     expect(app).toContain("RouteTransitionLight");
+    expect(app).toContain("RouteProgressIndicator");
     expect(motionPreference).toContain("verisettle-motion-preference");
+    expect(motionPreference).toContain("low");
+    expect(motionPreference).toContain("balanced");
+    expect(motionPreference).toContain("vivid");
     expect(motionPreference).toContain("systemPrefersReducedMotion");
-    expect(motionToggle).toContain("aria-pressed");
-    expect(motionToggle).toContain("Motion on");
+    expect(intensityMenu).toContain("Background intensity");
+    expect(intensityMenu).toContain("DropdownMenuRadioGroup");
     expect(routeLight).toContain("Decorative continuity cue");
     expect(routeLight).toContain("AnimatePresence");
-    expect(styles).toContain(".veri-motion-toggle");
+    expect(routeProgress).toContain("Short navigation-progress cue");
+    expect(routeProgress).toContain("role=\"status\"");
+    expect(styles).toContain(".veri-intensity-control");
+    expect(styles).toContain(".veri-route-progress");
     expect(styles).toContain(".veri-route-light");
     expect(styles).toContain(".veri-action:hover:not(:disabled)");
   });

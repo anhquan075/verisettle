@@ -28,7 +28,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
-import { MotionPreferenceToggle } from "./MotionPreferenceToggle";
+import { BackgroundIntensityMenu } from "./BackgroundIntensityMenu";
 import { ProofFieldBackground } from "./ProofFieldBackground";
 import { VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
@@ -301,7 +301,7 @@ function DashboardLayoutContent({
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">
               <span aria-label="Creditcoin CC3 public testnet" className="veri-network-signal hidden items-center gap-1.5 rounded-full border border-teal-200/15 bg-teal-300/[0.045] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(45,212,191,0.8)]" /><span className="hidden md:inline">CC3 testnet</span><span className="md:hidden">CC3</span></span>
-              <MotionPreferenceToggle />
+              <BackgroundIntensityMenu />
               <WorkspaceWalletControl />
             </div>
           </div>

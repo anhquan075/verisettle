@@ -1,13 +1,26 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
-type MotionPreference = "on" | "off";
+export type MotionIntensity = "low" | "balanced" | "vivid";
+
+type MotionProfile = {
+  amplitude: number;
+  duration: number;
+  opacity: number;
+};
+
+const MOTION_PROFILES: Record<MotionIntensity, MotionProfile> = {
+  low: { amplitude: 0.52, duration: 1.45, opacity: 0.54 },
+  balanced: { amplitude: 1, duration: 1, opacity: 1 },
+  vivid: { amplitude: 1.28, duration: 0.8, opacity: 1.18 },
+};
 
 type MotionPreferenceValue = {
   decorativeMotionEnabled: boolean;
-  preference: MotionPreference;
+  intensity: MotionIntensity;
+  profile: MotionProfile;
   systemPrefersReducedMotion: boolean;
-  toggleDecorativeMotion: () => void;
+  setIntensity: (intensity: MotionIntensity) => void;
 };
 
 const STORAGE_KEY = "verisettle-motion-preference";
@@ -16,28 +29,30 @@ const MotionPreferenceContext = createContext<MotionPreferenceValue | null>(null
 
 export function MotionPreferenceProvider({ children }: { children: React.ReactNode }) {
   const systemPrefersReducedMotion = Boolean(useReducedMotion());
-  const [preference, setPreference] = useState<MotionPreference>(() => {
+  const [intensity, setIntensity] = useState<MotionIntensity>(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) === "off" ? "off" : "on";
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved === "low" || saved === "vivid" ? saved : "balanced";
     } catch {
-      return "on";
+      return "balanced";
     }
   });
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, preference);
+      localStorage.setItem(STORAGE_KEY, intensity);
     } catch {
       // Storage can be unavailable in privacy-focused browsing contexts.
     }
-  }, [preference]);
+  }, [intensity]);
 
   const value = useMemo<MotionPreferenceValue>(() => ({
-    decorativeMotionEnabled: preference === "on" && !systemPrefersReducedMotion,
-    preference,
+    decorativeMotionEnabled: !systemPrefersReducedMotion,
+    intensity,
+    profile: MOTION_PROFILES[intensity],
     systemPrefersReducedMotion,
-    toggleDecorativeMotion: () => setPreference(current => current === "on" ? "off" : "on"),
-  }), [preference, systemPrefersReducedMotion]);
+    setIntensity,
+  }), [intensity, systemPrefersReducedMotion]);
 
   return <MotionPreferenceContext.Provider value={value}>{children}</MotionPreferenceContext.Provider>;
 }
