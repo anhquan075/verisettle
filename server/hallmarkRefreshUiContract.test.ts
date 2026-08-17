@@ -145,7 +145,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   });
 
   it("uses the neutral project brand asset route and retains a persistent return to the public landing page", () => {
-    expect(brand).toContain("/verisettle-mark.svg");
+    expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/honTkjHOqsWDODGP.png");
     expect(layout).toContain("Back to landing page");
     expect(layout).toContain('setLocation("/")');
     expect(layout).toContain("ArrowLeft");
@@ -172,7 +172,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-receipt-rail__sequence");
     expect(styles).toContain(".veri-execution-rail");
     expect(styles).toContain(".veri-contract-disclosure");
-    expect(brand).toContain("/verisettle-mark.svg");
+    expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/honTkjHOqsWDODGP.png");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(styles).toContain(".veri-proof-field");
     expect(styles).toContain(".veri-proof-field__beam");

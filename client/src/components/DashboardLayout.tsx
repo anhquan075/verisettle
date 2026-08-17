@@ -29,7 +29,7 @@ import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
 import { ProofFieldBackground } from "./ProofFieldBackground";
-import { VeriSettleBrand } from "./VeriSettleBrand";
+import { VERISETTLE_HEADER_LOGO_SRC, VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
 
 const menuItems = [
@@ -296,7 +296,7 @@ function DashboardLayoutContent({
             <div className="flex min-w-0 items-center gap-2 sm:gap-3">
               {isMobile && <SidebarTrigger className="h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.045] text-cyan-100 hover:bg-cyan-300/10" />}
               <Button type="button" size="sm" variant="ghost" onClick={() => setLocation("/")} aria-label="Back to landing page" className="veri-action h-9 w-9 shrink-0 rounded-lg border border-white/10 bg-white/[0.025] p-0 text-cyan-50 hover:bg-cyan-300/10 hover:text-cyan-100"><ArrowLeft className="h-3.5 w-3.5" /><span className="sr-only">Landing</span></Button>
-              <span className="sm:hidden inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-100/10 bg-white/[0.025]"><img src="/verisettle-mark.svg" alt="VeriSettle" className="h-6 w-6 object-contain" /></span>
+              <span className="sm:hidden inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-100/10 bg-white/[0.025]"><img src={VERISETTLE_HEADER_LOGO_SRC} alt="VeriSettle" className="h-6 w-6 object-contain" /></span>
               <div className="veri-command-context hidden min-w-0 items-center gap-2 sm:flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">Workspace</span><span className="h-3 w-px bg-white/10" aria-hidden="true" /><span className="truncate text-sm font-semibold text-slate-100">{activeMenuItem?.label ?? "Settlement"}</span></div>
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">

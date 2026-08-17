@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type BrandTone = "brand" | "monochrome";
 type BrandSurface = "dark" | "light";
-const INTERLOCKING_VERISSETTLE_MARK = "/verisettle-mark.svg";
+export const VERISETTLE_HEADER_LOGO_SRC = "https://files.manuscdn.com/user_upload_by_module/session_file/119889830/honTkjHOqsWDODGP.png";
 
 export function VeriSettleBrand({
   className,
@@ -25,7 +25,7 @@ export function VeriSettleBrand({
   return (
     <span className={cn("inline-flex min-w-0 items-start gap-2.5 text-left", className)}>
       <span className={cn("block shrink-0", compact ? "h-8 w-8" : "h-10 w-10")}>
-        <img src={INTERLOCKING_VERISSETTLE_MARK} alt="" aria-hidden="true" className={cn("block h-full w-full object-contain", markFilter)} />
+        <img src={VERISETTLE_HEADER_LOGO_SRC} alt="" aria-hidden="true" className={cn("block h-full w-full object-contain", markFilter)} />
       </span>
       <span className="min-w-0 text-left">
         <span className={cn("block truncate font-veri-display font-semibold tracking-[-0.06em]", titleColor, compact ? "text-[0.97rem]" : "text-lg")}>VeriSettle</span>
