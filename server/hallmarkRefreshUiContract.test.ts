@@ -19,6 +19,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const judgeRoute = source("../client/src/components/JudgeProofRoute.tsx");
   const publicJudgeEvidence = source("../client/src/pages/JudgeEvidence.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
+  const proofField = source("../client/src/components/ProofFieldBackground.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
@@ -167,6 +168,15 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-contract-disclosure");
     expect(brand).toContain("/verisettle-mark.svg");
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(styles).toContain(".veri-proof-field");
+    expect(styles).toContain(".veri-proof-field__beam");
+    expect(styles).toContain(".veri-workspace-surface");
+    expect(home).toContain("ProofFieldBackground");
+    expect(publicJudgeEvidence).toContain('ProofFieldBackground variant="judge"');
+    expect(layout).toContain('ProofFieldBackground variant="workspace"');
+    expect(proofField).toContain("useReducedMotion");
+    expect(styles).toContain("pointer-events: none");
+    expect(proofField).toContain("proof-field ambience");
     expect(styles).toContain("overflow-x: clip");
   });
 });

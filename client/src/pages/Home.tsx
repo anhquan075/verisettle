@@ -5,6 +5,7 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
+import { ProofFieldBackground } from "@/components/ProofFieldBackground";
 import { VeriSettleBrand } from "@/components/VeriSettleBrand";
 
 const stages = [
@@ -41,6 +42,7 @@ export default function Home() {
       {!shouldReduceMotion && <motion.div aria-hidden className="veri-scroll-proof-line" style={{ scaleX: progress }} />}
       <a href="#landing-content" className="sr-only z-50 rounded-md bg-cyan-200 px-3 py-2 text-sm font-semibold text-[#062126] focus:not-sr-only focus:absolute focus:left-4 focus:top-4">Skip to settlement overview</a>
       <div className="veri-aurora pointer-events-none fixed inset-0" />
+      <ProofFieldBackground />
       <AttestationOrbit />
 
       <header className="sticky top-0 z-40 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 border-b border-white/[0.06] bg-[#061014]/88 px-5 py-4 shadow-[0_12px_34px_rgba(2,10,14,0.26)] backdrop-blur-xl sm:px-8">

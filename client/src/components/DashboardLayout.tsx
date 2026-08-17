@@ -28,6 +28,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
+import { ProofFieldBackground } from "./ProofFieldBackground";
 import { VeriSettleBrand } from "./VeriSettleBrand";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
 
@@ -286,7 +287,8 @@ function DashboardLayoutContent({
         />
       </div>
 
-      <SidebarInset className="relative min-w-0 overflow-hidden bg-[#040b0e]">
+      <SidebarInset className="veri-workspace-surface relative min-w-0 overflow-hidden bg-[#040b0e]">
+        <ProofFieldBackground variant="workspace" />
         <AttestationOrbit variant="workspace" />
         <header className="veri-workspace-header sticky top-0 z-40 border-b border-cyan-100/10 bg-[#061014]/92 text-slate-100 backdrop-blur-xl supports-[backdrop-filter]:bg-[#061014]/78">
           <div className="veri-command-bar flex min-h-16 w-full items-center justify-between gap-3 px-3 sm:px-6 lg:px-8">
