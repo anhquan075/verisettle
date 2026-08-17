@@ -52,4 +52,16 @@ describe("Wagmi wallet integration contract", () => {
     expect(launchpad).toContain("onClick={wallet.changeWallet}");
     expect(launchpad).toContain(">Change</Button>");
   });
+
+  it("shows a concise, accessible loading state while the wallet picker is opening or connecting", () => {
+    const readiness = read("../client/src/components/WalletReadinessPanel.tsx");
+    const launchpad = read("../client/src/components/WalletFirstLaunchpad.tsx");
+    const dashboard = read("../client/src/components/DashboardLayout.tsx");
+    for (const source of [readiness, launchpad, dashboard]) {
+      expect(source).toContain("isOpeningWalletPicker");
+      expect(source).toContain('aria-busy={connecting}');
+      expect(source).toContain("Opening wallets…");
+      expect(source).toContain("animate-spin");
+    }
+  });
 });

@@ -21,8 +21,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/useMobile";
+import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ArrowLeft, FileSearch, LayoutDashboard, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
+import { ArrowLeft, FileSearch, LayoutDashboard, Loader2, LogOut, PanelLeft, ShieldCheck, Radio, Route, WalletCards } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -41,21 +42,34 @@ const MIN_WIDTH = 200;
 const MAX_WIDTH = 480;
 
 function WorkspaceWalletControl({ fullWidth = false }: { fullWidth?: boolean }) {
+  const wallet = useWalletAccess();
+  const [isOpeningWalletPicker, setIsOpeningWalletPicker] = useState(false);
   return (
     <ConnectButton.Custom>
       {({ account, mounted, openAccountModal, openConnectModal }) => {
         const connected = mounted && Boolean(account);
+        const connecting = !connected && (wallet.busy || isOpeningWalletPicker);
+        const handleWalletClick = () => {
+          if (connected) {
+            openAccountModal();
+            return;
+          }
+          setIsOpeningWalletPicker(true);
+          openConnectModal();
+          window.setTimeout(() => setIsOpeningWalletPicker(false), 360);
+        };
         return (
           <Button
             type="button"
             size="sm"
             variant={connected ? "outline" : "default"}
-            onClick={connected ? openAccountModal : openConnectModal}
-            disabled={!mounted}
+            onClick={handleWalletClick}
+            disabled={!mounted || connecting}
+            aria-busy={connecting}
             className={`veri-action min-h-9 border-cyan-100/20 font-semibold ${connected ? "bg-white/[0.03] text-cyan-50 hover:bg-cyan-300/10" : "bg-cyan-300 text-[#06191f] hover:bg-cyan-200"} ${fullWidth ? "w-full justify-start" : "max-w-[11.5rem]"}`}
           >
-            <WalletCards className="mr-1.5 h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{connected ? `Wallet · ${account?.displayName}` : "Connect wallet"}</span>
+            {connecting ? <Loader2 className="mr-1.5 h-3.5 w-3.5 shrink-0 animate-spin" /> : <WalletCards className="mr-1.5 h-3.5 w-3.5 shrink-0" />}
+            <span className="truncate">{connected ? `Wallet · ${account?.displayName}` : connecting ? "Opening wallets…" : "Connect wallet"}</span>
           </Button>
         );
       }}

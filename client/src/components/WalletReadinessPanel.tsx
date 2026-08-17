@@ -3,6 +3,7 @@ import { useWalletAccess } from "@/hooks/useWalletAccess";
 import { TESTNET_NETWORKS } from "@shared/contracts";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Check, CircleAlert, ExternalLink, Loader2, PlugZap, ShieldCheck, WalletCards } from "lucide-react";
+import { useState } from "react";
 
 type WalletNetwork = keyof typeof TESTNET_NETWORKS;
 
@@ -25,6 +26,14 @@ export function WalletReadinessPanel({
   const wallet = useWalletAccess();
   const ready = requiredNetwork ? wallet.readiness[requiredNetwork] : Boolean(wallet.address);
   const label = requiredNetwork ? networkLabel[requiredNetwork] : "Wallet";
+  const [isOpeningWalletPicker, setIsOpeningWalletPicker] = useState(false);
+  const connecting = wallet.busy || isOpeningWalletPicker;
+
+  const openWalletPicker = (openConnectModal: () => void) => {
+    setIsOpeningWalletPicker(true);
+    openConnectModal();
+    window.setTimeout(() => setIsOpeningWalletPicker(false), 360);
+  };
 
   const handleSignIn = async () => {
     const signedIn = await wallet.signIn();
@@ -51,7 +60,7 @@ export function WalletReadinessPanel({
       <div className="flex items-start justify-between gap-3"><div className="flex items-start gap-3"><div className={`rounded-xl p-2 ${ready ? "bg-cyan-300/10 text-cyan-100" : "bg-white/[0.06] text-slate-300"}`}>{ready ? <Check className="h-4 w-4" /> : <WalletCards className="h-4 w-4" />}</div><div><p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">{wallet.extension}</p><h3 className="mt-1 text-sm font-semibold text-white">{wallet.address ? (ready ? `${label} ready` : `${label} required`) : "Connect wallet"}</h3><p className="mt-1 font-mono text-xs text-slate-400">{wallet.address ? `${wallet.address.slice(0, 8)}…${wallet.address.slice(-6)}` : "No account connected"}</p></div></div>{ready && <ShieldCheck className="h-5 w-5 text-cyan-200" />}</div>
       {!compact && <p className="mt-3 text-xs leading-5 text-slate-400">{wallet.address ? (requiredNetwork && !ready ? `Switch before ${requiredNetwork === "creditcoin" ? "CC3 escrow" : "Sepolia acceptance"}.` : "Wallet actions require your own extension approval.") : "Connect a testnet account to check chain readiness. If the extension is already unlocked, refresh the account state below."}</p>}
       <div className="mt-3 flex flex-wrap gap-2">
-        {!wallet.address ? <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button type="button" size="sm" onClick={openConnectModal} disabled={!mounted || wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><WalletCards className="mr-2 h-3.5 w-3.5" />Choose wallet</Button>}</ConnectButton.Custom> : null}
+        {!wallet.address ? <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button type="button" size="sm" onClick={() => openWalletPicker(openConnectModal)} disabled={!mounted || connecting} aria-busy={connecting} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{connecting ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <WalletCards className="mr-2 h-3.5 w-3.5" />}{connecting ? "Opening wallets…" : "Choose wallet"}</Button>}</ConnectButton.Custom> : null}
         {wallet.address ? <Button type="button" size="sm" variant="outline" onClick={wallet.changeWallet} disabled={wallet.busy} className="veri-action border-cyan-100/20 text-cyan-50 hover:bg-cyan-300/10"><WalletCards className="mr-2 h-3.5 w-3.5" />Change wallet</Button> : null}
         {wallet.address && requiredNetwork && !ready ? <Button type="button" size="sm" onClick={() => void wallet.switchNetwork(requiredNetwork)} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Switch to {requiredNetwork === "creditcoin" ? "CC3" : "Sepolia"}</Button> : null}
         {wallet.address && signIn ? <Button type="button" size="sm" onClick={() => void handleSignIn()} disabled={wallet.busy} className="veri-action bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{wallet.busy && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}Sign in with wallet</Button> : null}

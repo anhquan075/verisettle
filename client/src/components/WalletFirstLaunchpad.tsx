@@ -25,6 +25,7 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
   const utils = trpc.useUtils();
   const [cc3Checked, setCc3Checked] = useState(false);
   const [sepoliaChecked, setSepoliaChecked] = useState(false);
+  const [isOpeningWalletPicker, setIsOpeningWalletPicker] = useState(false);
   const signedIn = user?.sessionKind === "siwe";
   const persistedWalletAddress = signedIn && user?.openId.startsWith("wallet:") ? user.openId.slice("wallet:".length) : null;
   const fundingWalletAddress = wallet.address ?? persistedWalletAddress;
@@ -47,6 +48,12 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
   const requestFunding = async () => {
     if (wallet.address && signedIn) await claim.mutateAsync({ walletAddress: wallet.address });
   };
+  const connecting = wallet.busy || isOpeningWalletPicker;
+  const openWalletPicker = (openConnectModal: () => void) => {
+    setIsOpeningWalletPicker(true);
+    openConnectModal();
+    window.setTimeout(() => setIsOpeningWalletPicker(false), 360);
+  };
 
   return (
     <section id="wallet-launchpad" aria-label="Wallet sign-in" className="relative overflow-hidden rounded-[1.75rem] border border-cyan-100/15 bg-[#061116] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.25)] sm:p-8">
@@ -65,7 +72,7 @@ export function WalletFirstLaunchpad({ onCreateOrder }: { onCreateOrder: () => v
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">Step 1 of 3 · Choose a wallet</p>
                 <h3 className="mt-2 text-lg font-semibold text-white">Start with your testnet wallet.</h3>
                 <p className="mt-1 text-sm leading-6 text-slate-400">Connecting shares your public address only.</p>
-                <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button onClick={openConnectModal} disabled={!mounted} className="veri-action mt-5 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200"><WalletCards className="mr-2 h-4 w-4" />Choose wallet</Button>}</ConnectButton.Custom>
+                <ConnectButton.Custom>{({ mounted, openConnectModal }) => <Button onClick={() => openWalletPicker(openConnectModal)} disabled={!mounted || connecting} aria-busy={connecting} className="veri-action mt-5 bg-cyan-300 font-semibold text-slate-950 hover:bg-cyan-200">{connecting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <WalletCards className="mr-2 h-4 w-4" />}{connecting ? "Opening wallets…" : "Choose wallet"}</Button>}</ConnectButton.Custom>
                 <div className="mt-4 border-t border-white/10 pt-4">
                   <Button type="button" size="sm" variant="ghost" onClick={() => void wallet.refreshAccount()} disabled={wallet.busy} className="veri-action px-0 text-xs font-semibold text-slate-300 hover:bg-transparent hover:text-cyan-100"><RefreshCw className={`mr-2 h-3.5 w-3.5 ${wallet.busy ? "animate-spin" : ""}`} />Refresh wallet access</Button>
                   <p className="mt-1 text-xs leading-5 text-slate-500">Use after unlocking or authorizing VeriSettle. No signature or transaction.</p>
