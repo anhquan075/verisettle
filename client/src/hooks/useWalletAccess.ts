@@ -2,6 +2,7 @@ import { trpc } from "@/lib/trpc";
 import { describeWalletError, type WalletErrorNotice } from "@/lib/walletError";
 import { TESTNET_NETWORKS } from "@shared/contracts";
 import { useCallback, useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   useAccount,
   useConnect,
@@ -107,6 +108,10 @@ export function useWalletAccess() {
     setError(null);
     try {
       await switchChainAsync({ chainId: TESTNET_NETWORKS[network].chainId });
+      const label = network === "creditcoin" ? "Creditcoin CC3 Testnet" : "Ethereum Sepolia";
+      toast.success("Network switched", {
+        description: `${label} is ready. No signature or transaction requested.`,
+      });
       return true;
     } catch (cause) {
       const label = network === "creditcoin" ? "Creditcoin CC3 Testnet" : "Ethereum Sepolia";

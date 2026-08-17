@@ -35,6 +35,9 @@ describe("Wagmi wallet integration contract", () => {
     expect(access).toContain("reconnectAsync");
     expect(access).toContain("signMessageAsync");
     expect(access).toContain("switchChainAsync");
+    expect(access).toContain("TESTNET_NETWORKS[network].chainId");
+    expect(access).toContain("Network switched");
+    expect(access).toContain("No signature or transaction requested.");
     expect(access).not.toContain('method: "personal_sign"');
     expect(access).not.toContain('method: "wallet_switchEthereumChain"');
   });
@@ -51,6 +54,18 @@ describe("Wagmi wallet integration contract", () => {
     expect(readiness).toContain("ConnectButton.Custom");
     expect(launchpad).toContain("onClick={wallet.changeWallet}");
     expect(launchpad).toContain(">Change</Button>");
+  });
+
+  it("keeps CC3 and Sepolia readiness switches explicit while preserving account recovery and the no-transaction boundary", () => {
+    const access = read("../client/src/hooks/useWalletAccess.ts");
+    const launchpad = read("../client/src/components/WalletFirstLaunchpad.tsx");
+    expect(access).toContain('network === "creditcoin" ? "Creditcoin CC3 Testnet" : "Ethereum Sepolia"');
+    expect(access).toContain("reconnectAsync");
+    expect(access).toContain("return { address: connection.address ?? null, chainId: connection.chainId ?? null }");
+    expect(launchpad).toContain('verifyNetwork("creditcoin")');
+    expect(launchpad).toContain('verifyNetwork("sepolia")');
+    expect(launchpad).toContain("No signature or transaction.");
+    expect(launchpad).toContain("never a transaction");
   });
 
   it("shows a concise, accessible loading state while the wallet picker is opening or connecting", () => {
