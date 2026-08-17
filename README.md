@@ -10,7 +10,7 @@
 |---|---|
 | Live application | <https://verisettle-testnet.vercel.app> |
 | Public judge evidence | <https://verisettle-testnet.vercel.app/judge> |
-| Full HD walkthrough | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FUFyhIQFfvzmGeYG.mp4> |
+| Full HD walkthrough | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/lJwLcdQfqrwYRuFJ.mp4> |
 | Evidence PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
 | Submission draft | [`docs/DORAHACKS_SUBMISSION_DRAFT_2026.md`](docs/DORAHACKS_SUBMISSION_DRAFT_2026.md) |
 

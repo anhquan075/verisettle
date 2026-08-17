@@ -1,7 +1,7 @@
 # VeriSettle — BUIDL CTC Fall 2026 Readiness Assessment
 
 **Assessment date:** 16 August 2026.  
-**Verdict:** **Technically on track; packaging-ready but not yet submission-complete.** VeriSettle meets the core product and technical direction of the Fall event, including its Attestcoin Protocol focus, Creditcoin deployment, and testnet requirement. The public demo-video and evidence-PDF links are now prepared. The remaining gap is administrative: hacker registration, final team-profile information, repository review access, truthful originality attestation, and the user’s explicit final-submission approval.
+**Verdict:** **Submitted and technically on track.** VeriSettle meets the core product and technical direction of the Fall event, including its Attestcoin Protocol focus, Creditcoin deployment, and testnet requirement. Hacker registration, public repository review access, and the user-approved RWA submission are complete; the BUIDL is now under organizer review. The team remains responsible for the truthfulness of its originality attestation.
 
 > **Recommended positioning:** submit VeriSettle primarily as an **RWA** project: an evidence-first cross-chain purchase-order settlement rail. It also has credible DeFi adjacency, but RWA makes the buyer-acceptance-to-seller-payment use case clearest.
 
@@ -16,11 +16,11 @@ The official Fall site describes five tracks—DeFi, RWA, DePIN, Gaming, and AI�
 | Testnet deployment | Live production interface, public `/judge` evidence route, Creditcoin CC3 and Sepolia receipts, and a verified wallet/onboarding flow are live. | **Met** | The testnet requirement is demonstrably satisfied. |
 | Relevant Fall track | Cross-chain purchase-order escrow converts an off-chain delivery acceptance into transparent on-chain settlement. | **Met** | Strongest fit is **RWA**; describe DeFi as a secondary settlement primitive, not the primary sector. |
 | Original work during hackathon | Project repository and development history exist. | **Team attestation required** | The team must truthfully attest that the submitted work satisfies the event’s originality period. |
-| Repository with README | Private repository at `anhquan075/verisettle`, with documentation and deployment inventory. | **Ready** | Ensure the reviewer has access if the repository stays private, or provide an approved public review path. |
-| Prototype demo video URL | Public native Full HD real-interface walkthrough: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FUFyhIQFfvzmGeYG.mp4>. Subtitle track: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FNhOQLsGMsKPovCo.srt>. | **Ready** | Native 1920 × 1080 MP4 with deliberate component-level scrolling, restrained callouts, opaque-white subtitles, and a synchronized subtitle track was visually verified before inclusion in the draft. |
+| Repository with README | Public repository at `anhquan075/verisettle`, with documentation and deployment inventory. | **Ready** | Reviewers can inspect the source and documentation directly. |
+| Prototype demo video URL | Public native Full HD real-interface walkthrough: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/lJwLcdQfqrwYRuFJ.mp4>. Subtitle track: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/FNhOQLsGMsKPovCo.srt>. | **Ready** | Native 1920 × 1080 MP4 with deliberate component-level scrolling, restrained callouts, opaque-white subtitles, and a synchronized subtitle track was visually verified. Its interface composition fills the full 16:9 frame rather than centring a narrow capture in a black canvas. |
 | Deck or whitepaper PDF URL | Public evidence deck: <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf>. | **Ready** | Public PDF, strict-compiled, verified, and visually reviewed. |
-| Hacker/team profile | Team fields require legal name, email, short bio, role, residence, and citizenship. | **User action required** | Do not invent or store these values in source control. |
-| Final submission on DoraHacks | Draft copy and evidence sequence are prepared, but the project has not been submitted. | **User action required** | Review final wording and explicitly authorize submission only after all public links are populated. |
+| Hacker/team profile | Quan Nguyen is registered as a solo hacker with user-supplied profile information. | **Ready** | Personal profile information was entered only in the authenticated DoraHacks session. |
+| Final submission on DoraHacks | VeriSettle was user-approved and submitted in the RWA track. | **Under organizer review** | The public evidence links, repository, and testnet materials were provided in the completed form. |
 
 ## Verified Technical and Judge Evidence
 

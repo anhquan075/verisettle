@@ -1,6 +1,6 @@
 # VeriSettle Walkthrough — Wide Capture and Callout Map
 
-The revised 110-second walkthrough uses only clean **native 1920 × 1080** current-production-equivalent desktop captures of VeriSettle. Each narration span points to an actual product component at the visible scroll position; callouts are editorial video overlays and do not alter the product UI or imply a new state.
+The revised 110-second walkthrough uses only clean **native 1920 × 1080** current-production-equivalent desktop captures of VeriSettle. Each capture is cropped around its real interface region and scaled to fill the entire 16:9 video frame, rather than appearing as a narrow centred canvas. Each narration span points to an actual product component at the visible scroll position; callouts are editorial video overlays and do not alter the product UI or imply a new state.
 
 | Narration span | Real production capture | Visible component | Video callout treatment |
 |---|---|---|---|
