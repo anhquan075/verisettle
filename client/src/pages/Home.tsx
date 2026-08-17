@@ -7,6 +7,7 @@ import { ProofEvidenceLedger } from "@/components/ProofEvidenceLedger";
 import { AttestationOrbit } from "@/components/AttestationOrbit";
 import { ProofFieldBackground } from "@/components/ProofFieldBackground";
 import { VeriSettleBrand } from "@/components/VeriSettleBrand";
+import { ConnectionQualityIndicator } from "@/components/ConnectionQualityIndicator";
 import { useMotionPreference } from "@/contexts/MotionPreferenceContext";
 
 const stages = [
@@ -60,6 +61,7 @@ export default function Home() {
             <a href="#security" className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Boundary</a>
             <button onClick={openJudgeRoute} disabled={isLeavingForJudge} className="rounded-full px-3 py-2 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-wait disabled:opacity-60">Judge route</button>
           </nav>
+          <ConnectionQualityIndicator />
           <Button onClick={() => setLocation("/app")} className="veri-action shrink-0 bg-white text-[#07161a] hover:bg-cyan-50">Open workspace <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
         </div>
       </header>

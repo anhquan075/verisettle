@@ -30,6 +30,7 @@ import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { AttestationOrbit } from "./AttestationOrbit";
 import { ProofFieldBackground } from "./ProofFieldBackground";
 import { VERISETTLE_HEADER_LOGO_SRC, VeriSettleBrand } from "./VeriSettleBrand";
+import { ConnectionQualityIndicator } from "./ConnectionQualityIndicator";
 import { WalletSessionCountdown } from "./WalletSessionCountdown";
 
 const menuItems = [
@@ -300,6 +301,7 @@ function DashboardLayoutContent({
               <div className="veri-command-context hidden min-w-0 items-center gap-2 sm:flex"><Route className="h-3.5 w-3.5 shrink-0 text-cyan-200" /><span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-100">Workspace</span><span className="h-3 w-px bg-white/10" aria-hidden="true" /><span className="truncate text-sm font-semibold text-slate-100">{activeMenuItem?.label ?? "Settlement"}</span></div>
             </div>
             <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              <ConnectionQualityIndicator />
               <span aria-label="Creditcoin CC3 public testnet" className="veri-network-signal hidden items-center gap-1.5 rounded-full border border-teal-200/15 bg-teal-300/[0.045] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-teal-100 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(45,212,191,0.8)]" /><span className="hidden md:inline">CC3 testnet</span><span className="md:hidden">CC3</span></span>
               <WorkspaceWalletControl />
             </div>

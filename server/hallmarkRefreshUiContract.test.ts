@@ -27,6 +27,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const highContrast = source("../client/src/contexts/HighContrastContext.tsx");
   const contrastAudit = source("../client/src/pages/ContrastAudit.tsx");
   const offlineFallback = source("../client/src/components/OfflineFallback.tsx");
+  const connectionQuality = source("../client/src/components/ConnectionQualityIndicator.tsx");
   const walletPanel = source("../client/src/components/WalletReadinessPanel.tsx");
   const html = source("../client/index.html");
   const styles = source("../client/src/index.css");
@@ -239,5 +240,14 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(offlineFallback).toContain("Your wallet did not.");
     expect(offlineFallback).toContain("No wallet connection, signature, transaction, or claim has been initiated.");
     expect(styles).toContain(".veri-offline-fallback");
+    expect(styles).toContain(".veri-connection-signal");
+    expect(connectionQuality).toContain('window.addEventListener("online"');
+    expect(connectionQuality).toContain('window.addEventListener("offline"');
+    expect(connectionQuality).toContain("Browser connection only; not wallet, chain, or transaction status.");
+    expect(connectionQuality).toContain('role="status"');
+    expect(home).toContain("ConnectionQualityIndicator");
+    expect(publicJudgeEvidence).toContain("ConnectionQualityIndicator");
+    expect(layout).toContain("ConnectionQualityIndicator");
+    expect(contrastAudit).toContain("ConnectionQualityIndicator");
   });
 });

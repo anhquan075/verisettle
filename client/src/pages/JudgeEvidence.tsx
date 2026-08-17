@@ -6,6 +6,7 @@ import { AttestationOrbit } from "@/components/AttestationOrbit";
 import { ProofFieldBackground } from "@/components/ProofFieldBackground";
 import { JudgeProofRoute } from "@/components/JudgeProofRoute";
 import { VeriSettleBrand } from "@/components/VeriSettleBrand";
+import { ConnectionQualityIndicator } from "@/components/ConnectionQualityIndicator";
 import { Button } from "@/components/ui/button";
 
 export default function JudgeEvidence() {
@@ -32,7 +33,7 @@ export default function JudgeEvidence() {
       <AttestationOrbit />
       <header className="sticky top-0 z-40 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 border-b border-white/[0.06] bg-[#061014]/88 px-5 py-4 shadow-[0_12px_34px_rgba(2,10,14,0.26)] backdrop-blur-xl sm:px-8">
         <button onClick={() => setLocation("/")} aria-label="Back to VeriSettle landing page" className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><span className="sm:hidden"><VeriSettleBrand compact /></span><span className="hidden sm:inline-flex"><VeriSettleBrand /></span></button>
-        <div className="flex items-center gap-2 sm:gap-3"><span className="hidden rounded-full border border-teal-200/15 bg-teal-300/[0.06] px-3 py-1.5 text-xs font-semibold text-teal-100 sm:inline">No wallet</span><Button size="sm" variant="outline" onClick={() => void copyEvidenceLink()} className="veri-action border-white/15 bg-white/[0.025] px-2.5 text-white hover:bg-white/[0.08] sm:px-3" aria-label="Copy public Judge Evidence link">{copied ? <Check className="h-3.5 w-3.5 text-teal-100" /> : <Copy className="h-3.5 w-3.5" />}<span className="hidden sm:ml-1.5 sm:inline">{copied ? "Link copied" : "Copy link"}</span></Button><Button size="sm" onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 font-semibold text-[#06191f] hover:bg-cyan-200">Workspace <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" /></Button></div>
+        <div className="flex items-center gap-2 sm:gap-3"><span className="hidden rounded-full border border-teal-200/15 bg-teal-300/[0.06] px-3 py-1.5 text-xs font-semibold text-teal-100 sm:inline">No wallet</span><ConnectionQualityIndicator /><Button size="sm" variant="outline" onClick={() => void copyEvidenceLink()} className="veri-action border-white/15 bg-white/[0.025] px-2.5 text-white hover:bg-white/[0.08] sm:px-3" aria-label="Copy public Judge Evidence link">{copied ? <Check className="h-3.5 w-3.5 text-teal-100" /> : <Copy className="h-3.5 w-3.5" />}<span className="hidden sm:ml-1.5 sm:inline">{copied ? "Link copied" : "Copy link"}</span></Button><Button size="sm" onClick={() => setLocation("/app")} className="veri-action bg-cyan-300 font-semibold text-[#06191f] hover:bg-cyan-200">Workspace <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" /></Button></div>
       </header>
 
       <main id="judge-evidence" className="relative mx-auto max-w-6xl px-5 pb-24 pt-12 sm:px-8 sm:pt-18">
