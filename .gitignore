@@ -118,3 +118,6 @@ client/public/__manus__/version.json
 .project-config.json
 .vercel
 .env*
+
+# Local-only project documentation and research materials
+docs/

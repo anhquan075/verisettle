@@ -12,7 +12,6 @@
 | Public judge evidence | <https://verisettle-testnet.vercel.app/judge> |
 | Full HD walkthrough | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/KogIzpIAXyJnCsjH.mp4> |
 | Evidence PDF | <https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf> |
-| Submission draft | [`docs/DORAHACKS_SUBMISSION_DRAFT_2026.md`](docs/DORAHACKS_SUBMISSION_DRAFT_2026.md) |
 
 ## How It Works
 
@@ -63,7 +62,6 @@ Do not commit a private key, wallet seed phrase, database URL, JWT secret, Walle
 | `server/` | tRPC API, SIWE authentication, testnet funding guard, and receipt checks. |
 | `contracts/` | Solidity source for the escrow, V2 policy route, and V3 governed recovery. |
 | `foundry/` | Contract tests and invariants. |
-| `docs/` | Deployment inventory, security notes, judge sequence, and submission materials. |
 
 ## Security Boundaries
 
@@ -71,9 +69,7 @@ Wallet signatures are used for SIWE authentication only; they do not authorize a
 
 ## Further Reading
 
-The technical details and testnet evidence are available in [`docs/DEPLOYMENT_INVENTORY.md`](docs/DEPLOYMENT_INVENTORY.md), [`docs/TESTNET_FUNDING.md`](docs/TESTNET_FUNDING.md), [`docs/JUDGE_PROOF_SEQUENCE.md`](docs/JUDGE_PROOF_SEQUENCE.md), and [`docs/SECURITY_AUDIT_2026-08-14.md`](docs/SECURITY_AUDIT_2026-08-14.md).
-
-Attestcoin contract and SDK behavior follows the official Creditcoin documentation.[1] [2]
+The public Judge Evidence route contains the deployed-address inventory, real receipt sequence, replay boundary, and governed-recovery overview. Attestcoin contract and SDK behavior follows the official Creditcoin documentation.[1] [2]
 
 ## References
 

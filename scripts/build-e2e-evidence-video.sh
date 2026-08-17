@@ -41,7 +41,7 @@ make_evidence_card "$OUT_DIR/04-funding.mp4" 7 "3 · CC3 ESCROW FUNDING" "Native
 make_evidence_card "$OUT_DIR/05-attestcoin-release.mp4" 8 "4 · ATTESTCOIN PROOF AND RELEASE" "The official proof path was submitted to the deployed ASC." "Creditcoin receipt state transitioned the test order to Released." "0x0e8c31dc7d8d42066e4285d2362547a5f2cbcd1ca53a2a1662234d657b3dd6df"
 make_evidence_card "$OUT_DIR/06-security-boundary.mp4" 8 "5 · REPLAY PROTECTION" "The same valid proof was attempted a second time." "The deployed ASC returned QueryAlreadyProcessed and rejected settlement." "Exact UI error is documented in E2E_DEMO_SCRIPT.md"
 make_capture_scene "$CAPTURES/webdev-preview-app-1786675665384624237-9568.png" "$OUT_DIR/07-responsive.mp4" 7 "RESPONSIVE COMMAND CENTER" "The mobile workspace retains the guided real-testnet path and accessible controls"
-make_evidence_card "$OUT_DIR/08-close.mp4" 6 "VERIFICATION SUMMARY" "UI capture uses the sandbox browser; real transactions use the dedicated testnet-only signer." "Explore the exact receipts and contracts in docs/DEPLOYMENT_INVENTORY.md." "Sepolia source · CC3 funding · Attestcoin release · on-chain replay rejection"
+make_evidence_card "$OUT_DIR/08-close.mp4" 6 "VERIFICATION SUMMARY" "UI capture uses the sandbox browser; real transactions use the dedicated testnet-only signer." "Explore the exact receipts and contracts at /judge." "Sepolia source · CC3 funding · Attestcoin release · on-chain replay rejection"
 
 for scene in "$OUT_DIR"/[0-9][0-9]-*.mp4; do
   printf "file '%s'\n" "$scene" >> "$OUT_DIR/concat.txt"
