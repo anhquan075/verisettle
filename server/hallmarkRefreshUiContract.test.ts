@@ -103,6 +103,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(publicJudgeEvidence).toContain("JudgeProofRoute");
     expect(publicJudgeEvidence).toContain("Inspect freely. Act with a wallet.");
     expect(publicJudgeEvidence).toContain("Copy link");
+    expect(publicJudgeEvidence).toContain("Contrast audit");
+    expect(publicJudgeEvidence).toContain('setLocation("/contrast-audit")');
     expect(publicJudgeEvidence).toContain("navigator.clipboard.writeText");
     expect(publicJudgeEvidence).toContain("No wallet needed.");
   });
@@ -142,10 +144,13 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(html).toContain('property="og:image"');
     expect(html).toContain("verisettle-og-proof-before-release_327a17cd.png");
     expect(html).toContain("Instrument+Sans");
+    expect(html).toContain("verisettle-brand-20260817");
   });
 
   it("uses the neutral project brand asset route and retains a persistent return to the public landing page", () => {
     expect(brand).toContain("https://files.manuscdn.com/user_upload_by_module/session_file/119889830/honTkjHOqsWDODGP.png");
+    expect(brand).toContain("veri-brand-mark-placeholder");
+    expect(brand).toContain("onLoad={() => setMarkLoaded(true)}");
     expect(layout).toContain("Back to landing page");
     expect(layout).toContain('setLocation("/")');
     expect(layout).toContain("ArrowLeft");
@@ -217,6 +222,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(styles).toContain(".veri-route-skeleton");
     expect(styles).toContain(".veri-route-light");
     expect(styles).toContain(".veri-action:hover:not(:disabled)");
+    expect(styles).toContain(".veri-brand-mark-placeholder");
     expect(contrastAudit).toContain("Evaluator route / accessibility");
     expect(contrastAudit).toContain("Inspect the interface.");
     expect(contrastAudit).toContain("Accessibility review never opens a wallet.");
