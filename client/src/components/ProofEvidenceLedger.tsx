@@ -47,8 +47,8 @@ export function ProofEvidenceLedger() {
         <p><span className="font-semibold text-cyan-100">Policy:</span> receipt success, expected event semantics, terms binding, and one-time proof use are checked before release.</p>
       </div>
 
-      <a href="#execution" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-100 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        See the execution path <ArrowUpRight className="h-4 w-4" />
+      <a href="/judge" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-100 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+        Judge evidence <ArrowUpRight className="h-4 w-4" />
       </a>
     </section>
   );
