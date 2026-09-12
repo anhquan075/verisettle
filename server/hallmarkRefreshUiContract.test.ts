@@ -18,6 +18,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
   const evidenceExport = source("../client/src/components/JudgeEvidenceExport.tsx");
   const judgeRoute = source("../client/src/components/JudgeProofRoute.tsx");
   const publicJudgeEvidence = source("../client/src/pages/JudgeEvidence.tsx");
+  const judgePackCard = source("../client/src/components/JudgeEvidencePackCard.tsx");
+  const judgeStrip = source("../client/src/components/JudgeForJudgesStrip.tsx");
   const brand = source("../client/src/components/VeriSettleBrand.tsx");
   const proofField = source("../client/src/components/ProofFieldBackground.tsx");
   const orbit = source("../client/src/components/AttestationOrbit.tsx");
@@ -46,7 +48,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("isLeavingForJudge");
     expect(home).toContain("shouldReduceMotion");
     expect(home.indexOf('href="#security"')).toBeLessThan(home.indexOf("Judge route"));
-    expect(home).toContain("Judge proof");
+    expect(home).toContain("Judge evidence");
     expect(ledger).toContain("Receipt index / public testnet");
     expect(ledger).toContain("Evidence, not a mock flow.");
     expect(ledger).toContain("Policy:");
@@ -90,7 +92,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(judgeRoute).toContain("Disputes need 2 of 3 approvals");
     expect(judgeRoute).toContain("V2_GOVERNED_POLICY_MANIFEST");
     expect(judgeRoute).toContain("veri-judge-rail");
-    expect(judgeRoute).toContain("veri-receipt-rail__sequence");
+    expect(judgePackCard).toContain("veri-receipt-rail__sequence");
   });
 
   it("routes Protocol reference to a usable live-deployment page instead of a missing app anchor", () => {
@@ -157,7 +159,7 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(home).toContain("VeriSettleBrand compact");
     expect(html).toContain('property="og:image"');
     expect(html).toContain("verisettle-og-proof-before-release_327a17cd.png");
-    expect(html).toContain("Instrument+Sans");
+    expect(html).toContain("family=Geist");
     expect(html).toContain("verisettle-brand-20260817");
   });
 
@@ -256,7 +258,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(contrastAudit).toContain("/judge#judge-actions");
     expect(contrastAudit).toContain("/judge#judge-route");
     expect(contrastAudit).toContain("/app#judge-route");
-    expect(publicJudgeEvidence).toContain('id="judge-actions"');
+    expect(judgeStrip).toContain('id="judge-actions"');
+    expect(publicJudgeEvidence).toContain("JudgeForJudgesStrip");
     expect(app).toContain("OfflineFallback");
     expect(offlineFallback).toContain('window.addEventListener("offline"');
     expect(offlineFallback).toContain('window.addEventListener("online"');

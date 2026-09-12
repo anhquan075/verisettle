@@ -11,7 +11,7 @@ export function describeSessionExpiry(expiresAt: Date | string, now = Date.now()
   const end = new Date(expiresAt).getTime();
   const remaining = Math.max(0, end - now);
   if (!Number.isFinite(end) || remaining === 0) {
-    return { expired: true, warning: true, shortLabel: "Renew", label: "Wallet session expired — sign in again" };
+    return { expired: true, warning: true, shortLabel: "Renew", label: "Wallet session expired - sign in again" };
   }
 
   const totalMinutes = Math.ceil(remaining / 60_000);
@@ -23,6 +23,6 @@ export function describeSessionExpiry(expiresAt: Date | string, now = Date.now()
     expired: false,
     warning,
     shortLabel: warning ? `Renew ${duration}` : duration,
-    label: warning ? `Wallet session ends in ${duration} — sign in again soon` : `Wallet session ends in ${duration}`,
+    label: warning ? `Wallet session ends in ${duration} - sign in again soon` : `Wallet session ends in ${duration}`,
   };
 }
