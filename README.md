@@ -4,7 +4,7 @@
 
 **VeriSettle** is a receipt-bound, cross-chain escrow prototype for **BUIDL CTC Fall 2026**. A buyer locks test tCTC on Creditcoin CC3; after the buyer accepts an order on Ethereum Sepolia, Attestcoin verification binds that receipt to the agreed terms and releases the escrow once.
 
-> **Testnet only.** VeriSettle uses real public testnet contracts and transactions. It does **not** custody real customer funds, verify physical delivery, or operate as a production settlement service. The only public hostname is **https://verisettle.vercel.app** (judge desk: https://verisettle.vercel.app/judge). Do not use `verisettle-testnet.vercel.app`.
+> **Testnet only.** VeriSettle uses real public testnet contracts and transactions. It does **not** custody real customer funds, verify physical delivery, or operate as a production settlement service. Public hostnames: **https://verisettle.vercel.app** and **https://verisettle.vercel.app/judge**. Source: https://github.com/anhquan075/verisettle.
 
 ## Evaluate the live project
 
@@ -18,7 +18,7 @@
 | [V2 fund `0xe104…c512`](https://creditcoin-testnet.blockscout.com/tx/0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512) | Live two-wallet V2 funding (0.1 tCTC, buyer ≠ seller). |
 | [V2 accept `0x771d…b381`](https://sepolia.etherscan.io/tx/0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381) | Live Sepolia `OrderAcceptedV2` (block 11689062). |
 | [V2 release `0xd3b4…da62`](https://creditcoin-testnet.blockscout.com/tx/0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62) | Live `EscrowReleasedV2` (CC3 5475166). Replay: `QueryAlreadyProcessed`. |
-| [Public evidence markdown](docs/PUBLIC_EVIDENCE.md) | PDF-friendly receipt index for the live V1 and V2 two-wallet runs. |
+| [Public evidence markdown](docs/PUBLIC_EVIDENCE.md) | PDF-friendly receipt index. Live two-wallet JSON: `contracts/test-runs/two-wallet-f0a16e83.json` and `contracts/test-runs/v2-two-wallet-38e0f2e2.json`. |
 | [DoraHacks paste copy](docs/DORA_COPY.md) | Project Description + Attestcoin Integration Summary. |
 | [Enhancement proposal](docs/ENHANCEMENT_PROPOSAL.md) | P0 / P1 / P2 checklist for this scout-depth lift. |
 | [CEIP PO pilot](docs/CEIP_PO_PILOT.md) | Purchase-order settlement one-pager. |
@@ -78,13 +78,16 @@ The browser owns wallet connection, signing, and chain selection. The server own
 
 ## Deployed testnet contracts
 
-| Network | Contract | Public deployment |
-|---|---|---|
-| Ethereum Sepolia | [VeriSettle source V1](https://sepolia.etherscan.io/address/0x1aC5b6B47EFe751681A206Fa8A5C305250017425) | `0x1aC5b6B47EFe751681A206Fa8A5C305250017425` |
-| Ethereum Sepolia | [VeriSettle source V2](https://sepolia.etherscan.io/address/0x56e6d3E213141AA8285D0b12504bDa5dA260aa18) | `0x56e6d3E213141AA8285D0b12504bDa5dA260aa18` |
-| Creditcoin CC3 | [V2 escrow ASC](https://creditcoin-testnet.blockscout.com/address/0x185c81ED5a757d1e290BaBa55F051f3cE791D641) | `0x185c81ED5a757d1e290BaBa55F051f3cE791D641` |
-| Creditcoin CC3 | [V3 dispute multisig](https://creditcoin-testnet.blockscout.com/address/0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849) | `0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849` |
-| Creditcoin CC3 | [V3 governed escrow](https://creditcoin-testnet.blockscout.com/address/0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7) | `0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7` |
+| Network | Contract | Explorer | Status |
+|---|---|---|---|
+| Ethereum Sepolia | VeriSettle source V1 | [`0x1aC5b6…17425`](https://sepolia.etherscan.io/address/0x1aC5b6B47EFe751681A206Fa8A5C305250017425) | Pending Etherscan (see `docs/VERIFY_CONTRACTS.md`) |
+| Ethereum Sepolia | VeriSettle source V2 | [`0x56e6d3…0aa18`](https://sepolia.etherscan.io/address/0x56e6d3E213141AA8285D0b12504bDa5dA260aa18) | Pending Etherscan (see `docs/VERIFY_CONTRACTS.md`) |
+| Creditcoin CC3 | V1 escrow ASC | [`0xe3565A…4736F`](https://creditcoin-testnet.blockscout.com/address/0xe3565A1A1B947f363ab433889522267cE3D4736F?tab=contract) | Verified |
+| Creditcoin CC3 | V2 escrow ASC | [`0x185c81…D641`](https://creditcoin-testnet.blockscout.com/address/0x185c81ED5a757d1e290BaBa55F051f3cE791D641?tab=contract) | Verified |
+| Creditcoin CC3 | V3 dispute multisig | [`0x0C9b8e…e2849`](https://creditcoin-testnet.blockscout.com/address/0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849?tab=contract) | Verified |
+| Creditcoin CC3 | V3 governed escrow | [`0x5eB2b5…01bc7`](https://creditcoin-testnet.blockscout.com/address/0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7?tab=contract) | Verified |
+
+Attempt log: [`contracts/deployments/verification-attempt.json`](contracts/deployments/verification-attempt.json).
 
 ## Security and testnet boundaries
 
@@ -116,7 +119,7 @@ pnpm build          # production build
 pnpm evidence:two-wallet     # buyer key ≠ seller key; writes contracts/test-runs/
 pnpm evidence:two-wallet:v2
 pnpm evidence:v2             # EscrowReleasedV2 + negative PolicyMismatch / expired acceptance
-pnpm verify:contracts        # forge verify when ETHERSCAN_API_KEY / BLOCKSCOUT_API_KEY exist
+pnpm verify:contracts        # Blockscout without a key; Sepolia only when ETHERSCAN_API_KEY is set
 ```
 
 If keys are absent, the evidence scripts exit and leave filled templates. See `contracts/test-runs/RUNBOOK.md` and `docs/VERIFY_CONTRACTS.md`.

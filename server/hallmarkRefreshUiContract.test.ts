@@ -75,6 +75,11 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(judgeRoute).toContain("TWO_WALLET_V2_EVIDENCE");
     expect(judgeRoute).toContain("EscrowReleasedV2");
     expect(judgeRoute).toContain("two-wallet");
+    expect(judgeRoute).toContain("contracts/test-runs/two-wallet-f0a16e83.json");
+    expect(judgeRoute).toContain("contracts/test-runs/v2-two-wallet-38e0f2e2.json");
+    expect(judgeRoute).toContain("https://github.com/anhquan075/verisettle");
+    expect(home).toContain("A receipt is not physical delivery.");
+    expect(home).not.toContain("delivery proof");
     expect(judgeRoute).toContain("0x6975…1d94");
     expect(judgeRoute).toContain("0x4b6c…1d18");
     expect(judgeRoute).toContain("0x0e8c…d6df");

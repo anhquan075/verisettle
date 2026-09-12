@@ -6,8 +6,6 @@ Repository: https://github.com/anhquan075/verisettle
 
 Attestcoin verifies the **acceptance receipt**, **NOT** physical delivery.
 
-Do not list `verisettle-testnet.vercel.app`. That preview hostname is retired.
-
 ---
 
 ## Project Description
@@ -21,7 +19,7 @@ The deployed Attestcoin Smart Contract checks the expected source event, buyer, 
 What is live and reviewable:
 
 - Real Sepolia source contracts and CC3 escrow ASCs, including V2 policy-pinned routing and a V3 2-of-3 governed successor.
-- A completed live two-wallet V1 fund → accept → release lifecycle (buyer `0xABe59F75…` ≠ seller `0x26321500…`), a live two-wallet V2 `EscrowReleasedV2` run on the same wallets, plus the original self-deal Attestcoin run.
+- A completed live two-wallet V1 fund → accept → release lifecycle (buyer `0xABe59F75…` ≠ seller `0x26321500…`) in `contracts/test-runs/two-wallet-f0a16e83.json`, a live two-wallet V2 `EscrowReleasedV2` run on the same wallets in `contracts/test-runs/v2-two-wallet-38e0f2e2.json`, plus the original self-deal Attestcoin run.
 - Public `/judge` evidence with explorer links, replay protection, and governed-recovery explanation.
 - ChainInfo (`0xFD3`) attestation-readiness checks before proof submit, and an optional thin relayer that can only submit proofs.
 - Optional carrier `DeliveryConfirmed` and silence-timeout reclaim policies, covered by Foundry tests. Live V1/V2 buyer-accept routes stay unchanged.

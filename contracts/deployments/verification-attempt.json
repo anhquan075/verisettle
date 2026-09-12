@@ -1,49 +1,99 @@
 {
-  "attemptedAt": "2026-09-12T12:48:19.770Z",
+  "attemptedAt": "2026-09-12T15:07:40.000Z",
+  "compiler": {
+    "solc": "0.8.23+commit.f704f362",
+    "optimizerRuns": 200,
+    "foundryTomlEvm": "paris",
+    "note": "foundry.toml defaults to paris. Live V1/V2 artifacts were compiled with shanghai (PUSH0). V3 governed + multisig match paris. Verify V1/V2 with --evm-version shanghai --flatten."
+  },
   "etherscanKeyPresent": false,
   "blockscoutKeyPresent": false,
   "results": [
     {
       "name": "VeriSettleSource V1",
       "address": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x1aC5b6B47EFe751681A206Fa8A5C305250017425 contracts/VeriSettleSource.sol:VeriSettleSource --etherscan-api-key $ETHERSCAN_API_KEY"
+      "network": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "status": "pending_etherscan_key",
+      "explorerVerified": false,
+      "explorerUrl": "https://sepolia.etherscan.io/address/0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "sourcifyUrl": "https://sourcify.dev/server/v2/contract/11155111/0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "reason": "ETHERSCAN_API_KEY was not present. Sourcify also failed: foundry default paris bytecode length-mismatches the shanghai-deployed source. TODO: run the documented Etherscan command with --evm-version shanghai.",
+      "constructorArgs": "",
+      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --evm-version shanghai --watch 0x1aC5b6B47EFe751681A206Fa8A5C305250017425 contracts/VeriSettleSource.sol:VeriSettleSource --etherscan-api-key $ETHERSCAN_API_KEY"
     },
     {
       "name": "VeriSettleSourceV2",
       "address": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x56e6d3E213141AA8285D0b12504bDa5dA260aa18 contracts/VeriSettleSourceV2.sol:VeriSettleSourceV2 --etherscan-api-key $ETHERSCAN_API_KEY"
+      "network": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "status": "pending_etherscan_key",
+      "explorerVerified": false,
+      "explorerUrl": "https://sepolia.etherscan.io/address/0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+      "sourcifyUrl": "https://sourcify.dev/server/v2/contract/11155111/0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+      "reason": "ETHERSCAN_API_KEY was not present. Constructor is policyHash + acceptanceWindowSeconds (604800). TODO: run the documented Etherscan command with --evm-version shanghai and constructor args.",
+      "constructorArgs": "0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a80",
+      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --evm-version shanghai --constructor-args 0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a80 --watch 0x56e6d3E213141AA8285D0b12504bDa5dA260aa18 contracts/VeriSettleSourceV2.sol:VeriSettleSourceV2 --etherscan-api-key $ETHERSCAN_API_KEY"
     },
     {
       "name": "VeriSettleEscrowASC V1",
       "address": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0xe3565A1A1B947f363ab433889522267cE3D4736F contracts/VeriSettleEscrowASC.sol:VeriSettleEscrowASC --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+      "network": "Creditcoin CC3 Testnet",
+      "chainId": 102031,
+      "status": "verified",
+      "explorerVerified": true,
+      "explorerUrl": "https://creditcoin-testnet.blockscout.com/address/0xe3565A1A1B947f363ab433889522267cE3D4736F?tab=contract",
+      "sourcifyUrl": "https://sourcify.dev/server/v2/contract/102031/0xe3565A1A1B947f363ab433889522267cE3D4736F",
+      "sourcifyMatch": "match",
+      "verifiedAt": "2026-09-12T15:04:45Z",
+      "reason": "Verified on Creditcoin Blockscout after forge verify-contract --flatten --evm-version shanghai with constructor args and EvmV1Decoder library. Sourcify exact match.",
+      "constructorArgs": "0x0000000000000000000000001ac5b6b47efe751681a206fa8a5c3052500174250000000000000000000000000000000000000000000000000000000000000001",
+      "libraries": "node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "command": "forge verify-contract --chain-id 102031 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/ --compiler-version 0.8.23 --optimizer-runs 200 --evm-version shanghai --flatten --constructor-args 0x0000000000000000000000001ac5b6b47efe751681a206fa8a5c3052500174250000000000000000000000000000000000000000000000000000000000000001 --libraries node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425 --watch 0xe3565A1A1B947f363ab433889522267cE3D4736F contracts/VeriSettleEscrowASC.sol:VeriSettleEscrowASC"
     },
     {
       "name": "VeriSettleEscrowASCV2",
       "address": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x185c81ED5a757d1e290BaBa55F051f3cE791D641 contracts/VeriSettleEscrowASCV2.sol:VeriSettleEscrowASCV2 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+      "network": "Creditcoin CC3 Testnet",
+      "chainId": 102031,
+      "status": "verified",
+      "explorerVerified": true,
+      "explorerUrl": "https://creditcoin-testnet.blockscout.com/address/0x185c81ED5a757d1e290BaBa55F051f3cE791D641?tab=contract",
+      "sourcifyUrl": "https://sourcify.dev/server/v2/contract/102031/0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+      "sourcifyMatch": "match",
+      "verifiedAt": "2026-09-12T15:05:15Z",
+      "reason": "Verified on Creditcoin Blockscout after forge verify-contract --flatten --evm-version shanghai with V2 constructor args and EvmV1Decoder library. Sourcify exact match.",
+      "constructorArgs": "0x00000000000000000000000056e6d3e213141aa8285d0b12504bda5da260aa180000000000000000000000000000000000000000000000000000000000000001f951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a800000000000000000000000000000000000000000000000000000000000278d00",
+      "libraries": "node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "command": "forge verify-contract --chain-id 102031 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/ --compiler-version 0.8.23 --optimizer-runs 200 --evm-version shanghai --flatten --constructor-args 0x00000000000000000000000056e6d3e213141aa8285d0b12504bda5da260aa180000000000000000000000000000000000000000000000000000000000000001f951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a800000000000000000000000000000000000000000000000000000000000278d00 --libraries node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425 --watch 0x185c81ED5a757d1e290BaBa55F051f3cE791D641 contracts/VeriSettleEscrowASCV2.sol:VeriSettleEscrowASCV2"
     },
     {
-      "name": "VeriSettleDisputeMultisig V3",
+      "name": "VeriSettleDisputeMultisig",
       "address": "0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849 contracts/VeriSettleDisputeMultisig.sol:VeriSettleDisputeMultisig --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+      "network": "Creditcoin CC3 Testnet",
+      "chainId": 102031,
+      "status": "already_verified",
+      "explorerVerified": true,
+      "explorerUrl": "https://creditcoin-testnet.blockscout.com/address/0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849?tab=contract",
+      "reason": "Already verified on Creditcoin Blockscout (solc 0.8.23, optimizer 200, evm paris) before this attempt. forge verify-contract skipped as already verified.",
+      "constructorArgs": "0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003000000000000000000000000c7774720d1c14b9da1c656b796a2a092d0b9d1c9000000000000000000000000d0af9b88ce5aa93358afb510e1cbd55c044f362000000000000000000000000036ab1bbd6f9e64a35d81ee75ad039d9bdb2fdcaa",
+      "command": "forge verify-contract --chain-id 102031 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/ --compiler-version 0.8.23 --optimizer-runs 200 --evm-version paris --constructor-args 0x000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003000000000000000000000000c7774720d1c14b9da1c656b796a2a092d0b9d1c9000000000000000000000000d0af9b88ce5aa93358afb510e1cbd55c044f362000000000000000000000000036ab1bbd6f9e64a35d81ee75ad039d9bdb2fdcaa --watch 0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849 contracts/VeriSettleDisputeMultisig.sol:VeriSettleDisputeMultisig"
     },
     {
-      "name": "VeriSettleEscrowASCV2Governed V3",
+      "name": "VeriSettleEscrowASCV2Governed",
       "address": "0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
-      "status": "skipped",
-      "reason": "API key not present",
-      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7 contracts/VeriSettleEscrowASCV2Governed.sol:VeriSettleEscrowASCV2Governed --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+      "network": "Creditcoin CC3 Testnet",
+      "chainId": 102031,
+      "status": "verified",
+      "explorerVerified": true,
+      "explorerUrl": "https://creditcoin-testnet.blockscout.com/address/0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7?tab=contract",
+      "sourcifyUrl": "https://sourcify.dev/server/v2/contract/102031/0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
+      "sourcifyMatch": "match",
+      "verifiedAt": "2026-09-12T15:03:43Z",
+      "reason": "Verified on Creditcoin Blockscout after forge verify-contract --evm-version paris with governed constructor args and EvmV1Decoder library. Sourcify exact match.",
+      "constructorArgs": "0x00000000000000000000000056e6d3e213141aa8285d0b12504bda5da260aa180000000000000000000000000000000000000000000000000000000000000001f951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a800000000000000000000000000000000000000000000000000000000000278d000000000000000000000000000c9b8ef45aa36922bb3dde9aeec1bb1bafce2849",
+      "libraries": "node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "command": "forge verify-contract --chain-id 102031 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/ --compiler-version 0.8.23 --optimizer-runs 200 --evm-version paris --constructor-args 0x00000000000000000000000056e6d3e213141aa8285d0b12504bda5da260aa180000000000000000000000000000000000000000000000000000000000000001f951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f289760000000000000000000000000000000000000000000000000000000000093a800000000000000000000000000000000000000000000000000000000000278d000000000000000000000000000c9b8ef45aa36922bb3dde9aeec1bb1bafce2849 --libraries node_modules/@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol:EvmV1Decoder:0x1aC5b6B47EFe751681A206Fa8A5C305250017425 --watch 0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7 contracts/VeriSettleEscrowASCV2Governed.sol:VeriSettleEscrowASCV2Governed"
     }
   ]
 }

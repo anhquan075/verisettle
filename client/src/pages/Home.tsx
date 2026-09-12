@@ -99,14 +99,14 @@ export default function Home() {
         </motion.section>
 
         <motion.section id="security" initial={cardEntrance} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.48, ease: [0.23, 1, 0.32, 1] }} className="veri-boundary-statement mt-24 grid gap-8 rounded-[2rem] border border-teal-200/10 p-6 sm:p-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-100">Protocol boundary</p><h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.05em] text-white">A receipt is not delivery proof.</h2></div>
+          <div><p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-100">Protocol boundary</p><h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.05em] text-white">A receipt is not physical delivery.</h2></div>
           <div className="space-y-4 text-sm leading-7 text-slate-300"><p>Release checks receipt success, source event, terms, and one-time use.</p><p>Testnet receipts are real. Physical delivery is outside this protocol.</p><a href="https://github.com/gluwa/usc-testnet-bridge-examples" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold text-cyan-100 hover:text-cyan-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">Bridge examples <Github className="h-4 w-4" /></a></div>
         </motion.section>
       </main>
       <footer className="relative border-t border-white/8 bg-black/10 px-5 py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
           <p>© 2026 VeriSettle. All rights reserved.</p>
-          <p>Public testnet · No real-fund custody · No delivery verification · <button onClick={() => setLocation("/contrast-audit")} className="veri-action font-semibold text-cyan-100 hover:text-cyan-50">Contrast audit <ArrowUpRight className="ml-1 inline h-3 w-3" /></button></p>
+          <p>Public testnet · No real-fund custody · Acceptance receipt only · <button onClick={() => setLocation("/contrast-audit")} className="veri-action font-semibold text-cyan-100 hover:text-cyan-50">Contrast audit <ArrowUpRight className="ml-1 inline h-3 w-3" /></button></p>
         </div>
       </footer>
     </motion.div>

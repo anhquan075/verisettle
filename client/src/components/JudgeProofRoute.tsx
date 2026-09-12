@@ -57,12 +57,13 @@ export function JudgeProofRoute() {
         <div>
           <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500"><Users className="h-3.5 w-3.5 text-cyan-200" /> Featured two-wallet receipts</p>
           <p className="mt-2 text-xs leading-5 text-slate-400">Buyer {FEATURED_JUDGE_EVIDENCE.buyer.slice(0, 8)}… · Seller {FEATURED_JUDGE_EVIDENCE.seller.slice(0, 8)}…</p>
+          <p className="mt-1 text-xs leading-5 text-slate-500">Live JSON: <a href="https://github.com/anhquan075/verisettle" className="font-mono text-cyan-100 underline-offset-2 hover:underline">{FEATURED_JUDGE_EVIDENCE.evidenceFile}</a></p>
           <div className="veri-receipt-rail mt-3 grid gap-2">
             {featuredReceipts.map((receipt, index) => <a key={receipt.label} href={receipt.href} target="_blank" rel="noreferrer" className="veri-receipt-rail__item veri-action group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 transition-colors hover:border-cyan-200/25 hover:bg-cyan-300/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"><span className="flex min-w-0 items-center gap-3"><span className="veri-receipt-rail__sequence">R0{index + 1}</span><span><span className="block text-sm font-semibold text-white">{receipt.label}</span><span className="mt-1 block font-mono text-[11px] text-cyan-100">{receipt.shortHash}</span></span></span><ArrowUpRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-100" /></a>)}
           </div>
           <div className="mt-4 rounded-xl border border-violet-200/15 bg-violet-300/[0.04] p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-100/80">Also: two-wallet V2 EscrowReleasedV2</p>
-            <p className="mt-2 text-xs leading-5 text-slate-400">Same buyer ≠ seller on the live V2 policy ASC. {TWO_WALLET_V2_EVIDENCE.orderId.slice(0, 10)}…</p>
+            <p className="mt-2 text-xs leading-5 text-slate-400">Same buyer ≠ seller on the live V2 policy ASC. {TWO_WALLET_V2_EVIDENCE.orderId.slice(0, 10)}… JSON: <span className="font-mono text-violet-100">{TWO_WALLET_V2_EVIDENCE.evidenceFile}</span></p>
             <div className="mt-3 grid gap-2">
               {TWO_WALLET_V2_EVIDENCE.receipts.map((receipt) => <a key={receipt.hash} href={receipt.href} target="_blank" rel="noreferrer" className="veri-action flex items-center justify-between gap-3 rounded-lg border border-white/8 px-3 py-2 text-xs text-slate-300 hover:border-violet-200/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200"><span>{receipt.label}</span><span className="font-mono text-violet-100">{receipt.shortHash}</span></a>)}
             </div>

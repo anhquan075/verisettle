@@ -58,4 +58,21 @@ describe("ChainInfo copy and evidence schema", () => {
     expect(v2Pack.sourceContract).toBe("0x56e6d3E213141AA8285D0b12504bDa5dA260aa18");
     expect(v2Pack.escrowAsc).toBe("0x185c81ED5a757d1e290BaBa55F051f3cE791D641");
   });
+
+  it("keeps public copy on the three canonical URLs and records CC3 verification", () => {
+    const readme = readFileSync(new URL("../README.md", import.meta.url), "utf-8");
+    const dora = readFileSync(new URL("../docs/DORA_COPY.md", import.meta.url), "utf-8");
+    const attempt = JSON.parse(readFileSync(new URL("../contracts/deployments/verification-attempt.json", import.meta.url), "utf-8"));
+    expect(readme).toContain("https://verisettle.vercel.app");
+    expect(readme).toContain("https://verisettle.vercel.app/judge");
+    expect(readme).toContain("https://github.com/anhquan075/verisettle");
+    expect(readme).not.toContain("verisettle-testnet");
+    expect(dora).toContain("https://verisettle.vercel.app/judge");
+    expect(dora).not.toContain("verisettle-testnet");
+    expect(dora).toContain("contracts/test-runs/two-wallet-f0a16e83.json");
+    expect(dora).toContain("contracts/test-runs/v2-two-wallet-38e0f2e2.json");
+    const cc3 = attempt.results.filter((row: { chainId: number }) => row.chainId === 102031);
+    expect(cc3).toHaveLength(4);
+    expect(cc3.every((row: { explorerVerified: boolean }) => row.explorerVerified)).toBe(true);
+  });
 });
