@@ -1,4 +1,5 @@
-import { TESTNET_NETWORKS } from "./contracts";
+import { TESTNET_NETWORKS, VERISETTLE_CONTRACTS } from "./contracts";
+import { V2_GOVERNED_POLICY_MANIFEST, V2_POLICY_MANIFEST } from "./v2PolicyManifest";
 
 export type JudgeReceipt = {
   label: string;
@@ -19,8 +20,66 @@ export type JudgeEvidencePack = {
   policy: "v1_live" | "v2_deployed" | "v2_governed";
   orderId: string;
   evidenceFile: string;
+  replayRejection: string;
   receipts: JudgeReceipt[];
 };
+
+export type JudgeEvidenceViewStatus = "loading" | "ready" | "empty" | "error";
+
+export type JudgeEvidenceView =
+  | { status: "loading" }
+  | { status: "empty"; message: string }
+  | { status: "error"; message: string }
+  | { status: "ready"; pack: JudgeEvidencePack };
+
+export const CC3_VERIFIED_CONTRACTS = [
+  { key: "asc-v1", label: "ASC V1", address: VERISETTLE_CONTRACTS.escrowAsc },
+  { key: "asc-v2", label: "ASC V2", address: V2_POLICY_MANIFEST.escrowAsc.address },
+  { key: "multisig", label: "Multisig", address: V2_GOVERNED_POLICY_MANIFEST.governance.address },
+  { key: "governed-v2", label: "Governed V2", address: V2_GOVERNED_POLICY_MANIFEST.escrowAsc.address },
+] as const;
+
+export function cc3AddressHref(address: string) {
+  return `${TESTNET_NETWORKS.creditcoin.explorerUrl}/address/${address}`;
+}
+
+export function judgeActionLabel(role: JudgeReceipt["role"]) {
+  if (role === "funding") return "Fund";
+  if (role === "acceptance") return "Accept";
+  return "Release";
+}
+
+export function judgeHashPreview(hash: string) {
+  return `${hash.slice(0, 10)}…`;
+}
+
+export function shortAddress(address: string) {
+  return `${address.slice(0, 10)}…${address.slice(-4)}`;
+}
+
+export function describeJudgeEvidenceView(input: {
+  loading?: boolean;
+  pack?: JudgeEvidencePack | null;
+  fileMissing?: boolean;
+}): JudgeEvidenceView {
+  if (input.loading) return { status: "loading" };
+  if (input.fileMissing) {
+    return {
+      status: "error",
+      message: `Evidence file missing: ${input.pack?.evidenceFile ?? "unknown path"}`,
+    };
+  }
+  if (!input.pack) {
+    return { status: "empty", message: "No featured evidence pack is bound." };
+  }
+  if (!input.pack.receipts.length) {
+    return { status: "error", message: `Evidence file has no receipts: ${input.pack.evidenceFile}` };
+  }
+  if (input.pack.distinctWallets && input.pack.buyer.toLowerCase() === input.pack.seller.toLowerCase()) {
+    return { status: "error", message: "Featured pack claims distinct wallets but buyer equals seller." };
+  }
+  return { status: "ready", pack: input.pack };
+}
 
 function cc3(hash: string): JudgeReceipt["href"] {
   return `${TESTNET_NETWORKS.creditcoin.explorerUrl}/tx/${hash}`;
@@ -44,6 +103,7 @@ export const TWO_WALLET_V1_EVIDENCE: JudgeEvidencePack = {
   policy: "v1_live",
   orderId: "0xf0a16e834330693f346da92251a5b6abee36c0c9923c820f03f54419b7bdd0e5",
   evidenceFile: "contracts/test-runs/two-wallet-f0a16e83.json",
+  replayRejection: "QueryAlreadyProcessed",
   receipts: [
     {
       label: "CC3 escrow funded",
@@ -82,6 +142,7 @@ export const SELF_DEAL_V1_EVIDENCE: JudgeEvidencePack = {
   policy: "v1_live",
   orderId: "0xf4376c974997bd09f06de4ce6b0ec7a061a1b014bb61117e2f6541b7c527067d",
   evidenceFile: "contracts/test-runs/real-proof-f4376c97.json",
+  replayRejection: "QueryAlreadyProcessed",
   receipts: [
     {
       label: "CC3 escrow funded",
@@ -120,6 +181,7 @@ export const TWO_WALLET_V2_EVIDENCE: JudgeEvidencePack = {
   policy: "v2_deployed",
   orderId: "0x38e0f2e26eb88f024c2ee087fb129e84ec2f9d2d280ec556e61200f4a990d582",
   evidenceFile: "contracts/test-runs/v2-two-wallet-38e0f2e2.json",
+  replayRejection: "QueryAlreadyProcessed",
   receipts: [
     {
       label: "CC3 V2 escrow funded",
