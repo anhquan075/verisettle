@@ -1,0 +1,31 @@
+# VeriSettle enhancement proposal — BUIDL CTC Fall 2026
+
+This pull request implements the scout-depth lift for [BUIDL 48000](https://dorahacks.io/buidl/48000). Hypothesis: reuse `ProofBuilder` + ASC `submitAcceptanceProof`, do not invent a second verification path.
+
+## P0 — Must-ship
+
+| ID | Outcome |
+|---|---|
+| **P0-D** | Copy leads with “Attestcoin verifies the acceptance receipt, NOT physical delivery.” Canonical URL is https://verisettle.vercel.app (and `/judge`). `docs/DORA_COPY.md` is paste-ready. |
+| **P0-A / P0-B** | `scripts/run-two-wallet-lifecycle.mjs` and `scripts/run-v2-lifecycle.mjs` produce schema-versioned JSON under `contracts/test-runs/`. Live two-wallet V1 (`two-wallet-f0a16e83.json`) is featured on `/judge`. Live two-wallet V2 `EscrowReleasedV2` is committed as `v2-two-wallet-38e0f2e2.json`. The self-deal run is secondary. |
+| **P0-C** | `docs/VERIFY_CONTRACTS.md` and `scripts/verify-deployed-contracts.mjs` document / attempt forge verification. CC3 V1/V2/V3 contracts are verified on Blockscout. Sepolia sources wait on `ETHERSCAN_API_KEY`. |
+
+## P1
+
+| ID | Outcome |
+|---|---|
+| **P1-A** | `PrecompileChainInfoProvider` (`0xFD3`) is used for attestation readiness before proof submit. UI + tRPC surface waiting / attested / unavailable. |
+| **P1-B** | `worker/relayer.mjs` watches Sepolia acceptances, waits on ChainInfo, builds a proof, submits on CC3. Relayer cannot steal escrow. Manual submit stays live. |
+| **P1-C** | Unused Manus showcase (`AIChatBox`, `ComponentShowcase`) is quarantined. Public evidence markdown is regenerated without “Prepared by Manus AI.” |
+
+## P2
+
+| ID | Outcome |
+|---|---|
+| **P2-A** | Optional `VeriSettleCarrierSource` + `VeriSettleEscrowASCV2Optional` release on `DeliveryConfirmed` from a registered carrier, while buyer `OrderAcceptedV2` still works. Foundry tests included. Documented as optional policy; live V1/V2 routes unchanged. |
+| **P2-B** | Buyer `refundIfAcceptanceSilent` and multisig `executeMultisigTimeoutRefund` use ChainInfo attested height as the source-chain clock after the acceptance deadline. Foundry tests included. Aligns with V3 multisig authority. |
+| **P2-C** | `docs/CEIP_PO_PILOT.md` — purchase-order settlement one-pager. |
+
+## What we did not invent
+
+Proof construction is still `ProofBuilder`. On-chain verification is still `verifyAndEmit` + ASC receipt policy. ChainInfo is a readiness clock, not a second prover.

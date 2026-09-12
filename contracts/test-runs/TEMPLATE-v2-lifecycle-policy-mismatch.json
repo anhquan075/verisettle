@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "v2-lifecycle-negative",
+  "purpose": "V2 negative: funded termsCommitment ≠ OrderAcceptedV2 termsCommitment. ASC must revert PolicyMismatch.",
+  "policyVersion": "v2_deployed",
+  "distinctWallets": true,
+  "orderId": "0xTEMPLATE_ORDER_ID",
+  "buyer": "0xBUYER_ADDRESS",
+  "seller": "0xSELLER_ADDRESS",
+  "sourceContract": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+  "escrowAsc": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+  "funding": {
+    "txHash": "0xFUNDING_TX",
+    "blockNumber": null
+  },
+  "negative": {
+    "expectedError": "PolicyMismatch",
+    "observedError": "PolicyMismatch"
+  },
+  "explorer": {
+    "funding": "https://creditcoin-testnet.blockscout.com/tx/0xFUNDING_TX"
+  },
+  "note": "Run `pnpm evidence:v2` with live keys, or execute Foundry `V2OptionalPolicyTest` for the on-chain revert.",
+  "startedAt": "2026-09-12T00:00:00.000Z"
+}

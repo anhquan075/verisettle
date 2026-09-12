@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "v2-lifecycle-positive",
+  "purpose": "V2 EscrowReleasedV2 positive lifecycle. Attestcoin verifies OrderAcceptedV2, not physical delivery.",
+  "policyVersion": "v2_deployed",
+  "distinctWallets": true,
+  "orderId": "0xTEMPLATE_ORDER_ID",
+  "buyer": "0xBUYER_ADDRESS",
+  "seller": "0xSELLER_ADDRESS",
+  "amount": "0.01",
+  "sourceContract": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+  "escrowAsc": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+  "funding": {
+    "txHash": "0xFUNDING_TX",
+    "blockNumber": null
+  },
+  "acceptance": {
+    "txHash": "0xACCEPTANCE_TX",
+    "blockNumber": null
+  },
+  "release": {
+    "txHash": "0xRELEASE_TX",
+    "blockNumber": null,
+    "event": "EscrowReleasedV2"
+  },
+  "explorer": {
+    "funding": "https://creditcoin-testnet.blockscout.com/tx/0xFUNDING_TX",
+    "acceptance": "https://sepolia.etherscan.io/tx/0xACCEPTANCE_TX",
+    "release": "https://creditcoin-testnet.blockscout.com/tx/0xRELEASE_TX"
+  },
+  "note": "No live V2 EscrowReleasedV2 receipt is committed yet. Produce one with `pnpm evidence:v2`.",
+  "startedAt": "2026-09-12T00:00:00.000Z"
+}

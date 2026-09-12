@@ -1,32 +1,12 @@
 import { ArrowUpRight, CheckCircle2, ExternalLink, ShieldCheck } from "lucide-react";
+import { FEATURED_JUDGE_EVIDENCE } from "@shared/judgeEvidence";
 
-type EvidenceRow = {
-  label: string;
-  network: string;
-  value: string;
-  href: string;
-};
-
-const evidence: EvidenceRow[] = [
-  {
-    label: "Source acceptance",
-    network: "Ethereum Sepolia",
-    value: "0x4b6c…1d18",
-    href: "https://sepolia.etherscan.io/tx/0x4b6c2c2645cea40926839e15b63c61e90d6539053a4cce3d3e68ce2f92de1d18",
-  },
-  {
-    label: "Escrow funding",
-    network: "Creditcoin CC3",
-    value: "0x6975…1d94",
-    href: "https://creditcoin-testnet.blockscout.com/tx/0x697521752906afd4b98f1d05f4af7cf82ccde2737fe532b1ee9a7b0b40271d94",
-  },
-  {
-    label: "Attested release",
-    network: "Creditcoin CC3",
-    value: "0x0e8c…d6df",
-    href: "https://creditcoin-testnet.blockscout.com/tx/0x0e8c31dc7d8d42066e4285d2362547a5f2cbcd1ca53a2a1662234d657b3dd6df",
-  },
-];
+const evidence = FEATURED_JUDGE_EVIDENCE.receipts.map((receipt) => ({
+  label: receipt.label,
+  network: receipt.network,
+  value: receipt.shortHash,
+  href: receipt.href,
+}));
 
 export function ProofEvidenceLedger() {
   return (

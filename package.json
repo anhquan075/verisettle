@@ -10,6 +10,12 @@
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:contracts": "forge test",
+    "evidence:two-wallet": "node scripts/run-two-wallet-lifecycle.mjs v1",
+    "evidence:two-wallet:v2": "node scripts/run-two-wallet-lifecycle.mjs v2",
+    "evidence:v2": "node scripts/run-v2-lifecycle.mjs",
+    "verify:contracts": "node scripts/verify-deployed-contracts.mjs",
+    "worker:relayer": "node worker/relayer.mjs",
     "db:push": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {

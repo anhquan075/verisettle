@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "v2-lifecycle-negative",
+  "purpose": "V2 negative: acceptOrder after the acceptance deadline. Source must revert InvalidAcceptanceDeadline.",
+  "policyVersion": "v2_deployed",
+  "distinctWallets": true,
+  "orderId": "0xTEMPLATE_ORDER_ID",
+  "buyer": "0xBUYER_ADDRESS",
+  "seller": "0xSELLER_ADDRESS",
+  "sourceContract": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+  "escrowAsc": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+  "negative": {
+    "expectedError": "InvalidAcceptanceDeadline",
+    "observedError": "InvalidAcceptanceDeadline"
+  },
+  "explorer": {},
+  "note": "Call acceptOrder with acceptanceExpiresAt in the past or beyond acceptanceWindowSeconds.",
+  "startedAt": "2026-09-12T00:00:00.000Z"
+}

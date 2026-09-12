@@ -119,8 +119,8 @@ client/public/__manus__/version.json
 .vercel
 .env*
 
-# Local-only project documentation and research materials
-docs/
+# Local research notes (public BUIDL docs in docs/*.md are tracked)
+docs/_local/
 
 # Local-only task checklist
 todo.md
