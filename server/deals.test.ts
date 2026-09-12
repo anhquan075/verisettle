@@ -35,6 +35,16 @@ vi.mock("./onchain", () => ({
   verifyEscrowRefund: vi.fn(async () => ({ status: 1 })),
   verifyEscrowDispute: vi.fn(async () => ({ status: 1 })),
   getProofForSourceTransaction: vi.fn(async () => ({ chainKey: 1, headerNumber: 123, txBytes: "0x", merkleProof: { root: "0x", siblings: [] }, continuityProof: { lowerEndpointDigest: "0x", roots: [] } })),
+  getSourceAttestationReadiness: vi.fn(async () => ({
+    status: "attested",
+    chainKey: 1,
+    chainId: 11155111,
+    chainName: "Ethereum Sepolia",
+    sourceBlockNumber: 123,
+    attestedHeight: 200,
+    attestedHash: "0xabc",
+    message: "ChainInfo reports the source height is attested. ProofBuilder can proceed.",
+  })),
 }));
 
 import { dealsRouter } from "./routers/deals";

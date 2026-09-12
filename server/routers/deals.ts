@@ -13,6 +13,7 @@ import {
 import { protectedProcedure, router } from "../_core/trpc";
 import {
   getProofForSourceTransaction,
+  getSourceAttestationReadiness,
   verifyEscrowDispute,
   verifyEscrowFunding,
   verifyEscrowRefund,
@@ -229,6 +230,23 @@ export const dealsRouter = router({
       });
       return getDealView(input.orderId, ctx.user.openId);
     }),
+
+  attestationReadiness: siweWalletProcedure.input(orderIdInput).query(async ({ ctx, input }) => {
+    const deal = await getOwnedDeal(input.orderId, ctx.user.openId);
+    if (!deal.sepoliaSourceTxHash) {
+      return {
+        status: "unknown" as const,
+        chainKey: 1,
+        chainId: null,
+        chainName: null,
+        sourceBlockNumber: null,
+        attestedHeight: null,
+        attestedHash: null,
+        message: "A verified Sepolia acceptance transaction is required.",
+      };
+    }
+    return getSourceAttestationReadiness(deal.sepoliaSourceTxHash);
+  }),
 
   prepareProof: siweWalletProcedure.input(orderIdInput).mutation(async ({ ctx, input }) => {
     const deal = await getOwnedDeal(input.orderId, ctx.user.openId);

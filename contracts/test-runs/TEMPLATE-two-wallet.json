@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "kind": "two-wallet-lifecycle",
+  "purpose": "Two-wallet fund → accept → release. Attestcoin verifies the acceptance receipt, NOT physical delivery.",
+  "policyVersion": "v1_live",
+  "distinctWallets": true,
+  "orderId": "0xTEMPLATE_ORDER_ID",
+  "buyer": "0xBUYER_ADDRESS",
+  "seller": "0xSELLER_ADDRESS",
+  "amount": "0.01",
+  "sourceContract": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+  "escrowAsc": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+  "funding": {
+    "txHash": "0xFUNDING_TX",
+    "blockNumber": null
+  },
+  "acceptance": {
+    "txHash": "0xACCEPTANCE_TX",
+    "blockNumber": null
+  },
+  "release": {
+    "txHash": "0xRELEASE_TX",
+    "blockNumber": null,
+    "event": "EscrowReleased"
+  },
+  "replayRejection": "QueryAlreadyProcessed",
+  "explorer": {
+    "funding": "https://creditcoin-testnet.blockscout.com/tx/0xFUNDING_TX",
+    "acceptance": "https://sepolia.etherscan.io/tx/0xACCEPTANCE_TX",
+    "release": "https://creditcoin-testnet.blockscout.com/tx/0xRELEASE_TX"
+  },
+  "note": "Replace TEMPLATE_* fields after `pnpm evidence:two-wallet`. Buyer key must not equal seller key.",
+  "startedAt": "2026-09-12T00:00:00.000Z"
+}

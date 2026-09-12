@@ -20,6 +20,7 @@ export const VERISETTLE_CONTRACTS = {
   escrowAsc: "0xe3565A1A1B947f363ab433889522267cE3D4736F",
   sourceChainKey: 1,
   blockProverPrecompile: "0x0000000000000000000000000000000000000FD2",
+  chainInfoPrecompile: "0x0000000000000000000000000000000000000FD3",
 } as const;
 
 export const sourceAbi = [

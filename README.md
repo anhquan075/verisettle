@@ -1,18 +1,22 @@
 # VeriSettle
 
+**Attestcoin verifies the acceptance receipt, NOT physical delivery.**
+
 **VeriSettle** is a receipt-bound, cross-chain escrow prototype for **BUIDL CTC Fall 2026**. A buyer locks test tCTC on Creditcoin CC3; after the buyer accepts an order on Ethereum Sepolia, Attestcoin verification binds that receipt to the agreed terms and releases the escrow once.
 
-> **Testnet only.** VeriSettle uses real public testnet contracts and transactions. It does **not** custody real customer funds, verify physical delivery, or operate as a production settlement service.
+> **Testnet only.** VeriSettle uses real public testnet contracts and transactions. It does **not** custody real customer funds, verify physical delivery, or operate as a production settlement service. The only public hostname is **https://verisettle.vercel.app** (judge desk: https://verisettle.vercel.app/judge). Do not use `verisettle-testnet.vercel.app`.
 
 ## Evaluate the live project
 
 | Entry point | What it shows |
 |---|---|
-| [Launch VeriSettle](https://verisettle.vercel.app) | The public product landing page and workspace entry. |
-| [Open Judge Evidence](https://verisettle.vercel.app/judge) | No-wallet receipt rail, replay boundary, deployed-contract links, and governed-recovery explanation. |
-| [Watch the interactive Full HD walkthrough](https://files.manuscdn.com/user_upload_by_module/session_file/119889830/KogIzpIAXyJnCsjH.mp4) | A 1920 × 1080 real-interface walkthrough with public-route cursor interactions. |
-| [Read the public evidence PDF](https://files.manuscdn.com/user_upload_by_module/session_file/119889830/oFbvQGsZNumWBoJA.pdf) | Submission-ready receipt and deployment evidence. |
-| [Browse the source repository](https://github.com/anhquan075/verisettle) | Public source, tests, contracts, and build configuration. |
+| [Launch VeriSettle](https://verisettle.vercel.app) | Canonical product URL. Landing page and workspace entry. |
+| [Open Judge Evidence](https://verisettle.vercel.app/judge) | Featured **two-wallet** fund → accept → release receipts, then the historical self-deal run, replay boundary, and V3 recovery. |
+| [Public evidence markdown](docs/PUBLIC_EVIDENCE.md) | PDF-friendly receipt index without third-party author labels. |
+| [DoraHacks paste copy](docs/DORA_COPY.md) | Project Description + Attestcoin Integration Summary. |
+| [Enhancement proposal](docs/ENHANCEMENT_PROPOSAL.md) | P0 / P1 / P2 checklist for this scout-depth lift. |
+| [CEIP PO pilot](docs/CEIP_PO_PILOT.md) | Purchase-order settlement one-pager. |
+| [Browse the source repository](https://github.com/anhquan075/verisettle) | Public source, tests, contracts, scripts, and worker. |
 
 ## Settlement flow
 
@@ -94,10 +98,37 @@ pnpm dev
 Run the normal validation gates before opening a pull request:
 
 ```bash
-pnpm test   # application regression suite
-pnpm check  # TypeScript validation
-pnpm build  # production build
+pnpm test           # application regression suite
+pnpm check          # TypeScript validation
+pnpm test:contracts # Foundry tests (V2 invariants, multisig, optional carrier + silence)
+pnpm build          # production build
 ```
+
+### Evidence and verification
+
+```bash
+pnpm evidence:two-wallet     # buyer key ≠ seller key; writes contracts/test-runs/
+pnpm evidence:two-wallet:v2
+pnpm evidence:v2             # EscrowReleasedV2 + negative PolicyMismatch / expired acceptance
+pnpm verify:contracts        # forge verify when ETHERSCAN_API_KEY / BLOCKSCOUT_API_KEY exist
+```
+
+If keys are absent, the evidence scripts exit and leave filled templates. See `contracts/test-runs/RUNBOOK.md` and `docs/VERIFY_CONTRACTS.md`.
+
+### Optional offchain worker
+
+A thin relayer watches Sepolia `OrderAccepted` / `OrderAcceptedV2` for funded orders, waits on ChainInfo `0xFD3`, builds a `ProofBuilder` proof, and calls `submitAcceptanceProof`. **The relayer cannot steal escrow** — ASC party and terms checks remain authoritative. Manual wallet submit stays permissionless.
+
+```bash
+node worker/relayer.mjs --dry-run
+RELAYER_PRIVATE_KEY=0x… pnpm worker:relayer
+```
+
+Details: `worker/README.md`.
+
+### Optional policies (not the live default)
+
+`VeriSettleCarrierSource` + `VeriSettleEscrowASCV2Optional` add a registered-carrier `DeliveryConfirmed` release path and a ChainInfo-clock silence refund (buyer or V3-style multisig). Buyer-accept V1/V2 deployments stay unchanged. Foundry coverage is in `test/foundry/V2OptionalPolicy.t.sol`.
 
 Do **not** commit a private key, seed phrase, database URL, JWT secret, WalletConnect ID, or any environment file. The testnet funding signer is configured only in the deployment environment.
 

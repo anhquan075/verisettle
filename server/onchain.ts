@@ -205,12 +205,20 @@ export async function verifyEscrowDispute(txHash: string, terms: DealTerms) {
   return receipt;
 }
 
+export { getSourceAttestationReadiness } from "./chainInfo";
+
 export async function getProofForSourceTransaction(txHash: string) {
   const { proofProvider } = await import("@gluwa/usc-sdk");
-  const builder = new proofProvider.service.ProofBuilder(VERISETTLE_CONTRACTS.sourceChainKey, "https://prover.cc3-testnet.creditcoin.network/");
+  const { ATTESTCOIN_PROVER_URL, getSourceAttestationReadiness, resolveSourceChainKey } = await import("./chainInfo");
+  const readiness = await getSourceAttestationReadiness(txHash);
+  if (readiness.status === "waiting") {
+    throw new Error(readiness.message);
+  }
+  const chainKey = await resolveSourceChainKey(VERISETTLE_CONTRACTS.sourceChainKey);
+  const builder = new proofProvider.service.ProofBuilder(chainKey, ATTESTCOIN_PROVER_URL);
   const result = await builder.getProof(txHash);
   if (!result.success || !result.data) throw new Error(result.error ?? "The source block has not been attested by Attestcoin yet. Retry shortly.");
-  return result.data;
+  return { ...result.data, attestation: readiness };
 }
 
 export async function readEscrowStatus(orderId: string, policyVersion: DealTerms["policyVersion"] = "v1_live") {

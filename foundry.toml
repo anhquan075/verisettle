@@ -19,3 +19,11 @@ runs = 128
 depth = 32
 fail_on_revert = false
 call_override = false
+
+[rpc_endpoints]
+sepolia = "https://ethereum-sepolia-rpc.publicnode.com"
+creditcoin_cc3 = "https://rpc.cc3-testnet.creditcoin.network"
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api" }
+creditcoin_cc3 = { key = "${BLOCKSCOUT_API_KEY}", chain = 102031, url = "https://creditcoin-testnet.blockscout.com/api" }

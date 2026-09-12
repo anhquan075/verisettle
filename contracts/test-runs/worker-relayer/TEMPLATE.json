@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "worker-relayer",
+  "purpose": "Permissionless relayer submitted an Attestcoin proof. Relayer cannot steal escrow.",
+  "policyVersion": "v2_deployed",
+  "distinctWallets": true,
+  "orderId": "0xTEMPLATE_ORDER_ID",
+  "buyer": "0xBUYER_ADDRESS",
+  "seller": "0xSELLER_ADDRESS",
+  "relayer": "0xRELAYER_ADDRESS",
+  "acceptance": {
+    "txHash": "0xACCEPTANCE_TX",
+    "blockNumber": null
+  },
+  "release": {
+    "txHash": "0xRELEASE_TX",
+    "blockNumber": null,
+    "event": "EscrowReleasedV2"
+  },
+  "explorer": {
+    "acceptance": "https://sepolia.etherscan.io/tx/0xACCEPTANCE_TX",
+    "release": "https://creditcoin-testnet.blockscout.com/tx/0xRELEASE_TX"
+  },
+  "note": "Produced by `pnpm worker:relayer`. Manual submitAcceptanceProof remains available.",
+  "startedAt": "2026-09-12T00:00:00.000Z"
+}

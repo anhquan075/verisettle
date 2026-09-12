@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "two-wallet-lifecycle",
+  "purpose": "Committed two-wallet V1 fund → accept → release. Attestcoin verifies the acceptance receipt, NOT physical delivery.",
+  "policyVersion": "v1_live",
+  "distinctWallets": true,
+  "orderId": "2w8_iT1aNogY1b",
+  "buyer": "0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620",
+  "seller": "0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA",
+  "amount": "0.01",
+  "sourceContract": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+  "escrowAsc": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+  "funding": {
+    "txHash": "0xba525e8b9c8e2416189826733a8fa26c457796beb1e10fec0a759e3acb6bf494",
+    "blockNumber": 5306188
+  },
+  "acceptance": {
+    "txHash": "0x46d774edf8321e68020559751a03929176484749776ca419927277da9736ca7a",
+    "blockNumber": 11484760
+  },
+  "release": {
+    "txHash": "0x03e3d0f78a720eb6042e72a00f62f54fe35bbfebc6dbed9f5ad591f801f54f3c",
+    "blockNumber": 5306285,
+    "event": "EscrowReleased"
+  },
+  "replayRejection": "QueryAlreadyProcessed",
+  "explorer": {
+    "funding": "https://creditcoin-testnet.blockscout.com/tx/0xba525e8b9c8e2416189826733a8fa26c457796beb1e10fec0a759e3acb6bf494",
+    "acceptance": "https://sepolia.etherscan.io/tx/0x46d774edf8321e68020559751a03929176484749776ca419927277da9736ca7a",
+    "release": "https://creditcoin-testnet.blockscout.com/tx/0x03e3d0f78a720eb6042e72a00f62f54fe35bbfebc6dbed9f5ad591f801f54f3c"
+  },
+  "note": "Assembled from user-draft-*.json. Buyer key ≠ seller key.",
+  "startedAt": "2026-08-14T03:53:51.765Z",
+  "completedAt": "2026-08-14T04:18:10.725Z"
+}

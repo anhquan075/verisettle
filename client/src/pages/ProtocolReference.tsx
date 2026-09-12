@@ -30,6 +30,11 @@ const contractRows: ContractRow[] = [
     value: VERISETTLE_CONTRACTS.blockProverPrecompile,
     detail: "The CC3 verification primitive used by the deployed ASC.",
   },
+  {
+    label: "ChainInfo precompile",
+    value: VERISETTLE_CONTRACTS.chainInfoPrecompile,
+    detail: "0xFD3 attestation clock. Readiness before ProofBuilder submit.",
+  },
 ];
 
 function CopyValue({ value }: { value: string }) {
