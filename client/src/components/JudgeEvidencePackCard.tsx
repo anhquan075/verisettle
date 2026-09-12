@@ -68,11 +68,14 @@ export function JudgeEvidencePackCard({
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-200/80">{ready.policy === "v2_deployed" ? "V2" : "V1"} · two-wallet</p>
           <h3 className="mt-1 text-base font-semibold text-white">{ready.title}</h3>
         </div>
-        {ready.distinctWallets ? (
-          <p className="rounded-md border border-teal-200/20 bg-teal-300/[0.08] px-2 py-1 font-mono text-[11px] font-semibold text-teal-100">Buyer ≠ seller</p>
-        ) : (
-          <p className="rounded-md border border-white/10 px-2 py-1 text-[11px] font-semibold text-slate-400">Self-deal</p>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {ready.policy === "v2_deployed" ? <span className="veri-proof-chip veri-proof-chip--released">EscrowReleasedV2</span> : null}
+          {ready.distinctWallets ? (
+            <p className="rounded-md border border-teal-200/20 bg-teal-300/[0.08] px-2 py-1 font-mono text-[11px] font-semibold text-teal-100">Buyer ≠ seller</p>
+          ) : (
+            <p className="rounded-md border border-white/10 px-2 py-1 text-[11px] font-semibold text-slate-400">Self-deal</p>
+          )}
+        </div>
       </div>
 
       <dl className="veri-judge-parties mt-4">

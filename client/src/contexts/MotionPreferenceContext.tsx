@@ -46,6 +46,19 @@ export function MotionPreferenceProvider({ children }: { children: React.ReactNo
     }
   }, [intensity]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const profile = MOTION_PROFILES[intensity];
+    root.dataset.motion = systemPrefersReducedMotion ? "reduced" : intensity;
+    root.style.setProperty("--veri-motion-amp", String(systemPrefersReducedMotion ? 0 : profile.amplitude));
+    root.style.setProperty("--veri-motion-duration", String(systemPrefersReducedMotion ? 0 : profile.duration));
+    return () => {
+      delete root.dataset.motion;
+      root.style.removeProperty("--veri-motion-amp");
+      root.style.removeProperty("--veri-motion-duration");
+    };
+  }, [intensity, systemPrefersReducedMotion]);
+
   const value = useMemo<MotionPreferenceValue>(() => ({
     decorativeMotionEnabled: !systemPrefersReducedMotion,
     intensity,

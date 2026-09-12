@@ -20,10 +20,10 @@ export function RouteTransitionLight() {
         key={location}
         aria-hidden="true"
         className={`veri-route-light veri-route-light--${routeTone(location)}`}
-        initial={{ opacity: 0, scaleX: 0.34, filter: "blur(10px)" }}
-        animate={{ opacity: [0, 0.72 * profile.opacity, 0], scaleX: [0.34, 1.08, 1.3], filter: ["blur(10px)", "blur(2px)", "blur(10px)"] }}
+        initial={{ opacity: 0, scaleX: 0.28, filter: "blur(12px)" }}
+        animate={{ opacity: [0, 0.82 * profile.opacity, 0], scaleX: [0.28, 1.12, 1.38], filter: ["blur(12px)", "blur(1px)", "blur(12px)"] }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.46 * profile.duration, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.56 * profile.duration, ease: [0.16, 1, 0.3, 1] }}
       />
     </AnimatePresence>
   );
