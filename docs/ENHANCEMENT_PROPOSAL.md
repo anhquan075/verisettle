@@ -7,7 +7,7 @@ This pull request implements the scout-depth lift for [BUIDL 48000](https://dora
 | ID | Outcome |
 |---|---|
 | **P0-D** | Copy leads with “Attestcoin verifies the acceptance receipt, NOT physical delivery.” Canonical URL is https://verisettle.vercel.app (and `/judge`). `docs/DORA_COPY.md` is paste-ready. |
-| **P0-A / P0-B** | `scripts/run-two-wallet-lifecycle.mjs` and `scripts/run-v2-lifecycle.mjs` produce schema-versioned JSON under `contracts/test-runs/`. Live keys were not present in CI, so templates + `RUNBOOK.md` ship. `/judge` features the existing two-wallet V1 pack; the self-deal run is secondary. |
+| **P0-A / P0-B** | `scripts/run-two-wallet-lifecycle.mjs` and `scripts/run-v2-lifecycle.mjs` produce schema-versioned JSON under `contracts/test-runs/`. Live two-wallet V1 evidence is committed as `two-wallet-f0a16e83.json` and featured on `/judge`. The self-deal run is secondary. V2 live `EscrowReleasedV2` still uses templates until keys run that path. |
 | **P0-C** | `docs/VERIFY_CONTRACTS.md` and `scripts/verify-deployed-contracts.mjs` document / attempt forge verification for Sepolia sources and CC3 ASCs/multisig. |
 
 ## P1

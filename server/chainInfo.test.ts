@@ -41,6 +41,8 @@ describe("ChainInfo copy and evidence schema", () => {
   it("features distinct buyer and seller on the public judge pack", () => {
     expect(FEATURED_JUDGE_EVIDENCE.distinctWallets).toBe(true);
     expect(FEATURED_JUDGE_EVIDENCE.buyer.toLowerCase()).not.toBe(FEATURED_JUDGE_EVIDENCE.seller.toLowerCase());
+    expect(FEATURED_JUDGE_EVIDENCE.orderId).toBe("0xf0a16e834330693f346da92251a5b6abee36c0c9923c820f03f54419b7bdd0e5");
+    expect(FEATURED_JUDGE_EVIDENCE.evidenceFile).toBe("contracts/test-runs/two-wallet-f0a16e83.json");
     expect(SECONDARY_JUDGE_EVIDENCE.distinctWallets).toBe(false);
   });
 });

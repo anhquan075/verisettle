@@ -5,19 +5,20 @@ Canonical URLs: https://verisettle.vercel.app · https://verisettle.vercel.app/j
 
 This document replaces earlier PDF-style writeups. It is not prepared by a third-party writing agent.
 
-## Two-wallet V1 (featured)
+## Two-wallet V1 (featured, live)
 
-Buyer `0xd0Af9b88cE5Aa93358AFB510E1cbd55C044F3620`  
-Seller `0x36Ab1BBd6F9E64A35d81EE75ad039d9bdB2fDcAA`  
-Order `2w8_iT1aNogY1b` · ASC `0xe3565A1A1B947f363ab433889522267cE3D4736F`
+Buyer `0xABe59F7557214907c9C8Ce1D5Ac25f302B7523A3`  
+Seller `0x26321500F14eE013cBD9580120040014343C6AD5`  
+Order `0xf0a16e834330693f346da92251a5b6abee36c0c9923c820f03f54419b7bdd0e5` · 0.1 tCTC  
+ASC `0xe3565A1A1B947f363ab433889522267cE3D4736F` (unchanged live V1)
 
 | Step | Network | Transaction |
 |---|---|---|
-| Fund | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0xba525e8b9c8e2416189826733a8fa26c457796beb1e10fec0a759e3acb6bf494 |
-| Accept | Ethereum Sepolia | https://sepolia.etherscan.io/tx/0x46d774edf8321e68020559751a03929176484749776ca419927277da9736ca7a |
-| Release | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0x03e3d0f78a720eb6042e72a00f62f54fe35bbfebc6dbed9f5ad591f801f54f3c |
+| Fund | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0x804d1c2675a2ae747947961685b910db8276b1643df42bd9a299c5fdabbef372 |
+| Accept | Ethereum Sepolia | https://sepolia.etherscan.io/tx/0x71970aa7dfd99754ceb2b4ce73b6a874072325f57c9af7aed9bdf24b1b31b46a |
+| Release | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0x100f44bf75709e2395645cb6e348c101dde5f3c6cafde21c50bd5fb89a7a8a97 |
 
-JSON: `contracts/test-runs/user-draft-escrow-funding.json`, `user-draft-source-acceptance.json`, `user-draft-attestcoin-release.json`. Replay rejection: `QueryAlreadyProcessed`.
+JSON: `contracts/test-runs/two-wallet-f0a16e83.json`. Final status `Released`. Seller received ≈ 0.1 tCTC. Replay rejection: `QueryAlreadyProcessed`. Buyer ≠ seller (non-self-deal).
 
 ## Self-deal V1 (secondary)
 

@@ -33,15 +33,17 @@ Replace `TEMPLATE_*` placeholders after a live run. Do not commit private keys.
 
 ## Existing committed two-wallet evidence
 
-V1 buyer ≠ seller is already recorded:
+Featured live V1 run (buyer ≠ seller): `two-wallet-f0a16e83.json`.
 
-| Step | File | Tx |
-|---|---|---|
-| Fund | `user-draft-escrow-funding.json` | `0xba525e8b…f494` |
-| Accept | `user-draft-source-acceptance.json` | `0x46d774ed…ca7a` |
-| Release | `user-draft-attestcoin-release.json` | `0x03e3d0f7…4f3c` |
+| Step | Tx |
+|---|---|
+| Fund | `0x804d1c26…f372` |
+| Accept | `0x71970aa7…b46a` (Sepolia 11689016) |
+| Release | `0x100f44bf…8a97` (CC3 5475123) |
 
-Buyer `0xd0Af9b88…3620` · Seller `0x36Ab1BBd…DcAA`. The `/judge` page features this pack first.
+Buyer `0xABe59F75…523A3` · Seller `0x26321500…C6AD5`. The `/judge` page features this pack first.
+
+Earlier sandbox two-wallet receipts remain in `user-draft-*.json` / `two-wallet-v1-2w8_iT1a.json`.
 
 ## Worker
 
