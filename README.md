@@ -14,8 +14,11 @@
 | [Open Judge Evidence](https://verisettle.vercel.app/judge) | Featured **two-wallet** (buyer ≠ seller) fund → accept → release, then the historical self-deal run, replay boundary, and V3 recovery. |
 | [Fund `0x804d…f372`](https://creditcoin-testnet.blockscout.com/tx/0x804d1c2675a2ae747947961685b910db8276b1643df42bd9a299c5fdabbef372) | Live V1 CC3 funding. Buyer `0xABe59F75…523A3` locked 0.1 tCTC. |
 | [Accept `0x7197…b46a`](https://sepolia.etherscan.io/tx/0x71970aa7dfd99754ceb2b4ce73b6a874072325f57c9af7aed9bdf24b1b31b46a) | Live Sepolia `OrderAccepted` (block 11689016). |
-| [Release `0x100f…8a97`](https://creditcoin-testnet.blockscout.com/tx/0x100f44bf75709e2395645cb6e348c101dde5f3c6cafde21c50bd5fb89a7a8a97) | Live CC3 Attestcoin release (block 5475123). Replay: `QueryAlreadyProcessed`. |
-| [Public evidence markdown](docs/PUBLIC_EVIDENCE.md) | PDF-friendly receipt index for the live two-wallet run. |
+| [Release `0x100f…8a97`](https://creditcoin-testnet.blockscout.com/tx/0x100f44bf75709e2395645cb6e348c101dde5f3c6cafde21c50bd5fb89a7a8a97) | Live V1 CC3 Attestcoin release (block 5475123). Replay: `QueryAlreadyProcessed`. |
+| [V2 fund `0xe104…c512`](https://creditcoin-testnet.blockscout.com/tx/0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512) | Live two-wallet V2 funding (0.1 tCTC, buyer ≠ seller). |
+| [V2 accept `0x771d…b381`](https://sepolia.etherscan.io/tx/0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381) | Live Sepolia `OrderAcceptedV2` (block 11689062). |
+| [V2 release `0xd3b4…da62`](https://creditcoin-testnet.blockscout.com/tx/0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62) | Live `EscrowReleasedV2` (CC3 5475166). Replay: `QueryAlreadyProcessed`. |
+| [Public evidence markdown](docs/PUBLIC_EVIDENCE.md) | PDF-friendly receipt index for the live V1 and V2 two-wallet runs. |
 | [DoraHacks paste copy](docs/DORA_COPY.md) | Project Description + Attestcoin Integration Summary. |
 | [Enhancement proposal](docs/ENHANCEMENT_PROPOSAL.md) | P0 / P1 / P2 checklist for this scout-depth lift. |
 | [CEIP PO pilot](docs/CEIP_PO_PILOT.md) | Purchase-order settlement one-pager. |

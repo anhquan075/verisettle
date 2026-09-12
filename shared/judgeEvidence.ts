@@ -110,5 +110,43 @@ export const SELF_DEAL_V1_EVIDENCE: JudgeEvidencePack = {
   ],
 };
 
+export const TWO_WALLET_V2_EVIDENCE: JudgeEvidencePack = {
+  id: "two-wallet-v2-38e0f2e2",
+  title: "Two-wallet V2 EscrowReleasedV2",
+  headline: "Policy-pinned V2 release. Buyer and seller are distinct. Attestcoin verifies OrderAcceptedV2, not physical delivery.",
+  buyer: "0xABe59F7557214907c9C8Ce1D5Ac25f302B7523A3",
+  seller: "0x26321500F14eE013cBD9580120040014343C6AD5",
+  distinctWallets: true,
+  policy: "v2_deployed",
+  orderId: "0x38e0f2e26eb88f024c2ee087fb129e84ec2f9d2d280ec556e61200f4a990d582",
+  evidenceFile: "contracts/test-runs/v2-two-wallet-38e0f2e2.json",
+  receipts: [
+    {
+      label: "CC3 V2 escrow funded",
+      network: "Creditcoin CC3",
+      hash: "0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512",
+      shortHash: shortHash("0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512"),
+      href: cc3("0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512"),
+      role: "funding",
+    },
+    {
+      label: "Sepolia OrderAcceptedV2",
+      network: "Ethereum Sepolia",
+      hash: "0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381",
+      shortHash: shortHash("0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381"),
+      href: sepolia("0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381"),
+      role: "acceptance",
+    },
+    {
+      label: "CC3 EscrowReleasedV2",
+      network: "Creditcoin CC3",
+      hash: "0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62",
+      shortHash: shortHash("0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62"),
+      href: cc3("0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62"),
+      role: "release",
+    },
+  ],
+};
+
 export const FEATURED_JUDGE_EVIDENCE = TWO_WALLET_V1_EVIDENCE;
 export const SECONDARY_JUDGE_EVIDENCE = SELF_DEAL_V1_EVIDENCE;

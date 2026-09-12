@@ -32,15 +32,21 @@ Same-wallet historical Attestcoin path. Useful as the original `0xFD2` release, 
 
 JSON: `contracts/test-runs/real-proof-f4376c97.json`.
 
-## V2 EscrowReleasedV2
+## Two-wallet V2 EscrowReleasedV2 (live)
 
-No committed live `EscrowReleasedV2` receipt exists yet. Produce one with:
+Buyer `0xABe59F7557214907c9C8Ce1D5Ac25f302B7523A3`  
+Seller `0x26321500F14eE013cBD9580120040014343C6AD5`  
+Order `0x38e0f2e26eb88f024c2ee087fb129e84ec2f9d2d280ec556e61200f4a990d582` · 0.1 tCTC  
+Policy `0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976`  
+Source `0x56e6d3E213141AA8285D0b12504bDa5dA260aa18` · ASC `0x185c81ED5a757d1e290BaBa55F051f3cE791D641` (unchanged live V2)
 
-```bash
-BUYER_PRIVATE_KEY=0x… SELLER_PRIVATE_KEY=0x… pnpm evidence:v2
-```
+| Step | Network | Transaction |
+|---|---|---|
+| Fund | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0xe104db9bb173c702662af216b58b7eaad93e1e6dacb2c582bb496533f753c512 |
+| Accept | Ethereum Sepolia | https://sepolia.etherscan.io/tx/0x771d35f76ca3dba527c649f065ff63f84e6dc1f2eec80b26c320a15440ffb381 |
+| Release | Creditcoin CC3 | https://creditcoin-testnet.blockscout.com/tx/0xd3b47603f9948352199f5532a3967fff0875e2daf6c8eb2f4e46a5e4f33cda62 |
 
-Templates: `contracts/test-runs/TEMPLATE-v2-lifecycle-*.json`.
+JSON: `contracts/test-runs/v2-two-wallet-38e0f2e2.json`. Final status `Released` (`EscrowReleasedV2`). Seller 10000.1 → 10000.2 tCTC. Replay rejection: `QueryAlreadyProcessed`. Buyer ≠ seller.
 
 ## V3 governed recovery
 

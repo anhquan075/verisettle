@@ -72,6 +72,8 @@ describe("evidence-studio and protocol-reference UI contract", () => {
     expect(judgeRoute).toContain("Proof route / live testnet");
     expect(judgeRoute).toContain("Receipt in.");
     expect(judgeRoute).toContain("FEATURED_JUDGE_EVIDENCE");
+    expect(judgeRoute).toContain("TWO_WALLET_V2_EVIDENCE");
+    expect(judgeRoute).toContain("EscrowReleasedV2");
     expect(judgeRoute).toContain("two-wallet");
     expect(judgeRoute).toContain("0x6975…1d94");
     expect(judgeRoute).toContain("0x4b6c…1d18");

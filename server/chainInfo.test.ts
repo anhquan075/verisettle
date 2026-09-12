@@ -1,7 +1,8 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { describeAttestationReadiness, type AttestationReadiness } from "../shared/chainInfo";
 import { assertLifecycleEvidence } from "../shared/evidenceSchema";
-import { FEATURED_JUDGE_EVIDENCE, SECONDARY_JUDGE_EVIDENCE } from "../shared/judgeEvidence";
+import { FEATURED_JUDGE_EVIDENCE, SECONDARY_JUDGE_EVIDENCE, TWO_WALLET_V2_EVIDENCE } from "../shared/judgeEvidence";
 
 function readiness(partial: Partial<AttestationReadiness>): AttestationReadiness {
   return {
@@ -43,6 +44,18 @@ describe("ChainInfo copy and evidence schema", () => {
     expect(FEATURED_JUDGE_EVIDENCE.buyer.toLowerCase()).not.toBe(FEATURED_JUDGE_EVIDENCE.seller.toLowerCase());
     expect(FEATURED_JUDGE_EVIDENCE.orderId).toBe("0xf0a16e834330693f346da92251a5b6abee36c0c9923c820f03f54419b7bdd0e5");
     expect(FEATURED_JUDGE_EVIDENCE.evidenceFile).toBe("contracts/test-runs/two-wallet-f0a16e83.json");
+    expect(TWO_WALLET_V2_EVIDENCE.distinctWallets).toBe(true);
+    expect(TWO_WALLET_V2_EVIDENCE.evidenceFile).toBe("contracts/test-runs/v2-two-wallet-38e0f2e2.json");
     expect(SECONDARY_JUDGE_EVIDENCE.distinctWallets).toBe(false);
+
+    const v2Pack = JSON.parse(readFileSync(new URL("../contracts/test-runs/v2-two-wallet-38e0f2e2.json", import.meta.url), "utf-8"));
+    expect(v2Pack.buyerEqualsSeller).toBe(false);
+    expect(v2Pack.policyVersion).toBe(2);
+    expect(v2Pack.policyHash).toBe("0xf951dbde764db8baaba8699e6befea65ee98a145f12892594b7eae6ae1f28976");
+    expect(v2Pack.orderId).toBe(TWO_WALLET_V2_EVIDENCE.orderId);
+    expect(v2Pack.finalStatusName).toBe("Released");
+    expect(v2Pack.replayRejection).toBe("QueryAlreadyProcessed");
+    expect(v2Pack.sourceContract).toBe("0x56e6d3E213141AA8285D0b12504bDa5dA260aa18");
+    expect(v2Pack.escrowAsc).toBe("0x185c81ED5a757d1e290BaBa55F051f3cE791D641");
   });
 });

@@ -41,7 +41,15 @@ Featured live V1 run (buyer ≠ seller): `two-wallet-f0a16e83.json`.
 | Accept | `0x71970aa7…b46a` (Sepolia 11689016) |
 | Release | `0x100f44bf…8a97` (CC3 5475123) |
 
-Buyer `0xABe59F75…523A3` · Seller `0x26321500…C6AD5`. The `/judge` page features this pack first.
+Buyer `0xABe59F75…523A3` · Seller `0x26321500…C6AD5`. The `/judge` page features this V1 pack first.
+
+Live V2 `EscrowReleasedV2` (same wallets): `v2-two-wallet-38e0f2e2.json`.
+
+| Step | Tx |
+|---|---|
+| Fund | `0xe104db9b…c512` (CC3 5475127) |
+| Accept | `0x771d35f7…b381` (Sepolia 11689062) |
+| Release | `0xd3b47603…da62` (CC3 5475166) |
 
 Earlier sandbox two-wallet receipts remain in `user-draft-*.json` / `two-wallet-v1-2w8_iT1a.json`.
 
