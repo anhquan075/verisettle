@@ -247,53 +247,67 @@ contract VeriSettleEscrowASCV2Optional is ReentrancyGuard {
     }
 
     function _releaseFromAcceptanceReceipt(bytes memory encodedTransaction, bytes32 queryId) internal {
-        EvmV1Decoder.ReceiptFields memory receipt = EvmV1Decoder.decodeReceiptFields(encodedTransaction);
-        if (receipt.receiptStatus != 1) revert SourceTransactionFailed();
-        EvmV1Decoder.LogEntry[] memory logs = EvmV1Decoder.getLogsByEventSignature(receipt, ORDER_ACCEPTED_V2_EVENT_SIGNATURE);
-        if (logs.length != 1) revert MissingAcceptanceEvent();
-        EvmV1Decoder.LogEntry memory log = logs[0];
-        if (log.address_ != sourceContract) revert UntrustedSourceEmitter(log.address_);
-        if (log.topics.length != 4 || log.data.length != 96) revert InvalidAcceptanceEvent();
-
-        bytes32 orderId = log.topics[1];
-        address buyer = address(uint160(uint256(log.topics[2])));
-        address seller = address(uint160(uint256(log.topics[3])));
-        (bytes32 termsCommitment, bytes32 receiptPolicyHash, uint64 acceptanceExpiresAt) = abi.decode(log.data, (bytes32, bytes32, uint64));
-        _releaseMatchedEscrow(orderId, buyer, seller, termsCommitment, receiptPolicyHash, acceptanceExpiresAt, true, queryId);
+        EvmV1Decoder.LogEntry memory log = _requireSingleLog(
+            encodedTransaction,
+            ORDER_ACCEPTED_V2_EVENT_SIGNATURE,
+            sourceContract,
+            96,
+            true
+        );
+        (bytes32 termsCommitment, bytes32 receiptPolicyHash, uint64 acceptanceExpiresAt) =
+            abi.decode(log.data, (bytes32, bytes32, uint64));
+        _releaseMatchedEscrow(log, termsCommitment, receiptPolicyHash, acceptanceExpiresAt, true, queryId);
     }
 
     function _releaseFromDeliveryReceipt(bytes memory encodedTransaction, bytes32 queryId) internal {
+        EvmV1Decoder.LogEntry memory log = _requireSingleLog(
+            encodedTransaction,
+            DELIVERY_CONFIRMED_EVENT_SIGNATURE,
+            carrierContract,
+            64,
+            false
+        );
+        (bytes32 termsCommitment, bytes32 receiptPolicyHash) = abi.decode(log.data, (bytes32, bytes32));
+        _releaseMatchedEscrow(log, termsCommitment, receiptPolicyHash, 0, false, queryId);
+    }
+
+    function _requireSingleLog(
+        bytes memory encodedTransaction,
+        bytes32 eventSignature,
+        address trustedEmitter,
+        uint256 expectedDataLength,
+        bool acceptance
+    ) internal pure returns (EvmV1Decoder.LogEntry memory log) {
         EvmV1Decoder.ReceiptFields memory receipt = EvmV1Decoder.decodeReceiptFields(encodedTransaction);
         if (receipt.receiptStatus != 1) revert SourceTransactionFailed();
-        EvmV1Decoder.LogEntry[] memory logs = EvmV1Decoder.getLogsByEventSignature(receipt, DELIVERY_CONFIRMED_EVENT_SIGNATURE);
-        if (logs.length != 1) revert MissingDeliveryEvent();
-        EvmV1Decoder.LogEntry memory log = logs[0];
-        if (log.address_ != carrierContract) revert UntrustedSourceEmitter(log.address_);
-        if (log.topics.length != 4 || log.data.length != 64) revert InvalidDeliveryEvent();
-
-        bytes32 orderId = log.topics[1];
-        address buyer = address(uint160(uint256(log.topics[2])));
-        address seller = address(uint160(uint256(log.topics[3])));
-        (bytes32 termsCommitment, bytes32 receiptPolicyHash) = abi.decode(log.data, (bytes32, bytes32));
-        _releaseMatchedEscrow(orderId, buyer, seller, termsCommitment, receiptPolicyHash, 0, false, queryId);
+        EvmV1Decoder.LogEntry[] memory logs = EvmV1Decoder.getLogsByEventSignature(receipt, eventSignature);
+        if (logs.length != 1) {
+            if (acceptance) revert MissingAcceptanceEvent();
+            revert MissingDeliveryEvent();
+        }
+        log = logs[0];
+        if (log.address_ != trustedEmitter) revert UntrustedSourceEmitter(log.address_);
+        if (log.topics.length != 4 || log.data.length != expectedDataLength) {
+            if (acceptance) revert InvalidAcceptanceEvent();
+            revert InvalidDeliveryEvent();
+        }
     }
 
     function _releaseMatchedEscrow(
-        bytes32 orderId,
-        address buyer,
-        address seller,
+        EvmV1Decoder.LogEntry memory log,
         bytes32 termsCommitment,
         bytes32 receiptPolicyHash,
         uint64 acceptanceExpiresAt,
         bool requireAcceptanceDeadline,
         bytes32 queryId
     ) internal {
+        bytes32 orderId = log.topics[1];
         Escrow storage escrow = escrows[orderId];
         if (escrow.status != EscrowStatus.Funded) revert EscrowNotFunded(orderId);
         if (
             receiptPolicyHash != policyHash ||
-            escrow.buyer != buyer ||
-            escrow.seller != seller ||
+            escrow.buyer != address(uint160(uint256(log.topics[2]))) ||
+            escrow.seller != address(uint160(uint256(log.topics[3]))) ||
             escrow.termsCommitment != termsCommitment ||
             (requireAcceptanceDeadline && escrow.acceptanceExpiresAt != acceptanceExpiresAt)
         ) revert PolicyMismatch();

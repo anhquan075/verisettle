@@ -1,6 +1,6 @@
 # VeriSettle offchain worker
 
-Thin, optional relayer. It does **not** custody escrow and cannot choose the seller.
+Thin, optional relayer. It does **not** custody escrow and **cannot steal escrow**. It cannot choose the seller.
 
 ## What it does
 

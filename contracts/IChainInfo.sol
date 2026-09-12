@@ -21,7 +21,7 @@ interface IChainInfo {
 }
 
 library ChainInfoLib {
-    address internal constant PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000000FD3;
+    address internal constant PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000000fD3;
 
     function getChainInfo() internal pure returns (IChainInfo) {
         return IChainInfo(PRECOMPILE_ADDRESS);

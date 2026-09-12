@@ -55,7 +55,7 @@ contract V2OptionalPolicyTest is Test {
     address internal constant SIGNER_ONE = 0x4000000000000000000000000000000000000004;
     address internal constant SIGNER_TWO = 0x5000000000000000000000000000000000000005;
     address internal constant SIGNER_THREE = 0x6000000000000000000000000000000000000006;
-    address internal constant SOURCE = 0x000000000000000000000000000000000000A11C;
+    address internal constant SOURCE = 0x000000000000000000000000000000000000a11c;
     uint64 internal constant SOURCE_CHAIN_KEY = 1;
     uint64 internal constant ACCEPTANCE_WINDOW = 2 days;
     uint64 internal constant REFUND_WINDOW = 3 days;
@@ -71,8 +71,8 @@ contract V2OptionalPolicyTest is Test {
     function setUp() public {
         vm.etch(0x0000000000000000000000000000000000000FD2, address(new LocalQueryVerifier()).code);
         chainInfo = new LocalChainInfo();
-        vm.etch(0x0000000000000000000000000000000000000FD3, address(chainInfo).code);
-        chainInfo = LocalChainInfo(0x0000000000000000000000000000000000000FD3);
+        vm.etch(0x0000000000000000000000000000000000000fD3, address(chainInfo).code);
+        chainInfo = LocalChainInfo(0x0000000000000000000000000000000000000fD3);
         chainInfo.set(100, true);
 
         carrierSource = new VeriSettleCarrierSource(POLICY, address(this));

@@ -1,0 +1,49 @@
+{
+  "attemptedAt": "2026-09-12T12:48:19.770Z",
+  "etherscanKeyPresent": false,
+  "blockscoutKeyPresent": false,
+  "results": [
+    {
+      "name": "VeriSettleSource V1",
+      "address": "0x1aC5b6B47EFe751681A206Fa8A5C305250017425",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x1aC5b6B47EFe751681A206Fa8A5C305250017425 contracts/VeriSettleSource.sol:VeriSettleSource --etherscan-api-key $ETHERSCAN_API_KEY"
+    },
+    {
+      "name": "VeriSettleSourceV2",
+      "address": "0x56e6d3E213141AA8285D0b12504bDa5dA260aa18",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 11155111 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x56e6d3E213141AA8285D0b12504bDa5dA260aa18 contracts/VeriSettleSourceV2.sol:VeriSettleSourceV2 --etherscan-api-key $ETHERSCAN_API_KEY"
+    },
+    {
+      "name": "VeriSettleEscrowASC V1",
+      "address": "0xe3565A1A1B947f363ab433889522267cE3D4736F",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0xe3565A1A1B947f363ab433889522267cE3D4736F contracts/VeriSettleEscrowASC.sol:VeriSettleEscrowASC --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+    },
+    {
+      "name": "VeriSettleEscrowASCV2",
+      "address": "0x185c81ED5a757d1e290BaBa55F051f3cE791D641",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x185c81ED5a757d1e290BaBa55F051f3cE791D641 contracts/VeriSettleEscrowASCV2.sol:VeriSettleEscrowASCV2 --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+    },
+    {
+      "name": "VeriSettleDisputeMultisig V3",
+      "address": "0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x0C9b8ef45Aa36922bb3dde9AEec1BB1bAFce2849 contracts/VeriSettleDisputeMultisig.sol:VeriSettleDisputeMultisig --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+    },
+    {
+      "name": "VeriSettleEscrowASCV2Governed V3",
+      "address": "0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7",
+      "status": "skipped",
+      "reason": "API key not present",
+      "command": "forge verify-contract --chain-id 102031 --compiler-version 0.8.23 --optimizer-runs 200 --watch 0x5eB2b5d2B659f6fb434F1D4d26F3d41773201bc7 contracts/VeriSettleEscrowASCV2Governed.sol:VeriSettleEscrowASCV2Governed --verifier blockscout --verifier-url https://creditcoin-testnet.blockscout.com/api/"
+    }
+  ]
+}
